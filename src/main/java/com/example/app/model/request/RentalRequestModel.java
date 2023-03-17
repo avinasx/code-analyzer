@@ -17,10 +17,6 @@ public class RentalRequestModel implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @JsonProperty("rentalId")
-    @JacksonXmlProperty(localName = "rentalId")
-    private Integer rentalId;
-
     @JsonProperty("rentalDate")
     @JacksonXmlProperty(localName = "rentalDate")
     private LocalDateTime rentalDate;

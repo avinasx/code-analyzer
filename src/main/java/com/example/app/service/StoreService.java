@@ -17,7 +17,7 @@ public interface StoreService {
 
     StoreEntity addStore(StoreEntity entity);
 
-    void updateStore(StoreEntity entity);
+    StoreEntity updateStore(StoreEntity entity);
 
     void deleteStoreById(Integer id);
 }

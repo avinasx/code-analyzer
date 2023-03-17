@@ -44,9 +44,12 @@ public class RentalController {
     }
 
     @PutMapping(path = "/rentals/{id}")
-    public ResponseEntity<Void> updateRental(@PathVariable String id, @ModelAttribute RentalEntity entity) {
-        rentalService.updateRental(entity);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public ResponseEntity<Void> updateRental(@PathVariable String id, @ModelAttribute RentalRequestModel model) {
+        var entity = new RentalEntity();
+        BeanUtils.copyProperties(model, entity);
+        entity.setRentalId(Integer.valueOf(id));
+        var reuslt = rentalService.updateRental(entity);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(path = "/rentals/{id}")

@@ -1,5 +1,6 @@
 package com.example.app.service;
 
+import com.example.app.exception.ResourceNotFoundException;
 import com.example.app.model.entity.CustomerEntity;
 import com.example.app.model.internal.CustomerDetailModel;
 import com.example.app.repository.CustomerRepository;
@@ -40,8 +41,14 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void updateCustomer(CustomerEntity entity) {
-        customerRepository.save(entity);
+    public CustomerEntity updateCustomer(CustomerEntity entity) {
+        var id = entity.getCustomerId();
+        var resource = customerRepository.findById(id);
+        if (resource.isPresent()) {
+            return customerRepository.save(entity);
+        } else {
+            throw new ResourceNotFoundException("Customer not found with id '" + id + "'");
+        }
     }
 
     @Override

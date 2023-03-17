@@ -47,9 +47,12 @@ public class StaffController {
     }
 
     @PutMapping(path = "/staffs/{id}")
-    public ResponseEntity<Void> updateStaff(@PathVariable String id, @ModelAttribute StaffEntity entity) {
-        staffService.updateStaff(entity);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public ResponseEntity<Void> updateStaff(@PathVariable String id, @RequestBody StaffRequestModel model) {
+        var entity = new StaffEntity();
+        BeanUtils.copyProperties(model, entity);
+        entity.setStaffId(Integer.valueOf(id));
+        var result = staffService.updateStaff(entity);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(path = "/staffs/{id}")

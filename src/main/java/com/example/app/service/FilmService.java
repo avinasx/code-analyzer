@@ -19,7 +19,7 @@ public interface FilmService {
 
     FilmEntity addFilm(FilmEntity entity);
 
-    void updateFilm(FilmEntity entity);
+    FilmEntity updateFilm(FilmEntity entity);
 
     void deleteFilmById(Integer id);
 }

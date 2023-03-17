@@ -1,5 +1,6 @@
 package com.example.app.service;
 
+import com.example.app.exception.ResourceNotFoundException;
 import com.example.app.model.entity.ActorEntity;
 import com.example.app.model.internal.ActorDetailModel;
 import com.example.app.repository.ActorRepository;
@@ -45,8 +46,14 @@ public class ActorServiceImpl implements ActorService {
     }
 
     @Override
-    public void updateActor(ActorEntity entity) {
-        actorRepository.save(entity);
+    public ActorEntity updateActor(ActorEntity entity) {
+        var id = entity.getActorId();
+        var resource = actorRepository.findById(id);
+        if (resource.isPresent()) {
+            return actorRepository.save(entity);
+        } else {
+            throw new ResourceNotFoundException("Actor not found with id '" + id + "'");
+        }
     }
 
     @Override

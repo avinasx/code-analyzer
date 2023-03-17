@@ -1,5 +1,6 @@
 package com.example.app.service;
 
+import com.example.app.exception.ResourceNotFoundException;
 import com.example.app.model.entity.RentalEntity;
 import com.example.app.repository.RentalRepository;
 import lombok.AllArgsConstructor;
@@ -39,8 +40,14 @@ public class RentalServiceImpl implements RentalService {
     }
 
     @Override
-    public void updateRental(RentalEntity entity) {
-        rentalRepository.save(entity);
+    public RentalEntity updateRental(RentalEntity entity) {
+        var id = entity.getRentalId();
+        var resource = rentalRepository.findById(id);
+        if (resource.isPresent()) {
+            return rentalRepository.save(entity);
+        } else {
+            throw new ResourceNotFoundException("Rental not found with id '" + id + "'");
+        }
     }
 
     @Override

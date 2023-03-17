@@ -47,9 +47,12 @@ public class CustomerController {
     }
 
     @PutMapping(path = "/customers/{id}")
-    public ResponseEntity<Void> updateCustomer(@PathVariable String id, @ModelAttribute CustomerEntity entity) {
-        customerService.updateCustomer(entity);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public ResponseEntity<Void> updateCustomer(@PathVariable String id, @RequestBody CustomerRequestModel model) {
+        var entity = new CustomerEntity();
+        BeanUtils.copyProperties(model, entity);
+        entity.setCustomerId(Integer.valueOf(id));
+        var result = customerService.updateCustomer(entity);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(path = "/customers/{id}")

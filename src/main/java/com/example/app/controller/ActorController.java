@@ -49,9 +49,12 @@ public class ActorController {
     }
 
     @PutMapping(path = "/actors/{id}")
-    public ResponseEntity<Void> updateActor(@PathVariable String id, @ModelAttribute ActorEntity entity) {
-        actorService.updateActor(entity);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public ResponseEntity<Void> updateActor(@PathVariable String id, @RequestBody ActorRequestModel model) {
+        var entity = new ActorEntity();
+        BeanUtils.copyProperties(model, entity);
+        entity.setActorId(Integer.valueOf(id));
+        var result = actorService.updateActor(entity);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(path = "/actors/{id}")

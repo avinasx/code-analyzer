@@ -19,7 +19,7 @@ public interface ActorService {
 
     ActorEntity addActor(ActorEntity entity);
 
-    void updateActor(ActorEntity entity);
+    ActorEntity updateActor(ActorEntity entity);
 
     void deleteActorById(Integer id);
 }

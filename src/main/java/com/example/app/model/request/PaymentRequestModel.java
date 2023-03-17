@@ -18,10 +18,6 @@ public class PaymentRequestModel implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @JsonProperty("paymentId")
-    @JacksonXmlProperty(localName = "paymentId")
-    private Integer paymentId;
-
     @JsonProperty("customerId")
     @JacksonXmlProperty(localName = "customerId")
     private Integer customerId;

@@ -24,10 +24,6 @@ public class FilmRequestModel implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @JsonProperty("filmId")
-    @JacksonXmlProperty(localName = "filmId")
-    private Integer filmId;
-
     @JsonProperty("title")
     @JacksonXmlProperty(localName = "title")
     private String title;

@@ -17,10 +17,6 @@ public class CityRequestModel implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @JsonProperty("cityId")
-    @JacksonXmlProperty(localName = "cityId")
-    private Integer cityId;
-
     @JsonProperty("city")
     @JacksonXmlProperty(localName = "city")
     private String city;

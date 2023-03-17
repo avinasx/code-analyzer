@@ -1,5 +1,6 @@
 package com.example.app.service;
 
+import com.example.app.exception.ResourceNotFoundException;
 import com.example.app.model.entity.StoreEntity;
 import com.example.app.model.internal.StoreDetailModel;
 import com.example.app.repository.StoreRepository;
@@ -40,8 +41,14 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public void updateStore(StoreEntity entity) {
-        storeRepository.save(entity);
+    public StoreEntity updateStore(StoreEntity entity) {
+        var id = entity.getStoreId();
+        var resource = storeRepository.findById(id);
+        if (resource.isPresent()) {
+            return storeRepository.save(entity);
+        } else {
+            throw new ResourceNotFoundException("Store not found with id '" + id + "'");
+        }
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.example.app.service;
 
+import com.example.app.exception.ResourceNotFoundException;
 import com.example.app.model.entity.StaffEntity;
 import com.example.app.model.internal.StaffDetailModel;
 import com.example.app.repository.StaffRepository;
@@ -40,8 +41,14 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public void updateStaff(StaffEntity entity) {
-        staffRepository.save(entity);
+    public StaffEntity updateStaff(StaffEntity entity) {
+        var id = entity.getStaffId();
+        var resource = staffRepository.findById(id);
+        if (resource.isPresent()) {
+            return staffRepository.save(entity);
+        } else {
+            throw new ResourceNotFoundException("Staff not found with id '" + id + "'");
+        }
     }
 
     @Override

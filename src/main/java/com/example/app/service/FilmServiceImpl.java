@@ -1,5 +1,6 @@
 package com.example.app.service;
 
+import com.example.app.exception.ResourceNotFoundException;
 import com.example.app.model.entity.FilmEntity;
 import com.example.app.model.internal.FilmDetailModel;
 import com.example.app.repository.FilmRepository;
@@ -45,8 +46,14 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
-    public void updateFilm(FilmEntity entity) {
-        filmRepository.save(entity);
+    public FilmEntity updateFilm(FilmEntity entity) {
+        var id = entity.getFilmId();
+        var resource = filmRepository.findById(id);
+        if (resource.isPresent()) {
+            return filmRepository.save(entity);
+        } else {
+            throw new ResourceNotFoundException("Film not found with id '" + id + "'");
+        }
     }
 
     @Override

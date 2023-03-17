@@ -17,7 +17,7 @@ public interface RentalService {
 
     RentalEntity addRental(RentalEntity entity);
 
-    void updateRental(RentalEntity entity);
+    RentalEntity updateRental(RentalEntity entity);
 
     void removeRentalById(Integer id);
 }

@@ -18,10 +18,6 @@ public class AddressRequestModel implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @JsonProperty("addressId")
-    @JacksonXmlProperty(localName = "addressId")
-    private Integer addressId;
-
     @JsonProperty("address")
     @JacksonXmlProperty(localName = "address")
     private String address;

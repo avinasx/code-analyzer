@@ -1,5 +1,6 @@
 package com.example.app.service;
 
+import com.example.app.exception.ResourceNotFoundException;
 import com.example.app.model.entity.AddressEntity;
 import com.example.app.model.entity.CityEntity;
 import com.example.app.repository.AddressRepository;
@@ -42,8 +43,14 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public void updateAddress(AddressEntity entity) {
-        addressRepository.save(entity);
+    public AddressEntity updateAddress(AddressEntity entity) {
+        var id = entity.getAddressId();
+        var resource = addressRepository.findById(id);
+        if (resource.isPresent()) {
+            return addressRepository.save(entity);
+        } else {
+            throw new ResourceNotFoundException("Address not found with id '" + id + "'");
+        }
     }
 
     @Override
@@ -77,8 +84,14 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public void updateCity(CityEntity entity) {
-        cityRepository.save(entity);
+    public CityEntity updateCity(CityEntity entity) {
+        var id = entity.getCityId();
+        var resource = cityRepository.findById(id);
+        if (resource.isPresent()) {
+            return cityRepository.save(entity);
+        } else {
+            throw new ResourceNotFoundException("City not found with id '" + id + "'");
+        }
     }
 
     @Override

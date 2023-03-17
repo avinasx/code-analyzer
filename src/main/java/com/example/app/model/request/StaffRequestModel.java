@@ -16,10 +16,6 @@ public class StaffRequestModel implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @JsonProperty("staffId")
-    @JacksonXmlProperty(localName = "staffId")
-    private Integer staffId;
-
     @JsonProperty("firstName")
     @JacksonXmlProperty(localName = "firstName")
     private String firstName;

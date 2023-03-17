@@ -17,7 +17,7 @@ public interface LocationService {
 
     AddressEntity addAddress(AddressEntity entity);
 
-    void updateAddress(AddressEntity entity);
+    AddressEntity updateAddress(AddressEntity entity);
 
     void deleteAddressById(Integer id);
 
@@ -31,7 +31,7 @@ public interface LocationService {
 
     CityEntity addCity(CityEntity entity);
 
-    void updateCity(CityEntity entity);
+    CityEntity updateCity(CityEntity entity);
 
     void deleteCityById(Integer id);
 }

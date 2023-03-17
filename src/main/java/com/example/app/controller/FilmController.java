@@ -47,9 +47,12 @@ public class FilmController {
     }
 
     @PutMapping(path = "/films/{id}")
-    public ResponseEntity<Void> updateFilm(@PathVariable String id, @ModelAttribute FilmEntity entity) {
-        filmService.updateFilm(entity);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public ResponseEntity<Void> updateFilm(@PathVariable String id, @RequestBody FilmRequestModel model) {
+        var entity = new FilmEntity();
+        BeanUtils.copyProperties(model, entity);
+        entity.setFilmId(Integer.valueOf(id));
+        var result = filmService.updateFilm(entity);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(path = "/films/{id}")

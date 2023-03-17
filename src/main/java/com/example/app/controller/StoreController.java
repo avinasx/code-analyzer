@@ -47,9 +47,12 @@ public class StoreController {
     }
 
     @PutMapping(path = "/stores/{id}")
-    public ResponseEntity<Void> updateStore(@PathVariable String id, @ModelAttribute StoreEntity entity) {
-        storeService.updateStore(entity);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public ResponseEntity<Void> updateStore(@PathVariable String id, @ModelAttribute StoreRequestModel model) {
+        var entity = new StoreEntity();
+        BeanUtils.copyProperties(model, entity);
+        entity.setStoreId(Integer.valueOf(id));
+        var reuslt = storeService.updateStore(entity);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(path = "/stores/{id}")

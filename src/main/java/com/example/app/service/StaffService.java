@@ -17,7 +17,7 @@ public interface StaffService {
 
     StaffEntity addStaff(StaffEntity entity);
 
-    void updateStaff(StaffEntity entity);
+    StaffEntity updateStaff(StaffEntity entity);
 
     void removeStaffById(Integer id);
 }

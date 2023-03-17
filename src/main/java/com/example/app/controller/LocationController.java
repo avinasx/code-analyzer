@@ -50,9 +50,12 @@ public class LocationController {
     }
 
     @PutMapping(path = "/addresses/{id}")
-    public ResponseEntity<Void> updateAddress(@PathVariable String id, @ModelAttribute AddressEntity entity) {
-        locationService.updateAddress(entity);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public ResponseEntity<Void> updateAddress(@PathVariable String id, @RequestBody AddressRequestModel model) {
+        var entity = new AddressEntity();
+        BeanUtils.copyProperties(model, entity);
+        entity.setAddressId(Integer.valueOf(id));
+        var reuslt = locationService.updateAddress(entity);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(path = "/addresses/{id}")
@@ -92,9 +95,12 @@ public class LocationController {
     }
 
     @PutMapping(path = "/cities/{id}")
-    public ResponseEntity<Void> updateCity(@PathVariable String id, @ModelAttribute CityEntity entity) {
-        locationService.updateCity(entity);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public ResponseEntity<Void> updateCity(@PathVariable String id, @RequestBody CityRequestModel model) {
+        var entity = new CityEntity();
+        BeanUtils.copyProperties(model, entity);
+        entity.setCityId(Integer.valueOf(id));
+        var reuslt = locationService.updateCity(entity);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(path = "/cities/{id}")

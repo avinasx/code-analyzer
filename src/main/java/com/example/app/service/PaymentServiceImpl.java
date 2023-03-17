@@ -1,5 +1,6 @@
 package com.example.app.service;
 
+import com.example.app.exception.ResourceNotFoundException;
 import com.example.app.model.entity.PaymentEntity;
 import com.example.app.model.internal.CategorySalesModel;
 import com.example.app.model.internal.StoreSalesModel;
@@ -41,8 +42,14 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public void updatePayment(PaymentEntity entity) {
-        paymentRepository.save(entity);
+    public PaymentEntity updatePayment(PaymentEntity entity) {
+        var id = entity.getPaymentId();
+        var resource = paymentRepository.findById(id);
+        if (resource.isPresent()) {
+            return paymentRepository.save(entity);
+        } else {
+            throw new ResourceNotFoundException("Payment not found with id '" + id + "'");
+        }
     }
 
     @Override

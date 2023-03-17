@@ -19,7 +19,7 @@ public interface PaymentService {
 
     PaymentEntity addPayment(PaymentEntity entity);
 
-    void updatePayment(PaymentEntity entity);
+    PaymentEntity updatePayment(PaymentEntity entity);
 
     void removePaymentById(Integer id);
 

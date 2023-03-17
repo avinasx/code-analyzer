@@ -17,10 +17,6 @@ public class CustomerRequestModel implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @JsonProperty("customerId")
-    @JacksonXmlProperty(localName = "customerId")
-    private Integer customerId;
-
     @JsonProperty("storeId")
     @JacksonXmlProperty(localName = "storeId")
     private Integer storeId;

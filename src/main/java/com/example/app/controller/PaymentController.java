@@ -61,9 +61,12 @@ public class PaymentController {
     }
 
     @PutMapping(path = "/payments/{id}")
-    public ResponseEntity<Void> updatePayment(@PathVariable String id, @ModelAttribute PaymentEntity entity) {
-        paymentService.updatePayment(entity);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public ResponseEntity<Void> updatePayment(@PathVariable String id, @RequestBody PaymentRequestModel model) {
+        var entity = new PaymentEntity();
+        BeanUtils.copyProperties(model, entity);
+        entity.setPaymentId(Integer.valueOf(id));
+        var result = paymentService.updatePayment(entity);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(path = "/payments/{id}")
