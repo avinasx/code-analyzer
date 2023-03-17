@@ -1,5 +1,6 @@
 package com.example.app.model.error;
 
+import com.example.app.exception.ErrorLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,7 @@ import java.time.Instant;
 @AllArgsConstructor
 public class AppError {
     private String code;
-    private String level;
+    private ErrorLevel level;
     private String phrase;
     private Integer statusCode;
     private String requestMethod;
