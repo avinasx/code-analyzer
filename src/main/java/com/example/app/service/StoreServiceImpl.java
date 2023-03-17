@@ -35,8 +35,8 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public void addStore(StoreEntity entity) {
-        storeRepository.save(entity);
+    public StoreEntity addStore(StoreEntity entity) {
+        return storeRepository.save(entity);
     }
 
     @Override

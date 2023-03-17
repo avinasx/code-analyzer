@@ -3,14 +3,19 @@ package com.example.app.controller;
 import com.example.app.hateoas.assembler.FilmDetailRepresentationModelAssembler;
 import com.example.app.hateoas.assembler.FilmRepresentationModelAssembler;
 import com.example.app.model.entity.FilmEntity;
+import com.example.app.model.request.FilmRequestModel;
 import com.example.app.model.response.FilmDetailResponseModel;
 import com.example.app.model.response.FilmResponseModel;
 import com.example.app.service.FilmService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @AllArgsConstructor
@@ -25,9 +30,12 @@ public class FilmController {
     }
 
     @PostMapping(path = "/films")
-    public ResponseEntity<Void> addFilm(@ModelAttribute FilmEntity entity) {
-        filmService.addFilm(entity);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<Void> addFilm(@RequestBody FilmRequestModel model) {
+        var entity = new FilmEntity();
+        BeanUtils.copyProperties(model, entity);
+        var result = filmService.addFilm(entity);
+        return ResponseEntity.created(linkTo(methodOn(FilmController.class)
+                .getFilm(String.valueOf(result.getFilmId()))).toUri()).build();
     }
 
     @GetMapping(path = "/films/{id}")

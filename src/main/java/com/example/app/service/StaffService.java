@@ -15,7 +15,7 @@ public interface StaffService {
 
     Optional<StaffDetailModel> getStaffDetailById(Integer id);
 
-    void addStaff(StaffEntity entity);
+    StaffEntity addStaff(StaffEntity entity);
 
     void updateStaff(StaffEntity entity);
 

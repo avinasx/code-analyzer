@@ -3,14 +3,19 @@ package com.example.app.controller;
 import com.example.app.hateoas.assembler.CustomerDetailRepresentationModelAssembler;
 import com.example.app.hateoas.assembler.CustomerRepresentationModelAssembler;
 import com.example.app.model.entity.CustomerEntity;
+import com.example.app.model.request.CustomerRequestModel;
 import com.example.app.model.response.CustomerDetailResponseModel;
 import com.example.app.model.response.CustomerResponseModel;
 import com.example.app.service.CustomerService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @AllArgsConstructor
@@ -25,9 +30,12 @@ public class CustomerController {
     }
 
     @PostMapping(path = "/customers")
-    public ResponseEntity<Void> addCustomer(@ModelAttribute CustomerEntity entity) {
-        customerService.addCustomer(entity);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<Void> addCustomer(@RequestBody CustomerRequestModel model) {
+        var entity = new CustomerEntity();
+        BeanUtils.copyProperties(model, entity);
+        var result = customerService.addCustomer(entity);
+        return ResponseEntity.created(linkTo(methodOn(CustomerController.class)
+                .getCustomer(String.valueOf(result.getCustomerId()))).toUri()).build();
     }
 
     @GetMapping(path = "/customers/{id}")

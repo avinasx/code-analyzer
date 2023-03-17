@@ -15,7 +15,7 @@ public interface CustomerService {
 
     Optional<CustomerDetailModel> getCustomerDetailById(Integer id);
 
-    void addCustomer(CustomerEntity entity);
+    CustomerEntity addCustomer(CustomerEntity entity);
 
     void updateCustomer(CustomerEntity entity);
 

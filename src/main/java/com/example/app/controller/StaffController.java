@@ -3,14 +3,19 @@ package com.example.app.controller;
 import com.example.app.hateoas.assembler.StaffDetailRepresentationModelAssembler;
 import com.example.app.hateoas.assembler.StaffRepresentationModelAssembler;
 import com.example.app.model.entity.StaffEntity;
+import com.example.app.model.request.StaffRequestModel;
 import com.example.app.model.response.StaffDetailResponseModel;
 import com.example.app.model.response.StaffResponseModel;
 import com.example.app.service.StaffService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @AllArgsConstructor
@@ -25,9 +30,12 @@ public class StaffController {
     }
 
     @PostMapping(path = "/staffs")
-    public ResponseEntity<Void> addStaff(@ModelAttribute StaffEntity entity) {
-        staffService.addStaff(entity);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<Void> addStaff(@RequestBody StaffRequestModel model) {
+        var entity = new StaffEntity();
+        BeanUtils.copyProperties(model, entity);
+        var result = staffService.addStaff(entity);
+        return ResponseEntity.created(linkTo(methodOn(StaffController.class)
+                .getStaff(String.valueOf(result.getStaffId()))).toUri()).build();
     }
 
     @GetMapping(path = "/staffs/{id}")

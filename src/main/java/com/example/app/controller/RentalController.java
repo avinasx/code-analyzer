@@ -2,13 +2,18 @@ package com.example.app.controller;
 
 import com.example.app.hateoas.assembler.RentalRepresentationModelAssembler;
 import com.example.app.model.entity.RentalEntity;
+import com.example.app.model.request.RentalRequestModel;
 import com.example.app.model.response.RentalResponseModel;
 import com.example.app.service.RentalService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @AllArgsConstructor
@@ -22,9 +27,12 @@ public class RentalController {
     }
 
     @PostMapping(path = "/rentals")
-    public ResponseEntity<Void> addRental(@ModelAttribute RentalEntity entity) {
-        rentalService.addRental(entity);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<Void> addRental(@RequestBody RentalRequestModel model) {
+        var entity = new RentalEntity();
+        BeanUtils.copyProperties(model, entity);
+        var result = rentalService.addRental(entity);
+        return ResponseEntity.created(linkTo(methodOn(RentalController.class)
+                .getRental(String.valueOf(result.getRentalId()))).toUri()).build();
     }
 
     @GetMapping(path = "/rentals/{id}")

@@ -40,8 +40,8 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
-    public void addFilm(FilmEntity entity) {
-        filmRepository.save(entity);
+    public FilmEntity addFilm(FilmEntity entity) {
+        return filmRepository.save(entity);
     }
 
     @Override

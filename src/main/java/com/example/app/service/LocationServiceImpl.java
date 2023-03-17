@@ -37,8 +37,8 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public void addAddress(AddressEntity entity) {
-        addressRepository.save(entity);
+    public AddressEntity addAddress(AddressEntity entity) {
+        return addressRepository.save(entity);
     }
 
     @Override
@@ -72,8 +72,8 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public void addCity(CityEntity entity) {
-        cityRepository.save(entity);
+    public CityEntity addCity(CityEntity entity) {
+        return cityRepository.save(entity);
     }
 
     @Override

@@ -35,8 +35,8 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void addCustomer(CustomerEntity entity) {
-        customerRepository.save(entity);
+    public CustomerEntity addCustomer(CustomerEntity entity) {
+        return customerRepository.save(entity);
     }
 
     @Override

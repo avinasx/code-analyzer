@@ -34,8 +34,8 @@ public class RentalServiceImpl implements RentalService {
     }
 
     @Override
-    public void addRental(RentalEntity entity) {
-        rentalRepository.save(entity);
+    public RentalEntity addRental(RentalEntity entity) {
+        return rentalRepository.save(entity);
     }
 
     @Override

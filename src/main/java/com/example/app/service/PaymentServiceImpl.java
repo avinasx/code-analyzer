@@ -36,8 +36,8 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public void addPayment(PaymentEntity entity) {
-        paymentRepository.save(entity);
+    public PaymentEntity addPayment(PaymentEntity entity) {
+        return paymentRepository.save(entity);
     }
 
     @Override

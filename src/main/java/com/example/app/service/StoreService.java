@@ -15,7 +15,7 @@ public interface StoreService {
 
     Optional<StoreDetailModel> getStoreDetailById(Integer id);
 
-    void addStore(StoreEntity entity);
+    StoreEntity addStore(StoreEntity entity);
 
     void updateStore(StoreEntity entity);
 

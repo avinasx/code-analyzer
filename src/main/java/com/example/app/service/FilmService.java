@@ -17,7 +17,7 @@ public interface FilmService {
 
     Optional<FilmEntity> getFilmStockById(Integer id);
 
-    void addFilm(FilmEntity entity);
+    FilmEntity addFilm(FilmEntity entity);
 
     void updateFilm(FilmEntity entity);
 

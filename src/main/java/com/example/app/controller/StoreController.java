@@ -3,14 +3,19 @@ package com.example.app.controller;
 import com.example.app.hateoas.assembler.StoreDetailRepresentationModelAssembler;
 import com.example.app.hateoas.assembler.StoreRepresentationModelAssembler;
 import com.example.app.model.entity.StoreEntity;
+import com.example.app.model.request.StoreRequestModel;
 import com.example.app.model.response.StoreDetailResponseModel;
 import com.example.app.model.response.StoreResponseModel;
 import com.example.app.service.StoreService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @AllArgsConstructor
@@ -25,9 +30,12 @@ public class StoreController {
     }
 
     @PostMapping(path = "/stores")
-    public ResponseEntity<Void> addStore(@ModelAttribute StoreEntity entity) {
-        storeService.addStore(entity);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<Void> addStore(@RequestBody StoreRequestModel model) {
+        var entity = new StoreEntity();
+        BeanUtils.copyProperties(model, entity);
+        var result = storeService.addStore(entity);
+        return ResponseEntity.created(linkTo(methodOn(StoreController.class)
+                .getStore(String.valueOf(result.getStoreId()))).toUri()).build();
     }
 
     @GetMapping(path = "/stores/{id}")

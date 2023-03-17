@@ -17,7 +17,7 @@ public interface PaymentService {
 
     Optional<PaymentEntity> getPaymentDetailById(Integer id);
 
-    void addPayment(PaymentEntity entity);
+    PaymentEntity addPayment(PaymentEntity entity);
 
     void updatePayment(PaymentEntity entity);
 
