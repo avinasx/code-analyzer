@@ -18,8 +18,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RestController
 @AllArgsConstructor
 public class RentalController {
-    private RentalService rentalService;
-    private RentalRepresentationModelAssembler rentalAssembler;
+    private final RentalService rentalService;
+    private final RentalRepresentationModelAssembler rentalAssembler;
 
     @GetMapping(path = "/rentals")
     public ResponseEntity<CollectionModel<RentalResponseModel>> getAllRentals() {

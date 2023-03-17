@@ -2,7 +2,9 @@ package com.example.app.model.mapping;
 
 import com.example.app.model.enumeration.Category;
 import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 
+@Converter
 public class CategoryConverter implements AttributeConverter<Category, Integer> {
     @Override
     public Integer convertToDatabaseColumn(Category attribute) {

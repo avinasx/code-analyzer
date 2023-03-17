@@ -22,9 +22,9 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RestController
 @AllArgsConstructor
 public class ActorController {
-    private ActorService actorService;
-    private ActorRepresentationModelAssembler actorAssembler;
-    private ActorDetailRepresentationModelAssembler actorDetailAssembler;
+    private final ActorService actorService;
+    private final ActorRepresentationModelAssembler actorAssembler;
+    private final ActorDetailRepresentationModelAssembler actorDetailAssembler;
 
     @GetMapping(path = "/actors")
     public ResponseEntity<CollectionModel<ActorResponseModel>> getAllActors() {

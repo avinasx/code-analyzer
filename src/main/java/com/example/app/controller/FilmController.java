@@ -20,9 +20,9 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RestController
 @AllArgsConstructor
 public class FilmController {
-    private FilmService filmService;
-    private FilmRepresentationModelAssembler filmAssembler;
-    private FilmDetailRepresentationModelAssembler filmDetailAssembler;
+    private final FilmService filmService;
+    private final FilmRepresentationModelAssembler filmAssembler;
+    private final FilmDetailRepresentationModelAssembler filmDetailAssembler;
 
     @GetMapping(path = "/films")
     public ResponseEntity<CollectionModel<FilmResponseModel>> getAllFilms() {

@@ -20,9 +20,9 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RestController
 @AllArgsConstructor
 public class StoreController {
-    private StoreService storeService;
-    private StoreRepresentationModelAssembler storeAssembler;
-    private StoreDetailRepresentationModelAssembler storeDetailAssembler;
+    private final StoreService storeService;
+    private final StoreRepresentationModelAssembler storeAssembler;
+    private final StoreDetailRepresentationModelAssembler storeDetailAssembler;
 
     @GetMapping(path = "/stores")
     public ResponseEntity<CollectionModel<StoreResponseModel>> getAllStores() {

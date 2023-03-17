@@ -15,8 +15,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @Slf4j
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<AppError> handleException(
-            HttpServletRequest request, Exception ex) {
+    public ResponseEntity<AppError> handleException(HttpServletRequest request, Exception ex) {
         ex.printStackTrace();
         var appError = ErrorUtil.createError(ErrorCode.GENERIC_ERROR, HttpStatus.INTERNAL_SERVER_ERROR, request);
         return new ResponseEntity<>(appError, HttpStatus.INTERNAL_SERVER_ERROR);

@@ -20,9 +20,9 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RestController
 @AllArgsConstructor
 public class StaffController {
-    private StaffService staffService;
-    private StaffRepresentationModelAssembler staffAssembler;
-    private StaffDetailRepresentationModelAssembler staffDetailAssembler;
+    private final StaffService staffService;
+    private final StaffRepresentationModelAssembler staffAssembler;
+    private final StaffDetailRepresentationModelAssembler staffDetailAssembler;
 
     @GetMapping(path = "/staffs")
     public ResponseEntity<CollectionModel<StaffResponseModel>> getAllStaffs() {

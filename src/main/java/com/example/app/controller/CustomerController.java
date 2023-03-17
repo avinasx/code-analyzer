@@ -20,9 +20,9 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RestController
 @AllArgsConstructor
 public class CustomerController {
-    private CustomerService customerService;
-    private CustomerRepresentationModelAssembler customerAssembler;
-    private CustomerDetailRepresentationModelAssembler customerDetailAssembler;
+    private final CustomerService customerService;
+    private final CustomerRepresentationModelAssembler customerAssembler;
+    private final CustomerDetailRepresentationModelAssembler customerDetailAssembler;
 
     @GetMapping(path = "/customers")
     public ResponseEntity<CollectionModel<CustomerResponseModel>> getAllCustomers() {

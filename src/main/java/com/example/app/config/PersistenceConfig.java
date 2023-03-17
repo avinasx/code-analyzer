@@ -52,13 +52,13 @@ public class PersistenceConfig {
     }
 
     @Bean
-    public CriteriaBuilderFactory criteriaBuilderFactory() {
-        var config = Criteria.getDefault();
-        return config.createCriteriaBuilderFactory(entityManagerFactory);
+    public BlazeJPAQueryFactory blazeJPAQueryFactory() {
+        return new BlazeJPAQueryFactory(entityManager, criteriaBuilderFactory());
     }
 
     @Bean
-    public BlazeJPAQueryFactory blazeJPAQueryFactory() {
-        return new BlazeJPAQueryFactory(entityManager, criteriaBuilderFactory());
+    public CriteriaBuilderFactory criteriaBuilderFactory() {
+        var config = Criteria.getDefault();
+        return config.createCriteriaBuilderFactory(entityManagerFactory);
     }
 }

@@ -22,9 +22,9 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RestController
 @AllArgsConstructor
 public class LocationController {
-    private LocationService locationService;
-    private AddressRepresentationModelAssembler addressAssembler;
-    private CityRepresentationModelAssembler cityAssembler;
+    private final LocationService locationService;
+    private final AddressRepresentationModelAssembler addressAssembler;
+    private final CityRepresentationModelAssembler cityAssembler;
 
     @GetMapping(path = "/addresses")
     public ResponseEntity<CollectionModel<AddressResponseModel>> getAllAddresses() {

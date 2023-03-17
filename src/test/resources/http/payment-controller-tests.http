@@ -20,7 +20,7 @@ Accept: application/json
 %}
 
 ### payment sales by film category test
-GET http://localhost:8080/api/v1/sales/film-categories
+GET http://localhost:8080/api/v1/sales/categories
 Accept: application/json
 
 > {%

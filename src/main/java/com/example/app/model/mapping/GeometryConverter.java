@@ -1,6 +1,7 @@
 package com.example.app.model.mapping;
 
 import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
@@ -9,6 +10,7 @@ import org.locationtech.jts.io.ParseException;
 import org.locationtech.jts.io.WKBReader;
 import org.locationtech.jts.io.WKBWriter;
 
+@Converter
 public class GeometryConverter implements AttributeConverter<Point, byte[]> {
     @Override
     public byte[] convertToDatabaseColumn(Point point) {

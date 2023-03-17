@@ -24,10 +24,10 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RestController
 @AllArgsConstructor
 public class PaymentController {
-    private PaymentService paymentService;
-    private PaymentRepresentationModelAssembler paymentAssembler;
-    private CategorySalesRepresentationModelAssembler categorySalesAssembler;
-    private StoreSalesRepresentationModelAssembler storeSalesAssembler;
+    private final PaymentService paymentService;
+    private final PaymentRepresentationModelAssembler paymentAssembler;
+    private final CategorySalesRepresentationModelAssembler categorySalesAssembler;
+    private final StoreSalesRepresentationModelAssembler storeSalesAssembler;
 
     private static Links modifyAndRearrangeLinks(CollectionModel<?> collectionModel, String relation) {
         var selfLink = Objects.requireNonNull(collectionModel.getLink(LinkRelation.of(relation)).orElse(null))
