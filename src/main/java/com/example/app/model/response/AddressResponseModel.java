@@ -28,9 +28,9 @@ public class AddressResponseModel extends RepresentationModel<AddressResponseMod
     @JacksonXmlProperty(localName = "address")
     private String address;
 
-    @JsonSerialize(nullsUsing = NullToEmptyStringSerializer.class)
     @JsonProperty("address2")
     @JacksonXmlProperty(localName = "address2")
+    @JsonSerialize(nullsUsing = NullToEmptyStringSerializer.class)
     private String address2;
 
     @JsonProperty("district")
