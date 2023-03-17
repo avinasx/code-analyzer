@@ -11,21 +11,14 @@ import java.util.stream.Stream;
 @AllArgsConstructor
 public enum Language {
     NONE(0, "-"),
-
     ENGLISH(1, "English"),
-
     ITALIAN(2, "Italian"),
-
     JAPANESE(3, "Japanese"),
-
     MANDARIN(4, "Mandarin"),
-
     FRENCH(5, "French"),
-
     GERMAN(6, "German");
 
     private final Integer id;
-
     private final String language;
 
     public static Language getLanguageById(Integer id) {

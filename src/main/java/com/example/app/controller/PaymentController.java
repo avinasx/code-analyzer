@@ -12,7 +12,6 @@ import com.example.app.service.PaymentService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.hateoas.*;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -72,7 +71,7 @@ public class PaymentController {
     @DeleteMapping(path = "/payments/{id}")
     public ResponseEntity<Void> deletePayment(@PathVariable String id) {
         paymentService.removePaymentById(Integer.valueOf(id));
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping(path = "/payments/{id}/details")

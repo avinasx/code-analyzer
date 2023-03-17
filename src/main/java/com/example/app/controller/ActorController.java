@@ -10,7 +10,6 @@ import com.example.app.service.ActorService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.hateoas.CollectionModel;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,7 +59,7 @@ public class ActorController {
     @DeleteMapping(path = "/actors/{id}")
     public ResponseEntity<Void> deleteActor(@PathVariable String id) {
         actorService.deleteActorById(Integer.valueOf(id));
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping(path = "/actors/{id}/details")

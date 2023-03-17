@@ -20,7 +20,6 @@ import java.util.Optional;
 @Transactional
 @AllArgsConstructor
 public class CustomFilmRepositoryImpl implements CustomFilmRepository {
-    private JPAQueryFactory jpaQueryFactory;
     private BlazeJPAQueryFactory blazeJPAQueryFactory;
 
     @Override

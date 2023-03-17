@@ -12,7 +12,6 @@ import com.example.app.service.LocationService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.hateoas.CollectionModel;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -61,7 +60,7 @@ public class LocationController {
     @DeleteMapping(path = "/addresses/{id}")
     public ResponseEntity<Void> deleteAddress(@PathVariable String id) {
         locationService.deleteAddressById(Integer.valueOf(id));
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping(path = "/addresses/{id}/details")
@@ -106,7 +105,7 @@ public class LocationController {
     @DeleteMapping(path = "/cities/{id}")
     public ResponseEntity<Void> deleteCity(@PathVariable String id) {
         locationService.deleteCityById(Integer.valueOf(id));
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping(path = "/cities/{id}/details")

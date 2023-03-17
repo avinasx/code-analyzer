@@ -10,13 +10,9 @@ import java.util.stream.Stream;
 @AllArgsConstructor
 public enum FilmRating {
     G("G"),
-
     PG("PG"),
-
     PG_13("PG-13"),
-
     R("R"),
-
     NC_17("NC-17");
 
     private final String rating;

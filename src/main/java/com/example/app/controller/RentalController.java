@@ -8,7 +8,6 @@ import com.example.app.service.RentalService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.hateoas.CollectionModel;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,7 +54,7 @@ public class RentalController {
     @DeleteMapping(path = "/rentals/{id}")
     public ResponseEntity<Void> deleteRental(@PathVariable String id) {
         rentalService.removeRentalById(Integer.valueOf(id));
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping(path = "/rentals/{id}/details")

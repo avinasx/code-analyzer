@@ -10,7 +10,6 @@ import com.example.app.service.StaffService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.hateoas.CollectionModel;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,7 +57,7 @@ public class StaffController {
     @DeleteMapping(path = "/staffs/{id}")
     public ResponseEntity<Void> deleteStaff(@PathVariable String id) {
         staffService.removeStaffById(Integer.valueOf(id));
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping(path = "/staffs/{id}/details")
