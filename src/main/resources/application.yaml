@@ -1,0 +1,37 @@
+---
+server:
+  servlet:
+    context-path: /api/v1
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://localhost:3306/sakila
+    username: sakila
+    password: sakila
+    hikari:
+      minimum-idle: 30
+      maximum-pool-size: 30
+      connection-timeout: 10000
+      validation-timeout: 5000
+      leak-detection-threshold: 60000
+      auto-commit: true
+  jpa:
+    hibernate:
+      ddl-auto: validate
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+
+logging:
+  level:
+    root: info
+    # org.hibernate.SQL: info
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus

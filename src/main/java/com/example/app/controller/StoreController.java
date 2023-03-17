@@ -1,0 +1,60 @@
+package com.example.app.controller;
+
+import com.example.app.hateoas.assembler.StoreDetailRepresentationModelAssembler;
+import com.example.app.hateoas.assembler.StoreRepresentationModelAssembler;
+import com.example.app.model.entity.StoreEntity;
+import com.example.app.model.response.StoreDetailResponseModel;
+import com.example.app.model.response.StoreResponseModel;
+import com.example.app.service.StoreService;
+import lombok.AllArgsConstructor;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@AllArgsConstructor
+public class StoreController {
+    private StoreService storeService;
+    private StoreRepresentationModelAssembler storeAssembler;
+    private StoreDetailRepresentationModelAssembler storeDetailAssembler;
+
+    @GetMapping(path = "/stores")
+    public ResponseEntity<CollectionModel<StoreResponseModel>> getAllStores() {
+        return ResponseEntity.ok(storeAssembler.toCollectionModel(storeService.getAllStores()));
+    }
+
+    @PostMapping(path = "/stores")
+    public ResponseEntity<Void> addStore(@ModelAttribute StoreEntity entity) {
+        storeService.addStore(entity);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @GetMapping(path = "/stores/{id}")
+    public ResponseEntity<StoreResponseModel> getStore(@PathVariable String id) {
+        return storeService.getStoreById(Integer.valueOf(id))
+                .map(storeAssembler::toModel)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PutMapping(path = "/stores/{id}")
+    public ResponseEntity<Void> updateStore(@PathVariable String id, @ModelAttribute StoreEntity entity) {
+        storeService.updateStore(entity);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @DeleteMapping(path = "/stores/{id}")
+    public ResponseEntity<Void> deleteStore(@PathVariable String id) {
+        storeService.deleteStoreById(Integer.valueOf(id));
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @GetMapping(path = "/stores/{id}/details")
+    public ResponseEntity<StoreDetailResponseModel> getStoreDetail(@PathVariable String id) {
+        return storeService.getStoreDetailById(Integer.valueOf(id))
+                .map(storeDetailAssembler::toModel)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+}
