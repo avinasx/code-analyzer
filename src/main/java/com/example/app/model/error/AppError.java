@@ -16,7 +16,6 @@ public class AppError {
     private String code;
     private ErrorLevel level;
     private String phrase;
-    private Integer statusCode;
     private String requestMethod;
     private String requestUrl;
     private Instant timestamp;

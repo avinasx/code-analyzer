@@ -9,12 +9,11 @@ import java.time.Instant;
 
 @NoArgsConstructor
 public class ErrorUtil {
-    public static AppError createError(ErrorCode errorCode, HttpStatus status, HttpServletRequest request) {
+    public static AppError createError(ErrorCode errorCode, HttpServletRequest request) {
         return new AppError(
                 errorCode.getCode(),
                 errorCode.getLevel(),
                 errorCode.getPhrase(),
-                status.value(),
                 request.getMethod(),
                 String.valueOf(request.getRequestURL()),
                 Instant.now());
