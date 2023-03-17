@@ -30,8 +30,8 @@ public class StoreSalesRepresentationModelAssembler extends RepresentationModelA
     @Override
     public CollectionModel<StoreSalesResponseModel> toCollectionModel(@NotNull Iterable<? extends StoreSalesModel> entities) {
         var collectionModel = super.toCollectionModel(entities);
+        collectionModel.add(linkTo(methodOn(PaymentController.class).getSalesByStore()).withSelfRel());
         collectionModel.add(linkTo(methodOn(PaymentController.class).getSalesByCategory()).withRel("categorySales"));
-        collectionModel.add(linkTo(methodOn(PaymentController.class).getSalesByStore()).withRel("storeSales"));
         return collectionModel;
     }
 }

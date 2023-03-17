@@ -30,7 +30,7 @@ public class CategorySalesRepresentationModelAssembler extends RepresentationMod
     @Override
     public CollectionModel<CategorySalesResponseModel> toCollectionModel(@NotNull Iterable<? extends CategorySalesModel> entities) {
         var collectionModel = super.toCollectionModel(entities);
-        collectionModel.add(linkTo(methodOn(PaymentController.class).getSalesByCategory()).withRel("categorySales"));
+        collectionModel.add(linkTo(methodOn(PaymentController.class).getSalesByCategory()).withSelfRel());
         collectionModel.add(linkTo(methodOn(PaymentController.class).getSalesByStore()).withRel("storeSales"));
         return collectionModel;
     }
