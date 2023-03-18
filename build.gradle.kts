@@ -1,5 +1,6 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
+import org.asciidoctor.gradle.jvm.AsciidoctorTask
 
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
@@ -8,10 +9,15 @@ plugins {
     alias(libs.plugins.spring.dependency)
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotiln.kapt)
+    alias(libs.plugins.asciidoctor)
 }
 
 group = "com.example"
 version = "0.0.1-SNAPSHOT"
+
+ext {
+    set("snippetsDir", file("build/generated-snippets"))
+}
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
@@ -46,6 +52,7 @@ dependencies {
     runtimeOnly(libs.bundles.runtime)
     // testImplementation(libs.bundles.test)
     testImplementation(libs.spring.test)
+    testImplementation(libs.spring.restdocs)
 
     // blaze-persistence
     implementation(libs.blaze.core.api)
@@ -66,6 +73,7 @@ tasks {
     }
     withType<Test> {
         useJUnitPlatform()
+        outputs.dir("snippetsDir")
         testLogging {
             events(
                 TestLogEvent.FAILED,
@@ -84,5 +92,9 @@ tasks {
                 exceptionFormat = TestExceptionFormat.FULL
             }
         }
+    }
+    named<AsciidoctorTask>("asciidoctor") {
+        dependsOn(test)
+        inputs.dir("snippetsDir")
     }
 }

@@ -16,6 +16,7 @@ spring-actuator = { module = "org.springframework.boot:spring-boot-starter-actua
 spring-annproc = { module = "org.springframework.boot:spring-boot-configuration-processor", version.ref = "spring-boot" }
 spring-test = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "spring-boot" }
 spring-security-test = { module = "org.springframework.security:spring-security-test", version.ref = "spring-boot" }
+spring-restdocs = { module = "org.springframework.restdocs:spring-restdocs-mockmvc", version = "3.0.0" }
 
 querydsl-jpa = { module = "com.querydsl:querydsl-jpa", version.ref = "querydsl" }
 querydsl-apt = { module = "com.querydsl:querydsl-apt", version.ref = "querydsl" }
@@ -43,6 +44,7 @@ kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotl
 kotlin-jpa = { id = "org.jetbrains.kotlin.plugin.jpa", version.ref = "kotlin-plugin" }
 kotlin-lombok = { id = "org.jetbrains.kotlin.plugin.lombok", version.ref = "kotlin-plugin" }
 kotiln-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin-plugin" }
+asciidoctor = { id = "org.asciidoctor.jvm.convert", version = "3.3.2" }
 
 [bundles]
 web = ["spring-web", "spring-hateoas", "jackson-xml"]
@@ -51,4 +53,4 @@ security = ["spring-security", "spring-oauth2"]
 querydsl = ["querydsl-sql", "querydsl-sql-codegen", "querydsl-sql-spring", "querydsl-spatial"]
 develop = ["spring-devtools"]
 runtime = ["mysql-connector", "prometheus"]
-test = ["spring-test", "spring-security-test"]
+test = ["spring-test", "spring-security-test", "spring-restdocs"]
