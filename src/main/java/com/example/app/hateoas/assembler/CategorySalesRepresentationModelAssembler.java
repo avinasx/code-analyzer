@@ -21,7 +21,7 @@ public class CategorySalesRepresentationModelAssembler extends RepresentationMod
     @NotNull
     @Override
     public CategorySalesResponseModel toModel(@NotNull CategorySalesModel entity) {
-        var model = new CategorySalesResponseModel();
+        var model = instantiateModel(entity);
         BeanUtils.copyProperties(entity, model);
         return model;
     }

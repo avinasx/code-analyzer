@@ -21,7 +21,7 @@ public class PaymentRepresentationModelAssembler extends RepresentationModelAsse
     @NotNull
     @Override
     public PaymentResponseModel toModel(@NonNull PaymentEntity entity) {
-        var model = new PaymentResponseModel();
+        var model = instantiateModel(entity);
         BeanUtils.copyProperties(entity, model);
         model.add(linkTo(methodOn(PaymentController.class).getPayment(String.valueOf(model.getPaymentId()))).withSelfRel());
         model.add(linkTo(methodOn(PaymentController.class).getAllPayments()).withRel("payments"));

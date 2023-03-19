@@ -21,7 +21,7 @@ public class RentalRepresentationModelAssembler extends RepresentationModelAssem
     @NotNull
     @Override
     public RentalResponseModel toModel(@NonNull RentalEntity entity) {
-        var model = new RentalResponseModel();
+        var model = instantiateModel(entity);
         BeanUtils.copyProperties(entity, model);
         model.add(linkTo(methodOn(RentalController.class).getRental(String.valueOf(model.getRentalId()))).withSelfRel());
         model.add(linkTo(methodOn(RentalController.class).getAllRentals()).withRel("rentals"));

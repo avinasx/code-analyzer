@@ -2,6 +2,7 @@ package com.example.app.model.entity;
 
 import com.example.app.model.enumeration.Category;
 import com.example.app.model.mapping.CategoryConverter;
+import com.google.common.base.Objects;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -10,7 +11,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 @Entity(name = "film_category")
 @Table(name = "film_category", schema = "sakila")
@@ -55,13 +55,13 @@ public class FilmCategoryEntity implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FilmCategoryEntity that = (FilmCategoryEntity) o;
-        return Objects.equals(filmId, that.filmId)
-                && Objects.equals(categoryId, that.categoryId)
-                && Objects.equals(lastUpdate, that.lastUpdate);
+        return Objects.equal(filmId, that.filmId)
+                && categoryId == that.categoryId
+                && Objects.equal(lastUpdate, that.lastUpdate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(filmId, categoryId, lastUpdate);
+        return Objects.hashCode(filmId, categoryId, lastUpdate);
     }
 }

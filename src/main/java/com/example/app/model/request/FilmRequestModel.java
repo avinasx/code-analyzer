@@ -6,6 +6,7 @@ import com.example.app.model.enumeration.SpecialFeature;
 import com.example.app.model.mapping.FilmRatingConverter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.google.common.base.Objects;
 import jakarta.persistence.Convert;
 import lombok.*;
 
@@ -18,6 +19,7 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class FilmRequestModel implements Serializable {
@@ -68,4 +70,28 @@ public class FilmRequestModel implements Serializable {
     @JsonProperty("specialFeatures")
     @JacksonXmlProperty(localName = "specialFeatures")
     private Set<SpecialFeature> specialFeatures;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FilmRequestModel that = (FilmRequestModel) o;
+        return Objects.equal(title, that.title)
+                && Objects.equal(description, that.description)
+                && Objects.equal(releaseYear, that.releaseYear)
+                && languageId == that.languageId
+                && originalLanguageId == that.originalLanguageId
+                && Objects.equal(rentalDuration, that.rentalDuration)
+                && Objects.equal(rentalRate, that.rentalRate)
+                && Objects.equal(length, that.length)
+                && Objects.equal(replacementCost, that.replacementCost)
+                && rating == that.rating
+                && Objects.equal(specialFeatures, that.specialFeatures);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(title, description, releaseYear, languageId, originalLanguageId,
+                rentalDuration, rentalRate, length, replacementCost, rating, specialFeatures);
+    }
 }

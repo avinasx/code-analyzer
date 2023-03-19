@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import java.time.Instant;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class ErrorUtil {
+public final class ErrorUtils {
     public static AppError createError(ErrorCode errorCode, HttpServletRequest request) {
         return new AppError(
                 errorCode.getCode(),

@@ -18,7 +18,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<AppError> handleResourceNotFoundException(HttpServletRequest request, ResourceNotFoundException ex) {
         log.error(ErrorCode.RESOURCE_NOT_FOUND.getPhrase() + ": {}", ex.getMessage());
         ex.printStackTrace();
-        var appError = ErrorUtil.createError(ErrorCode.RESOURCE_NOT_FOUND, request);
+        var appError = ErrorUtils.createError(ErrorCode.RESOURCE_NOT_FOUND, request);
         return new ResponseEntity<>(appError, HttpStatus.NOT_FOUND);
     }
 
@@ -26,7 +26,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<AppError> handleException(HttpServletRequest request, Exception ex) {
         log.error(ErrorCode.GENERIC_ERROR.getPhrase() + ": {}", ex.getMessage());
         ex.printStackTrace();
-        var appError = ErrorUtil.createError(ErrorCode.GENERIC_ERROR, request);
+        var appError = ErrorUtils.createError(ErrorCode.GENERIC_ERROR, request);
         return new ResponseEntity<>(appError, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

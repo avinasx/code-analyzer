@@ -1,5 +1,6 @@
 package com.example.app.model.entity;
 
+import com.google.common.base.Objects;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,7 +11,6 @@ import lombok.ToString;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Objects;
 
 @Getter
 @Setter
@@ -32,12 +32,12 @@ public class FilmActorEntityPK implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FilmActorEntityPK that = (FilmActorEntityPK) o;
-        return Objects.equals(actorId, that.actorId)
-                && Objects.equals(filmId, that.filmId);
+        return Objects.equal(actorId, that.actorId)
+                && Objects.equal(filmId, that.filmId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(actorId, filmId);
+        return Objects.hashCode(actorId, filmId);
     }
 }

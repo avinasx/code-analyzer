@@ -1,6 +1,6 @@
+import org.asciidoctor.gradle.jvm.AsciidoctorTask
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
-import org.asciidoctor.gradle.jvm.AsciidoctorTask
 
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
@@ -14,10 +14,6 @@ plugins {
 
 group = "com.example"
 version = "0.0.1-SNAPSHOT"
-
-ext {
-    set("snippetsDir", file("build/generated-snippets"))
-}
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
@@ -38,9 +34,6 @@ configurations {
 }
 
 dependencies {
-    kapt(libs.spring.annproc)
-    kapt(variantOf(libs.querydsl.apt) { classifier("jakarta") })
-
     implementation(libs.bundles.web)
     implementation(libs.bundles.data)
     // implementation(libs.bundles.security)
@@ -50,9 +43,17 @@ dependencies {
     implementation(libs.spring.actuator)
     // developmentOnly(libs.bundles.develop)
     runtimeOnly(libs.bundles.runtime)
+
+    // test
     // testImplementation(libs.bundles.test)
     testImplementation(libs.spring.test)
     testImplementation(libs.spring.restdocs)
+
+    // annotation processor
+    kapt(libs.spring.annproc)
+    annotationProcessor(libs.spring.annproc)
+    testAnnotationProcessor(libs.spring.annproc)
+    kapt(variantOf(libs.querydsl.apt) { classifier("jakarta") })
 
     // blaze-persistence
     implementation(libs.blaze.core.api)
@@ -73,7 +74,6 @@ tasks {
     }
     withType<Test> {
         useJUnitPlatform()
-        outputs.dir("snippetsDir")
         testLogging {
             events(
                 TestLogEvent.FAILED,
@@ -93,8 +93,10 @@ tasks {
             }
         }
     }
-    named<AsciidoctorTask>("asciidoctor") {
+    withType<AsciidoctorTask>().named("asciidoctor") {
         dependsOn(test)
-        inputs.dir("snippetsDir")
+    }
+    withType<Jar> {
+        duplicatesStrategy = DuplicatesStrategy.INCLUDE
     }
 }

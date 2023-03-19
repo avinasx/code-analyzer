@@ -1,5 +1,6 @@
 package com.example.app.model.entity;
 
+import com.google.common.base.Objects;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -9,7 +10,6 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Objects;
 
 @Entity(name = "customer")
 @Table(name = "customer", schema = "sakila")
@@ -82,20 +82,20 @@ public class CustomerEntity implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CustomerEntity that = (CustomerEntity) o;
-        return Objects.equals(customerId, that.customerId)
-                && Objects.equals(storeId, that.storeId)
-                && Objects.equals(firstName, that.firstName)
-                && Objects.equals(lastName, that.lastName)
-                && Objects.equals(email, that.email)
-                && Objects.equals(addressId, that.addressId)
-                && Objects.equals(active, that.active)
-                && Objects.equals(createDate, that.createDate)
-                && Objects.equals(lastUpdate, that.lastUpdate);
+        return Objects.equal(customerId, that.customerId)
+                && Objects.equal(storeId, that.storeId)
+                && Objects.equal(firstName, that.firstName)
+                && Objects.equal(lastName, that.lastName)
+                && Objects.equal(email, that.email)
+                && Objects.equal(addressId, that.addressId)
+                && Objects.equal(active, that.active)
+                && Objects.equal(createDate, that.createDate)
+                && Objects.equal(lastUpdate, that.lastUpdate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(customerId, storeId, firstName, lastName, email,
-                addressId, active, createDate, lastUpdate);
+        return Objects.hashCode(customerId, storeId, firstName, lastName, email, addressId, active,
+                createDate, lastUpdate);
     }
 }

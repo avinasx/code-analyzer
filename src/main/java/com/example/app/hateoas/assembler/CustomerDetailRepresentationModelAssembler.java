@@ -20,7 +20,7 @@ public class CustomerDetailRepresentationModelAssembler extends RepresentationMo
     @NotNull
     @Override
     public CustomerDetailResponseModel toModel(@NotNull CustomerDetailModel entity) {
-        var model = new CustomerDetailResponseModel();
+        var model = instantiateModel(entity);
         BeanUtils.copyProperties(entity, model);
         model.add(linkTo(methodOn(CustomerController.class).getCustomerDetail(String.valueOf(model.getId()))).withSelfRel());
         model.add(linkTo(methodOn(CustomerController.class).getCustomer(String.valueOf(model.getId()))).withRel("customer"));

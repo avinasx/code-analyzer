@@ -1,11 +1,11 @@
 package com.example.app.model.entity;
 
+import com.google.common.base.Objects;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Objects;
 
 @Entity(name = "film_text")
 @Table(name = "film_text", schema = "sakila")
@@ -37,13 +37,13 @@ public class FilmTextEntity implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FilmTextEntity that = (FilmTextEntity) o;
-        return Objects.equals(filmId, that.filmId)
-                && Objects.equals(title, that.title)
-                && Objects.equals(description, that.description);
+        return Objects.equal(filmId, that.filmId)
+                && Objects.equal(title, that.title)
+                && Objects.equal(description, that.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(filmId, title, description);
+        return Objects.hashCode(filmId, title, description);
     }
 }

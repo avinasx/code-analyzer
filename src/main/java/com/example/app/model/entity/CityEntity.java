@@ -2,6 +2,7 @@ package com.example.app.model.entity;
 
 import com.example.app.model.enumeration.Country;
 import com.example.app.model.mapping.CountryConverter;
+import com.google.common.base.Objects;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -11,7 +12,6 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Objects;
 
 @Entity(name = "city")
 @Table(name = "city", schema = "sakila")
@@ -57,14 +57,14 @@ public class CityEntity implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CityEntity that = (CityEntity) o;
-        return Objects.equals(cityId, that.cityId)
-                && Objects.equals(city, that.city)
-                && Objects.equals(countryId, that.countryId)
-                && Objects.equals(lastUpdate, that.lastUpdate);
+        return Objects.equal(cityId, that.cityId)
+                && Objects.equal(city, that.city)
+                && countryId == that.countryId
+                && Objects.equal(lastUpdate, that.lastUpdate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(cityId, city, countryId, lastUpdate);
+        return Objects.hashCode(cityId, city, countryId, lastUpdate);
     }
 }

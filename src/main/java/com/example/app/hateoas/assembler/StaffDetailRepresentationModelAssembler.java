@@ -20,7 +20,7 @@ public class StaffDetailRepresentationModelAssembler extends RepresentationModel
     @NotNull
     @Override
     public StaffDetailResponseModel toModel(@NotNull StaffDetailModel entity) {
-        var model = new StaffDetailResponseModel();
+        var model = instantiateModel(entity);
         BeanUtils.copyProperties(entity, model);
         model.add(linkTo(methodOn(StaffController.class).getStaffDetail(String.valueOf(model.getId()))).withSelfRel());
         model.add(linkTo(methodOn(StaffController.class).getStaff(String.valueOf(model.getId()))).withRel("staff"));

@@ -4,6 +4,7 @@ import com.example.app.model.enumeration.Category;
 import com.example.app.model.mapping.CategoryConverter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.google.common.base.Objects;
 import jakarta.persistence.Convert;
 import lombok.*;
 import org.springframework.hateoas.RepresentationModel;
@@ -20,6 +21,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @ToString
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategorySalesResponseModel extends RepresentationModel<CategorySalesResponseModel> implements Serializable {
@@ -40,4 +42,19 @@ public class CategorySalesResponseModel extends RepresentationModel<CategorySale
     @JsonProperty("totalSales")
     @JacksonXmlProperty(localName = "totalSales")
     private BigDecimal totalSales;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        CategorySalesResponseModel that = (CategorySalesResponseModel) o;
+        return category == that.category
+                && Objects.equal(totalSales, that.totalSales);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(super.hashCode(), category, totalSales);
+    }
 }

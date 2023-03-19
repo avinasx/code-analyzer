@@ -3,6 +3,8 @@ package com.example.app.service;
 import com.example.app.exception.ResourceNotFoundException;
 import com.example.app.model.entity.StoreEntity;
 import com.example.app.model.internal.StoreDetailModel;
+import com.example.app.model.mapping.CopyUtils;
+import com.example.app.model.request.StoreRequestModel;
 import com.example.app.repository.StoreRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,8 +23,8 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public Optional<StoreEntity> getStoreById(Integer id) {
-        return storeRepository.findById(id);
+    public Optional<StoreEntity> getStoreById(String id) {
+        return storeRepository.findById(Integer.valueOf(id));
     }
 
     @Override
@@ -31,28 +33,30 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public Optional<StoreDetailModel> getStoreDetailById(Integer id) {
-        return storeRepository.findStoreDetailById(id);
+    public Optional<StoreDetailModel> getStoreDetailById(String id) {
+        return storeRepository.findStoreDetailById(Integer.valueOf(id));
     }
 
     @Override
-    public StoreEntity addStore(StoreEntity entity) {
+    public StoreEntity addStore(StoreRequestModel model) {
+        var entity = new StoreEntity();
+        CopyUtils.copyNonNullProperties(model, entity);
         return storeRepository.save(entity);
     }
 
     @Override
-    public StoreEntity updateStore(StoreEntity entity) {
-        var id = entity.getStoreId();
-        var resource = storeRepository.findById(id);
-        if (resource.isPresent()) {
-            return storeRepository.save(entity);
-        } else {
+    public StoreEntity updateStore(String id, StoreRequestModel model) {
+        var resource = storeRepository.findById(Integer.valueOf(id));
+        if (resource.isEmpty()) {
             throw new ResourceNotFoundException("Store not found with id '" + id + "'");
         }
+        var entity = resource.get();
+        CopyUtils.copyNonNullProperties(model, entity);
+        return storeRepository.save(entity);
     }
 
     @Override
-    public void deleteStoreById(Integer id) {
-        storeRepository.deleteById(id);
+    public void deleteStoreById(String id) {
+        storeRepository.deleteById(Integer.valueOf(id));
     }
 }

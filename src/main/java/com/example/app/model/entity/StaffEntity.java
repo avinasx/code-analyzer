@@ -1,5 +1,6 @@
 package com.example.app.model.entity;
 
+import com.google.common.base.Objects;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -9,7 +10,6 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Objects;
 
 @Entity(name = "staff")
 @Table(name = "staff", schema = "sakila")
@@ -97,24 +97,24 @@ public class StaffEntity implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         StaffEntity that = (StaffEntity) o;
-        return Objects.equals(staffId, that.staffId)
-                && Objects.equals(firstName, that.firstName)
-                && Objects.equals(lastName, that.lastName)
-                && Objects.equals(addressId, that.addressId)
-                // && Arrays.equals(picture, that.picture)
-                && Objects.equals(email, that.email)
-                && Objects.equals(storeId, that.storeId)
-                && Objects.equals(active, that.active)
-                && Objects.equals(username, that.username)
-                && Objects.equals(password, that.password)
-                && Objects.equals(lastUpdate, that.lastUpdate);
+        return Objects.equal(staffId, that.staffId)
+                && Objects.equal(firstName, that.firstName)
+                && Objects.equal(lastName, that.lastName)
+                && Objects.equal(addressId, that.addressId)
+                // && Objects.equal(picture, that.picture)
+                && Objects.equal(email, that.email)
+                && Objects.equal(storeId, that.storeId)
+                && Objects.equal(active, that.active)
+                && Objects.equal(username, that.username)
+                && Objects.equal(password, that.password)
+                && Objects.equal(lastUpdate, that.lastUpdate);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(staffId, firstName, lastName, addressId, email,
+        // return Objects.hashCode(staffId, firstName, lastName, addressId, picture, email,
+        //         storeId, active, username, password, lastUpdate);
+        return Objects.hashCode(staffId, firstName, lastName, addressId, email,
                 storeId, active, username, password, lastUpdate);
-        // result = 31 * result + Arrays.hashCode(picture);
-        return result;
     }
 }

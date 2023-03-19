@@ -2,6 +2,8 @@ package com.example.app.service;
 
 import com.example.app.exception.ResourceNotFoundException;
 import com.example.app.model.entity.RentalEntity;
+import com.example.app.model.mapping.CopyUtils;
+import com.example.app.model.request.RentalRequestModel;
 import com.example.app.repository.RentalRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,8 +22,8 @@ public class RentalServiceImpl implements RentalService {
     }
 
     @Override
-    public Optional<RentalEntity> getRentalById(Integer id) {
-        return rentalRepository.findById(id);
+    public Optional<RentalEntity> getRentalById(String id) {
+        return rentalRepository.findById(Integer.valueOf(id));
     }
 
     @Override
@@ -30,28 +32,30 @@ public class RentalServiceImpl implements RentalService {
     }
 
     @Override
-    public Optional<RentalEntity> getRentalDetailById(Integer id) {
-        return rentalRepository.findRentalDetailById(id);
+    public Optional<RentalEntity> getRentalDetailById(String id) {
+        return rentalRepository.findRentalDetailById(Integer.valueOf(id));
     }
 
     @Override
-    public RentalEntity addRental(RentalEntity entity) {
+    public RentalEntity addRental(RentalRequestModel model) {
+        var entity = new RentalEntity();
+        CopyUtils.copyNonNullProperties(model, entity);
         return rentalRepository.save(entity);
     }
 
     @Override
-    public RentalEntity updateRental(RentalEntity entity) {
-        var id = entity.getRentalId();
-        var resource = rentalRepository.findById(id);
-        if (resource.isPresent()) {
-            return rentalRepository.save(entity);
-        } else {
+    public RentalEntity updateRental(String id, RentalRequestModel model) {
+        var resource = rentalRepository.findById(Integer.valueOf(id));
+        if (resource.isEmpty()) {
             throw new ResourceNotFoundException("Rental not found with id '" + id + "'");
         }
+        var entity = resource.get();
+        CopyUtils.copyNonNullProperties(model, entity);
+        return rentalRepository.save(entity);
     }
 
     @Override
-    public void removeRentalById(Integer id) {
-        rentalRepository.deleteById(id);
+    public void removeRentalById(String id) {
+        rentalRepository.deleteById(Integer.valueOf(id));
     }
 }

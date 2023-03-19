@@ -3,6 +3,8 @@ package com.example.app.service;
 import com.example.app.exception.ResourceNotFoundException;
 import com.example.app.model.entity.StaffEntity;
 import com.example.app.model.internal.StaffDetailModel;
+import com.example.app.model.mapping.CopyUtils;
+import com.example.app.model.request.StaffRequestModel;
 import com.example.app.repository.StaffRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,8 +23,8 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public Optional<StaffEntity> getStaffById(Integer id) {
-        return staffRepository.findById(id);
+    public Optional<StaffEntity> getStaffById(String id) {
+        return staffRepository.findById(Integer.valueOf(id));
     }
 
     @Override
@@ -31,28 +33,30 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public Optional<StaffDetailModel> getStaffDetailById(Integer id) {
-        return staffRepository.findStaffDetailById(id);
+    public Optional<StaffDetailModel> getStaffDetailById(String id) {
+        return staffRepository.findStaffDetailById(Integer.valueOf(id));
     }
 
     @Override
-    public StaffEntity addStaff(StaffEntity entity) {
+    public StaffEntity addStaff(StaffRequestModel model) {
+        var entity = new StaffEntity();
+        CopyUtils.copyNonNullProperties(model, entity);
         return staffRepository.save(entity);
     }
 
     @Override
-    public StaffEntity updateStaff(StaffEntity entity) {
-        var id = entity.getStaffId();
-        var resource = staffRepository.findById(id);
-        if (resource.isPresent()) {
-            return staffRepository.save(entity);
-        } else {
+    public StaffEntity updateStaff(String id, StaffRequestModel model) {
+        var resource = staffRepository.findById(Integer.valueOf(id));
+        if (resource.isEmpty()) {
             throw new ResourceNotFoundException("Staff not found with id '" + id + "'");
         }
+        var entity = resource.get();
+        CopyUtils.copyNonNullProperties(model, entity);
+        return staffRepository.save(entity);
     }
 
     @Override
-    public void removeStaffById(Integer id) {
-        staffRepository.deleteById(id);
+    public void removeStaffById(String id) {
+        staffRepository.deleteById(Integer.valueOf(id));
     }
 }

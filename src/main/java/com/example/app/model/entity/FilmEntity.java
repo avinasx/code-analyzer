@@ -6,6 +6,7 @@ import com.example.app.model.enumeration.SpecialFeature;
 import com.example.app.model.mapping.FilmRatingConverter;
 import com.example.app.model.mapping.LanguageConverter;
 import com.example.app.model.mapping.SpecialFeatureConverter;
+import com.google.common.base.Objects;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -17,7 +18,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity(name = "film")
@@ -122,25 +122,24 @@ public class FilmEntity implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FilmEntity that = (FilmEntity) o;
-        return Objects.equals(filmId, that.filmId)
-                && Objects.equals(title, that.title)
-                && Objects.equals(description, that.description)
-                && Objects.equals(releaseYear, that.releaseYear)
-                && Objects.equals(languageId, that.languageId)
-                && Objects.equals(originalLanguageId, that.originalLanguageId)
-                && Objects.equals(rentalDuration, that.rentalDuration)
-                && Objects.equals(rentalRate, that.rentalRate)
-                && Objects.equals(length, that.length)
-                && Objects.equals(replacementCost, that.replacementCost)
-                && Objects.equals(rating, that.rating)
-                && Objects.equals(specialFeatures, that.specialFeatures)
-                && Objects.equals(lastUpdate, that.lastUpdate);
+        return Objects.equal(filmId, that.filmId)
+                && Objects.equal(title, that.title)
+                && Objects.equal(description, that.description)
+                && Objects.equal(releaseYear, that.releaseYear)
+                && languageId == that.languageId
+                && originalLanguageId == that.originalLanguageId
+                && Objects.equal(rentalDuration, that.rentalDuration)
+                && Objects.equal(rentalRate, that.rentalRate)
+                && Objects.equal(length, that.length)
+                && Objects.equal(replacementCost, that.replacementCost)
+                && rating == that.rating
+                && Objects.equal(specialFeatures, that.specialFeatures)
+                && Objects.equal(lastUpdate, that.lastUpdate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(filmId, title, description, releaseYear,
-                languageId, originalLanguageId, rentalDuration, rentalRate,
-                length, replacementCost, rating, specialFeatures, lastUpdate);
+        return Objects.hashCode(filmId, title, description, releaseYear, languageId, originalLanguageId,
+                rentalDuration, rentalRate, length, replacementCost, rating, specialFeatures, lastUpdate);
     }
 }

@@ -2,13 +2,11 @@ package com.example.app.controller;
 
 import com.example.app.hateoas.assembler.StaffDetailRepresentationModelAssembler;
 import com.example.app.hateoas.assembler.StaffRepresentationModelAssembler;
-import com.example.app.model.entity.StaffEntity;
 import com.example.app.model.request.StaffRequestModel;
 import com.example.app.model.response.StaffDetailResponseModel;
 import com.example.app.model.response.StaffResponseModel;
 import com.example.app.service.StaffService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,16 +28,14 @@ public class StaffController {
 
     @PostMapping(path = "/staffs")
     public ResponseEntity<Void> addStaff(@RequestBody StaffRequestModel model) {
-        var entity = new StaffEntity();
-        BeanUtils.copyProperties(model, entity);
-        var result = staffService.addStaff(entity);
+        var result = staffService.addStaff(model);
         return ResponseEntity.created(linkTo(methodOn(StaffController.class)
                 .getStaff(String.valueOf(result.getStaffId()))).toUri()).build();
     }
 
     @GetMapping(path = "/staffs/{id}")
     public ResponseEntity<StaffResponseModel> getStaff(@PathVariable String id) {
-        return staffService.getStaffById(Integer.valueOf(id))
+        return staffService.getStaffById(id)
                 .map(staffAssembler::toModel)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -47,22 +43,19 @@ public class StaffController {
 
     @PutMapping(path = "/staffs/{id}")
     public ResponseEntity<Void> updateStaff(@PathVariable String id, @RequestBody StaffRequestModel model) {
-        var entity = new StaffEntity();
-        BeanUtils.copyProperties(model, entity);
-        entity.setStaffId(Integer.valueOf(id));
-        var result = staffService.updateStaff(entity);
+        var result = staffService.updateStaff(id, model);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(path = "/staffs/{id}")
     public ResponseEntity<Void> deleteStaff(@PathVariable String id) {
-        staffService.removeStaffById(Integer.valueOf(id));
+        staffService.removeStaffById(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping(path = "/staffs/{id}/details")
     public ResponseEntity<StaffDetailResponseModel> getStaffDetail(@PathVariable String id) {
-        return staffService.getStaffDetailById(Integer.valueOf(id))
+        return staffService.getStaffDetailById(id)
                 .map(staffDetailAssembler::toModel)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());

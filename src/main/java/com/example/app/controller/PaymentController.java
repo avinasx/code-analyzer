@@ -3,14 +3,12 @@ package com.example.app.controller;
 import com.example.app.hateoas.assembler.CategorySalesRepresentationModelAssembler;
 import com.example.app.hateoas.assembler.PaymentRepresentationModelAssembler;
 import com.example.app.hateoas.assembler.StoreSalesRepresentationModelAssembler;
-import com.example.app.model.entity.PaymentEntity;
 import com.example.app.model.request.PaymentRequestModel;
 import com.example.app.model.response.CategorySalesResponseModel;
 import com.example.app.model.response.PaymentResponseModel;
 import com.example.app.model.response.StoreSalesResponseModel;
 import com.example.app.service.PaymentService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,16 +31,14 @@ public class PaymentController {
 
     @PostMapping(path = "/payments")
     public ResponseEntity<Void> addPayment(@RequestBody PaymentRequestModel model) {
-        var entity = new PaymentEntity();
-        BeanUtils.copyProperties(model, entity);
-        var result = paymentService.addPayment(entity);
+        var result = paymentService.addPayment(model);
         return ResponseEntity.created(linkTo(methodOn(PaymentController.class)
                 .getPayment(String.valueOf(result.getPaymentId()))).toUri()).build();
     }
 
     @GetMapping(path = "/payments/{id}")
     public ResponseEntity<PaymentResponseModel> getPayment(@PathVariable String id) {
-        return paymentService.getPaymentById(Integer.valueOf(id))
+        return paymentService.getPaymentById(id)
                 .map(paymentAssembler::toModel)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -50,22 +46,19 @@ public class PaymentController {
 
     @PutMapping(path = "/payments/{id}")
     public ResponseEntity<Void> updatePayment(@PathVariable String id, @RequestBody PaymentRequestModel model) {
-        var entity = new PaymentEntity();
-        BeanUtils.copyProperties(model, entity);
-        entity.setPaymentId(Integer.valueOf(id));
-        var result = paymentService.updatePayment(entity);
+        var result = paymentService.updatePayment(id, model);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(path = "/payments/{id}")
     public ResponseEntity<Void> deletePayment(@PathVariable String id) {
-        paymentService.removePaymentById(Integer.valueOf(id));
+        paymentService.removePaymentById(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping(path = "/payments/{id}/details")
     public ResponseEntity<PaymentResponseModel> getPaymentDetail(@PathVariable String id) {
-        return paymentService.getPaymentDetailById(Integer.valueOf(id))
+        return paymentService.getPaymentDetailById(id)
                 .map(paymentAssembler::toModel)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());

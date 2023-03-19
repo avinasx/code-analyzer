@@ -3,6 +3,7 @@ package com.example.app.model.request;
 import com.example.app.model.enumeration.Country;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.google.common.base.Objects;
 import lombok.*;
 
 import java.io.Serial;
@@ -11,6 +12,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @ToString
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class CityRequestModel implements Serializable {
@@ -24,4 +26,18 @@ public class CityRequestModel implements Serializable {
     @JsonProperty("countryId")
     @JacksonXmlProperty(localName = "countryId")
     private Country countryId;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CityRequestModel that = (CityRequestModel) o;
+        return Objects.equal(city, that.city)
+                && countryId == that.countryId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(city, countryId);
+    }
 }

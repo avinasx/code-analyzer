@@ -6,6 +6,7 @@ import com.example.app.model.mapping.CategoryConverter;
 import com.example.app.model.mapping.FilmRatingConverter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.google.common.base.Objects;
 import jakarta.persistence.Convert;
 import lombok.*;
 import org.springframework.hateoas.RepresentationModel;
@@ -20,6 +21,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @ToString
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class FilmDetailResponseModel extends RepresentationModel<FilmDetailResponseModel> implements Serializable {
@@ -83,4 +85,25 @@ public class FilmDetailResponseModel extends RepresentationModel<FilmDetailRespo
     @JsonProperty("actors")
     @JacksonXmlProperty(localName = "actors")
     private String actors;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        FilmDetailResponseModel that = (FilmDetailResponseModel) o;
+        return Objects.equal(fid, that.fid)
+                && Objects.equal(title, that.title)
+                && Objects.equal(description, that.description)
+                && category == that.category
+                && Objects.equal(price, that.price)
+                && Objects.equal(length, that.length)
+                && rating == that.rating
+                && Objects.equal(actors, that.actors);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(super.hashCode(), fid, title, description, category, price, length, rating, actors);
+    }
 }

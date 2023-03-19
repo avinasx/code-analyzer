@@ -20,7 +20,7 @@ public class FilmDetailRepresentationModelAssembler extends RepresentationModelA
     @NotNull
     @Override
     public FilmDetailResponseModel toModel(@NotNull FilmDetailModel entity) {
-        var model = new FilmDetailResponseModel();
+        var model = instantiateModel(entity);
         BeanUtils.copyProperties(entity, model);
         model.add(linkTo(methodOn(FilmController.class).getFilmDetail(String.valueOf(model.getFid()))).withSelfRel());
         model.add(linkTo(methodOn(FilmController.class).getFilm(String.valueOf(model.getFid()))).withRel("film"));

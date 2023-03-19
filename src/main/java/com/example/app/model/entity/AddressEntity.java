@@ -1,5 +1,6 @@
 package com.example.app.model.entity;
 
+import com.google.common.base.Objects;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -9,7 +10,6 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Objects;
 
 @Entity(name = "address")
 @Table(name = "address", schema = "sakila")
@@ -81,22 +81,21 @@ public class AddressEntity implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AddressEntity that = (AddressEntity) o;
-        return Objects.equals(addressId, that.addressId)
-                && Objects.equals(address, that.address)
-                && Objects.equals(address2, that.address2)
-                && Objects.equals(district, that.district)
-                && Objects.equals(cityId, that.cityId)
-                && Objects.equals(postalCode, that.postalCode)
-                && Objects.equals(phone, that.phone)
-                // && Objects.equals(location, that.location)
-                && Objects.equals(lastUpdate, that.lastUpdate);
+        return Objects.equal(addressId, that.addressId)
+                && Objects.equal(address, that.address)
+                && Objects.equal(address2, that.address2)
+                && Objects.equal(district, that.district)
+                && Objects.equal(cityId, that.cityId)
+                && Objects.equal(postalCode, that.postalCode)
+                && Objects.equal(phone, that.phone)
+                // && Objects.equal(location, that.location)
+                && Objects.equal(lastUpdate, that.lastUpdate);
     }
 
     @Override
     public int hashCode() {
-        // return Objects.hash(addressId, address, address2, district,
-        //         cityId, postalCode, phone, location, lastUpdate);
-        return Objects.hash(addressId, address, address2, district,
-                cityId, postalCode, phone, lastUpdate);
+        // return Objects.hashCode(addressId, address, address2, district, cityId, postalCode, phone,
+        //         location, lastUpdate);
+        return Objects.hashCode(addressId, address, address2, district, cityId, postalCode, phone, lastUpdate);
     }
 }

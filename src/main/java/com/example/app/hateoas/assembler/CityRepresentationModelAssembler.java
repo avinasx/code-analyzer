@@ -21,7 +21,7 @@ public class CityRepresentationModelAssembler extends RepresentationModelAssembl
     @NotNull
     @Override
     public CityResponseModel toModel(@NonNull CityEntity entity) {
-        var model = new CityResponseModel();
+        var model = instantiateModel(entity);
         BeanUtils.copyProperties(entity, model);
         model.add(linkTo(methodOn(LocationController.class).getCity(String.valueOf(model.getCityId()))).withSelfRel());
         model.add(linkTo(methodOn(LocationController.class).getAllAddresses()).withRel("cities"));

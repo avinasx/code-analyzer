@@ -21,7 +21,7 @@ public class ActorRepresentationModelAssembler extends RepresentationModelAssemb
     @NotNull
     @Override
     public ActorResponseModel toModel(@NonNull ActorEntity entity) {
-        var model = new ActorResponseModel();
+        var model = instantiateModel(entity);
         BeanUtils.copyProperties(entity, model);
         model.add(linkTo(methodOn(ActorController.class).getActor(String.valueOf(model.getActorId()))).withSelfRel());
         model.add(linkTo(methodOn(ActorController.class).getAllActors()).withRel("actors"));

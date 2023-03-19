@@ -2,6 +2,8 @@ package com.example.app.service;
 
 import com.example.app.model.entity.AddressEntity;
 import com.example.app.model.entity.CityEntity;
+import com.example.app.model.request.AddressRequestModel;
+import com.example.app.model.request.CityRequestModel;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,29 +11,29 @@ import java.util.Optional;
 public interface LocationService {
     List<AddressEntity> getAllAddresses();
 
-    Optional<AddressEntity> getAddressById(Integer id);
+    Optional<AddressEntity> getAddressById(String id);
 
     List<AddressEntity> getAllAddressesDetail();
 
-    Optional<AddressEntity> getAddressDetailById(Integer id);
+    Optional<AddressEntity> getAddressDetailById(String id);
 
-    AddressEntity addAddress(AddressEntity entity);
+    AddressEntity addAddress(AddressRequestModel model);
 
-    AddressEntity updateAddress(AddressEntity entity);
+    AddressEntity updateAddress(String id, AddressRequestModel model);
 
-    void deleteAddressById(Integer id);
+    void deleteAddressById(String id);
 
     List<CityEntity> getAllCities();
 
-    Optional<CityEntity> getCityById(Integer id);
+    Optional<CityEntity> getCityById(String id);
 
     List<CityEntity> getAllCitiesDetail();
 
-    Optional<CityEntity> getCityDetailById(Integer id);
+    Optional<CityEntity> getCityDetailById(String id);
 
-    CityEntity addCity(CityEntity entity);
+    CityEntity addCity(CityRequestModel model);
 
-    CityEntity updateCity(CityEntity entity);
+    CityEntity updateCity(String id, CityRequestModel model);
 
-    void deleteCityById(Integer id);
+    void deleteCityById(String id);
 }

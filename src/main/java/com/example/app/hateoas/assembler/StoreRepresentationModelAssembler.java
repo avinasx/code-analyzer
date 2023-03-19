@@ -21,7 +21,7 @@ public class StoreRepresentationModelAssembler extends RepresentationModelAssemb
     @NotNull
     @Override
     public StoreResponseModel toModel(@NonNull StoreEntity entity) {
-        var model = new StoreResponseModel();
+        var model = instantiateModel(entity);
         BeanUtils.copyProperties(entity, model);
         model.add(linkTo(methodOn(StoreController.class).getStore(String.valueOf(model.getStoreId()))).withSelfRel());
         model.add(linkTo(methodOn(StoreController.class).getAllStores()).withRel("stores"));

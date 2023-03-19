@@ -1,5 +1,6 @@
 package com.example.app.model.entity;
 
+import com.google.common.base.Objects;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -9,7 +10,6 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Objects;
 
 @Entity(name = "actor")
 @Table(name = "actor", schema = "sakila")
@@ -50,14 +50,14 @@ public class ActorEntity implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ActorEntity that = (ActorEntity) o;
-        return Objects.equals(actorId, that.actorId)
-                && Objects.equals(firstName, that.firstName)
-                && Objects.equals(lastName, that.lastName)
-                && Objects.equals(lastUpdate, that.lastUpdate);
+        return Objects.equal(actorId, that.actorId)
+                && Objects.equal(firstName, that.firstName)
+                && Objects.equal(lastName, that.lastName)
+                && Objects.equal(lastUpdate, that.lastUpdate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(actorId, firstName, lastName, lastUpdate);
+        return Objects.hashCode(actorId, firstName, lastName, lastUpdate);
     }
 }

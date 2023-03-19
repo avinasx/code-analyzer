@@ -20,7 +20,7 @@ public class StoreDetailRepresentationModelAssembler extends RepresentationModel
     @NotNull
     @Override
     public StoreDetailResponseModel toModel(@NotNull StoreDetailModel entity) {
-        var model = new StoreDetailResponseModel();
+        var model = instantiateModel(entity);
         BeanUtils.copyProperties(entity, model);
         model.add(linkTo(methodOn(StoreController.class).getStoreDetail(String.valueOf(model.getId()))).withSelfRel());
         model.add(linkTo(methodOn(StoreController.class).getStore(String.valueOf(model.getId()))).withRel("store"));

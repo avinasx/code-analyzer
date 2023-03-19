@@ -4,6 +4,8 @@ import com.example.app.exception.ResourceNotFoundException;
 import com.example.app.model.entity.PaymentEntity;
 import com.example.app.model.internal.CategorySalesModel;
 import com.example.app.model.internal.StoreSalesModel;
+import com.example.app.model.mapping.CopyUtils;
+import com.example.app.model.request.PaymentRequestModel;
 import com.example.app.repository.PaymentRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,8 +24,8 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public Optional<PaymentEntity> getPaymentById(Integer id) {
-        return paymentRepository.findById(id);
+    public Optional<PaymentEntity> getPaymentById(String id) {
+        return paymentRepository.findById(Integer.valueOf(id));
     }
 
     @Override
@@ -32,29 +34,31 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public Optional<PaymentEntity> getPaymentDetailById(Integer id) {
-        return paymentRepository.findPaymentDetailById(id);
+    public Optional<PaymentEntity> getPaymentDetailById(String id) {
+        return paymentRepository.findPaymentDetailById(Integer.valueOf(id));
     }
 
     @Override
-    public PaymentEntity addPayment(PaymentEntity entity) {
+    public PaymentEntity addPayment(PaymentRequestModel model) {
+        var entity = new PaymentEntity();
+        CopyUtils.copyNonNullProperties(model, entity);
         return paymentRepository.save(entity);
     }
 
     @Override
-    public PaymentEntity updatePayment(PaymentEntity entity) {
-        var id = entity.getPaymentId();
-        var resource = paymentRepository.findById(id);
-        if (resource.isPresent()) {
-            return paymentRepository.save(entity);
-        } else {
+    public PaymentEntity updatePayment(String id, PaymentRequestModel model) {
+        var resource = paymentRepository.findById(Integer.valueOf(id));
+        if (resource.isEmpty()) {
             throw new ResourceNotFoundException("Payment not found with id '" + id + "'");
         }
+        var entity = resource.get();
+        CopyUtils.copyNonNullProperties(model, entity);
+        return paymentRepository.save(entity);
     }
 
     @Override
-    public void removePaymentById(Integer id) {
-        paymentRepository.deleteById(id);
+    public void removePaymentById(String id) {
+        paymentRepository.deleteById(Integer.valueOf(id));
     }
 
     @Override

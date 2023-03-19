@@ -1,5 +1,6 @@
 package com.example.app.model.entity;
 
+import com.google.common.base.Objects;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -9,7 +10,6 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Objects;
 
 @Entity(name = "rental")
 @Table(name = "rental", schema = "sakila")
@@ -75,18 +75,17 @@ public class RentalEntity implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RentalEntity that = (RentalEntity) o;
-        return Objects.equals(rentalId, that.rentalId)
-                && Objects.equals(rentalDate, that.rentalDate)
-                && Objects.equals(inventoryId, that.inventoryId)
-                && Objects.equals(customerId, that.customerId)
-                && Objects.equals(returnDate, that.returnDate)
-                && Objects.equals(staffId, that.staffId)
-                && Objects.equals(lastUpdate, that.lastUpdate);
+        return Objects.equal(rentalId, that.rentalId)
+                && Objects.equal(rentalDate, that.rentalDate)
+                && Objects.equal(inventoryId, that.inventoryId)
+                && Objects.equal(customerId, that.customerId)
+                && Objects.equal(returnDate, that.returnDate)
+                && Objects.equal(staffId, that.staffId)
+                && Objects.equal(lastUpdate, that.lastUpdate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(rentalId, rentalDate, inventoryId, customerId,
-                returnDate, staffId, lastUpdate);
+        return Objects.hashCode(rentalId, rentalDate, inventoryId, customerId, returnDate, staffId, lastUpdate);
     }
 }

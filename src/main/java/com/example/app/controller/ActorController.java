@@ -2,13 +2,11 @@ package com.example.app.controller;
 
 import com.example.app.hateoas.assembler.ActorDetailRepresentationModelAssembler;
 import com.example.app.hateoas.assembler.ActorRepresentationModelAssembler;
-import com.example.app.model.entity.ActorEntity;
 import com.example.app.model.request.ActorRequestModel;
 import com.example.app.model.response.ActorDetailResponseModel;
 import com.example.app.model.response.ActorResponseModel;
 import com.example.app.service.ActorService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,16 +30,14 @@ public class ActorController {
 
     @PostMapping(path = "/actors")
     public ResponseEntity<Void> addActor(@RequestBody ActorRequestModel model) {
-        var entity = new ActorEntity();
-        BeanUtils.copyProperties(model, entity);
-        var result = actorService.addActor(entity);
+        var result = actorService.addActor(model);
         return ResponseEntity.created(linkTo(methodOn(ActorController.class)
                 .getActor(String.valueOf(result.getActorId()))).toUri()).build();
     }
 
     @GetMapping(path = "/actors/{id}")
     public ResponseEntity<ActorResponseModel> getActor(@PathVariable String id) {
-        return actorService.getActorById(Integer.valueOf(id))
+        return actorService.getActorById(id)
                 .map(actorAssembler::toModel)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -49,22 +45,19 @@ public class ActorController {
 
     @PutMapping(path = "/actors/{id}")
     public ResponseEntity<Void> updateActor(@PathVariable String id, @RequestBody ActorRequestModel model) {
-        var entity = new ActorEntity();
-        BeanUtils.copyProperties(model, entity);
-        entity.setActorId(Integer.valueOf(id));
-        var result = actorService.updateActor(entity);
+        var result = actorService.updateActor(id, model);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(path = "/actors/{id}")
     public ResponseEntity<Void> deleteActor(@PathVariable String id) {
-        actorService.deleteActorById(Integer.valueOf(id));
+        actorService.deleteActorById(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping(path = "/actors/{id}/details")
     public ResponseEntity<ActorDetailResponseModel> getActorDetail(@PathVariable String id) {
-        return actorService.getActorDetailById(Integer.valueOf(id))
+        return actorService.getActorDetailById(id)
                 .map(actorDetailAssembler::toModel)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());

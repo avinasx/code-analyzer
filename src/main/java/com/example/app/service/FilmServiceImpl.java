@@ -3,6 +3,8 @@ package com.example.app.service;
 import com.example.app.exception.ResourceNotFoundException;
 import com.example.app.model.entity.FilmEntity;
 import com.example.app.model.internal.FilmDetailModel;
+import com.example.app.model.mapping.CopyUtils;
+import com.example.app.model.request.FilmRequestModel;
 import com.example.app.repository.FilmRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,8 +23,8 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
-    public Optional<FilmEntity> getFilmById(Integer id) {
-        return filmRepository.findById(id);
+    public Optional<FilmEntity> getFilmById(String id) {
+        return filmRepository.findById(Integer.valueOf(id));
     }
 
     @Override
@@ -31,33 +33,35 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
-    public Optional<FilmDetailModel> getFilmDetailById(Integer id) {
-        return filmRepository.findFilmDetailById(id);
+    public Optional<FilmDetailModel> getFilmDetailById(String id) {
+        return filmRepository.findFilmDetailById(Integer.valueOf(id));
     }
 
     @Override
-    public Optional<FilmEntity> getFilmStockById(Integer id) {
-        return filmRepository.findFilmStockById(id);
+    public Optional<FilmEntity> getFilmStockById(String id) {
+        return filmRepository.findFilmStockById(Integer.valueOf(id));
     }
 
     @Override
-    public FilmEntity addFilm(FilmEntity entity) {
+    public FilmEntity addFilm(FilmRequestModel model) {
+        var entity = new FilmEntity();
+        CopyUtils.copyNonNullProperties(model, entity);
         return filmRepository.save(entity);
     }
 
     @Override
-    public FilmEntity updateFilm(FilmEntity entity) {
-        var id = entity.getFilmId();
-        var resource = filmRepository.findById(id);
-        if (resource.isPresent()) {
-            return filmRepository.save(entity);
-        } else {
+    public FilmEntity updateFilm(String id, FilmRequestModel model) {
+        var resource = filmRepository.findById(Integer.valueOf(id));
+        if (resource.isEmpty()) {
             throw new ResourceNotFoundException("Film not found with id '" + id + "'");
         }
+        var entity = resource.get();
+        CopyUtils.copyNonNullProperties(model, entity);
+        return filmRepository.save(entity);
     }
 
     @Override
-    public void deleteFilmById(Integer id) {
-        filmRepository.deleteById(id);
+    public void deleteFilmById(String id) {
+        filmRepository.deleteById(Integer.valueOf(id));
     }
 }

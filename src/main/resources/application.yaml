@@ -1,5 +1,6 @@
 ---
 server:
+  port: 8080
   servlet:
     context-path: /api/v1
 
@@ -35,3 +36,9 @@ management:
     web:
       exposure:
         include: health,prometheus
+
+app:
+  uri:
+    scheme: http
+    host: localhost
+    port: ${server.port}

@@ -2,6 +2,7 @@ package com.example.app.model.entity;
 
 import com.example.app.model.enumeration.Language;
 import com.example.app.model.mapping.LanguageConverter;
+import com.google.common.base.Objects;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -11,7 +12,6 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Objects;
 
 @Entity(name = "language")
 @Table(name = "language", schema = "sakila")
@@ -52,13 +52,13 @@ public class LanguageEntity implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         LanguageEntity that = (LanguageEntity) o;
-        return Objects.equals(languageId, that.languageId)
-                && Objects.equals(name, that.name)
-                && Objects.equals(lastUpdate, that.lastUpdate);
+        return languageId == that.languageId
+                && Objects.equal(name, that.name)
+                && Objects.equal(lastUpdate, that.lastUpdate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(languageId, name, lastUpdate);
+        return Objects.hashCode(languageId, name, lastUpdate);
     }
 }

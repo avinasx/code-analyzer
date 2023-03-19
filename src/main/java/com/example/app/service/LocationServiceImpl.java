@@ -3,6 +3,9 @@ package com.example.app.service;
 import com.example.app.exception.ResourceNotFoundException;
 import com.example.app.model.entity.AddressEntity;
 import com.example.app.model.entity.CityEntity;
+import com.example.app.model.mapping.CopyUtils;
+import com.example.app.model.request.AddressRequestModel;
+import com.example.app.model.request.CityRequestModel;
 import com.example.app.repository.AddressRepository;
 import com.example.app.repository.CityRepository;
 import lombok.AllArgsConstructor;
@@ -23,8 +26,8 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public Optional<AddressEntity> getAddressById(Integer id) {
-        return addressRepository.findById(id);
+    public Optional<AddressEntity> getAddressById(String id) {
+        return addressRepository.findById(Integer.valueOf(id));
     }
 
     @Override
@@ -33,29 +36,31 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public Optional<AddressEntity> getAddressDetailById(Integer id) {
-        return addressRepository.findAddressDetailById(id);
+    public Optional<AddressEntity> getAddressDetailById(String id) {
+        return addressRepository.findAddressDetailById(Integer.valueOf(id));
     }
 
     @Override
-    public AddressEntity addAddress(AddressEntity entity) {
+    public AddressEntity addAddress(AddressRequestModel model) {
+        var entity = new AddressEntity();
+        CopyUtils.copyNonNullProperties(model, entity);
         return addressRepository.save(entity);
     }
 
     @Override
-    public AddressEntity updateAddress(AddressEntity entity) {
-        var id = entity.getAddressId();
-        var resource = addressRepository.findById(id);
-        if (resource.isPresent()) {
-            return addressRepository.save(entity);
-        } else {
+    public AddressEntity updateAddress(String id, AddressRequestModel model) {
+        var resource = addressRepository.findById(Integer.valueOf(id));
+        if (resource.isEmpty()) {
             throw new ResourceNotFoundException("Address not found with id '" + id + "'");
         }
+        var entity = resource.get();
+        CopyUtils.copyNonNullProperties(model, entity);
+        return addressRepository.save(entity);
     }
 
     @Override
-    public void deleteAddressById(Integer id) {
-        addressRepository.deleteById(id);
+    public void deleteAddressById(String id) {
+        addressRepository.deleteById(Integer.valueOf(id));
     }
 
     @Override
@@ -64,8 +69,8 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public Optional<CityEntity> getCityById(Integer id) {
-        return cityRepository.findById(id);
+    public Optional<CityEntity> getCityById(String id) {
+        return cityRepository.findById(Integer.valueOf(id));
     }
 
     @Override
@@ -74,28 +79,30 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public Optional<CityEntity> getCityDetailById(Integer id) {
-        return cityRepository.findCityDetailById(id);
+    public Optional<CityEntity> getCityDetailById(String id) {
+        return cityRepository.findCityDetailById(Integer.valueOf(id));
     }
 
     @Override
-    public CityEntity addCity(CityEntity entity) {
+    public CityEntity addCity(CityRequestModel model) {
+        var entity = new CityEntity();
+        CopyUtils.copyNonNullProperties(model, entity);
         return cityRepository.save(entity);
     }
 
     @Override
-    public CityEntity updateCity(CityEntity entity) {
-        var id = entity.getCityId();
-        var resource = cityRepository.findById(id);
-        if (resource.isPresent()) {
-            return cityRepository.save(entity);
-        } else {
+    public CityEntity updateCity(String id, CityRequestModel model) {
+        var resource = cityRepository.findById(Integer.valueOf(id));
+        if (resource.isEmpty()) {
             throw new ResourceNotFoundException("City not found with id '" + id + "'");
         }
+        var entity = resource.get();
+        CopyUtils.copyNonNullProperties(model, entity);
+        return cityRepository.save(entity);
     }
 
     @Override
-    public void deleteCityById(Integer id) {
-        cityRepository.deleteById(id);
+    public void deleteCityById(String id) {
+        cityRepository.deleteById(Integer.valueOf(id));
     }
 }

@@ -2,6 +2,7 @@ package com.example.app.model.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.google.common.base.Objects;
 import lombok.*;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
@@ -17,6 +18,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @ToString
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class StoreSalesResponseModel extends RepresentationModel<StoreSalesResponseModel> implements Serializable {
@@ -43,4 +45,20 @@ public class StoreSalesResponseModel extends RepresentationModel<StoreSalesRespo
     @JsonProperty("totalSales")
     @JacksonXmlProperty(localName = "totalSales")
     private BigDecimal totalSales;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        StoreSalesResponseModel that = (StoreSalesResponseModel) o;
+        return Objects.equal(store, that.store)
+                && Objects.equal(manager, that.manager)
+                && Objects.equal(totalSales, that.totalSales);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(super.hashCode(), store, manager, totalSales);
+    }
 }

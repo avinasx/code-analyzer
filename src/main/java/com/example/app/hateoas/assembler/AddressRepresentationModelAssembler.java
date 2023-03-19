@@ -21,7 +21,7 @@ public class AddressRepresentationModelAssembler extends RepresentationModelAsse
     @NotNull
     @Override
     public AddressResponseModel toModel(@NonNull AddressEntity entity) {
-        var model = new AddressResponseModel();
+        var model = instantiateModel(entity);
         BeanUtils.copyProperties(entity, model);
         model.add(linkTo(methodOn(LocationController.class).getAddress(String.valueOf(model.getAddressId()))).withSelfRel());
         model.add(linkTo(methodOn(LocationController.class).getAllAddresses()).withRel("addresses"));

@@ -2,13 +2,13 @@ package com.example.app.model.entity;
 
 import com.example.app.model.enumeration.Category;
 import com.example.app.model.mapping.CategoryConverter;
+import com.google.common.base.Objects;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 @Getter
 @Setter
@@ -29,12 +29,12 @@ public class FilmCategoryEntityPK implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FilmCategoryEntityPK that = (FilmCategoryEntityPK) o;
-        return Objects.equals(filmId, that.filmId)
-                && Objects.equals(categoryId, that.categoryId);
+        return Objects.equal(filmId, that.filmId)
+                && categoryId == that.categoryId;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(filmId, categoryId);
+        return Objects.hashCode(filmId, categoryId);
     }
 }

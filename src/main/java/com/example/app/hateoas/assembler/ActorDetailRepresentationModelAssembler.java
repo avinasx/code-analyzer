@@ -20,7 +20,7 @@ public class ActorDetailRepresentationModelAssembler extends RepresentationModel
     @NotNull
     @Override
     public ActorDetailResponseModel toModel(@NotNull ActorDetailModel entity) {
-        var model = new ActorDetailResponseModel();
+        var model = instantiateModel(entity);
         BeanUtils.copyProperties(entity, model);
         model.add(linkTo(methodOn(ActorController.class).getActorDetail(String.valueOf(model.getActorId()))).withSelfRel());
         model.add(linkTo(methodOn(ActorController.class).getActor(String.valueOf(model.getActorId()))).withRel("actor"));

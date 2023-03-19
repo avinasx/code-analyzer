@@ -21,7 +21,7 @@ public class StoreSalesRepresentationModelAssembler extends RepresentationModelA
     @NotNull
     @Override
     public StoreSalesResponseModel toModel(@NotNull StoreSalesModel entity) {
-        var model = new StoreSalesResponseModel();
+        var model = instantiateModel(entity);
         BeanUtils.copyProperties(entity, model);
         return model;
     }
