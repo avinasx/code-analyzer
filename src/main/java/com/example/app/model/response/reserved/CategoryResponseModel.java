@@ -1,7 +1,7 @@
 package com.example.app.model.response.reserved;
 
 import com.example.app.model.enumeration.Category;
-import com.example.app.model.mapping.CategoryConverter;
+import com.example.app.model.mapping.converter.CategoryConverter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.common.base.Objects;

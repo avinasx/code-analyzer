@@ -1,6 +1,6 @@
 package com.example.app.model.response;
 
-import com.example.app.model.mapping.NullToEmptyStringSerializer;
+import com.example.app.model.mapping.serializer.NullToEmptyStringSerializer;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;

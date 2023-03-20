@@ -1,4 +1,4 @@
-package com.example.app.model.mapping;
+package com.example.app.model.mapping.converter;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;

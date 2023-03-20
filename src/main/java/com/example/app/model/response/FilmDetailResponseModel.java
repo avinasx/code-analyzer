@@ -2,8 +2,8 @@ package com.example.app.model.response;
 
 import com.example.app.model.enumeration.Category;
 import com.example.app.model.enumeration.FilmRating;
-import com.example.app.model.mapping.CategoryConverter;
-import com.example.app.model.mapping.FilmRatingConverter;
+import com.example.app.model.mapping.converter.CategoryConverter;
+import com.example.app.model.mapping.converter.FilmRatingConverter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.common.base.Objects;

@@ -1,4 +1,4 @@
-package com.example.app.model.mapping;
+package com.example.app.model.mapping.serializer;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JavaType;

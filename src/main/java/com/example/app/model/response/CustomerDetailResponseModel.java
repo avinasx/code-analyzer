@@ -1,7 +1,7 @@
 package com.example.app.model.response;
 
 import com.example.app.model.enumeration.Country;
-import com.example.app.model.mapping.CountryConverter;
+import com.example.app.model.mapping.converter.CountryConverter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.common.base.Objects;

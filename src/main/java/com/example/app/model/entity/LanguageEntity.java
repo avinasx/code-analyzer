@@ -1,7 +1,7 @@
 package com.example.app.model.entity;
 
 import com.example.app.model.enumeration.Language;
-import com.example.app.model.mapping.LanguageConverter;
+import com.example.app.model.mapping.converter.LanguageConverter;
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
 import lombok.*;

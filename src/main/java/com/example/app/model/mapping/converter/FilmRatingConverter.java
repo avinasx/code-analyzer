@@ -1,4 +1,4 @@
-package com.example.app.model.mapping;
+package com.example.app.model.mapping.converter;
 
 import com.example.app.model.enumeration.FilmRating;
 import jakarta.persistence.AttributeConverter;
