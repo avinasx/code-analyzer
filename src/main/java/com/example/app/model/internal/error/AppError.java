@@ -1,4 +1,4 @@
-package com.example.app.model.error;
+package com.example.app.model.internal.error;
 
 import com.example.app.exception.ErrorLevel;
 import lombok.*;
@@ -8,6 +8,7 @@ import java.time.Instant;
 @Getter
 @Setter
 @ToString
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class AppError {

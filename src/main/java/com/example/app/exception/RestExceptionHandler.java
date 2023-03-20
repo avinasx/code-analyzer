@@ -1,6 +1,6 @@
 package com.example.app.exception;
 
-import com.example.app.model.error.AppError;
+import com.example.app.model.internal.error.AppError;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
