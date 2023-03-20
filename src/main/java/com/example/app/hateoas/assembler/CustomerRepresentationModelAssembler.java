@@ -4,7 +4,6 @@ import com.example.app.controller.CustomerController;
 import com.example.app.model.entity.CustomerEntity;
 import com.example.app.model.response.CustomerResponseModel;
 import lombok.NonNull;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
@@ -18,7 +17,7 @@ public class CustomerRepresentationModelAssembler extends RepresentationModelAss
         super(CustomerController.class, CustomerResponseModel.class);
     }
 
-    @NotNull
+    @NonNull
     @Override
     public CustomerResponseModel toModel(@NonNull CustomerEntity entity) {
         var model = instantiateModel(entity);

@@ -3,7 +3,7 @@ package com.example.app.hateoas.assembler;
 import com.example.app.controller.PaymentController;
 import com.example.app.model.internal.StoreSalesModel;
 import com.example.app.model.response.StoreSalesResponseModel;
-import org.jetbrains.annotations.NotNull;
+import lombok.NonNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
@@ -18,17 +18,17 @@ public class StoreSalesRepresentationModelAssembler extends RepresentationModelA
         super(StoreSalesModel.class, StoreSalesResponseModel.class);
     }
 
-    @NotNull
+    @NonNull
     @Override
-    public StoreSalesResponseModel toModel(@NotNull StoreSalesModel entity) {
+    public StoreSalesResponseModel toModel(@NonNull StoreSalesModel entity) {
         var model = instantiateModel(entity);
         BeanUtils.copyProperties(entity, model);
         return model;
     }
 
-    @NotNull
+    @NonNull
     @Override
-    public CollectionModel<StoreSalesResponseModel> toCollectionModel(@NotNull Iterable<? extends StoreSalesModel> entities) {
+    public CollectionModel<StoreSalesResponseModel> toCollectionModel(@NonNull Iterable<? extends StoreSalesModel> entities) {
         var collectionModel = super.toCollectionModel(entities);
         collectionModel.add(linkTo(methodOn(PaymentController.class).getSalesByStore()).withSelfRel());
         collectionModel.add(linkTo(methodOn(PaymentController.class).getSalesByCategory()).withRel("categorySales"));

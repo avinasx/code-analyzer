@@ -2,7 +2,7 @@ package com.example.app.model.mapping;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.jetbrains.annotations.NotNull;
+import lombok.NonNull;
 import org.springframework.beans.BeanUtils;
 
 import java.beans.PropertyDescriptor;
@@ -55,7 +55,7 @@ public class CopyUtils {
      * @param descriptors property descriptors
      * @return hashmap that key is property name and value is property descriptor
      */
-    @NotNull
+    @NonNull
     private static HashMap<String, PropertyDescriptor> getPropertyDescriptorHashMap(PropertyDescriptor[] descriptors) {
         var targetPropsMap = new HashMap<String, PropertyDescriptor>();
         for (PropertyDescriptor targetProperty : descriptors) {

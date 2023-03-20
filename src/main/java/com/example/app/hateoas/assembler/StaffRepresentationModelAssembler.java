@@ -4,7 +4,6 @@ import com.example.app.controller.StaffController;
 import com.example.app.model.entity.StaffEntity;
 import com.example.app.model.response.StaffResponseModel;
 import lombok.NonNull;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
@@ -18,7 +17,7 @@ public class StaffRepresentationModelAssembler extends RepresentationModelAssemb
         super(StaffController.class, StaffResponseModel.class);
     }
 
-    @NotNull
+    @NonNull
     @Override
     public StaffResponseModel toModel(@NonNull StaffEntity entity) {
         var model = instantiateModel(entity);

@@ -3,7 +3,7 @@ package com.example.app.hateoas.assembler;
 import com.example.app.controller.StaffController;
 import com.example.app.model.internal.StaffDetailModel;
 import com.example.app.model.response.StaffDetailResponseModel;
-import org.jetbrains.annotations.NotNull;
+import lombok.NonNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
@@ -17,9 +17,9 @@ public class StaffDetailRepresentationModelAssembler extends RepresentationModel
         super(StaffController.class, StaffDetailResponseModel.class);
     }
 
-    @NotNull
+    @NonNull
     @Override
-    public StaffDetailResponseModel toModel(@NotNull StaffDetailModel entity) {
+    public StaffDetailResponseModel toModel(@NonNull StaffDetailModel entity) {
         var model = instantiateModel(entity);
         BeanUtils.copyProperties(entity, model);
         model.add(linkTo(methodOn(StaffController.class).getStaffDetail(String.valueOf(model.getId()))).withSelfRel());

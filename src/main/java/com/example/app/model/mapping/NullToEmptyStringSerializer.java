@@ -37,7 +37,7 @@ public class NullToEmptyStringSerializer extends StdSerializer<Object> {
     }
 
     @Override
-    public JsonNode getSchema(SerializerProvider provider, Type typeHint) throws JsonMappingException {
+    public JsonNode getSchema(SerializerProvider provider, Type typeHint) {
         return createSchemaNode("empty_string");
     }
 

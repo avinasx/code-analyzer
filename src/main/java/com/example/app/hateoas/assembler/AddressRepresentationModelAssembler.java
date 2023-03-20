@@ -4,7 +4,6 @@ import com.example.app.controller.LocationController;
 import com.example.app.model.entity.AddressEntity;
 import com.example.app.model.response.AddressResponseModel;
 import lombok.NonNull;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
@@ -18,7 +17,7 @@ public class AddressRepresentationModelAssembler extends RepresentationModelAsse
         super(LocationController.class, AddressResponseModel.class);
     }
 
-    @NotNull
+    @NonNull
     @Override
     public AddressResponseModel toModel(@NonNull AddressEntity entity) {
         var model = instantiateModel(entity);

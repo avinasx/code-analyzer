@@ -3,7 +3,7 @@ package com.example.app.hateoas.assembler;
 import com.example.app.controller.FilmController;
 import com.example.app.model.internal.FilmDetailModel;
 import com.example.app.model.response.FilmDetailResponseModel;
-import org.jetbrains.annotations.NotNull;
+import lombok.NonNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
@@ -17,9 +17,9 @@ public class FilmDetailRepresentationModelAssembler extends RepresentationModelA
         super(FilmDetailModel.class, FilmDetailResponseModel.class);
     }
 
-    @NotNull
+    @NonNull
     @Override
-    public FilmDetailResponseModel toModel(@NotNull FilmDetailModel entity) {
+    public FilmDetailResponseModel toModel(@NonNull FilmDetailModel entity) {
         var model = instantiateModel(entity);
         BeanUtils.copyProperties(entity, model);
         model.add(linkTo(methodOn(FilmController.class).getFilmDetail(String.valueOf(model.getFid()))).withSelfRel());

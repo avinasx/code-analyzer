@@ -4,7 +4,6 @@ import com.example.app.controller.RentalController;
 import com.example.app.model.entity.RentalEntity;
 import com.example.app.model.response.RentalResponseModel;
 import lombok.NonNull;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
@@ -18,7 +17,7 @@ public class RentalRepresentationModelAssembler extends RepresentationModelAssem
         super(RentalController.class, RentalResponseModel.class);
     }
 
-    @NotNull
+    @NonNull
     @Override
     public RentalResponseModel toModel(@NonNull RentalEntity entity) {
         var model = instantiateModel(entity);

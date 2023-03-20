@@ -4,7 +4,6 @@ import com.example.app.controller.PaymentController;
 import com.example.app.model.entity.PaymentEntity;
 import com.example.app.model.response.PaymentResponseModel;
 import lombok.NonNull;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
@@ -18,7 +17,7 @@ public class PaymentRepresentationModelAssembler extends RepresentationModelAsse
         super(PaymentController.class, PaymentResponseModel.class);
     }
 
-    @NotNull
+    @NonNull
     @Override
     public PaymentResponseModel toModel(@NonNull PaymentEntity entity) {
         var model = instantiateModel(entity);
