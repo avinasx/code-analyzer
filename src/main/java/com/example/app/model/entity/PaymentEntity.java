@@ -57,14 +57,17 @@ public class PaymentEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "customer_id", nullable = false)
+    @ToString.Exclude
     private CustomerEntity customerByCustomerId;
 
     @ManyToOne
     @JoinColumn(name = "staff_id", referencedColumnName = "staff_id", nullable = false)
+    @ToString.Exclude
     private StaffEntity staffByStaffId;
 
     @ManyToOne
     @JoinColumn(name = "rental_id", referencedColumnName = "rental_id")
+    @ToString.Exclude
     private RentalEntity rentalByRentalId;
 
     @Override

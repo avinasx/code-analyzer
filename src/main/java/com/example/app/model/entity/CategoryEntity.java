@@ -42,6 +42,7 @@ public class CategoryEntity implements Serializable {
     private LocalDateTime lastUpdate;
 
     @OneToMany(mappedBy = "categoryByCategoryId", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private Collection<FilmCategoryEntity> filmCategoriesByCategoryId;
 
     @Override

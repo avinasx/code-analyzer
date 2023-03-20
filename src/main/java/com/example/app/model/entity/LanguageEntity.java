@@ -42,9 +42,11 @@ public class LanguageEntity implements Serializable {
     private LocalDateTime lastUpdate;
 
     @OneToMany(mappedBy = "languageByLanguageId", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private Collection<FilmEntity> filmsByLanguageId;
 
     @OneToMany(mappedBy = "languageByOriginalLanguageId", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private Collection<FilmEntity> filmsByOriginalLanguageId;
 
     @Override

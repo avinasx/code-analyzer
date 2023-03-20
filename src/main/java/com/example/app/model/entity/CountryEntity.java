@@ -42,6 +42,7 @@ public class CountryEntity implements Serializable {
     private LocalDateTime lastUpdate;
 
     @OneToMany(mappedBy = "countryByCountryId", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private Collection<CityEntity> citiesByCountryId;
 
     @Override

@@ -65,16 +65,20 @@ public class CustomerEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "store_id", referencedColumnName = "store_id", nullable = false)
+    @ToString.Exclude
     private StoreEntity storeByStoreId;
 
     @ManyToOne
     @JoinColumn(name = "address_id", referencedColumnName = "address_id", nullable = false)
+    @ToString.Exclude
     private AddressEntity addressByAddressId;
 
     @OneToMany(mappedBy = "customerByCustomerId", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private Collection<PaymentEntity> paymentsByCustomerId;
 
     @OneToMany(mappedBy = "customerByCustomerId", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private Collection<RentalEntity> rentalsByCustomerId;
 
     @Override

@@ -65,15 +65,19 @@ public class AddressEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "city_id", referencedColumnName = "city_id", nullable = false)
+    @ToString.Exclude
     private CityEntity cityByCityId;
 
     @OneToMany(mappedBy = "addressByAddressId", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private Collection<CustomerEntity> customersByAddressId;
 
     @OneToMany(mappedBy = "addressByAddressId", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private Collection<StaffEntity> staffByAddressId;
 
     @OneToMany(mappedBy = "addressByAddressId", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private Collection<StoreEntity> storesByAddressId;
 
     @Override

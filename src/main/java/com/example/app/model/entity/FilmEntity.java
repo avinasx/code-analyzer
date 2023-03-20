@@ -102,19 +102,24 @@ public class FilmEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "language_id", referencedColumnName = "language_id", nullable = false)
+    @ToString.Exclude
     private LanguageEntity languageByLanguageId;
 
     @ManyToOne
     @JoinColumn(name = "original_language_id", referencedColumnName = "language_id")
+    @ToString.Exclude
     private LanguageEntity languageByOriginalLanguageId;
 
     @OneToMany(mappedBy = "filmByFilmId", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private Collection<FilmActorEntity> filmActorsByFilmId;
 
     @OneToMany(mappedBy = "filmByFilmId", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private Collection<FilmCategoryEntity> filmCategoriesByFilmId;
 
     @OneToMany(mappedBy = "filmByFilmId", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private Collection<InventoryEntity> inventoriesByFilmId;
 
     @Override

@@ -46,10 +46,12 @@ public class CityEntity implements Serializable {
     private LocalDateTime lastUpdate;
 
     @OneToMany(mappedBy = "cityByCityId", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private Collection<AddressEntity> addressesByCityId;
 
     @ManyToOne
     @JoinColumn(name = "country_id", referencedColumnName = "country_id", nullable = false)
+    @ToString.Exclude
     private CountryEntity countryByCountryId;
 
     @Override

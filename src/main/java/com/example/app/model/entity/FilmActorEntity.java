@@ -12,13 +12,13 @@ import java.time.LocalDateTime;
 
 @Entity(name = "film_actor")
 @Table(name = "film_actor", schema = "sakila")
+@IdClass(FilmActorEntityPK.class)
 @Getter
 @Setter
 @ToString
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@IdClass(FilmActorEntityPK.class)
 public class FilmActorEntity implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
@@ -41,10 +41,12 @@ public class FilmActorEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "actor_id", referencedColumnName = "actor_id", nullable = false)
+    @ToString.Exclude
     private ActorEntity actorByActorId;
 
     @ManyToOne
     @JoinColumn(name = "film_id", referencedColumnName = "film_id", nullable = false)
+    @ToString.Exclude
     private FilmEntity filmByFilmId;
 
     @Override

@@ -44,13 +44,16 @@ public class InventoryEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "film_id", referencedColumnName = "film_id", nullable = false)
+    @ToString.Exclude
     private FilmEntity filmByFilmId;
 
     @ManyToOne
     @JoinColumn(name = "store_id", referencedColumnName = "store_id", nullable = false)
+    @ToString.Exclude
     private StoreEntity storeByStoreId;
 
     @OneToMany(mappedBy = "inventoryByInventoryId", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private Collection<RentalEntity> rentalsByInventoryId;
 
     @Override

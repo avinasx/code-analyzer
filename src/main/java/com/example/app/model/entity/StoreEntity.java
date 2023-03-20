@@ -43,20 +43,25 @@ public class StoreEntity implements Serializable {
     private LocalDateTime lastUpdate;
 
     @OneToMany(mappedBy = "storeByStoreId", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private Collection<CustomerEntity> customersByStoreId;
 
     @OneToMany(mappedBy = "storeByStoreId", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private Collection<InventoryEntity> inventoriesByStoreId;
 
     @OneToMany(mappedBy = "storeByStoreId", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private Collection<StaffEntity> staffByStoreId;
 
     @ManyToOne
     @JoinColumn(name = "manager_staff_id", referencedColumnName = "staff_id", nullable = false)
+    @ToString.Exclude
     private StaffEntity staffByManagerStaffId;
 
     @ManyToOne
     @JoinColumn(name = "address_id", referencedColumnName = "address_id", nullable = false)
+    @ToString.Exclude
     private AddressEntity addressByAddressId;
 
     @Override

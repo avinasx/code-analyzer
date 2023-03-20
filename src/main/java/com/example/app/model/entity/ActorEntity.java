@@ -43,6 +43,7 @@ public class ActorEntity implements Serializable {
     private LocalDateTime lastUpdate;
 
     @OneToMany(mappedBy = "actorByActorId", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private Collection<FilmActorEntity> filmActorsByActorId;
 
     @Override

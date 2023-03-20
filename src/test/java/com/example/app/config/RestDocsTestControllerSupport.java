@@ -38,16 +38,16 @@ public class RestDocsTestControllerSupport {
 
     @BeforeEach
     void setUp(WebApplicationContext context, RestDocumentationContextProvider provider) {
-        this.serverUrl = String.format("%s://%s:%d", uriPropConfig.getScheme(),
-                uriPropConfig.getHost(), uriPropConfig.getPort());
+        this.serverUrl = String.format("%s://%s:%d", this.uriPropConfig.getScheme(),
+                this.uriPropConfig.getHost(), this.uriPropConfig.getPort());
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context)
                 .apply(MockMvcRestDocumentation.documentationConfiguration(provider)
                         .snippets().withEncoding("UTF-8"))
                 .apply(MockMvcRestDocumentation.documentationConfiguration(provider)
                         .snippets().withTemplateFormat(TemplateFormats.asciidoctor()))
                 .apply(MockMvcRestDocumentation.documentationConfiguration(provider)
-                        .uris().withScheme(uriPropConfig.getScheme())
-                        .withHost(uriPropConfig.getHost()).withPort(uriPropConfig.getPort()))
+                        .uris().withScheme(this.uriPropConfig.getScheme())
+                        .withHost(this.uriPropConfig.getHost()).withPort(this.uriPropConfig.getPort()))
                 .alwaysDo(this.restDocsHandler)
                 .build();
     }
