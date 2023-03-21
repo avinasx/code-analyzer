@@ -43,7 +43,7 @@ public class StoreController {
 
     @PutMapping(path = "/stores/{id}")
     public ResponseEntity<Void> updateStore(@PathVariable String id, @ModelAttribute StoreRequestModel model) {
-        var reuslt = storeService.updateStore(id, model);
+        var result = storeService.updateStore(id, model);
         return ResponseEntity.ok().build();
     }
 

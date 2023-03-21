@@ -36,7 +36,6 @@ public class LocationController {
 
     @GetMapping(path = "/addresses/{id}")
     public ResponseEntity<AddressResponseModel> getAddress(@PathVariable String id) {
-        var temp = locationService.getAddressById(id);
         return locationService.getAddressById(id)
                 .map(addressAssembler::toModel)
                 .map(ResponseEntity::ok)
@@ -45,7 +44,7 @@ public class LocationController {
 
     @PutMapping(path = "/addresses/{id}")
     public ResponseEntity<Void> updateAddress(@PathVariable String id, @RequestBody AddressRequestModel model) {
-        var reuslt = locationService.updateAddress(id, model);
+        var result = locationService.updateAddress(id, model);
         return ResponseEntity.ok().build();
     }
 
@@ -85,7 +84,7 @@ public class LocationController {
 
     @PutMapping(path = "/cities/{id}")
     public ResponseEntity<Void> updateCity(@PathVariable String id, @RequestBody CityRequestModel model) {
-        var reuslt = locationService.updateCity(id, model);
+        var result = locationService.updateCity(id, model);
         return ResponseEntity.ok().build();
     }
 

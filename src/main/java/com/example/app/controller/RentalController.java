@@ -40,7 +40,7 @@ public class RentalController {
 
     @PutMapping(path = "/rentals/{id}")
     public ResponseEntity<Void> updateRental(@PathVariable String id, @ModelAttribute RentalRequestModel model) {
-        var reuslt = rentalService.updateRental(id, model);
+        var result = rentalService.updateRental(id, model);
         return ResponseEntity.ok().build();
     }
 
