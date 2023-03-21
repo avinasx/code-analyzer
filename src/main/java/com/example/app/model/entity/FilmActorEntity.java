@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @Table(name = "film_actor", schema = "sakila")
 @IdClass(FilmActorEntityPK.class)
 @Getter
-@Setter
 @ToString
 @Builder
 @NoArgsConstructor

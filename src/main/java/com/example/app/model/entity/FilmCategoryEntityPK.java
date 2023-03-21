@@ -5,13 +5,11 @@ import com.example.app.model.mapping.converter.CategoryConverter;
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
 
 @Getter
-@Setter
 @ToString
 public class FilmCategoryEntityPK implements Serializable {
     @Id

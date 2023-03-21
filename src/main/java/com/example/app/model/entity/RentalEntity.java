@@ -14,7 +14,6 @@ import java.util.Collection;
 @Entity(name = "rental")
 @Table(name = "rental", schema = "sakila")
 @Getter
-@Setter
 @ToString
 @Builder
 @NoArgsConstructor

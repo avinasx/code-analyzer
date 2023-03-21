@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @Entity(name = "payment")
 @Table(name = "payment", schema = "sakila")
 @Getter
-@Setter
 @ToString
 @Builder
 @NoArgsConstructor

@@ -23,7 +23,6 @@ import java.util.Set;
 @Entity(name = "film")
 @Table(name = "film", schema = "sakila")
 @Getter
-@Setter
 @ToString
 @Builder
 @NoArgsConstructor

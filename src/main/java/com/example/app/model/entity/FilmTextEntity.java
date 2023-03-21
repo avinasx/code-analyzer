@@ -10,7 +10,6 @@ import java.io.Serializable;
 @Entity(name = "film_text")
 @Table(name = "film_text", schema = "sakila")
 @Getter
-@Setter
 @ToString
 @Builder
 @NoArgsConstructor
