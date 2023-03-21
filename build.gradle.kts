@@ -59,15 +59,17 @@ dependencies {
     kapt(variantOf(libs.querydsl.apt) { classifier("jakarta") })
 
     // blaze-persistence
-    implementation(libs.blaze.core.api)
     implementation(libs.blaze.querydsl)
-    implementation(libs.blaze.core.impl)
-    implementation(libs.blaze.hibernate)
+    compileOnly(libs.blaze.core.api)
+    runtimeOnly(libs.blaze.core.impl)
+    runtimeOnly(libs.blaze.hibernate)
+    testCompileOnly(libs.blaze.core.api)
+    testRuntimeOnly(libs.blaze.core.impl)
+    testRuntimeOnly(libs.blaze.hibernate)
 
     // lombok
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
-    kapt(libs.lombok.mapstruct)
     annotationProcessor(libs.lombok.mapstruct)
     testCompileOnly(libs.lombok)
     testAnnotationProcessor(libs.lombok)
