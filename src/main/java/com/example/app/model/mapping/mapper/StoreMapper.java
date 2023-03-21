@@ -19,7 +19,7 @@ public interface StoreMapper extends GenericMapper<StoreEntity, StoreModel> {
     @Mapping(target = "staffByStoreId", ignore = true)
     @Mapping(target = "staffByManagerStaffId", ignore = true)
     @Mapping(target = "addressByAddressId", ignore = true)
-    StoreEntity mapToEntity(StoreRequestModel model);
+    StoreEntity mapToEntity(StoreRequestModel dto);
 
     @Mapping(target = "storeId", ignore = true)
     @Mapping(target = "lastUpdate", ignore = true)
@@ -28,5 +28,5 @@ public interface StoreMapper extends GenericMapper<StoreEntity, StoreModel> {
     @Mapping(target = "staffByStoreId", ignore = true)
     @Mapping(target = "staffByManagerStaffId", ignore = true)
     @Mapping(target = "addressByAddressId", ignore = true)
-    void updateEntity(StoreRequestModel model, @MappingTarget StoreEntity entity);
+    void updateEntity(StoreRequestModel dto, @MappingTarget StoreEntity entity);
 }

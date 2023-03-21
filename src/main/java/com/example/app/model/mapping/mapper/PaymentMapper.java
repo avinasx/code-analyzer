@@ -17,12 +17,12 @@ public interface PaymentMapper extends GenericMapper<PaymentEntity, PaymentModel
     @Mapping(target = "customerByCustomerId", ignore = true)
     @Mapping(target = "staffByStaffId", ignore = true)
     @Mapping(target = "rentalByRentalId", ignore = true)
-    PaymentEntity mapToEntity(PaymentRequestModel model);
+    PaymentEntity mapToEntity(PaymentRequestModel dto);
 
     @Mapping(target = "paymentId", ignore = true)
     @Mapping(target = "lastUpdate", ignore = true)
     @Mapping(target = "customerByCustomerId", ignore = true)
     @Mapping(target = "staffByStaffId", ignore = true)
     @Mapping(target = "rentalByRentalId", ignore = true)
-    void updateEntity(PaymentRequestModel model, @MappingTarget PaymentEntity entity);
+    void updateEntity(PaymentRequestModel dto, @MappingTarget PaymentEntity entity);
 }

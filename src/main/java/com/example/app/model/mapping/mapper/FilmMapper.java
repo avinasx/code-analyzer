@@ -19,7 +19,7 @@ public interface FilmMapper extends GenericMapper<FilmEntity, FilmModel> {
     @Mapping(target = "filmActorsByFilmId", ignore = true)
     @Mapping(target = "filmCategoriesByFilmId", ignore = true)
     @Mapping(target = "inventoriesByFilmId", ignore = true)
-    FilmEntity mapToEntity(FilmRequestModel model);
+    FilmEntity mapToEntity(FilmRequestModel dto);
 
     @Mapping(target = "filmId", ignore = true)
     @Mapping(target = "lastUpdate", ignore = true)
@@ -28,5 +28,5 @@ public interface FilmMapper extends GenericMapper<FilmEntity, FilmModel> {
     @Mapping(target = "filmActorsByFilmId", ignore = true)
     @Mapping(target = "filmCategoriesByFilmId", ignore = true)
     @Mapping(target = "inventoriesByFilmId", ignore = true)
-    void updateEntity(FilmRequestModel model, @MappingTarget FilmEntity entity);
+    void updateEntity(FilmRequestModel dto, @MappingTarget FilmEntity entity);
 }

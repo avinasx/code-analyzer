@@ -18,7 +18,7 @@ public interface AddressMapper extends GenericMapper<AddressEntity, AddressModel
     @Mapping(target = "customersByAddressId", ignore = true)
     @Mapping(target = "staffByAddressId", ignore = true)
     @Mapping(target = "storesByAddressId", ignore = true)
-    AddressEntity mapToEntity(AddressRequestModel model);
+    AddressEntity mapToEntity(AddressRequestModel dto);
 
     @Mapping(target = "addressId", ignore = true)
     @Mapping(target = "lastUpdate", ignore = true)
@@ -26,5 +26,5 @@ public interface AddressMapper extends GenericMapper<AddressEntity, AddressModel
     @Mapping(target = "customersByAddressId", ignore = true)
     @Mapping(target = "staffByAddressId", ignore = true)
     @Mapping(target = "storesByAddressId", ignore = true)
-    void updateEntity(AddressRequestModel model, @MappingTarget AddressEntity entity);
+    void updateEntity(AddressRequestModel dto, @MappingTarget AddressEntity entity);
 }

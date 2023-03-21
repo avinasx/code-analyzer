@@ -19,7 +19,7 @@ public interface StaffMapper extends GenericMapper<StaffEntity, StaffModel> {
     @Mapping(target = "addressByAddressId", ignore = true)
     @Mapping(target = "storeByStoreId", ignore = true)
     @Mapping(target = "storesByStaffId", ignore = true)
-    StaffEntity mapToEntity(StaffRequestModel model);
+    StaffEntity mapToEntity(StaffRequestModel dto);
 
     @Mapping(target = "staffId", ignore = true)
     @Mapping(target = "lastUpdate", ignore = true)
@@ -28,5 +28,5 @@ public interface StaffMapper extends GenericMapper<StaffEntity, StaffModel> {
     @Mapping(target = "addressByAddressId", ignore = true)
     @Mapping(target = "storeByStoreId", ignore = true)
     @Mapping(target = "storesByStaffId", ignore = true)
-    void updateEntity(StaffRequestModel model, @MappingTarget StaffEntity entity);
+    void updateEntity(StaffRequestModel dto, @MappingTarget StaffEntity entity);
 }

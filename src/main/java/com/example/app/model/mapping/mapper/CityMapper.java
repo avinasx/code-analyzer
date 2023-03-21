@@ -16,11 +16,11 @@ public interface CityMapper extends GenericMapper<CityEntity, CityModel> {
     @Mapping(target = "lastUpdate", ignore = true)
     @Mapping(target = "addressesByCityId", ignore = true)
     @Mapping(target = "countryByCountryId", ignore = true)
-    CityEntity mapToEntity(CityRequestModel model);
+    CityEntity mapToEntity(CityRequestModel dto);
 
     @Mapping(target = "cityId", ignore = true)
     @Mapping(target = "lastUpdate", ignore = true)
     @Mapping(target = "addressesByCityId", ignore = true)
     @Mapping(target = "countryByCountryId", ignore = true)
-    void updateEntity(CityRequestModel model, @MappingTarget CityEntity entity);
+    void updateEntity(CityRequestModel dto, @MappingTarget CityEntity entity);
 }

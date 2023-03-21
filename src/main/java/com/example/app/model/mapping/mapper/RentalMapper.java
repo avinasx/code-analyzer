@@ -18,7 +18,7 @@ public interface RentalMapper extends GenericMapper<RentalEntity, RentalModel> {
     @Mapping(target = "inventoryByInventoryId", ignore = true)
     @Mapping(target = "customerByCustomerId", ignore = true)
     @Mapping(target = "staffByStaffId", ignore = true)
-    RentalEntity mapToEntity(RentalRequestModel model);
+    RentalEntity mapToEntity(RentalRequestModel dto);
 
     @Mapping(target = "rentalId", ignore = true)
     @Mapping(target = "lastUpdate", ignore = true)
@@ -26,5 +26,5 @@ public interface RentalMapper extends GenericMapper<RentalEntity, RentalModel> {
     @Mapping(target = "inventoryByInventoryId", ignore = true)
     @Mapping(target = "customerByCustomerId", ignore = true)
     @Mapping(target = "staffByStaffId", ignore = true)
-    void updateEntity(RentalRequestModel model, @MappingTarget RentalEntity entity);
+    void updateEntity(RentalRequestModel dto, @MappingTarget RentalEntity entity);
 }

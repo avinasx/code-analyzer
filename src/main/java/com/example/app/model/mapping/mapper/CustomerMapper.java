@@ -18,7 +18,7 @@ public interface CustomerMapper extends GenericMapper<CustomerEntity, CustomerMo
     @Mapping(target = "addressByAddressId", ignore = true)
     @Mapping(target = "paymentsByCustomerId", ignore = true)
     @Mapping(target = "rentalsByCustomerId", ignore = true)
-    CustomerEntity mapToEntity(CustomerRequestModel model);
+    CustomerEntity mapToEntity(CustomerRequestModel dto);
 
     @Mapping(target = "customerId", ignore = true)
     @Mapping(target = "lastUpdate", ignore = true)
@@ -26,5 +26,5 @@ public interface CustomerMapper extends GenericMapper<CustomerEntity, CustomerMo
     @Mapping(target = "addressByAddressId", ignore = true)
     @Mapping(target = "paymentsByCustomerId", ignore = true)
     @Mapping(target = "rentalsByCustomerId", ignore = true)
-    void updateEntity(CustomerRequestModel model, @MappingTarget CustomerEntity entity);
+    void updateEntity(CustomerRequestModel dto, @MappingTarget CustomerEntity entity);
 }
