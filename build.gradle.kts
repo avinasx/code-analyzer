@@ -38,8 +38,6 @@ dependencies {
     implementation(libs.bundles.web)
     implementation(libs.bundles.data)
     // implementation(libs.bundles.security)
-    implementation(variantOf(libs.querydsl.jpa) { classifier("jakarta") })
-    implementation(libs.bundles.querydsl)
     implementation(libs.guava)
     implementation(libs.spring.actuator)
     // developmentOnly(libs.bundles.develop)
@@ -51,9 +49,13 @@ dependencies {
     testImplementation(libs.spring.restdocs)
 
     // annotation processor
-    kapt(libs.spring.annproc)
-    annotationProcessor(libs.spring.annproc)
-    testAnnotationProcessor(libs.spring.annproc)
+    kapt(libs.spring.processor)
+    annotationProcessor(libs.spring.processor)
+    testAnnotationProcessor(libs.spring.processor)
+
+    // querydsl
+    implementation(libs.bundles.querydsl)
+    implementation(variantOf(libs.querydsl.jpa) { classifier("jakarta") })
     kapt(variantOf(libs.querydsl.apt) { classifier("jakarta") })
 
     // blaze-persistence
@@ -65,8 +67,14 @@ dependencies {
     // lombok
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
+    kapt(libs.lombok.mapstruct)
+    annotationProcessor(libs.lombok.mapstruct)
     testCompileOnly(libs.lombok)
     testAnnotationProcessor(libs.lombok)
+
+    // mapstruct
+    implementation(libs.mapstruct)
+    kapt(libs.mapstruct.processor)
 }
 
 tasks {

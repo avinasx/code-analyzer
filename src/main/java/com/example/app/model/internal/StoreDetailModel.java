@@ -1,5 +1,6 @@
 package com.example.app.model.internal;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 import lombok.*;
 
@@ -10,9 +11,16 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StoreDetailModel {
+    @JsonProperty("id")
     private Integer id;
+
+    @JsonProperty("store")
     private String store;
+
+    @JsonProperty("manager")
     private String manager;
+
+    @JsonProperty("address")
     private String address;
 
     @Override

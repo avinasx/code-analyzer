@@ -4,7 +4,6 @@ import com.example.app.controller.CustomerController;
 import com.example.app.model.internal.CustomerDetailModel;
 import com.example.app.model.response.CustomerDetailResponseModel;
 import lombok.NonNull;
-import org.springframework.beans.BeanUtils;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
@@ -21,9 +20,9 @@ public class CustomerDetailRepresentationModelAssembler extends RepresentationMo
     @Override
     public CustomerDetailResponseModel toModel(@NonNull CustomerDetailModel entity) {
         var model = instantiateModel(entity);
-        BeanUtils.copyProperties(entity, model);
-        model.add(linkTo(methodOn(CustomerController.class).getCustomerDetail(String.valueOf(model.getId()))).withSelfRel());
-        model.add(linkTo(methodOn(CustomerController.class).getCustomer(String.valueOf(model.getId()))).withRel("customer"));
+        model.setCustomerDetailModel(entity);
+        model.add(linkTo(methodOn(CustomerController.class).getCustomerDetail(String.valueOf(entity.getId()))).withSelfRel());
+        model.add(linkTo(methodOn(CustomerController.class).getCustomer(String.valueOf(entity.getId()))).withRel("customer"));
         model.add(linkTo(methodOn(CustomerController.class).getAllCustomers()).withRel("customers"));
         return model;
     }

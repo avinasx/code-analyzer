@@ -1,7 +1,7 @@
 package com.example.app.service;
 
-import com.example.app.model.entity.AddressEntity;
-import com.example.app.model.entity.CityEntity;
+import com.example.app.model.internal.AddressModel;
+import com.example.app.model.internal.CityModel;
 import com.example.app.model.request.AddressRequestModel;
 import com.example.app.model.request.CityRequestModel;
 
@@ -9,31 +9,31 @@ import java.util.List;
 import java.util.Optional;
 
 public interface LocationService {
-    List<AddressEntity> getAllAddresses();
+    List<AddressModel> getAllAddresses();
 
-    Optional<AddressEntity> getAddressById(String id);
+    Optional<AddressModel> getAddressById(String id);
 
-    List<AddressEntity> getAllAddressesDetail();
+    List<AddressModel> getAllAddressesDetail();
 
-    Optional<AddressEntity> getAddressDetailById(String id);
+    Optional<AddressModel> getAddressDetailById(String id);
 
-    AddressEntity addAddress(AddressRequestModel model);
+    AddressModel addAddress(AddressRequestModel model);
 
-    AddressEntity updateAddress(String id, AddressRequestModel model);
+    AddressModel updateAddress(String id, AddressRequestModel model);
 
     void deleteAddressById(String id);
 
-    List<CityEntity> getAllCities();
+    List<CityModel> getAllCities();
 
-    Optional<CityEntity> getCityById(String id);
+    Optional<CityModel> getCityById(String id);
 
-    List<CityEntity> getAllCitiesDetail();
+    List<CityModel> getAllCitiesDetail();
 
-    Optional<CityEntity> getCityDetailById(String id);
+    Optional<CityModel> getCityDetailById(String id);
 
-    CityEntity addCity(CityRequestModel model);
+    CityModel addCity(CityRequestModel model);
 
-    CityEntity updateCity(String id, CityRequestModel model);
+    CityModel updateCity(String id, CityRequestModel model);
 
     void deleteCityById(String id);
 }

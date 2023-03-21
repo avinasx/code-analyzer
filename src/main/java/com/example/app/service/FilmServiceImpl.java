@@ -1,9 +1,9 @@
 package com.example.app.service;
 
 import com.example.app.exception.ResourceNotFoundException;
-import com.example.app.model.entity.FilmEntity;
 import com.example.app.model.internal.FilmDetailModel;
-import com.example.app.model.mapping.CopyUtils;
+import com.example.app.model.internal.FilmModel;
+import com.example.app.model.mapping.mapper.FilmMapper;
 import com.example.app.model.request.FilmRequestModel;
 import com.example.app.repository.FilmRepository;
 import lombok.AllArgsConstructor;
@@ -15,16 +15,21 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class FilmServiceImpl implements FilmService {
-    private FilmRepository filmRepository;
+    private final FilmRepository filmRepository;
+    private final FilmMapper filmMapper;
 
     @Override
-    public List<FilmEntity> getAllFilms() {
-        return filmRepository.findAll();
+    public List<FilmModel> getAllFilms() {
+        var result = filmRepository.findAll();
+        return filmMapper.mapToDtoList(result);
     }
 
     @Override
-    public Optional<FilmEntity> getFilmById(String id) {
-        return filmRepository.findById(Integer.valueOf(id));
+    public Optional<FilmModel> getFilmById(String id) {
+        var result = filmRepository.findById(Integer.valueOf(id));
+        var entity = result.orElseThrow(() ->
+                new ResourceNotFoundException("Film not found with id '" + id + "'"));
+        return Optional.of(filmMapper.mapToDto(entity));
     }
 
     @Override
@@ -34,30 +39,37 @@ public class FilmServiceImpl implements FilmService {
 
     @Override
     public Optional<FilmDetailModel> getFilmDetailById(String id) {
-        return filmRepository.findFilmDetailById(Integer.valueOf(id));
-    }
-
-    @Override
-    public Optional<FilmEntity> getFilmStockById(String id) {
-        return filmRepository.findFilmStockById(Integer.valueOf(id));
-    }
-
-    @Override
-    public FilmEntity addFilm(FilmRequestModel model) {
-        var entity = new FilmEntity();
-        CopyUtils.copyNonNullProperties(model, entity);
-        return filmRepository.save(entity);
-    }
-
-    @Override
-    public FilmEntity updateFilm(String id, FilmRequestModel model) {
-        var resource = filmRepository.findById(Integer.valueOf(id));
-        if (resource.isEmpty()) {
+        var result = filmRepository.findFilmDetailById(Integer.valueOf(id));
+        if (result.isEmpty()) {
             throw new ResourceNotFoundException("Film not found with id '" + id + "'");
         }
-        var entity = resource.get();
-        CopyUtils.copyNonNullProperties(model, entity);
-        return filmRepository.save(entity);
+        return result;
+    }
+
+    @Override
+    public Optional<FilmModel> getFilmStockById(String id) {
+        var result = filmRepository.findFilmStockById(Integer.valueOf(id));
+        if (result.isEmpty()) {
+            throw new ResourceNotFoundException("Film not found with id '" + id + "'");
+        }
+        return result;
+    }
+
+    @Override
+    public FilmModel addFilm(FilmRequestModel model) {
+        var entity = filmMapper.mapToEntity(model);
+        var result = filmRepository.save(entity);
+        return filmMapper.mapToDto(result);
+    }
+
+    @Override
+    public FilmModel updateFilm(String id, FilmRequestModel model) {
+        var result = filmRepository.findById(Integer.valueOf(id));
+        var entity = result.orElseThrow(() ->
+                new ResourceNotFoundException("Film not found with id '" + id + "'"));
+        filmMapper.updateEntity(model, entity);
+        var updated = filmRepository.save(entity);
+        return filmMapper.mapToDto(updated);
     }
 
     @Override

@@ -1,10 +1,9 @@
 package com.example.app.hateoas.assembler;
 
 import com.example.app.controller.CustomerController;
-import com.example.app.model.entity.CustomerEntity;
+import com.example.app.model.internal.CustomerModel;
 import com.example.app.model.response.CustomerResponseModel;
 import lombok.NonNull;
-import org.springframework.beans.BeanUtils;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
@@ -12,17 +11,17 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
-public class CustomerRepresentationModelAssembler extends RepresentationModelAssemblerSupport<CustomerEntity, CustomerResponseModel> {
+public class CustomerRepresentationModelAssembler extends RepresentationModelAssemblerSupport<CustomerModel, CustomerResponseModel> {
     public CustomerRepresentationModelAssembler() {
         super(CustomerController.class, CustomerResponseModel.class);
     }
 
     @NonNull
     @Override
-    public CustomerResponseModel toModel(@NonNull CustomerEntity entity) {
+    public CustomerResponseModel toModel(@NonNull CustomerModel entity) {
         var model = instantiateModel(entity);
-        BeanUtils.copyProperties(entity, model);
-        model.add(linkTo(methodOn(CustomerController.class).getCustomer(String.valueOf(model.getCustomerId()))).withSelfRel());
+        model.setCustomerModel(entity);
+        model.add(linkTo(methodOn(CustomerController.class).getCustomer(String.valueOf(entity.getCustomerId()))).withSelfRel());
         model.add(linkTo(methodOn(CustomerController.class).getAllCustomers()).withRel("customers"));
         return model;
     }

@@ -3,8 +3,12 @@ package com.example.app.repository.custom;
 import com.blazebit.persistence.querydsl.BlazeJPAQuery;
 import com.blazebit.persistence.querydsl.BlazeJPAQueryFactory;
 import com.blazebit.persistence.querydsl.JPQLNextExpressions;
-import com.example.app.model.entity.*;
+import com.example.app.model.entity.QActorEntity;
+import com.example.app.model.entity.QFilmActorEntity;
+import com.example.app.model.entity.QFilmCategoryEntity;
+import com.example.app.model.entity.QFilmEntity;
 import com.example.app.model.internal.FilmDetailModel;
+import com.example.app.model.internal.FilmModel;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
 import jakarta.transaction.Transactional;
@@ -63,7 +67,7 @@ public class CustomFilmRepositoryImpl implements CustomFilmRepository {
     }
 
     @Override
-    public Optional<FilmEntity> findFilmStockById(Integer id) {
+    public Optional<FilmModel> findFilmStockById(Integer id) {
         return Optional.empty();
     }
 }

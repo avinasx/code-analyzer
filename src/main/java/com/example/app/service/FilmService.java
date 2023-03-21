@@ -1,26 +1,26 @@
 package com.example.app.service;
 
-import com.example.app.model.entity.FilmEntity;
 import com.example.app.model.internal.FilmDetailModel;
+import com.example.app.model.internal.FilmModel;
 import com.example.app.model.request.FilmRequestModel;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface FilmService {
-    List<FilmEntity> getAllFilms();
+    List<FilmModel> getAllFilms();
 
-    Optional<FilmEntity> getFilmById(String id);
+    Optional<FilmModel> getFilmById(String id);
 
     List<FilmDetailModel> getAllFilmsDetail();
 
     Optional<FilmDetailModel> getFilmDetailById(String id);
 
-    Optional<FilmEntity> getFilmStockById(String id);
+    Optional<FilmModel> getFilmStockById(String id);
 
-    FilmEntity addFilm(FilmRequestModel model);
+    FilmModel addFilm(FilmRequestModel model);
 
-    FilmEntity updateFilm(String id, FilmRequestModel model);
+    FilmModel updateFilm(String id, FilmRequestModel model);
 
     void deleteFilmById(String id);
 }

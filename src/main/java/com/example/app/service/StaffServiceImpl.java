@@ -1,9 +1,9 @@
 package com.example.app.service;
 
 import com.example.app.exception.ResourceNotFoundException;
-import com.example.app.model.entity.StaffEntity;
 import com.example.app.model.internal.StaffDetailModel;
-import com.example.app.model.mapping.CopyUtils;
+import com.example.app.model.internal.StaffModel;
+import com.example.app.model.mapping.mapper.StaffMapper;
 import com.example.app.model.request.StaffRequestModel;
 import com.example.app.repository.StaffRepository;
 import lombok.AllArgsConstructor;
@@ -15,16 +15,21 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class StaffServiceImpl implements StaffService {
-    private StaffRepository staffRepository;
+    private final StaffRepository staffRepository;
+    private final StaffMapper staffMapper;
 
     @Override
-    public List<StaffEntity> getAllStaffs() {
-        return staffRepository.findAll();
+    public List<StaffModel> getAllStaffs() {
+        var result = staffRepository.findAll();
+        return staffMapper.mapToDtoList(result);
     }
 
     @Override
-    public Optional<StaffEntity> getStaffById(String id) {
-        return staffRepository.findById(Integer.valueOf(id));
+    public Optional<StaffModel> getStaffById(String id) {
+        var result = staffRepository.findById(Integer.valueOf(id));
+        var entity = result.orElseThrow(() ->
+                new ResourceNotFoundException("Staff not found with id '" + id + "'"));
+        return Optional.of(staffMapper.mapToDto(entity));
     }
 
     @Override
@@ -34,25 +39,28 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     public Optional<StaffDetailModel> getStaffDetailById(String id) {
-        return staffRepository.findStaffDetailById(Integer.valueOf(id));
-    }
-
-    @Override
-    public StaffEntity addStaff(StaffRequestModel model) {
-        var entity = new StaffEntity();
-        CopyUtils.copyNonNullProperties(model, entity);
-        return staffRepository.save(entity);
-    }
-
-    @Override
-    public StaffEntity updateStaff(String id, StaffRequestModel model) {
-        var resource = staffRepository.findById(Integer.valueOf(id));
-        if (resource.isEmpty()) {
+        var result = staffRepository.findStaffDetailById(Integer.valueOf(id));
+        if (result.isEmpty()) {
             throw new ResourceNotFoundException("Staff not found with id '" + id + "'");
         }
-        var entity = resource.get();
-        CopyUtils.copyNonNullProperties(model, entity);
-        return staffRepository.save(entity);
+        return result;
+    }
+
+    @Override
+    public StaffModel addStaff(StaffRequestModel model) {
+        var entity = staffMapper.mapToEntity(model);
+        var result = staffRepository.save(entity);
+        return staffMapper.mapToDto(result);
+    }
+
+    @Override
+    public StaffModel updateStaff(String id, StaffRequestModel model) {
+        var result = staffRepository.findById(Integer.valueOf(id));
+        var entity = result.orElseThrow(() ->
+                new ResourceNotFoundException("Staff not found with id '" + id + "'"));
+        staffMapper.updateEntity(model, entity);
+        var updated = staffRepository.save(entity);
+        return staffMapper.mapToDto(updated);
     }
 
     @Override

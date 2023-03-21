@@ -1,9 +1,15 @@
 package com.example.app.model.internal;
 
 import com.example.app.model.enumeration.Country;
+import com.example.app.model.mapping.converter.CountryConverter;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
+import jakarta.persistence.Convert;
 import lombok.*;
 
+/**
+ * The staff detail model provides address and store information for staff members.
+ */
 @Getter
 @Setter
 @ToString
@@ -11,13 +17,53 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StaffDetailModel {
+    /**
+     * staff id
+     */
+    @JsonProperty("id")
     private Integer id;
+
+    /**
+     * staff name (first + last)
+     */
+    @JsonProperty("name")
     private String name;
+
+    /**
+     * address
+     */
+    @JsonProperty("address")
     private String address;
+
+    /**
+     * postal code
+     */
+    @JsonProperty("zipCode")
     private String zipCode;
+
+    /**
+     * phone number
+     */
+    @JsonProperty("phone")
     private String phone;
+
+    /**
+     * city
+     */
+    @JsonProperty("city")
     private String city;
+
+    /**
+     * country
+     */
+    @JsonProperty("country")
+    @Convert(converter = CountryConverter.class)
     private Country country;
+
+    /**
+     * store id
+     */
+    @JsonProperty("sid")
     private Integer sid;
 
     @Override

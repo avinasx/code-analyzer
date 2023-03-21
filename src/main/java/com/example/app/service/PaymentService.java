@@ -1,7 +1,7 @@
 package com.example.app.service;
 
-import com.example.app.model.entity.PaymentEntity;
 import com.example.app.model.internal.CategorySalesModel;
+import com.example.app.model.internal.PaymentModel;
 import com.example.app.model.internal.StoreSalesModel;
 import com.example.app.model.request.PaymentRequestModel;
 
@@ -10,17 +10,17 @@ import java.util.Optional;
 
 public interface PaymentService {
 
-    List<PaymentEntity> getAllPayments();
+    List<PaymentModel> getAllPayments();
 
-    Optional<PaymentEntity> getPaymentById(String id);
+    Optional<PaymentModel> getPaymentById(String id);
 
-    List<PaymentEntity> getAllPaymentsDetail();
+    List<PaymentModel> getAllPaymentsDetail();
 
-    Optional<PaymentEntity> getPaymentDetailById(String id);
+    Optional<PaymentModel> getPaymentDetailById(String id);
 
-    PaymentEntity addPayment(PaymentRequestModel model);
+    PaymentModel addPayment(PaymentRequestModel model);
 
-    PaymentEntity updatePayment(String id, PaymentRequestModel model);
+    PaymentModel updatePayment(String id, PaymentRequestModel model);
 
     void removePaymentById(String id);
 

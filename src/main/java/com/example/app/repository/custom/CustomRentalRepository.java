@@ -1,12 +1,12 @@
 package com.example.app.repository.custom;
 
-import com.example.app.model.entity.RentalEntity;
+import com.example.app.model.internal.RentalModel;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface CustomRentalRepository {
-    List<RentalEntity> findAllRentalsDetail();
+    List<RentalModel> findAllRentalsDetail();
 
-    Optional<RentalEntity> findRentalDetailById(Integer id);
+    Optional<RentalModel> findRentalDetailById(Integer id);
 }

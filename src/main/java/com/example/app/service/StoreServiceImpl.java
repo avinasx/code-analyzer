@@ -1,9 +1,9 @@
 package com.example.app.service;
 
 import com.example.app.exception.ResourceNotFoundException;
-import com.example.app.model.entity.StoreEntity;
 import com.example.app.model.internal.StoreDetailModel;
-import com.example.app.model.mapping.CopyUtils;
+import com.example.app.model.internal.StoreModel;
+import com.example.app.model.mapping.mapper.StoreMapper;
 import com.example.app.model.request.StoreRequestModel;
 import com.example.app.repository.StoreRepository;
 import lombok.AllArgsConstructor;
@@ -15,16 +15,21 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class StoreServiceImpl implements StoreService {
-    private StoreRepository storeRepository;
+    private final StoreRepository storeRepository;
+    private final StoreMapper storeMapper;
 
     @Override
-    public List<StoreEntity> getAllStores() {
-        return storeRepository.findAll();
+    public List<StoreModel> getAllStores() {
+        var result = storeRepository.findAll();
+        return storeMapper.mapToDtoList(result);
     }
 
     @Override
-    public Optional<StoreEntity> getStoreById(String id) {
-        return storeRepository.findById(Integer.valueOf(id));
+    public Optional<StoreModel> getStoreById(String id) {
+        var result = storeRepository.findById(Integer.valueOf(id));
+        var entity = result.orElseThrow(() ->
+                new ResourceNotFoundException("Store not found with id '" + id + "'"));
+        return Optional.of(storeMapper.mapToDto(entity));
     }
 
     @Override
@@ -34,25 +39,28 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public Optional<StoreDetailModel> getStoreDetailById(String id) {
-        return storeRepository.findStoreDetailById(Integer.valueOf(id));
-    }
-
-    @Override
-    public StoreEntity addStore(StoreRequestModel model) {
-        var entity = new StoreEntity();
-        CopyUtils.copyNonNullProperties(model, entity);
-        return storeRepository.save(entity);
-    }
-
-    @Override
-    public StoreEntity updateStore(String id, StoreRequestModel model) {
-        var resource = storeRepository.findById(Integer.valueOf(id));
-        if (resource.isEmpty()) {
+        var result = storeRepository.findStoreDetailById(Integer.valueOf(id));
+        if (result.isEmpty()) {
             throw new ResourceNotFoundException("Store not found with id '" + id + "'");
         }
-        var entity = resource.get();
-        CopyUtils.copyNonNullProperties(model, entity);
-        return storeRepository.save(entity);
+        return result;
+    }
+
+    @Override
+    public StoreModel addStore(StoreRequestModel model) {
+        var entity = storeMapper.mapToEntity(model);
+        var result = storeRepository.save(entity);
+        return storeMapper.mapToDto(result);
+    }
+
+    @Override
+    public StoreModel updateStore(String id, StoreRequestModel model) {
+        var result = storeRepository.findById(Integer.valueOf(id));
+        var entity = result.orElseThrow(() ->
+                new ResourceNotFoundException("Store not found with id '" + id + "'"));
+        storeMapper.updateEntity(model, entity);
+        var updated = storeRepository.save(entity);
+        return storeMapper.mapToDto(updated);
     }
 
     @Override

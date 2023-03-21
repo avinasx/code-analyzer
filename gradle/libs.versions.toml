@@ -4,6 +4,7 @@ spring-dependency = "1.1.0"
 kotlin-plugin = "1.8.10"
 querydsl = "5.0.0"
 blaze = "1.6.8"
+mapstruct = "1.5.3.Final"
 
 [libraries]
 spring-web = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "spring-boot" }
@@ -13,7 +14,7 @@ spring-security = { module = "org.springframework.boot:spring-boot-starter-secur
 spring-oauth2 = { module = "org.springframework.boot:spring-boot-starter-oauth2-client", version.ref = "spring-boot" }
 spring-devtools = { module = "org.springframework.boot:spring-boot-devtools", version.ref = "spring-boot" }
 spring-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator", version.ref = "spring-boot" }
-spring-annproc = { module = "org.springframework.boot:spring-boot-configuration-processor", version.ref = "spring-boot" }
+spring-processor = { module = "org.springframework.boot:spring-boot-configuration-processor", version.ref = "spring-boot" }
 spring-test = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "spring-boot" }
 spring-security-test = { module = "org.springframework.security:spring-security-test", version.ref = "spring-boot" }
 spring-restdocs = { module = "org.springframework.restdocs:spring-restdocs-mockmvc", version = "3.0.0" }
@@ -30,7 +31,12 @@ blaze-core-impl = { module = "com.blazebit:blaze-persistence-core-impl-jakarta",
 blaze-hibernate = { module = "com.blazebit:blaze-persistence-integration-hibernate-6.0", version.ref = "blaze" }
 blaze-querydsl = { module = "com.blazebit:blaze-persistence-integration-querydsl-expressions-jakarta", version.ref = "blaze" }
 
+mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }
+mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstruct" }
+
 lombok = { module = "org.projectlombok:lombok", version = "1.18.26" }
+lombok-mapstruct = { module = "org.projectlombok:lombok-mapstruct-binding", version = "0.2.0" }
+
 guava = { module = "com.google.guava:guava", version = "31.1-jre" }
 jackson-xml = { module = "com.fasterxml.jackson.dataformat:jackson-dataformat-xml", version = "2.14.2" }
 mysql-connector = { module = "com.mysql:mysql-connector-j", version = "8.0.32" }

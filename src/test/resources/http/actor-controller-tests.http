@@ -52,3 +52,13 @@ Accept: application/json
         client.assert(response.status === 404, "Response status is not 404");
     });
 %}
+
+### get details of an actor test: check response for id 1
+GET http://localhost:8080/api/v1/actors/1/details
+Accept: application/json
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}

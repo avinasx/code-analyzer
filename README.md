@@ -16,6 +16,7 @@ This is a sample project to demonstrate how to build a REST API using *Spring Bo
 - Lombok
 - Querydsl
 - Blaze Persistence
+- MapStruct
 - Guava
 - Asciidoctor
 

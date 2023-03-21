@@ -1,12 +1,12 @@
 package com.example.app.repository.custom;
 
-import com.example.app.model.entity.AddressEntity;
+import com.example.app.model.internal.AddressModel;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface CustomAddressRepository {
-    List<AddressEntity> findAllAddressesDetail();
+    List<AddressModel> findAllAddressesDetail();
 
-    Optional<AddressEntity> findAddressDetailById(Integer id);
+    Optional<AddressModel> findAddressDetailById(Integer id);
 }

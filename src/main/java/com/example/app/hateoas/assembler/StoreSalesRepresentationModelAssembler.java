@@ -4,7 +4,6 @@ import com.example.app.controller.PaymentController;
 import com.example.app.model.internal.StoreSalesModel;
 import com.example.app.model.response.StoreSalesResponseModel;
 import lombok.NonNull;
-import org.springframework.beans.BeanUtils;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
@@ -22,7 +21,7 @@ public class StoreSalesRepresentationModelAssembler extends RepresentationModelA
     @Override
     public StoreSalesResponseModel toModel(@NonNull StoreSalesModel entity) {
         var model = instantiateModel(entity);
-        BeanUtils.copyProperties(entity, model);
+        model.setStoreSalesModel(entity);
         return model;
     }
 

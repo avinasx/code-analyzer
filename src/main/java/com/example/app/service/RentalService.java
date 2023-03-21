@@ -1,6 +1,6 @@
 package com.example.app.service;
 
-import com.example.app.model.entity.RentalEntity;
+import com.example.app.model.internal.RentalModel;
 import com.example.app.model.request.RentalRequestModel;
 
 import java.util.List;
@@ -8,17 +8,17 @@ import java.util.Optional;
 
 public interface RentalService {
 
-    List<RentalEntity> getAllRentals();
+    List<RentalModel> getAllRentals();
 
-    Optional<RentalEntity> getRentalById(String id);
+    Optional<RentalModel> getRentalById(String id);
 
-    List<RentalEntity> getAllRentalsDetail();
+    List<RentalModel> getAllRentalsDetail();
 
-    Optional<RentalEntity> getRentalDetailById(String id);
+    Optional<RentalModel> getRentalDetailById(String id);
 
-    RentalEntity addRental(RentalRequestModel model);
+    RentalModel addRental(RentalRequestModel model);
 
-    RentalEntity updateRental(String id, RentalRequestModel model);
+    RentalModel updateRental(String id, RentalRequestModel model);
 
     void removeRentalById(String id);
 }

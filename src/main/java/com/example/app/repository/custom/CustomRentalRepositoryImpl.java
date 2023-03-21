@@ -1,6 +1,6 @@
 package com.example.app.repository.custom;
 
-import com.example.app.model.entity.RentalEntity;
+import com.example.app.model.internal.RentalModel;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -13,12 +13,12 @@ import java.util.Optional;
 @AllArgsConstructor
 public class CustomRentalRepositoryImpl implements CustomRentalRepository {
     @Override
-    public List<RentalEntity> findAllRentalsDetail() {
+    public List<RentalModel> findAllRentalsDetail() {
         return null;
     }
 
     @Override
-    public Optional<RentalEntity> findRentalDetailById(Integer id) {
+    public Optional<RentalModel> findRentalDetailById(Integer id) {
         return Optional.empty();
     }
 }

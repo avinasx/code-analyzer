@@ -1,6 +1,6 @@
 package com.example.app.repository.custom;
 
-import com.example.app.model.entity.AddressEntity;
+import com.example.app.model.internal.AddressModel;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -13,12 +13,12 @@ import java.util.Optional;
 @AllArgsConstructor
 public class CustomAddressRepositoryImpl implements CustomAddressRepository {
     @Override
-    public List<AddressEntity> findAllAddressesDetail() {
+    public List<AddressModel> findAllAddressesDetail() {
         return null;
     }
 
     @Override
-    public Optional<AddressEntity> findAddressDetailById(Integer id) {
+    public Optional<AddressModel> findAddressDetailById(Integer id) {
         return Optional.empty();
     }
 }

@@ -1,26 +1,26 @@
 package com.example.app.service;
 
-import com.example.app.model.entity.ActorEntity;
 import com.example.app.model.internal.ActorDetailModel;
+import com.example.app.model.internal.ActorModel;
 import com.example.app.model.request.ActorRequestModel;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface ActorService {
-    List<ActorEntity> getAllActors();
+    List<ActorModel> getAllActors();
 
-    Optional<ActorEntity> getActorById(String id);
+    Optional<ActorModel> getActorById(String id);
 
     List<ActorDetailModel> getAllActorsDetail();
 
     Optional<ActorDetailModel> getActorDetailById(String id);
 
-    List<ActorEntity> findActorByName(String name);
+    List<ActorModel> findActorByName(String name);
 
-    ActorEntity addActor(ActorRequestModel model);
+    ActorModel addActor(ActorRequestModel model);
 
-    ActorEntity updateActor(String id, ActorRequestModel model);
+    ActorModel updateActor(String id, ActorRequestModel model);
 
     void deleteActorById(String id);
 }

@@ -1,12 +1,12 @@
 package com.example.app.repository.custom;
 
-import com.example.app.model.entity.CityEntity;
+import com.example.app.model.internal.CityModel;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface CustomCityRepository {
-    List<CityEntity> findAllCitiesDetail();
+    List<CityModel> findAllCitiesDetail();
 
-    Optional<CityEntity> findCityDetailById(Integer id);
+    Optional<CityModel> findCityDetailById(Integer id);
 }

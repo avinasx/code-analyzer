@@ -1,16 +1,16 @@
 package com.example.app.repository.custom;
 
-import com.example.app.model.entity.PaymentEntity;
 import com.example.app.model.internal.CategorySalesModel;
+import com.example.app.model.internal.PaymentModel;
 import com.example.app.model.internal.StoreSalesModel;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface CustomPaymentRepository {
-    List<PaymentEntity> findAllPaymentsDetail();
+    List<PaymentModel> findAllPaymentsDetail();
 
-    Optional<PaymentEntity> findPaymentDetailById(Integer id);
+    Optional<PaymentModel> findPaymentDetailById(Integer id);
 
     List<CategorySalesModel> calculateSalesByCategory();
 

@@ -1,7 +1,7 @@
 package com.example.app.model.response;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.example.app.model.internal.StoreDetailModel;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.google.common.base.Objects;
 import lombok.*;
 import org.springframework.hateoas.RepresentationModel;
@@ -19,21 +19,8 @@ public class StoreDetailResponseModel extends RepresentationModel<StoreDetailRes
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @JsonProperty("id")
-    @JacksonXmlProperty(localName = "id")
-    private Integer id;
-
-    @JsonProperty("store")
-    @JacksonXmlProperty(localName = "store")
-    private String store;
-
-    @JsonProperty("manager")
-    @JacksonXmlProperty(localName = "manager")
-    private String manager;
-
-    @JsonProperty("address")
-    @JacksonXmlProperty(localName = "address")
-    private String address;
+    @JsonUnwrapped
+    private StoreDetailModel storeDetailModel;
 
     @Override
     public boolean equals(Object o) {
@@ -41,14 +28,11 @@ public class StoreDetailResponseModel extends RepresentationModel<StoreDetailRes
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         StoreDetailResponseModel that = (StoreDetailResponseModel) o;
-        return Objects.equal(id, that.id)
-                && Objects.equal(store, that.store)
-                && Objects.equal(manager, that.manager)
-                && Objects.equal(address, that.address);
+        return Objects.equal(storeDetailModel, that.storeDetailModel);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(super.hashCode(), id, store, manager, address);
+        return Objects.hashCode(super.hashCode(), storeDetailModel);
     }
 }

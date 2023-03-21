@@ -3,17 +3,15 @@ package com.example.app.controller;
 import com.example.app.config.RestDocsTestControllerSupport;
 import com.example.app.hateoas.assembler.ActorDetailRepresentationModelAssembler;
 import com.example.app.hateoas.assembler.ActorRepresentationModelAssembler;
-import com.example.app.model.entity.ActorEntity;
 import com.example.app.model.internal.ActorDetailModel;
+import com.example.app.model.internal.ActorModel;
 import com.example.app.model.request.ActorRequestModel;
-import com.example.app.model.response.ActorDetailResponseModel;
-import com.example.app.model.response.ActorResponseModel;
 import com.example.app.service.ActorService;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.BeanUtils;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.hateoas.MediaTypes;
 
 import java.time.LocalDateTime;
@@ -21,23 +19,22 @@ import java.util.HashMap;
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.responseHeaders;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = ActorController.class)
 class ActorControllerTest extends RestDocsTestControllerSupport {
     @MockBean
     private ActorService actorService;
-    @MockBean
+    @SpyBean
     private ActorRepresentationModelAssembler actorAssembler;
-    @MockBean
+    @SpyBean
     private ActorDetailRepresentationModelAssembler actorDetailAssembler;
 
     @Test
@@ -61,9 +58,8 @@ class ActorControllerTest extends RestDocsTestControllerSupport {
                     payload.get("firstName"),
                     payload.get("lastName")
             );
-
             when(actorService.addActor(requestModel))
-                    .thenReturn(ActorEntity.builder()
+                    .thenReturn(ActorModel.builder()
                             .actorId(Integer.valueOf(id))
                             .firstName(payload.get("firstName"))
                             .lastName(payload.get("lastName"))
@@ -74,6 +70,7 @@ class ActorControllerTest extends RestDocsTestControllerSupport {
             mockMvc.perform(post("/actors")
                             .contentType(MediaTypes.HAL_JSON)
                             .content(objectMapper.writeValueAsString(payload)))
+                    .andDo(print())
                     .andExpect(status().isCreated())
                     .andExpect(header().string("Location", serverUrl + "/actors/" + id))
                     .andDo(restDocsHandler.document(
@@ -98,23 +95,18 @@ class ActorControllerTest extends RestDocsTestControllerSupport {
         void getActor_success() throws Exception {
             // arrange
             var id = "1";
-            var entity = ActorEntity.builder()
+            var model = ActorModel.builder()
                     .actorId(Integer.valueOf(id))
                     .firstName("PENELOPE")
                     .lastName("GUINESS")
                     .lastUpdate(LocalDateTime.of(2006, 2, 15, 9, 34, 33))
                     .build();
-            var responseModel = new ActorResponseModel();
-            BeanUtils.copyProperties(entity, responseModel);
-            responseModel.add(linkTo(methodOn(ActorController.class).getActor(String.valueOf(responseModel.getActorId()))).withSelfRel());
-            responseModel.add(linkTo(methodOn(ActorController.class).getAllActors()).withRel("actors"));
-
-            when(actorService.getActorById(id)).thenReturn(Optional.of(entity));
-            when(actorAssembler.toModel(entity)).thenReturn(responseModel);
+            when(actorService.getActorById(id)).thenReturn(Optional.of(model));
 
             // act
             mockMvc.perform(get("/actors/{id}", id)
                             .accept(MediaTypes.HAL_JSON))
+                    .andDo(print())
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("actorId").value(1))
                     .andExpect(jsonPath("firstName").value("PENELOPE"))
@@ -150,9 +142,8 @@ class ActorControllerTest extends RestDocsTestControllerSupport {
                     payload.get("firstName"),
                     payload.get("lastName")
             );
-
             when(actorService.updateActor(id, requestModel)).thenReturn(
-                    ActorEntity.builder()
+                    ActorModel.builder()
                             .actorId(Integer.valueOf(id))
                             .firstName(payload.get("firstName"))
                             .lastName(payload.get("lastName"))
@@ -163,6 +154,7 @@ class ActorControllerTest extends RestDocsTestControllerSupport {
             mockMvc.perform(put("/actors/{id}", id)
                             .contentType(MediaTypes.HAL_JSON)
                             .content(objectMapper.writeValueAsString(payload)))
+                    .andDo(print())
                     .andExpect(status().isOk())
                     .andDo(restDocsHandler.document(
                             pathParameters(
@@ -185,12 +177,12 @@ class ActorControllerTest extends RestDocsTestControllerSupport {
         void deleteActor_success() throws Exception {
             // arrange
             var id = "1";
-
             doNothing().when(actorService).deleteActorById(id);
 
             // act
             mockMvc.perform(delete("/actors/{id}", id))
                     .andExpect(status().isNoContent())
+                    .andDo(print())
                     .andDo(restDocsHandler.document(
                             pathParameters(
                                     parameterWithName("id").description("The id of the actor to delete")
@@ -217,18 +209,12 @@ class ActorControllerTest extends RestDocsTestControllerSupport {
                             "KING EVOLUTION, LADY STAGE, LANGUAGE COWBOY, MULHOLLAND BEAST, OKLAHOMA JUMANJI, " +
                             "RULES HUMAN, SPLASH GUMP, VERTIGO NORTHWEST, WESTWARD SEABISCUIT, WIZARD COLDBLOODED")
                     .build();
-            var responseModel = new ActorDetailResponseModel();
-            BeanUtils.copyProperties(model, responseModel);
-            responseModel.add(linkTo(methodOn(ActorController.class).getActorDetail(String.valueOf(responseModel.getActorId()))).withSelfRel());
-            responseModel.add(linkTo(methodOn(ActorController.class).getActor(String.valueOf(responseModel.getActorId()))).withRel("actor"));
-            responseModel.add(linkTo(methodOn(ActorController.class).getAllActors()).withRel("actors"));
-
             when(actorService.getActorDetailById(id)).thenReturn(Optional.of(model));
-            when(actorDetailAssembler.toModel(model)).thenReturn(responseModel);
 
             // act
             mockMvc.perform(get("/actors/{id}/details", id)
                             .accept(MediaTypes.HAL_JSON))
+                    .andDo(print())
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("actorId").value(1))
                     .andExpect(jsonPath("firstName").value("PENELOPE"))

@@ -1,16 +1,12 @@
-package com.example.app.model.response.reserved;
+package com.example.app.model.internal.reserved;
 
 import com.example.app.model.enumeration.Category;
 import com.example.app.model.mapping.converter.CategoryConverter;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.common.base.Objects;
 import jakarta.persistence.Convert;
 import lombok.*;
-import org.springframework.hateoas.RepresentationModel;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Getter
@@ -19,29 +15,22 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoryResponseModel extends RepresentationModel<CategoryResponseModel> implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
-
+public class CategoryModel {
     @JsonProperty("categoryId")
-    @JacksonXmlProperty(localName = "categoryId")
     @Convert(converter = CategoryConverter.class)
     private Category categoryId;
 
     @JsonProperty("name")
-    @JacksonXmlProperty(localName = "name")
     private String name;
 
     @JsonProperty("lastUpdate")
-    @JacksonXmlProperty(localName = "lastUpdate")
     private LocalDateTime lastUpdate;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        CategoryResponseModel that = (CategoryResponseModel) o;
+        CategoryModel that = (CategoryModel) o;
         return categoryId == that.categoryId
                 && Objects.equal(name, that.name)
                 && Objects.equal(lastUpdate, that.lastUpdate);
@@ -49,6 +38,6 @@ public class CategoryResponseModel extends RepresentationModel<CategoryResponseM
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(super.hashCode(), categoryId, name, lastUpdate);
+        return Objects.hashCode(categoryId, name, lastUpdate);
     }
 }

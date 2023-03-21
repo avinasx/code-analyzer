@@ -1,14 +1,13 @@
 package com.example.app.model.response;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.example.app.model.internal.StoreModel;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.google.common.base.Objects;
 import lombok.*;
 import org.springframework.hateoas.RepresentationModel;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -20,21 +19,8 @@ public class StoreResponseModel extends RepresentationModel<StoreResponseModel> 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @JsonProperty("storeId")
-    @JacksonXmlProperty(localName = "storeId")
-    private Integer storeId;
-
-    @JsonProperty("managerStaffId")
-    @JacksonXmlProperty(localName = "managerStaffId")
-    private Integer managerStaffId;
-
-    @JsonProperty("addressId")
-    @JacksonXmlProperty(localName = "addressId")
-    private Integer addressId;
-
-    @JsonProperty("lastUpdate")
-    @JacksonXmlProperty(localName = "lastUpdate")
-    private LocalDateTime lastUpdate;
+    @JsonUnwrapped
+    private StoreModel storeModel;
 
     @Override
     public boolean equals(Object o) {
@@ -42,14 +28,11 @@ public class StoreResponseModel extends RepresentationModel<StoreResponseModel> 
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         StoreResponseModel that = (StoreResponseModel) o;
-        return Objects.equal(storeId, that.storeId)
-                && Objects.equal(managerStaffId, that.managerStaffId)
-                && Objects.equal(addressId, that.addressId)
-                && Objects.equal(lastUpdate, that.lastUpdate);
+        return Objects.equal(storeModel, that.storeModel);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(super.hashCode(), storeId, managerStaffId, addressId, lastUpdate);
+        return Objects.hashCode(super.hashCode(), storeModel);
     }
 }

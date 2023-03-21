@@ -3,6 +3,7 @@ package com.example.app.repository.custom;
 import com.example.app.model.entity.*;
 import com.example.app.model.enumeration.Country;
 import com.example.app.model.internal.CategorySalesModel;
+import com.example.app.model.internal.PaymentModel;
 import com.example.app.model.internal.StoreSalesModel;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
@@ -26,12 +27,12 @@ public class CustomPaymentRepositoryImpl implements CustomPaymentRepository {
     }
 
     @Override
-    public List<PaymentEntity> findAllPaymentsDetail() {
+    public List<PaymentModel> findAllPaymentsDetail() {
         return null;
     }
 
     @Override
-    public Optional<PaymentEntity> findPaymentDetailById(Integer id) {
+    public Optional<PaymentModel> findPaymentDetailById(Integer id) {
         return Optional.empty();
     }
 

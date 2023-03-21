@@ -1,8 +1,12 @@
 package com.example.app.model.internal;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 import lombok.*;
 
+/**
+ * The actor detail model provides a list of films in which actors appear by category.
+ */
 @Getter
 @Setter
 @ToString
@@ -10,9 +14,28 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ActorDetailModel {
+    /**
+     * actor id
+     */
+    @JsonProperty("actorId")
     private Integer actorId;
+
+    /**
+     * actor first name
+     */
+    @JsonProperty("firstName")
     private String firstName;
+
+    /**
+     * actor last name
+     */
+    @JsonProperty("lastName")
     private String lastName;
+
+    /**
+     * a list of films in which the actor appears by category
+     */
+    @JsonProperty("filmInfo")
     private String filmInfo;
 
     @Override

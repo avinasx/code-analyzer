@@ -2,7 +2,7 @@ package com.example.app.controller;
 
 import com.example.app.hateoas.assembler.FilmDetailRepresentationModelAssembler;
 import com.example.app.hateoas.assembler.FilmRepresentationModelAssembler;
-import com.example.app.model.entity.FilmEntity;
+import com.example.app.model.internal.FilmModel;
 import com.example.app.model.request.FilmRequestModel;
 import com.example.app.model.response.FilmDetailResponseModel;
 import com.example.app.model.response.FilmResponseModel;
@@ -63,7 +63,7 @@ public class FilmController {
     }
 
     @GetMapping(path = "/films/{id}/stock")
-    public ResponseEntity<FilmEntity> getFilmStock(@PathVariable String id) {
+    public ResponseEntity<FilmModel> getFilmStock(@PathVariable String id) {
         return filmService.getFilmStockById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());

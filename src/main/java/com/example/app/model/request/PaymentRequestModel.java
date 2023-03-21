@@ -1,7 +1,6 @@
 package com.example.app.model.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.common.base.Objects;
 import lombok.*;
 
@@ -21,23 +20,18 @@ public class PaymentRequestModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @JsonProperty("customerId")
-    @JacksonXmlProperty(localName = "customerId")
     private Integer customerId;
 
     @JsonProperty("staffId")
-    @JacksonXmlProperty(localName = "staffId")
     private Integer staffId;
 
     @JsonProperty("rentalId")
-    @JacksonXmlProperty(localName = "rentalId")
     private Integer rentalId;
 
     @JsonProperty("amount")
-    @JacksonXmlProperty(localName = "amount")
     private BigDecimal amount;
 
     @JsonProperty("paymentDate")
-    @JacksonXmlProperty(localName = "paymentDate")
     private LocalDateTime paymentDate;
 
     @Override

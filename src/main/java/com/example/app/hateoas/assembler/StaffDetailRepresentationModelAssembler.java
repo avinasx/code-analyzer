@@ -4,7 +4,6 @@ import com.example.app.controller.StaffController;
 import com.example.app.model.internal.StaffDetailModel;
 import com.example.app.model.response.StaffDetailResponseModel;
 import lombok.NonNull;
-import org.springframework.beans.BeanUtils;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
@@ -21,9 +20,9 @@ public class StaffDetailRepresentationModelAssembler extends RepresentationModel
     @Override
     public StaffDetailResponseModel toModel(@NonNull StaffDetailModel entity) {
         var model = instantiateModel(entity);
-        BeanUtils.copyProperties(entity, model);
-        model.add(linkTo(methodOn(StaffController.class).getStaffDetail(String.valueOf(model.getId()))).withSelfRel());
-        model.add(linkTo(methodOn(StaffController.class).getStaff(String.valueOf(model.getId()))).withRel("staff"));
+        model.setStaffDetailModel(entity);
+        model.add(linkTo(methodOn(StaffController.class).getStaffDetail(String.valueOf(entity.getId()))).withSelfRel());
+        model.add(linkTo(methodOn(StaffController.class).getStaff(String.valueOf(entity.getId()))).withRel("staff"));
         model.add(linkTo(methodOn(StaffController.class).getAllStaffs()).withRel("staffs"));
         return model;
     }
