@@ -11,7 +11,9 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity(name = "film_actor")
-@Table(name = "film_actor", schema = "sakila")
+@Table(name = "film_actor", schema = "sakila", indexes = {
+        @Index(name = "idx_fk_film_id", columnList = "film_id")
+})
 @IdClass(FilmActorEntityPK.class)
 @Getter
 @ToString
@@ -30,21 +32,25 @@ public class FilmActorEntity implements Serializable {
     @Id
     @Column(name = "film_id", nullable = false, insertable = false, updatable = false, columnDefinition = "SMALLINT UNSIGNED")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NonNull
     private Integer filmId;
 
     @Basic
     @Column(name = "last_update", nullable = false, columnDefinition = "TIMESTAMP")
     @ColumnDefault("CURRENT_TIMESTAMP")
     @UpdateTimestamp
+    @NonNull
     private LocalDateTime lastUpdate;
 
     @ManyToOne
     @JoinColumn(name = "actor_id", referencedColumnName = "actor_id", nullable = false)
+    @NonNull
     @ToString.Exclude
     private ActorEntity actorByActorId;
 
     @ManyToOne
     @JoinColumn(name = "film_id", referencedColumnName = "film_id", nullable = false)
+    @NonNull
     @ToString.Exclude
     private FilmEntity filmByFilmId;
 

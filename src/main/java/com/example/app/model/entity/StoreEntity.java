@@ -12,7 +12,10 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 
 @Entity(name = "store")
-@Table(name = "store", schema = "sakila")
+@Table(name = "store", schema = "sakila", indexes = {
+        @Index(name = "idx_unique_manager", columnList = "manager_staff_id", unique = true),
+        @Index(name = "idx_fk_address_id", columnList = "address_id")
+})
 @Getter
 @ToString
 @Builder
@@ -29,16 +32,19 @@ public class StoreEntity implements Serializable {
 
     @Basic
     @Column(name = "manager_staff_id", nullable = false, insertable = false, updatable = false, columnDefinition = "TINYINT UNSIGNED")
+    @NonNull
     private Integer managerStaffId;
 
     @Basic
     @Column(name = "address_id", nullable = false, insertable = false, updatable = false, columnDefinition = "SMALLINT UNSIGNED")
+    @NonNull
     private Integer addressId;
 
     @Basic
     @Column(name = "last_update", nullable = false, columnDefinition = "TIMESTAMP")
     @ColumnDefault("CURRENT_TIMESTAMP")
     @UpdateTimestamp
+    @NonNull
     private LocalDateTime lastUpdate;
 
     @OneToMany(mappedBy = "storeByStoreId", cascade = CascadeType.ALL)
@@ -55,11 +61,13 @@ public class StoreEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "manager_staff_id", referencedColumnName = "staff_id", nullable = false)
+    @NonNull
     @ToString.Exclude
     private StaffEntity staffByManagerStaffId;
 
     @ManyToOne
     @JoinColumn(name = "address_id", referencedColumnName = "address_id", nullable = false)
+    @NonNull
     @ToString.Exclude
     private AddressEntity addressByAddressId;
 

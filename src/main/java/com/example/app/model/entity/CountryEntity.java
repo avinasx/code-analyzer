@@ -4,6 +4,7 @@ import com.example.app.model.enumeration.Country;
 import com.example.app.model.mapping.converter.CountryConverter;
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -32,12 +33,15 @@ public class CountryEntity implements Serializable {
 
     @Basic
     @Column(name = "country", nullable = false, length = 50)
+    @NonNull
+    @Size(min = 1, max = 50)
     private String country;
 
     @Basic
     @Column(name = "last_update", nullable = false, columnDefinition = "TIMESTAMP")
     @ColumnDefault("CURRENT_TIMESTAMP")
     @UpdateTimestamp
+    @NonNull
     private LocalDateTime lastUpdate;
 
     @OneToMany(mappedBy = "countryByCountryId", cascade = CascadeType.ALL)

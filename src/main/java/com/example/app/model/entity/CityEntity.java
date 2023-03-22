@@ -4,6 +4,7 @@ import com.example.app.model.enumeration.Country;
 import com.example.app.model.mapping.converter.CountryConverter;
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -14,7 +15,9 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 
 @Entity(name = "city")
-@Table(name = "city", schema = "sakila")
+@Table(name = "city", schema = "sakila", indexes = {
+        @Index(name = "idx_fk_country_id", columnList = "country_id")
+})
 @Getter
 @ToString
 @Builder
@@ -31,17 +34,21 @@ public class CityEntity implements Serializable {
 
     @Basic
     @Column(name = "city", nullable = false, length = 50)
+    @NonNull
+    @Size(min = 1, max = 50)
     private String city;
 
     @Basic
     @Column(name = "country_id", nullable = false, insertable = false, updatable = false, columnDefinition = "SMALLINT UNSIGNED")
     @Convert(converter = CountryConverter.class)
+    @NonNull
     private Country countryId;
 
     @Basic
     @Column(name = "last_update", nullable = false, columnDefinition = "TIMESTAMP")
     @ColumnDefault("CURRENT_TIMESTAMP")
     @UpdateTimestamp
+    @NonNull
     private LocalDateTime lastUpdate;
 
     @OneToMany(mappedBy = "cityByCityId", cascade = CascadeType.ALL)
@@ -50,6 +57,7 @@ public class CityEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "country_id", referencedColumnName = "country_id", nullable = false)
+    @NonNull
     @ToString.Exclude
     private CountryEntity countryByCountryId;
 

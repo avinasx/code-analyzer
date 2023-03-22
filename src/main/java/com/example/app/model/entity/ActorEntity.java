@@ -2,6 +2,7 @@ package com.example.app.model.entity;
 
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -12,7 +13,9 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 
 @Entity(name = "actor")
-@Table(name = "actor", schema = "sakila")
+@Table(name = "actor", schema = "sakila", indexes = {
+        @Index(name = "idx_actor_last_name", columnList = "last_name")
+})
 @Getter
 @ToString
 @Builder
@@ -29,16 +32,21 @@ public class ActorEntity implements Serializable {
 
     @Basic
     @Column(name = "first_name", nullable = false, length = 45)
+    @NonNull
+    @Size(min = 1, max = 45)
     private String firstName;
 
     @Basic
     @Column(name = "last_name", nullable = false, length = 45)
+    @NonNull
+    @Size(min = 1, max = 45)
     private String lastName;
 
     @Basic
     @Column(name = "last_update", nullable = false, columnDefinition = "TIMESTAMP")
     @ColumnDefault("CURRENT_TIMESTAMP")
     @UpdateTimestamp
+    @NonNull
     private LocalDateTime lastUpdate;
 
     @OneToMany(mappedBy = "actorByActorId", cascade = CascadeType.ALL)

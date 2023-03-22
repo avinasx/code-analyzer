@@ -38,6 +38,7 @@ dependencies {
     implementation(libs.bundles.web)
     implementation(libs.bundles.data)
     // implementation(libs.bundles.security)
+    implementation(libs.hibernate.validator)
     implementation(libs.guava)
     implementation(libs.spring.actuator)
     // developmentOnly(libs.bundles.develop)

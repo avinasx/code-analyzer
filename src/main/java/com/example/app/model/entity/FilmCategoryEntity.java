@@ -33,21 +33,25 @@ public class FilmCategoryEntity implements Serializable {
     @Column(name = "category_id", nullable = false, insertable = false, updatable = false, columnDefinition = "TINYINT UNSIGNED")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Convert(converter = CategoryConverter.class)
+    @NonNull
     private Category categoryId;
 
     @Basic
     @Column(name = "last_update", nullable = false, columnDefinition = "TIMESTAMP")
     @ColumnDefault("CURRENT_TIMESTAMP")
     @UpdateTimestamp
+    @NonNull
     private LocalDateTime lastUpdate;
 
     @ManyToOne
     @JoinColumn(name = "film_id", referencedColumnName = "film_id", nullable = false)
+    @NonNull
     @ToString.Exclude
     private FilmEntity filmByFilmId;
 
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "category_id", nullable = false)
+    @NonNull
     @ToString.Exclude
     private CategoryEntity categoryByCategoryId;
 

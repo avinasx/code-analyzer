@@ -2,6 +2,7 @@ package com.example.app.model.entity;
 
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -12,7 +13,10 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 
 @Entity(name = "staff")
-@Table(name = "staff", schema = "sakila")
+@Table(name = "staff", schema = "sakila", indexes = {
+        @Index(name = "idx_fk_store_id", columnList = "store_id"),
+        @Index(name = "idx_fk_address_id", columnList = "address_id")
+})
 @Getter
 @ToString
 @Builder
@@ -29,14 +33,19 @@ public class StaffEntity implements Serializable {
 
     @Basic
     @Column(name = "first_name", nullable = false, length = 45)
+    @NonNull
+    @Size(min = 1, max = 45)
     private String firstName;
 
     @Basic
     @Column(name = "last_name", nullable = false, length = 45)
+    @NonNull
+    @Size(min = 1, max = 45)
     private String lastName;
 
     @Basic
     @Column(name = "address_id", nullable = false, insertable = false, updatable = false, columnDefinition = "SMALLINT UNSIGNED")
+    @NonNull
     private Integer addressId;
 
     // @Basic
@@ -48,30 +57,37 @@ public class StaffEntity implements Serializable {
     @Basic
     @Column(name = "email", nullable = true, length = 50)
     @ColumnDefault("NULL")
+    @Size(min = 1, max = 50)
     private String email;
 
     @Basic
     @Column(name = "store_id", nullable = false, insertable = false, updatable = false, columnDefinition = "TINYINT UNSIGNED")
+    @NonNull
     private Integer storeId;
 
     @Basic
     @Column(name = "active", nullable = false, columnDefinition = "BOOLEAN")
     @ColumnDefault("TRUE")
+    @NonNull
     private Boolean active;
 
     @Basic
     @Column(name = "username", nullable = false, length = 16)
+    @NonNull
+    @Size(min = 1, max = 16)
     private String username;
 
     @Basic
     @Column(name = "password", nullable = true, length = 40, columnDefinition = "VARCHAR(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin")
     @ColumnDefault("NULL")
+    @Size(min = 1, max = 40)
     private String password;
 
     @Basic
     @Column(name = "last_update", nullable = false, columnDefinition = "TIMESTAMP")
     @ColumnDefault("CURRENT_TIMESTAMP")
     @UpdateTimestamp
+    @NonNull
     private LocalDateTime lastUpdate;
 
     @OneToMany(mappedBy = "staffByStaffId", cascade = CascadeType.ALL)
@@ -84,11 +100,13 @@ public class StaffEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "address_id", referencedColumnName = "address_id", nullable = false)
+    @NonNull
     @ToString.Exclude
     private AddressEntity addressByAddressId;
 
     @ManyToOne
     @JoinColumn(name = "store_id", referencedColumnName = "store_id", nullable = false)
+    @NonNull
     @ToString.Exclude
     private StoreEntity storeByStoreId;
 

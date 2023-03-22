@@ -12,7 +12,10 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity(name = "payment")
-@Table(name = "payment", schema = "sakila")
+@Table(name = "payment", schema = "sakila", indexes = {
+        @Index(name = "idx_fk_staff_id", columnList = "staff_id"),
+        @Index(name = "idx_fk_customer_id", columnList = "customer_id")
+})
 @Getter
 @ToString
 @Builder
@@ -29,10 +32,12 @@ public class PaymentEntity implements Serializable {
 
     @Basic
     @Column(name = "customer_id", nullable = false, insertable = false, updatable = false, columnDefinition = "SMALLINT UNSIGNED")
+    @NonNull
     private Integer customerId;
 
     @Basic
     @Column(name = "staff_id", nullable = false, insertable = false, updatable = false, columnDefinition = "TINYINT UNSIGNED")
+    @NonNull
     private Integer staffId;
 
     @Basic
@@ -42,10 +47,12 @@ public class PaymentEntity implements Serializable {
 
     @Basic
     @Column(name = "amount", nullable = false, precision = 2, columnDefinition = "DECIMAL(5,2)")
+    @NonNull
     private BigDecimal amount;
 
     @Basic
     @Column(name = "payment_date", nullable = false, columnDefinition = "DATETIME")
+    @NonNull
     private LocalDateTime paymentDate;
 
     @Basic
@@ -56,11 +63,13 @@ public class PaymentEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "customer_id", nullable = false)
+    @NonNull
     @ToString.Exclude
     private CustomerEntity customerByCustomerId;
 
     @ManyToOne
     @JoinColumn(name = "staff_id", referencedColumnName = "staff_id", nullable = false)
+    @NonNull
     @ToString.Exclude
     private StaffEntity staffByStaffId;
 

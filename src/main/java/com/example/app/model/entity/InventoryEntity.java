@@ -12,7 +12,10 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 
 @Entity(name = "inventory")
-@Table(name = "inventory", schema = "sakila")
+@Table(name = "inventory", schema = "sakila", indexes = {
+        @Index(name = "idx_fk_film_id", columnList = "film_id"),
+        @Index(name = "idx_store_id_film_id", columnList = "store_id, film_id")
+})
 @Getter
 @ToString
 @Builder
@@ -29,25 +32,30 @@ public class InventoryEntity implements Serializable {
 
     @Basic
     @Column(name = "film_id", nullable = false, insertable = false, updatable = false, columnDefinition = "SMALLINT UNSIGNED")
+    @NonNull
     private Integer filmId;
 
     @Basic
     @Column(name = "store_id", nullable = false, insertable = false, updatable = false, columnDefinition = "TINYINT UNSIGNED")
+    @NonNull
     private Integer storeId;
 
     @Basic
     @Column(name = "last_update", nullable = false, columnDefinition = "TIMESTAMP")
     @ColumnDefault("CURRENT_TIMESTAMP")
     @UpdateTimestamp
+    @NonNull
     private LocalDateTime lastUpdate;
 
     @ManyToOne
     @JoinColumn(name = "film_id", referencedColumnName = "film_id", nullable = false)
+    @NonNull
     @ToString.Exclude
     private FilmEntity filmByFilmId;
 
     @ManyToOne
     @JoinColumn(name = "store_id", referencedColumnName = "store_id", nullable = false)
+    @NonNull
     @ToString.Exclude
     private StoreEntity storeByStoreId;
 

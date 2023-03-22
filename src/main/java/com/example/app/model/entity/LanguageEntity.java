@@ -4,6 +4,7 @@ import com.example.app.model.enumeration.Language;
 import com.example.app.model.mapping.converter.LanguageConverter;
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -32,12 +33,15 @@ public class LanguageEntity implements Serializable {
 
     @Basic
     @Column(name = "name", nullable = false, length = 20, columnDefinition = "CHAR(20)")
+    @NonNull
+    @Size(min = 1, max = 20)
     private String name;
 
     @Basic
     @Column(name = "last_update", nullable = false, columnDefinition = "TIMESTAMP")
     @ColumnDefault("CURRENT_TIMESTAMP")
     @UpdateTimestamp
+    @NonNull
     private LocalDateTime lastUpdate;
 
     @OneToMany(mappedBy = "languageByLanguageId", cascade = CascadeType.ALL)

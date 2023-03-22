@@ -8,6 +8,7 @@ import com.example.app.model.mapping.converter.LanguageConverter;
 import com.example.app.model.mapping.converter.SpecialFeatureConverter;
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -21,7 +22,11 @@ import java.util.Collection;
 import java.util.Set;
 
 @Entity(name = "film")
-@Table(name = "film", schema = "sakila")
+@Table(name = "film", schema = "sakila", indexes = {
+        @Index(name = "idx_title", columnList = "title"),
+        @Index(name = "idx_fk_language_id", columnList = "language_id"),
+        @Index(name = "idx_fk_original_language_id", columnList = "original_language_id")
+})
 @Getter
 @ToString
 @Builder
@@ -38,11 +43,14 @@ public class FilmEntity implements Serializable {
 
     @Basic
     @Column(name = "title", nullable = false, length = 128)
+    @NonNull
+    @Size(min = 1, max = 128)
     private String title;
 
     @Basic
     @Column(name = "description", nullable = true, length = -1, columnDefinition = "TEXT")
     @ColumnDefault("NULL")
+    @Size(max = 65535)
     private String description;
 
     @Basic
@@ -53,6 +61,7 @@ public class FilmEntity implements Serializable {
     @Basic
     @Column(name = "language_id", nullable = false, insertable = false, updatable = false, columnDefinition = "TINYINT UNSIGNED")
     @Convert(converter = LanguageConverter.class)
+    @NonNull
     private Language languageId;
 
     @Basic
@@ -64,11 +73,13 @@ public class FilmEntity implements Serializable {
     @Basic
     @Column(name = "rental_duration", nullable = false, columnDefinition = "TINYINT UNSIGNED")
     @ColumnDefault("3")
+    @NonNull
     private Integer rentalDuration;
 
     @Basic
     @Column(name = "rental_rate", nullable = false, precision = 2, columnDefinition = "DECIMAL(4,2)")
     @ColumnDefault("4.99")
+    @NonNull
     private BigDecimal rentalRate;
 
     @Basic
@@ -79,6 +90,7 @@ public class FilmEntity implements Serializable {
     @Basic
     @Column(name = "replacement_cost", nullable = false, precision = 2, columnDefinition = "DECIMAL(5,2)")
     @ColumnDefault("19.99")
+    @NonNull
     private BigDecimal replacementCost;
 
     @Basic
@@ -97,10 +109,12 @@ public class FilmEntity implements Serializable {
     @Column(name = "last_update", nullable = false, columnDefinition = "TIMESTAMP")
     @ColumnDefault("CURRENT_TIMESTAMP")
     @UpdateTimestamp
+    @NonNull
     private LocalDateTime lastUpdate;
 
     @ManyToOne
     @JoinColumn(name = "language_id", referencedColumnName = "language_id", nullable = false)
+    @NonNull
     @ToString.Exclude
     private LanguageEntity languageByLanguageId;
 

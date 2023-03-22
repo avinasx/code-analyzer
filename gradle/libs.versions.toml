@@ -37,6 +37,7 @@ mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.re
 lombok = { module = "org.projectlombok:lombok", version = "1.18.26" }
 lombok-mapstruct = { module = "org.projectlombok:lombok-mapstruct-binding", version = "0.2.0" }
 
+hibernate-validator = { module = "org.hibernate.validator:hibernate-validator", version = "8.0.0.Final" }
 guava = { module = "com.google.guava:guava", version = "31.1-jre" }
 jackson-xml = { module = "com.fasterxml.jackson.dataformat:jackson-dataformat-xml", version = "2.14.2" }
 mysql-connector = { module = "com.mysql:mysql-connector-j", version = "8.0.32" }

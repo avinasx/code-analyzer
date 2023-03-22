@@ -12,7 +12,12 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 
 @Entity(name = "rental")
-@Table(name = "rental", schema = "sakila")
+@Table(name = "rental", schema = "sakila", indexes = {
+        @Index(name = "rental_date", columnList = "rental_date, inventory_id, customer_id", unique = true),
+        @Index(name = "idx_fk_inventory_id", columnList = "inventory_id"),
+        @Index(name = "idx_fk_customer_id", columnList = "customer_id"),
+        @Index(name = "idx_fk_staff_id", columnList = "staff_id")
+})
 @Getter
 @ToString
 @Builder
@@ -29,14 +34,17 @@ public class RentalEntity implements Serializable {
 
     @Basic
     @Column(name = "rental_date", nullable = false, columnDefinition = "DATETIME")
+    @NonNull
     private LocalDateTime rentalDate;
 
     @Basic
     @Column(name = "inventory_id", nullable = false, insertable = false, updatable = false, columnDefinition = "MEDIUMINT UNSIGNED")
+    @NonNull
     private Integer inventoryId;
 
     @Basic
     @Column(name = "customer_id", nullable = false, insertable = false, updatable = false, columnDefinition = "SMALLINT UNSIGNED")
+    @NonNull
     private Integer customerId;
 
     @Basic
@@ -46,12 +54,14 @@ public class RentalEntity implements Serializable {
 
     @Basic
     @Column(name = "staff_id", nullable = false, insertable = false, updatable = false, columnDefinition = "TINYINT UNSIGNED")
+    @NonNull
     private Integer staffId;
 
     @Basic
     @Column(name = "last_update", nullable = false, columnDefinition = "TIMESTAMP")
     @ColumnDefault("CURRENT_TIMESTAMP")
     @UpdateTimestamp
+    @NonNull
     private LocalDateTime lastUpdate;
 
     @OneToMany(mappedBy = "rentalByRentalId", cascade = CascadeType.ALL)
@@ -60,16 +70,19 @@ public class RentalEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "inventory_id", referencedColumnName = "inventory_id", nullable = false)
+    @NonNull
     @ToString.Exclude
     private InventoryEntity inventoryByInventoryId;
 
     @ManyToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "customer_id", nullable = false)
+    @NonNull
     @ToString.Exclude
     private CustomerEntity customerByCustomerId;
 
     @ManyToOne
     @JoinColumn(name = "staff_id", referencedColumnName = "staff_id", nullable = false)
+    @NonNull
     @ToString.Exclude
     private StaffEntity staffByStaffId;
 

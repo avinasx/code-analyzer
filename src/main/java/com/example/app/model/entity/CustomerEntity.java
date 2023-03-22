@@ -2,6 +2,7 @@ package com.example.app.model.entity;
 
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -12,7 +13,11 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 
 @Entity(name = "customer")
-@Table(name = "customer", schema = "sakila")
+@Table(name = "customer", schema = "sakila", indexes = {
+        @Index(name = "idx_fk_store_id", columnList = "store_id"),
+        @Index(name = "idx_fk_address_id", columnList = "address_id"),
+        @Index(name = "idx_last_name", columnList = "last_name")
+})
 @Getter
 @ToString
 @Builder
@@ -29,31 +34,40 @@ public class CustomerEntity implements Serializable {
 
     @Basic
     @Column(name = "store_id", nullable = false, insertable = false, updatable = false, columnDefinition = "TINYINT UNSIGNED")
+    @NonNull
     private Integer storeId;
 
     @Basic
     @Column(name = "first_name", nullable = false, length = 45)
+    @NonNull
+    @Size(min = 1, max = 45)
     private String firstName;
 
     @Basic
     @Column(name = "last_name", nullable = false, length = 45)
+    @NonNull
+    @Size(min = 1, max = 45)
     private String lastName;
 
     @Basic
     @Column(name = "email", nullable = true, length = 50)
+    @Size(min = 1, max = 50)
     private String email;
 
     @Basic
     @Column(name = "address_id", nullable = false, insertable = false, updatable = false, columnDefinition = "SMALLINT UNSIGNED")
+    @NonNull
     private Integer addressId;
 
     @Basic
     @Column(name = "active", nullable = false, columnDefinition = "BOOLEAN")
     @ColumnDefault("TRUE")
+    @NonNull
     private Boolean active;
 
     @Basic
     @Column(name = "create_date", nullable = false, columnDefinition = "DATETIME")
+    @NonNull
     private LocalDateTime createDate;
 
     @Basic
@@ -64,11 +78,13 @@ public class CustomerEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "store_id", referencedColumnName = "store_id", nullable = false)
+    @NonNull
     @ToString.Exclude
     private StoreEntity storeByStoreId;
 
     @ManyToOne
     @JoinColumn(name = "address_id", referencedColumnName = "address_id", nullable = false)
+    @NonNull
     @ToString.Exclude
     private AddressEntity addressByAddressId;
 
