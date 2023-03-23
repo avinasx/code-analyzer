@@ -20,14 +20,13 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public List<StoreModel> getAllStores() {
-        var result = storeRepository.findAll();
-        return storeMapper.mapToDtoList(result);
+        var list = storeRepository.findAll();
+        return storeMapper.mapToDtoList(list);
     }
 
     @Override
     public Optional<StoreModel> getStoreById(String id) {
-        var result = storeRepository.findById(Integer.valueOf(id));
-        var entity = result.orElseThrow(() ->
+        var entity = storeRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
                 new ResourceNotFoundException("Store not found with id '" + id + "'"));
         return Optional.of(storeMapper.mapToDto(entity));
     }
@@ -39,18 +38,18 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public Optional<StoreDetailModel> getStoreDetailById(String id) {
-        var result = storeRepository.findStoreDetailById(Integer.valueOf(id));
-        if (result.isEmpty()) {
+        var model = storeRepository.findStoreDetailById(Integer.valueOf(id));
+        if (model.isEmpty()) {
             throw new ResourceNotFoundException("Store not found with id '" + id + "'");
         }
-        return result;
+        return model;
     }
 
     @Override
     public StoreModel addStore(StoreRequestModel model) {
         var entity = storeMapper.mapToEntity(model);
-        var result = storeRepository.save(entity);
-        return storeMapper.mapToDto(result);
+        var savedEntity = storeRepository.save(entity);
+        return storeMapper.mapToDto(savedEntity);
     }
 
     @Override

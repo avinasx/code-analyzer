@@ -58,8 +58,8 @@ class ActorControllerTest extends RestDocsTestControllerSupport {
                     payload.get("firstName"),
                     payload.get("lastName")
             );
-            when(actorService.addActor(requestModel))
-                    .thenReturn(ActorModel.builder()
+            when(actorService.addActor(requestModel)).thenReturn(
+                    ActorModel.builder()
                             .actorId(Integer.valueOf(id))
                             .firstName(payload.get("firstName"))
                             .lastName(payload.get("lastName"))

@@ -15,7 +15,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Repository
@@ -68,7 +67,7 @@ public class CustomStoreRepositoryImpl implements CustomStoreRepository {
                 .innerJoin(staff).on(staff.staffId.eq(store.managerStaffId))
                 .innerJoin(address).on(address.addressId.eq(staff.addressId))
                 .innerJoin(city).on(city.cityId.eq(address.cityId));
-        if (Objects.nonNull(id)) {
+        if (id != null) {
             query.where(store.storeId.eq(id));
         }
         return query;

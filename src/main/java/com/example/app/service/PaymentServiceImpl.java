@@ -21,14 +21,13 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public List<PaymentModel> getAllPayments() {
-        var result = paymentRepository.findAll();
-        return paymentMapper.mapToDtoList(result);
+        var list = paymentRepository.findAll();
+        return paymentMapper.mapToDtoList(list);
     }
 
     @Override
     public Optional<PaymentModel> getPaymentById(String id) {
-        var result = paymentRepository.findById(Integer.valueOf(id));
-        var entity = result.orElseThrow(() ->
+        var entity = paymentRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
                 new ResourceNotFoundException("Payment not found with id '" + id + "'"));
         return Optional.of(paymentMapper.mapToDto(entity));
     }
@@ -40,18 +39,18 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public Optional<PaymentModel> getPaymentDetailById(String id) {
-        var result = paymentRepository.findPaymentDetailById(Integer.valueOf(id));
-        if (result.isEmpty()) {
+        var model = paymentRepository.findPaymentDetailById(Integer.valueOf(id));
+        if (model.isEmpty()) {
             throw new ResourceNotFoundException("Payment not found with id '" + id + "'");
         }
-        return result;
+        return model;
     }
 
     @Override
     public PaymentModel addPayment(PaymentRequestModel model) {
         var result = paymentMapper.mapToEntity(model);
-        var entity = paymentRepository.save(result);
-        return paymentMapper.mapToDto(entity);
+        var savedEntity = paymentRepository.save(result);
+        return paymentMapper.mapToDto(savedEntity);
     }
 
     @Override

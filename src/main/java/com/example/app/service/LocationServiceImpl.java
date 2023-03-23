@@ -25,14 +25,13 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public List<AddressModel> getAllAddresses() {
-        var result = addressRepository.findAll();
-        return addressMapper.mapToDtoList(result);
+        var list = addressRepository.findAll();
+        return addressMapper.mapToDtoList(list);
     }
 
     @Override
     public Optional<AddressModel> getAddressById(String id) {
-        var result = addressRepository.findById(Integer.valueOf(id));
-        var entity = result.orElseThrow(() ->
+        var entity = addressRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
                 new ResourceNotFoundException("Address not found with id '" + id + "'"));
         return Optional.of(addressMapper.mapToDto(entity));
     }
@@ -44,18 +43,18 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public Optional<AddressModel> getAddressDetailById(String id) {
-        var result = addressRepository.findAddressDetailById(Integer.valueOf(id));
-        if (result.isEmpty()) {
+        var model = addressRepository.findAddressDetailById(Integer.valueOf(id));
+        if (model.isEmpty()) {
             throw new ResourceNotFoundException("Address not found with id '" + id + "'");
         }
-        return result;
+        return model;
     }
 
     @Override
     public AddressModel addAddress(AddressRequestModel model) {
         var entity = addressMapper.mapToEntity(model);
-        var result = addressRepository.save(entity);
-        return addressMapper.mapToDto(result);
+        var savedEntity = addressRepository.save(entity);
+        return addressMapper.mapToDto(savedEntity);
     }
 
     @Override
@@ -75,14 +74,13 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public List<CityModel> getAllCities() {
-        var result = cityRepository.findAll();
-        return cityMapper.mapToDtoList(result);
+        var list = cityRepository.findAll();
+        return cityMapper.mapToDtoList(list);
     }
 
     @Override
     public Optional<CityModel> getCityById(String id) {
-        var result = cityRepository.findById(Integer.valueOf(id));
-        var entity = result.orElseThrow(() ->
+        var entity = cityRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
                 new ResourceNotFoundException("City not found with id '" + id + "'"));
         return Optional.of(cityMapper.mapToDto(entity));
     }
@@ -94,18 +92,18 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public Optional<CityModel> getCityDetailById(String id) {
-        var result = cityRepository.findCityDetailById(Integer.valueOf(id));
-        if (result.isEmpty()) {
+        var model = cityRepository.findCityDetailById(Integer.valueOf(id));
+        if (model.isEmpty()) {
             throw new ResourceNotFoundException("City not found with id '" + id + "'");
         }
-        return result;
+        return model;
     }
 
     @Override
     public CityModel addCity(CityRequestModel model) {
         var entity = cityMapper.mapToEntity(model);
-        var result = cityRepository.save(entity);
-        return cityMapper.mapToDto(result);
+        var savedEntity = cityRepository.save(entity);
+        return cityMapper.mapToDto(savedEntity);
     }
 
     @Override

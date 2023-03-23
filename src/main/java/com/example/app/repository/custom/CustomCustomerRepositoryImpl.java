@@ -13,7 +13,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Repository
@@ -52,7 +51,7 @@ public class CustomCustomerRepositoryImpl implements CustomCustomerRepository {
                 .from(cu)
                 .join(a).on(cu.addressId.eq(a.addressId))
                 .join(city).on(a.cityId.eq(city.cityId));
-        if (Objects.nonNull(id)) {
+        if (id != null) {
             query.where(cu.customerId.eq(id));
         }
         return query;

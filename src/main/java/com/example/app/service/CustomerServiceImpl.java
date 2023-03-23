@@ -20,14 +20,13 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<CustomerModel> getAllCustomers() {
-        var result = customerRepository.findAll();
-        return customerMapper.mapToDtoList(result);
+        var list = customerRepository.findAll();
+        return customerMapper.mapToDtoList(list);
     }
 
     @Override
     public Optional<CustomerModel> getCustomerById(String id) {
-        var result = customerRepository.findById(Integer.valueOf(id));
-        var entity = result.orElseThrow(() ->
+        var entity = customerRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
                 new ResourceNotFoundException("Customer not found with id '" + id + "'"));
         return Optional.of(customerMapper.mapToDto(entity));
     }
@@ -39,18 +38,18 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Optional<CustomerDetailModel> getCustomerDetailById(String id) {
-        var result = customerRepository.findCustomerDetailById(Integer.valueOf(id));
-        if (result.isEmpty()) {
+        var model = customerRepository.findCustomerDetailById(Integer.valueOf(id));
+        if (model.isEmpty()) {
             throw new ResourceNotFoundException("Customer not found with id '" + id + "'");
         }
-        return result;
+        return model;
     }
 
     @Override
     public CustomerModel addCustomer(CustomerRequestModel model) {
         var entity = customerMapper.mapToEntity(model);
-        var result = customerRepository.save(entity);
-        return customerMapper.mapToDto(result);
+        var savedEntity = customerRepository.save(entity);
+        return customerMapper.mapToDto(savedEntity);
     }
 
     @Override

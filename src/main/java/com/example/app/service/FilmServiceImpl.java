@@ -20,14 +20,13 @@ public class FilmServiceImpl implements FilmService {
 
     @Override
     public List<FilmModel> getAllFilms() {
-        var result = filmRepository.findAll();
-        return filmMapper.mapToDtoList(result);
+        var list = filmRepository.findAll();
+        return filmMapper.mapToDtoList(list);
     }
 
     @Override
     public Optional<FilmModel> getFilmById(String id) {
-        var result = filmRepository.findById(Integer.valueOf(id));
-        var entity = result.orElseThrow(() ->
+        var entity = filmRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
                 new ResourceNotFoundException("Film not found with id '" + id + "'"));
         return Optional.of(filmMapper.mapToDto(entity));
     }
@@ -39,27 +38,27 @@ public class FilmServiceImpl implements FilmService {
 
     @Override
     public Optional<FilmDetailModel> getFilmDetailById(String id) {
-        var result = filmRepository.findFilmDetailById(Integer.valueOf(id));
-        if (result.isEmpty()) {
+        var model = filmRepository.findFilmDetailById(Integer.valueOf(id));
+        if (model.isEmpty()) {
             throw new ResourceNotFoundException("Film not found with id '" + id + "'");
         }
-        return result;
+        return model;
     }
 
     @Override
     public Optional<FilmModel> getFilmStockById(String id) {
-        var result = filmRepository.findFilmStockById(Integer.valueOf(id));
-        if (result.isEmpty()) {
+        var model = filmRepository.findFilmStockById(Integer.valueOf(id));
+        if (model.isEmpty()) {
             throw new ResourceNotFoundException("Film not found with id '" + id + "'");
         }
-        return result;
+        return model;
     }
 
     @Override
     public FilmModel addFilm(FilmRequestModel model) {
         var entity = filmMapper.mapToEntity(model);
-        var result = filmRepository.save(entity);
-        return filmMapper.mapToDto(result);
+        var savedEntity = filmRepository.save(entity);
+        return filmMapper.mapToDto(savedEntity);
     }
 
     @Override

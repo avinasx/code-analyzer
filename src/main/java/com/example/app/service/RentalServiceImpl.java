@@ -19,14 +19,13 @@ public class RentalServiceImpl implements RentalService {
 
     @Override
     public List<RentalModel> getAllRentals() {
-        var result = rentalRepository.findAll();
-        return rentalMapper.mapToDtoList(result);
+        var list = rentalRepository.findAll();
+        return rentalMapper.mapToDtoList(list);
     }
 
     @Override
     public Optional<RentalModel> getRentalById(String id) {
-        var result = rentalRepository.findById(Integer.valueOf(id));
-        var entity = result.orElseThrow(() ->
+        var entity = rentalRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
                 new ResourceNotFoundException("Rental not found with id '" + id + "'"));
         return Optional.of(rentalMapper.mapToDto(entity));
     }
@@ -38,18 +37,18 @@ public class RentalServiceImpl implements RentalService {
 
     @Override
     public Optional<RentalModel> getRentalDetailById(String id) {
-        var result = rentalRepository.findRentalDetailById(Integer.valueOf(id));
-        if (result.isEmpty()) {
+        var model = rentalRepository.findRentalDetailById(Integer.valueOf(id));
+        if (model.isEmpty()) {
             throw new ResourceNotFoundException("Rental not found with id '" + id + "'");
         }
-        return result;
+        return model;
     }
 
     @Override
     public RentalModel addRental(RentalRequestModel model) {
         var entity = rentalMapper.mapToEntity(model);
-        var result = rentalRepository.save(entity);
-        return rentalMapper.mapToDto(result);
+        var savedEntity = rentalRepository.save(entity);
+        return rentalMapper.mapToDto(savedEntity);
     }
 
     @Override

@@ -15,7 +15,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Repository
@@ -51,7 +50,7 @@ public class CustomActorRepositoryImpl implements CustomActorRepository {
                 .from(actor)
                 .leftJoin(filmActor).on(filmActor.actorId.eq(actor.actorId))
                 .leftJoin(film).on(filmActor.filmId.eq(film.filmId));
-        if (Objects.nonNull(id)) {
+        if (id != null) {
             query.where(actor.actorId.eq(id));
         }
         return query;

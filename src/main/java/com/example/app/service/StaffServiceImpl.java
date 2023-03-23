@@ -20,14 +20,13 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     public List<StaffModel> getAllStaffs() {
-        var result = staffRepository.findAll();
-        return staffMapper.mapToDtoList(result);
+        var list = staffRepository.findAll();
+        return staffMapper.mapToDtoList(list);
     }
 
     @Override
     public Optional<StaffModel> getStaffById(String id) {
-        var result = staffRepository.findById(Integer.valueOf(id));
-        var entity = result.orElseThrow(() ->
+        var entity = staffRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
                 new ResourceNotFoundException("Staff not found with id '" + id + "'"));
         return Optional.of(staffMapper.mapToDto(entity));
     }
@@ -39,18 +38,18 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     public Optional<StaffDetailModel> getStaffDetailById(String id) {
-        var result = staffRepository.findStaffDetailById(Integer.valueOf(id));
-        if (result.isEmpty()) {
+        var model = staffRepository.findStaffDetailById(Integer.valueOf(id));
+        if (model.isEmpty()) {
             throw new ResourceNotFoundException("Staff not found with id '" + id + "'");
         }
-        return result;
+        return model;
     }
 
     @Override
     public StaffModel addStaff(StaffRequestModel model) {
         var entity = staffMapper.mapToEntity(model);
-        var result = staffRepository.save(entity);
-        return staffMapper.mapToDto(result);
+        var savedEntity = staffRepository.save(entity);
+        return staffMapper.mapToDto(savedEntity);
     }
 
     @Override

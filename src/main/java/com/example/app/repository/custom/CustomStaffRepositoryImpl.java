@@ -13,7 +13,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Repository
@@ -52,7 +51,7 @@ public class CustomStaffRepositoryImpl implements CustomStaffRepository {
                 .from(staff)
                 .join(address).on(address.addressId.eq(staff.addressId))
                 .join(city).on(city.cityId.eq(address.cityId));
-        if (Objects.nonNull(id)) {
+        if (id != null) {
             query.where(staff.staffId.eq(id));
         }
         return query;

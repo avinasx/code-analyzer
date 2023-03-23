@@ -20,14 +20,13 @@ public class ActorServiceImpl implements ActorService {
 
     @Override
     public List<ActorModel> getAllActors() {
-        var result = actorRepository.findAll();
-        return actorMapper.mapToDtoList(result);
+        var list = actorRepository.findAll();
+        return actorMapper.mapToDtoList(list);
     }
 
     @Override
     public Optional<ActorModel> getActorById(String id) {
-        var result = actorRepository.findById(Integer.valueOf(id));
-        var entity = result.orElseThrow(() ->
+        var entity = actorRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
                 new ResourceNotFoundException("Actor not found with id '" + id + "'"));
         return Optional.of(actorMapper.mapToDto(entity));
     }
@@ -39,24 +38,24 @@ public class ActorServiceImpl implements ActorService {
 
     @Override
     public Optional<ActorDetailModel> getActorDetailById(String id) {
-        var result = actorRepository.findActorDetailById(Integer.valueOf(id));
-        if (result.isEmpty()) {
+        var model = actorRepository.findActorDetailById(Integer.valueOf(id));
+        if (model.isEmpty()) {
             throw new ResourceNotFoundException("Actor not found with id '" + id + "'");
         }
-        return result;
+        return model;
     }
 
     @Override
     public List<ActorModel> findActorByName(String name) {
-        var result = actorRepository.findActorByName(name);
-        return actorMapper.mapToDtoList(result);
+        var list = actorRepository.findActorByName(name);
+        return actorMapper.mapToDtoList(list);
     }
 
     @Override
     public ActorModel addActor(ActorRequestModel model) {
         var entity = actorMapper.mapToEntity(model);
-        var result = actorRepository.save(entity);
-        return actorMapper.mapToDto(result);
+        var savedEntity = actorRepository.save(entity);
+        return actorMapper.mapToDto(savedEntity);
     }
 
     @Override
