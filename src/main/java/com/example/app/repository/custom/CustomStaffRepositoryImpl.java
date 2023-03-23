@@ -41,7 +41,8 @@ public class CustomStaffRepositoryImpl implements CustomStaffRepository {
         var query = jpaQueryFactory
                 .select(Projections.constructor(StaffDetailModel.class,
                         staff.staffId.as("id"),
-                        Expressions.asString(staff.firstName).concat(" ").concat(staff.lastName).as("name"),
+                        Expressions.asString(staff.fullName.firstName).concat(" ")
+                                .concat(staff.fullName.lastName).as("name"),
                         address.address.as("address"),
                         address.postalCode.as("zipCode"),
                         address.phone.as("phone"),

@@ -52,8 +52,8 @@ public class CustomFilmRepositoryImpl implements CustomFilmRepository {
                         film.length.as("length"),
                         film.rating.as("rating"),
                         JPQLNextExpressions.groupConcat(
-                                Expressions.asString(actor.firstName).concat(" ").concat(actor.lastName),
-                                ", ").as("actors")))
+                                Expressions.asString(actor.fullName.firstName).concat(" ")
+                                        .concat(actor.fullName.lastName), ", ").as("actors")))
                 .from(film)
                 .leftJoin(filmCategory).on(filmCategory.filmId.eq(film.filmId))
                 .leftJoin(filmActor).on(filmActor.filmId.eq(film.filmId))

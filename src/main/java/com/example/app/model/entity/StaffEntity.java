@@ -31,17 +31,8 @@ public class StaffEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer staffId;
 
-    @Basic
-    @Column(name = "first_name", nullable = false, length = 45)
-    @NonNull
-    @Size(min = 1, max = 45)
-    private String firstName;
-
-    @Basic
-    @Column(name = "last_name", nullable = false, length = 45)
-    @NonNull
-    @Size(min = 1, max = 45)
-    private String lastName;
+    @Embedded
+    private FullName fullName;
 
     @Basic
     @Column(name = "address_id", nullable = false, insertable = false, updatable = false, columnDefinition = "SMALLINT UNSIGNED")
@@ -120,8 +111,7 @@ public class StaffEntity implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         StaffEntity that = (StaffEntity) o;
         return Objects.equal(staffId, that.staffId)
-                && Objects.equal(firstName, that.firstName)
-                && Objects.equal(lastName, that.lastName)
+                && Objects.equal(fullName, that.fullName)
                 && Objects.equal(addressId, that.addressId)
                 // && Objects.equal(picture, that.picture)
                 && Objects.equal(email, that.email)
@@ -134,9 +124,9 @@ public class StaffEntity implements Serializable {
 
     @Override
     public int hashCode() {
-        // return Objects.hashCode(staffId, firstName, lastName, addressId, picture, email,
+        // return Objects.hashCode(staffId, fullName, addressId, picture, email,
         //         storeId, active, username, password, lastUpdate);
-        return Objects.hashCode(staffId, firstName, lastName, addressId, email,
+        return Objects.hashCode(staffId, fullName, addressId, email,
                 storeId, active, username, password, lastUpdate);
     }
 }

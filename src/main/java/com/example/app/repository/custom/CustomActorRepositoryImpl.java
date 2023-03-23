@@ -44,8 +44,8 @@ public class CustomActorRepositoryImpl implements CustomActorRepository {
         var query = blazeJPAQueryFactory
                 .select(Projections.constructor(ActorDetailModel.class,
                         actor.actorId.as("actorId"),
-                        actor.firstName.as("firstName"),
-                        actor.lastName.as("lastName"),
+                        actor.fullName.firstName.as("firstName"),
+                        actor.fullName.lastName.as("lastName"),
                         JPQLNextExpressions.groupConcat(film.title, ", ").as("filmTitle")))
                 .from(actor)
                 .leftJoin(filmActor).on(filmActor.actorId.eq(actor.actorId))
@@ -61,8 +61,8 @@ public class CustomActorRepositoryImpl implements CustomActorRepository {
         var actor = QActorEntity.actorEntity;
         var query = jpaQueryFactory
                 .selectFrom(actor)
-                .where((actor.firstName.contains(name.toUpperCase())
-                        .or(actor.lastName.contains(name.toUpperCase()))));
+                .where((actor.fullName.firstName.contains(name.toUpperCase())
+                        .or(actor.fullName.lastName.contains(name.toUpperCase()))));
         return query.fetch();
     }
 }

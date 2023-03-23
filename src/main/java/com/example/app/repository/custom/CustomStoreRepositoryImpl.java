@@ -57,8 +57,8 @@ public class CustomStoreRepositoryImpl implements CustomStoreRepository {
                         store.storeId.as("id"),
                         Expressions.asString(city.city).concat(",")
                                 .concat(city.countryId.stringValue()).as("store"),
-                        Expressions.asString(staff.firstName).concat(" ")
-                                .concat(staff.lastName).as("manager"),
+                        Expressions.asString(staff.fullName.firstName).concat(" ")
+                                .concat(staff.fullName.lastName).as("manager"),
                         Expressions.asString(address.address).concat(", ")
                                 .concat(address.district).concat(", ")
                                 .concat(city.city).concat(", ")
