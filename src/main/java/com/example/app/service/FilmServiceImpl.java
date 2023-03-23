@@ -63,12 +63,10 @@ public class FilmServiceImpl implements FilmService {
 
     @Override
     public FilmModel updateFilm(String id, FilmRequestModel model) {
-        var result = filmRepository.findById(Integer.valueOf(id));
-        var entity = result.orElseThrow(() ->
+        var entity = filmRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
                 new ResourceNotFoundException("Film not found with id '" + id + "'"));
-        filmMapper.updateEntity(model, entity);
-        var updated = filmRepository.save(entity);
-        return filmMapper.mapToDto(updated);
+        entity.update(filmMapper.mapToEntity(model));
+        return filmMapper.mapToDto(entity);
     }
 
     @Override

@@ -87,6 +87,16 @@ public class CustomerEntity implements Serializable {
     @ToString.Exclude
     private Collection<RentalEntity> rentalsByCustomerId;
 
+    public void update(CustomerEntity entity) {
+        this.storeId = entity.getStoreId();
+        this.fullName = entity.getFullName();
+        this.email = entity.getEmail();
+        this.addressId = entity.getAddressId();
+        this.active = entity.getActive();
+        this.createDate = entity.getCreateDate();
+        this.lastUpdate = entity.getLastUpdate();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -86,6 +86,15 @@ public class RentalEntity implements Serializable {
     @ToString.Exclude
     private StaffEntity staffByStaffId;
 
+    public void update(RentalEntity entity) {
+        this.rentalDate = entity.rentalDate;
+        this.inventoryId = entity.inventoryId;
+        this.customerId = entity.customerId;
+        this.returnDate = entity.returnDate;
+        this.staffId = entity.staffId;
+        this.lastUpdate = entity.lastUpdate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

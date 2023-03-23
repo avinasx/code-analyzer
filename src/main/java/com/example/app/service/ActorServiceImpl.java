@@ -60,12 +60,10 @@ public class ActorServiceImpl implements ActorService {
 
     @Override
     public ActorModel updateActor(String id, ActorRequestModel model) {
-        var result = actorRepository.findById(Integer.valueOf(id));
-        var entity = result.orElseThrow(() ->
+        var entity = actorRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
                 new ResourceNotFoundException("Actor not found with id '" + id + "'"));
-        actorMapper.updateEntity(model, entity);
-        var updated = actorRepository.save(entity);
-        return actorMapper.mapToDto(updated);
+        entity.update(actorMapper.mapToEntity(model));
+        return actorMapper.mapToDto(entity);
     }
 
     @Override

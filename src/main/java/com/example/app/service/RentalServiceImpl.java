@@ -53,12 +53,10 @@ public class RentalServiceImpl implements RentalService {
 
     @Override
     public RentalModel updateRental(String id, RentalRequestModel model) {
-        var result = rentalRepository.findById(Integer.valueOf(id));
-        var entity = result.orElseThrow(() ->
+        var entity = rentalRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
                 new ResourceNotFoundException("Rental not found with id '" + id + "'"));
-        rentalMapper.updateEntity(model, entity);
-        var updated = rentalRepository.save(entity);
-        return rentalMapper.mapToDto(updated);
+        entity.update(rentalMapper.mapToEntity(model));
+        return rentalMapper.mapToDto(entity);
     }
 
     @Override

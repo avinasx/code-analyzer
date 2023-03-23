@@ -54,12 +54,10 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     public StaffModel updateStaff(String id, StaffRequestModel model) {
-        var result = staffRepository.findById(Integer.valueOf(id));
-        var entity = result.orElseThrow(() ->
+        var entity = staffRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
                 new ResourceNotFoundException("Staff not found with id '" + id + "'"));
-        staffMapper.updateEntity(model, entity);
-        var updated = staffRepository.save(entity);
-        return staffMapper.mapToDto(updated);
+        entity.update(staffMapper.mapToEntity(model));
+        return staffMapper.mapToDto(entity);
     }
 
     @Override

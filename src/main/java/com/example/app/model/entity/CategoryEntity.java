@@ -48,6 +48,11 @@ public class CategoryEntity implements Serializable {
     @ToString.Exclude
     private Collection<FilmCategoryEntity> filmCategoriesByCategoryId;
 
+    public void update(CategoryEntity entity) {
+        this.name = entity.name;
+        this.lastUpdate = entity.lastUpdate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

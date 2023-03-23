@@ -54,12 +54,10 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public StoreModel updateStore(String id, StoreRequestModel model) {
-        var result = storeRepository.findById(Integer.valueOf(id));
-        var entity = result.orElseThrow(() ->
+        var entity = storeRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
                 new ResourceNotFoundException("Store not found with id '" + id + "'"));
-        storeMapper.updateEntity(model, entity);
-        var updated = storeRepository.save(entity);
-        return storeMapper.mapToDto(updated);
+        entity.update(storeMapper.mapToEntity(model));
+        return storeMapper.mapToDto(entity);
     }
 
     @Override

@@ -135,6 +135,21 @@ public class FilmEntity implements Serializable {
     @ToString.Exclude
     private Collection<InventoryEntity> inventoriesByFilmId;
 
+    public void update(FilmEntity entity) {
+        this.title = entity.title;
+        this.description = entity.description;
+        this.releaseYear = entity.releaseYear;
+        this.languageId = entity.languageId;
+        this.originalLanguageId = entity.originalLanguageId;
+        this.rentalDuration = entity.rentalDuration;
+        this.rentalRate = entity.rentalRate;
+        this.length = entity.length;
+        this.replacementCost = entity.replacementCost;
+        this.rating = entity.rating;
+        this.specialFeatures = entity.specialFeatures;
+        this.lastUpdate = entity.lastUpdate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

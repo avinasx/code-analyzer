@@ -55,12 +55,10 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public PaymentModel updatePayment(String id, PaymentRequestModel model) {
-        var result = paymentRepository.findById(Integer.valueOf(id));
-        var entity = result.orElseThrow(() ->
+        var entity = paymentRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
                 new ResourceNotFoundException("Payment not found with id '" + id + "'"));
-        paymentMapper.updateEntity(model, entity);
-        var updated = paymentRepository.save(entity);
-        return paymentMapper.mapToDto(updated);
+        entity.update(paymentMapper.mapToEntity(model));
+        return paymentMapper.mapToDto(entity);
     }
 
     @Override

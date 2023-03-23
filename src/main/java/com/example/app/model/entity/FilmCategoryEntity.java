@@ -55,6 +55,11 @@ public class FilmCategoryEntity implements Serializable {
     @ToString.Exclude
     private CategoryEntity categoryByCategoryId;
 
+    public void update(FilmCategoryEntity entity) {
+        this.categoryId = entity.categoryId;
+        this.lastUpdate = entity.lastUpdate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

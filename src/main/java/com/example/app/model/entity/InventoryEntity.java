@@ -63,6 +63,12 @@ public class InventoryEntity implements Serializable {
     @ToString.Exclude
     private Collection<RentalEntity> rentalsByInventoryId;
 
+    public void update(InventoryEntity entity) {
+        this.filmId = entity.getFilmId();
+        this.storeId = entity.getStoreId();
+        this.lastUpdate = entity.getLastUpdate();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

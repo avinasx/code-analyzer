@@ -95,6 +95,17 @@ public class AddressEntity implements Serializable {
     @ToString.Exclude
     private Collection<StoreEntity> storesByAddressId;
 
+    public void update(AddressEntity entity) {
+        this.address = entity.address;
+        this.address2 = entity.address2;
+        this.district = entity.district;
+        this.cityId = entity.cityId;
+        this.postalCode = entity.postalCode;
+        this.phone = entity.phone;
+        // this.location = entity.location;
+        this.lastUpdate = entity.lastUpdate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

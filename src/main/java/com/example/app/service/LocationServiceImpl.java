@@ -59,12 +59,10 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public AddressModel updateAddress(String id, AddressRequestModel model) {
-        var result = addressRepository.findById(Integer.valueOf(id));
-        var entity = result.orElseThrow(() ->
+        var entity = addressRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
                 new ResourceNotFoundException("Address not found with id '" + id + "'"));
-        addressMapper.updateEntity(model, entity);
-        var updated = addressRepository.save(entity);
-        return addressMapper.mapToDto(updated);
+        entity.update(addressMapper.mapToEntity(model));
+        return addressMapper.mapToDto(entity);
     }
 
     @Override
@@ -108,11 +106,10 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public CityModel updateCity(String id, CityRequestModel model) {
-        var result = cityRepository.findById(Integer.valueOf(id));
-        var entity = result.orElseThrow(() ->
+        var entity = cityRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
                 new ResourceNotFoundException("City not found with id '" + id + "'"));
-        cityMapper.updateEntity(model, entity);
-        return cityMapper.mapToDto(cityRepository.save(entity));
+        entity.update(cityMapper.mapToEntity(model));
+        return cityMapper.mapToDto(entity);
     }
 
     @Override

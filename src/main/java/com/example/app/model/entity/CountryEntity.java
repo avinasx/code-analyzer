@@ -48,6 +48,11 @@ public class CountryEntity implements Serializable {
     @ToString.Exclude
     private Collection<CityEntity> citiesByCountryId;
 
+    public void update(CountryEntity entity) {
+        this.country = entity.country;
+        this.lastUpdate = entity.lastUpdate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -54,6 +54,12 @@ public class FilmActorEntity implements Serializable {
     @ToString.Exclude
     private FilmEntity filmByFilmId;
 
+    public void update(FilmActorEntity entity) {
+        this.actorId = entity.actorId;
+        this.filmId = entity.filmId;
+        this.lastUpdate = entity.lastUpdate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

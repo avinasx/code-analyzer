@@ -54,12 +54,10 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerModel updateCustomer(String id, CustomerRequestModel model) {
-        var result = customerRepository.findById(Integer.valueOf(id));
-        var entity = result.orElseThrow(() ->
+        var entity = customerRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
                 new ResourceNotFoundException("Customer not found with id '" + id + "'"));
-        customerMapper.updateEntity(model, entity);
-        var updated = customerRepository.save(entity);
-        return customerMapper.mapToDto(updated);
+        entity.update(customerMapper.mapToEntity(model));
+        return customerMapper.mapToDto(entity);
     }
 
     @Override

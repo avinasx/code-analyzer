@@ -105,6 +105,18 @@ public class StaffEntity implements Serializable {
     @ToString.Exclude
     private Collection<StoreEntity> storesByStaffId;
 
+    public void update(StaffEntity entity) {
+        this.fullName = entity.fullName;
+        this.addressId = entity.addressId;
+        // this.picture = entity.picture;
+        this.email = entity.email;
+        this.storeId = entity.storeId;
+        this.active = entity.active;
+        this.username = entity.username;
+        this.password = entity.password;
+        this.lastUpdate = entity.lastUpdate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

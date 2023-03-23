@@ -37,6 +37,11 @@ public class FilmTextEntity implements Serializable {
     @Size(max = 65535)
     private String description;
 
+    public void update(FilmTextEntity entity) {
+        this.title = entity.title;
+        this.description = entity.description;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

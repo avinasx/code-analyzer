@@ -43,6 +43,11 @@ public class ActorEntity implements Serializable {
     @ToString.Exclude
     private Collection<FilmActorEntity> filmActorsByActorId;
 
+    public void update(ActorEntity entity) {
+        this.fullName = entity.fullName;
+        this.lastUpdate = entity.lastUpdate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -71,6 +71,12 @@ public class StoreEntity implements Serializable {
     @ToString.Exclude
     private AddressEntity addressByAddressId;
 
+    public void update(StoreEntity entity) {
+        this.managerStaffId = entity.managerStaffId;
+        this.addressId = entity.addressId;
+        this.lastUpdate = entity.lastUpdate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

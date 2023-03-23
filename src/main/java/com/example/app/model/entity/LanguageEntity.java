@@ -52,6 +52,11 @@ public class LanguageEntity implements Serializable {
     @ToString.Exclude
     private Collection<FilmEntity> filmsByOriginalLanguageId;
 
+    public void update(LanguageEntity entity) {
+        this.name = entity.name;
+        this.lastUpdate = entity.lastUpdate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
