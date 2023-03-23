@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @Getter
 @ToString
 @Builder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class FilmCategoryEntity implements Serializable {
     @Serial

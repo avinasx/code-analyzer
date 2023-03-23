@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @Getter
 @ToString
 @Builder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class PaymentEntity implements Serializable {
     @Serial

@@ -19,7 +19,7 @@ import java.util.Collection;
 @Getter
 @ToString
 @Builder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class InventoryEntity implements Serializable {
     @Serial

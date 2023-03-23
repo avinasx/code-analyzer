@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Getter
 @ToString
 @Builder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class FilmTextEntity implements Serializable {
     @Serial

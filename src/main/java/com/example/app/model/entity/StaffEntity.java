@@ -20,7 +20,7 @@ import java.util.Collection;
 @Getter
 @ToString
 @Builder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class StaffEntity implements Serializable {
     @Serial

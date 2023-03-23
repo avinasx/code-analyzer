@@ -21,7 +21,7 @@ import java.util.Collection;
 @Getter
 @ToString
 @Builder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class CustomerEntity implements Serializable {
     @Serial

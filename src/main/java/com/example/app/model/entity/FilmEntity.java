@@ -30,7 +30,7 @@ import java.util.Set;
 @Getter
 @ToString
 @Builder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class FilmEntity implements Serializable {
     @Serial
