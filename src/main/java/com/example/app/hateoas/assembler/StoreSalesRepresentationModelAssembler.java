@@ -14,7 +14,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @Component
 public class StoreSalesRepresentationModelAssembler extends RepresentationModelAssemblerSupport<StoreSalesModel, StoreSalesResponseModel> {
     public StoreSalesRepresentationModelAssembler() {
-        super(StoreSalesModel.class, StoreSalesResponseModel.class);
+        super(PaymentController.class, StoreSalesResponseModel.class);
     }
 
     @Override
