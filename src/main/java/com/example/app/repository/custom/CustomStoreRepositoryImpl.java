@@ -4,7 +4,7 @@ import com.example.app.model.entity.QAddressEntity;
 import com.example.app.model.entity.QCityEntity;
 import com.example.app.model.entity.QStaffEntity;
 import com.example.app.model.entity.QStoreEntity;
-import com.example.app.model.enumeration.Country;
+import com.example.app.model.constant.Country;
 import com.example.app.model.internal.StoreDetailModel;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;

@@ -1,6 +1,6 @@
 package com.example.app.model.internal;
 
-import com.example.app.model.enumeration.Country;
+import com.example.app.model.constant.Country;
 import com.example.app.model.mapping.converter.CountryConverter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;

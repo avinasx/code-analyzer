@@ -1,6 +1,6 @@
 package com.example.app.model.entity;
 
-import com.example.app.model.enumeration.Country;
+import com.example.app.model.constant.Country;
 import com.example.app.model.mapping.converter.CountryConverter;
 import com.google.common.base.Objects;
 import jakarta.persistence.*;

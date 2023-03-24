@@ -1,7 +1,7 @@
 package com.example.app.model.internal;
 
-import com.example.app.model.enumeration.Category;
-import com.example.app.model.enumeration.FilmRating;
+import com.example.app.model.constant.Category;
+import com.example.app.model.constant.FilmRating;
 import com.example.app.model.mapping.converter.CategoryConverter;
 import com.example.app.model.mapping.converter.FilmRatingConverter;
 import com.fasterxml.jackson.annotation.JsonProperty;

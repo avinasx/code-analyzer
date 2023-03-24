@@ -1,6 +1,6 @@
 package com.example.app.model.internal.reserved;
 
-import com.example.app.model.enumeration.Language;
+import com.example.app.model.constant.Language;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 import lombok.*;

@@ -1,6 +1,6 @@
 package com.example.app.model.mapping.converter;
 
-import com.example.app.model.enumeration.Language;
+import com.example.app.model.constant.Language;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 

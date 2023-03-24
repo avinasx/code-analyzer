@@ -1,7 +1,7 @@
 package com.example.app.repository.custom;
 
 import com.example.app.model.entity.*;
-import com.example.app.model.enumeration.Country;
+import com.example.app.model.constant.Country;
 import com.example.app.model.internal.CategorySalesModel;
 import com.example.app.model.internal.PaymentModel;
 import com.example.app.model.internal.StoreSalesModel;

@@ -1,8 +1,8 @@
 package com.example.app.model.request;
 
-import com.example.app.model.enumeration.FilmRating;
-import com.example.app.model.enumeration.Language;
-import com.example.app.model.enumeration.SpecialFeature;
+import com.example.app.model.constant.FilmRating;
+import com.example.app.model.constant.Language;
+import com.example.app.model.constant.SpecialFeature;
 import com.example.app.model.mapping.converter.FilmRatingConverter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;

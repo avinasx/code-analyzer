@@ -1,4 +1,4 @@
-package com.example.app.model.enumeration;
+package com.example.app.model.constant;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;

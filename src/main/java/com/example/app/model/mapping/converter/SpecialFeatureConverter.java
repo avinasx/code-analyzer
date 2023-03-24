@@ -1,6 +1,6 @@
 package com.example.app.model.mapping.converter;
 
-import com.example.app.model.enumeration.SpecialFeature;
+import com.example.app.model.constant.SpecialFeature;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 

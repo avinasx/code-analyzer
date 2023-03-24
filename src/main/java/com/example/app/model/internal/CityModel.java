@@ -2,7 +2,7 @@ package com.example.app.model.internal;
 
 import com.example.app.model.entity.AddressEntity;
 import com.example.app.model.entity.CountryEntity;
-import com.example.app.model.enumeration.Country;
+import com.example.app.model.constant.Country;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;

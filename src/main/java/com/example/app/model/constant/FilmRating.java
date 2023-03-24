@@ -1,4 +1,4 @@
-package com.example.app.model.enumeration;
+package com.example.app.model.constant;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

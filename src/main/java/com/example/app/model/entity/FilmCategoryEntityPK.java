@@ -1,6 +1,6 @@
 package com.example.app.model.entity;
 
-import com.example.app.model.enumeration.Category;
+import com.example.app.model.constant.Category;
 import com.example.app.model.mapping.converter.CategoryConverter;
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
