@@ -16,8 +16,8 @@ public class CityRepresentationModelAssembler extends RepresentationModelAssembl
         super(LocationController.class, CityResponseModel.class);
     }
 
-    @NonNull
     @Override
+    @NonNull
     public CityResponseModel toModel(@NonNull CityModel entity) {
         var model = instantiateModel(entity);
         model.setCityModel(entity);

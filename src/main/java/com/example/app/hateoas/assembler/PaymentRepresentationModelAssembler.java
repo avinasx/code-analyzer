@@ -16,8 +16,8 @@ public class PaymentRepresentationModelAssembler extends RepresentationModelAsse
         super(PaymentController.class, PaymentResponseModel.class);
     }
 
-    @NonNull
     @Override
+    @NonNull
     public PaymentResponseModel toModel(@NonNull PaymentModel entity) {
         var model = instantiateModel(entity);
         model.setPaymentModel(entity);

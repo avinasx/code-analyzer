@@ -16,8 +16,8 @@ public class FilmDetailRepresentationModelAssembler extends RepresentationModelA
         super(FilmDetailModel.class, FilmDetailResponseModel.class);
     }
 
-    @NonNull
     @Override
+    @NonNull
     public FilmDetailResponseModel toModel(@NonNull FilmDetailModel entity) {
         var model = instantiateModel(entity);
         model.setFilmDetailModel(entity);

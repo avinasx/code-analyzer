@@ -16,8 +16,8 @@ public class StoreRepresentationModelAssembler extends RepresentationModelAssemb
         super(StoreController.class, StoreResponseModel.class);
     }
 
-    @NonNull
     @Override
+    @NonNull
     public StoreResponseModel toModel(@NonNull StoreModel entity) {
         var model = instantiateModel(entity);
         model.setStoreModel(entity);

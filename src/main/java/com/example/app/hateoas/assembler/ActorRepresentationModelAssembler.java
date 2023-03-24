@@ -16,8 +16,8 @@ public class ActorRepresentationModelAssembler extends RepresentationModelAssemb
         super(ActorController.class, ActorResponseModel.class);
     }
 
-    @NonNull
     @Override
+    @NonNull
     public ActorResponseModel toModel(@NonNull ActorModel entity) {
         var model = instantiateModel(entity);
         model.setActorModel(entity);

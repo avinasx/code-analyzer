@@ -16,8 +16,8 @@ public class CustomerDetailRepresentationModelAssembler extends RepresentationMo
         super(CustomerDetailModel.class, CustomerDetailResponseModel.class);
     }
 
-    @NonNull
     @Override
+    @NonNull
     public CustomerDetailResponseModel toModel(@NonNull CustomerDetailModel entity) {
         var model = instantiateModel(entity);
         model.setCustomerDetailModel(entity);

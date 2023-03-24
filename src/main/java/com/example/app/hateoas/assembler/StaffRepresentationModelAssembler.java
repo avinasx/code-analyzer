@@ -16,8 +16,8 @@ public class StaffRepresentationModelAssembler extends RepresentationModelAssemb
         super(StaffController.class, StaffResponseModel.class);
     }
 
-    @NonNull
     @Override
+    @NonNull
     public StaffResponseModel toModel(@NonNull StaffModel entity) {
         var model = instantiateModel(entity);
         model.setStaffModel(entity);

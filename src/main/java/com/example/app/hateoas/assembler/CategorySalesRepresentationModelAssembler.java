@@ -17,16 +17,16 @@ public class CategorySalesRepresentationModelAssembler extends RepresentationMod
         super(CategorySalesModel.class, CategorySalesResponseModel.class);
     }
 
-    @NonNull
     @Override
+    @NonNull
     public CategorySalesResponseModel toModel(@NonNull CategorySalesModel entity) {
         var model = instantiateModel(entity);
         model.setCategorySalesModel(entity);
         return model;
     }
 
-    @NonNull
     @Override
+    @NonNull
     public CollectionModel<CategorySalesResponseModel> toCollectionModel(@NonNull Iterable<? extends CategorySalesModel> entities) {
         var collectionModel = super.toCollectionModel(entities);
         collectionModel.add(linkTo(methodOn(PaymentController.class).getSalesByCategory()).withSelfRel());

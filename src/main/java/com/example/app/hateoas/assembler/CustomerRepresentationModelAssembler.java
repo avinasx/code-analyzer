@@ -16,8 +16,8 @@ public class CustomerRepresentationModelAssembler extends RepresentationModelAss
         super(CustomerController.class, CustomerResponseModel.class);
     }
 
-    @NonNull
     @Override
+    @NonNull
     public CustomerResponseModel toModel(@NonNull CustomerModel entity) {
         var model = instantiateModel(entity);
         model.setCustomerModel(entity);

@@ -16,8 +16,8 @@ public class RentalRepresentationModelAssembler extends RepresentationModelAssem
         super(RentalController.class, RentalResponseModel.class);
     }
 
-    @NonNull
     @Override
+    @NonNull
     public RentalResponseModel toModel(@NonNull RentalModel entity) {
         var model = instantiateModel(entity);
         model.setRentalModel(entity);

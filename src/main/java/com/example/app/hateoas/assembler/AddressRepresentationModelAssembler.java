@@ -16,8 +16,8 @@ public class AddressRepresentationModelAssembler extends RepresentationModelAsse
         super(LocationController.class, AddressResponseModel.class);
     }
 
-    @NonNull
     @Override
+    @NonNull
     public AddressResponseModel toModel(@NonNull AddressModel entity) {
         var model = instantiateModel(entity);
         model.setAddressModel(entity);
