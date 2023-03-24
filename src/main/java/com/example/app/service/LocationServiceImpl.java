@@ -68,8 +68,11 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
+    @Transactional
     public void deleteAddressById(String id) {
-        addressRepository.deleteById(Integer.valueOf(id));
+        var entity = addressRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
+                new ResourceNotFoundException("Address not found with id '" + id + "'"));
+        addressRepository.deleteById(entity.getAddressId());
     }
 
     @Override
@@ -116,7 +119,10 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
+    @Transactional
     public void deleteCityById(String id) {
-        cityRepository.deleteById(Integer.valueOf(id));
+        var entity = cityRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
+                new ResourceNotFoundException("City not found with id '" + id + "'"));
+        cityRepository.deleteById(entity.getCityId());
     }
 }

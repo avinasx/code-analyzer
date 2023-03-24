@@ -72,7 +72,10 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
+    @Transactional
     public void deleteFilmById(String id) {
-        filmRepository.deleteById(Integer.valueOf(id));
+        var entity = filmRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
+                new ResourceNotFoundException("Film not found with id '" + id + "'"));
+        filmRepository.deleteById(entity.getFilmId());
     }
 }

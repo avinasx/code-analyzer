@@ -62,7 +62,10 @@ public class RentalServiceImpl implements RentalService {
     }
 
     @Override
+    @Transactional
     public void removeRentalById(String id) {
-        rentalRepository.deleteById(Integer.valueOf(id));
+        var entity = rentalRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
+                new ResourceNotFoundException("Rental not found with id '" + id + "'"));
+        rentalRepository.deleteById(entity.getRentalId());
     }
 }

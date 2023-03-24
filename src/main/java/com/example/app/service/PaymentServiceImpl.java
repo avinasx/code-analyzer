@@ -64,8 +64,11 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    @Transactional
     public void removePaymentById(String id) {
-        paymentRepository.deleteById(Integer.valueOf(id));
+        var entity = paymentRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
+                new ResourceNotFoundException("Payment not found with id '" + id + "'"));
+        paymentRepository.deleteById(entity.getPaymentId());
     }
 
     @Override

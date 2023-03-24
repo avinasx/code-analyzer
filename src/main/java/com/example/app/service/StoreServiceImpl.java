@@ -63,7 +63,10 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
+    @Transactional
     public void deleteStoreById(String id) {
-        storeRepository.deleteById(Integer.valueOf(id));
+        var entity = storeRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
+                new ResourceNotFoundException("Store not found with id '" + id + "'"));
+        storeRepository.deleteById(entity.getStoreId());
     }
 }

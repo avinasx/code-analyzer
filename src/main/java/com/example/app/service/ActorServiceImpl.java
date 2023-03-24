@@ -69,7 +69,10 @@ public class ActorServiceImpl implements ActorService {
     }
 
     @Override
+    @Transactional
     public void deleteActorById(String id) {
-        actorRepository.deleteById(Integer.valueOf(id));
+        var entity = actorRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
+                new ResourceNotFoundException("Actor not found with id '" + id + "'"));
+        actorRepository.deleteById(entity.getActorId());
     }
 }

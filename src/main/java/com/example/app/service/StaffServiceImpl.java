@@ -63,7 +63,10 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
+    @Transactional
     public void removeStaffById(String id) {
-        staffRepository.deleteById(Integer.valueOf(id));
+        var entity = staffRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
+                new ResourceNotFoundException("Staff not found with id '" + id + "'"));
+        staffRepository.deleteById(entity.getStaffId());
     }
 }

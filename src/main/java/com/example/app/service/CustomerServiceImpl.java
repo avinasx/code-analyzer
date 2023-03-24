@@ -63,7 +63,10 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    @Transactional
     public void deleteCustomerById(String id) {
-        customerRepository.deleteById(Integer.valueOf(id));
+        var entity = customerRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
+                new ResourceNotFoundException("Customer not found with id '" + id + "'"));
+        customerRepository.deleteById(entity.getCustomerId());
     }
 }
