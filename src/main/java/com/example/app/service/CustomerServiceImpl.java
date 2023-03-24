@@ -8,6 +8,7 @@ import com.example.app.model.request.CustomerRequestModel;
 import com.example.app.repository.CustomerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -53,6 +54,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    @Transactional
     public CustomerModel updateCustomer(String id, CustomerRequestModel model) {
         var entity = customerRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
                 new ResourceNotFoundException("Customer not found with id '" + id + "'"));

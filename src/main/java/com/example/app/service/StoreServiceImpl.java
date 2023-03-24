@@ -8,6 +8,7 @@ import com.example.app.model.request.StoreRequestModel;
 import com.example.app.repository.StoreRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -53,6 +54,7 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
+    @Transactional
     public StoreModel updateStore(String id, StoreRequestModel model) {
         var entity = storeRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
                 new ResourceNotFoundException("Store not found with id '" + id + "'"));

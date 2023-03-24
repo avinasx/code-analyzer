@@ -8,6 +8,7 @@ import com.example.app.model.request.StaffRequestModel;
 import com.example.app.repository.StaffRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -53,6 +54,7 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
+    @Transactional
     public StaffModel updateStaff(String id, StaffRequestModel model) {
         var entity = staffRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
                 new ResourceNotFoundException("Staff not found with id '" + id + "'"));

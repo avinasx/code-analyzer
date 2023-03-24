@@ -8,6 +8,7 @@ import com.example.app.model.request.ActorRequestModel;
 import com.example.app.repository.ActorRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -59,6 +60,7 @@ public class ActorServiceImpl implements ActorService {
     }
 
     @Override
+    @Transactional
     public ActorModel updateActor(String id, ActorRequestModel model) {
         var entity = actorRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
                 new ResourceNotFoundException("Actor not found with id '" + id + "'"));

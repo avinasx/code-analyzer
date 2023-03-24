@@ -7,6 +7,7 @@ import com.example.app.model.request.RentalRequestModel;
 import com.example.app.repository.RentalRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -52,6 +53,7 @@ public class RentalServiceImpl implements RentalService {
     }
 
     @Override
+    @Transactional
     public RentalModel updateRental(String id, RentalRequestModel model) {
         var entity = rentalRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
                 new ResourceNotFoundException("Rental not found with id '" + id + "'"));

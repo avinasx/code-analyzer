@@ -9,6 +9,7 @@ import com.example.app.model.request.PaymentRequestModel;
 import com.example.app.repository.PaymentRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -54,6 +55,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    @Transactional
     public PaymentModel updatePayment(String id, PaymentRequestModel model) {
         var entity = paymentRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
                 new ResourceNotFoundException("Payment not found with id '" + id + "'"));

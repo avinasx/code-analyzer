@@ -11,6 +11,7 @@ import com.example.app.repository.AddressRepository;
 import com.example.app.repository.CityRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -58,6 +59,7 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
+    @Transactional
     public AddressModel updateAddress(String id, AddressRequestModel model) {
         var entity = addressRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
                 new ResourceNotFoundException("Address not found with id '" + id + "'"));
@@ -105,6 +107,7 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
+    @Transactional
     public CityModel updateCity(String id, CityRequestModel model) {
         var entity = cityRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
                 new ResourceNotFoundException("City not found with id '" + id + "'"));

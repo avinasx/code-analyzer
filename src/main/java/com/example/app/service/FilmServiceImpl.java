@@ -8,6 +8,7 @@ import com.example.app.model.request.FilmRequestModel;
 import com.example.app.repository.FilmRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -62,6 +63,7 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
+    @Transactional
     public FilmModel updateFilm(String id, FilmRequestModel model) {
         var entity = filmRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
                 new ResourceNotFoundException("Film not found with id '" + id + "'"));
