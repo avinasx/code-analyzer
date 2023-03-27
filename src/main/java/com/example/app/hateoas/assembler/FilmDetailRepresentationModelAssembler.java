@@ -1,7 +1,7 @@
 package com.example.app.hateoas.assembler;
 
 import com.example.app.controller.FilmController;
-import com.example.app.model.internal.FilmDetailModel;
+import com.example.app.model.internal.extra.FilmDetailModel;
 import com.example.app.model.response.FilmDetailResponseModel;
 import lombok.NonNull;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
@@ -21,9 +21,9 @@ public class FilmDetailRepresentationModelAssembler extends RepresentationModelA
     public FilmDetailResponseModel toModel(@NonNull FilmDetailModel entity) {
         var model = instantiateModel(entity);
         model.setFilmDetailModel(entity);
-        model.add(linkTo(methodOn(FilmController.class).getFilmDetail(String.valueOf(entity.getFid()))).withSelfRel());
-        model.add(linkTo(methodOn(FilmController.class).getFilm(String.valueOf(entity.getFid()))).withRel("film"));
-        model.add(linkTo(methodOn(FilmController.class).getAllFilms()).withRel("films"));
+        model.add(linkTo(methodOn(FilmController.class).getFilmDetail(String.valueOf(entity.getFilmId()))).withSelfRel());
+        model.add(linkTo(methodOn(FilmController.class).getFilm(String.valueOf(entity.getFilmId()))).withRel("film"));
+        model.add(linkTo(methodOn(FilmController.class).getFilms()).withRel("films"));
         return model;
     }
 }

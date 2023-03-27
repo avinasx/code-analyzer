@@ -1,4 +1,4 @@
-package com.example.app.model.internal;
+package com.example.app.model.internal.extra;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;

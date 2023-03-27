@@ -1,6 +1,5 @@
-package com.example.app.model.internal.reserved;
+package com.example.app.model.internal.core;
 
-import com.example.app.model.constant.Language;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 import lombok.*;
@@ -13,12 +12,12 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LanguageModel {
-    @JsonProperty("languageId")
-    private Language languageId;
+public class FilmActorModel {
+    @JsonProperty("actorId")
+    private Integer actorId;
 
-    @JsonProperty("name")
-    private String name;
+    @JsonProperty("filmId")
+    private Integer filmId;
 
     @JsonProperty("lastUpdate")
     private LocalDateTime lastUpdate;
@@ -27,14 +26,14 @@ public class LanguageModel {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        LanguageModel that = (LanguageModel) o;
-        return languageId == that.languageId
-                && Objects.equal(name, that.name)
+        FilmActorModel that = (FilmActorModel) o;
+        return Objects.equal(actorId, that.actorId)
+                && Objects.equal(filmId, that.filmId)
                 && Objects.equal(lastUpdate, that.lastUpdate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(languageId, name, lastUpdate);
+        return Objects.hashCode(actorId, filmId, lastUpdate);
     }
 }

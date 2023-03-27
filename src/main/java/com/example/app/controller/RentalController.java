@@ -13,46 +13,48 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
+@RequestMapping(value = "/rentals")
 @AllArgsConstructor
 public class RentalController {
     private final RentalService rentalService;
     private final RentalRepresentationModelAssembler rentalAssembler;
 
-    @GetMapping(path = "/rentals")
-    public ResponseEntity<CollectionModel<RentalResponseModel>> getAllRentals() {
-        return ResponseEntity.ok(rentalAssembler.toCollectionModel(rentalService.getAllRentals()));
+    @GetMapping(path = "")
+    public ResponseEntity<CollectionModel<RentalResponseModel>> getRentals() {
+        return ResponseEntity.ok(rentalAssembler.toCollectionModel(
+                rentalService.getRentals()));
     }
 
-    @PostMapping(path = "/rentals")
+    @PostMapping(path = "")
     public ResponseEntity<Void> addRental(@RequestBody RentalRequestModel model) {
         var result = rentalService.addRental(model);
         return ResponseEntity.created(linkTo(methodOn(RentalController.class)
                 .getRental(String.valueOf(result.getRentalId()))).toUri()).build();
     }
 
-    @GetMapping(path = "/rentals/{id}")
-    public ResponseEntity<RentalResponseModel> getRental(@PathVariable String id) {
-        return rentalService.getRentalById(id)
+    @GetMapping(path = "/{rentalId}")
+    public ResponseEntity<RentalResponseModel> getRental(@PathVariable String rentalId) {
+        return rentalService.getRental(rentalId)
                 .map(rentalAssembler::toModel)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PutMapping(path = "/rentals/{id}")
-    public ResponseEntity<Void> updateRental(@PathVariable String id, @ModelAttribute RentalRequestModel model) {
-        var result = rentalService.updateRental(id, model);
+    @PutMapping(path = "/{rentalId}")
+    public ResponseEntity<Void> updateRental(@PathVariable String rentalId, @ModelAttribute RentalRequestModel model) {
+        var result = rentalService.updateRental(rentalId, model);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping(path = "/rentals/{id}")
-    public ResponseEntity<Void> deleteRental(@PathVariable String id) {
-        rentalService.removeRentalById(id);
+    @DeleteMapping(path = "/{rentalId}")
+    public ResponseEntity<Void> deleteRental(@PathVariable String rentalId) {
+        rentalService.deleteRental(rentalId);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping(path = "/rentals/{id}/details")
-    public ResponseEntity<RentalResponseModel> getRentalDetail(@PathVariable String id) {
-        return rentalService.getRentalDetailById(id)
+    @GetMapping(path = "/{rentalId}/details")
+    public ResponseEntity<RentalResponseModel> getRentalDetail(@PathVariable String rentalId) {
+        return rentalService.getRentalDetail(rentalId)
                 .map(rentalAssembler::toModel)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());

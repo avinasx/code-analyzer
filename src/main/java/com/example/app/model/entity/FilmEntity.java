@@ -37,76 +37,78 @@ public class FilmEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "film_id", nullable = false, columnDefinition = "SMALLINT UNSIGNED")
+    @Column(name = "film_id", columnDefinition = "SMALLINT UNSIGNED", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer filmId;
 
     @Basic
-    @Column(name = "title", nullable = false, length = 128)
+    @Column(name = "title", length = 128, nullable = false)
     @NonNull
     @Size(min = 1, max = 128)
     private String title;
 
     @Basic
-    @Column(name = "description", nullable = true, length = -1, columnDefinition = "TEXT")
+    @Column(name = "description", columnDefinition = "TEXT", length = -1, nullable = true)
     @ColumnDefault("NULL")
     @Size(max = 65535)
     private String description;
 
     @Basic
-    @Column(name = "release_year", nullable = true, columnDefinition = "YEAR")
+    @Column(name = "release_year", columnDefinition = "YEAR", nullable = true)
     @ColumnDefault("NULL")
     private LocalDate releaseYear;
 
     @Basic
-    @Column(name = "language_id", nullable = false, insertable = false, updatable = false, columnDefinition = "TINYINT UNSIGNED")
+    @Column(name = "language_id", columnDefinition = "TINYINT UNSIGNED", nullable = false,
+            insertable = false, updatable = false)
     @Convert(converter = LanguageConverter.class)
     @NonNull
     private Language languageId;
 
     @Basic
-    @Column(name = "original_language_id", nullable = true, insertable = false, updatable = false, columnDefinition = "TINYINT UNSIGNED")
+    @Column(name = "original_language_id", columnDefinition = "TINYINT UNSIGNED", nullable = true,
+            insertable = false, updatable = false)
     @ColumnDefault("NULL")
     @Convert(converter = LanguageConverter.class)
     private Language originalLanguageId;
 
     @Basic
-    @Column(name = "rental_duration", nullable = false, columnDefinition = "TINYINT UNSIGNED")
+    @Column(name = "rental_duration", columnDefinition = "TINYINT UNSIGNED", nullable = false)
     @ColumnDefault("3")
     @NonNull
     private Integer rentalDuration;
 
     @Basic
-    @Column(name = "rental_rate", nullable = false, precision = 2, columnDefinition = "DECIMAL(4,2)")
+    @Column(name = "rental_rate", columnDefinition = "DECIMAL(4,2)", precision = 2, nullable = false)
     @ColumnDefault("4.99")
     @NonNull
     private BigDecimal rentalRate;
 
     @Basic
-    @Column(name = "length", nullable = true, columnDefinition = "SMALLINT UNSIGNED")
+    @Column(name = "length", columnDefinition = "SMALLINT UNSIGNED", nullable = true)
     @ColumnDefault("NULL")
     private Integer length;
 
     @Basic
-    @Column(name = "replacement_cost", nullable = false, precision = 2, columnDefinition = "DECIMAL(5,2)")
+    @Column(name = "replacement_cost", columnDefinition = "DECIMAL(5,2)", precision = 2, nullable = false)
     @ColumnDefault("19.99")
     @NonNull
     private BigDecimal replacementCost;
 
     @Basic
-    @Column(name = "rating", nullable = true, columnDefinition = "ENUM('G','PG','PG-13','R','NC-17')")
+    @Column(name = "rating", columnDefinition = "ENUM('G','PG','PG-13','R','NC-17')", nullable = true)
     @ColumnDefault("'G'")
     @Convert(converter = FilmRatingConverter.class)
     private FilmRating rating;
 
     @Basic
-    @Column(name = "special_features", nullable = true, columnDefinition = "SET('Trailers','Commentaries','Deleted Scenes','Behind the Scenes')")
+    @Column(name = "special_features", columnDefinition = "SET('Trailers','Commentaries','Deleted Scenes','Behind the Scenes')", nullable = true)
     @ColumnDefault("NULL")
     @Convert(converter = SpecialFeatureConverter.class)
     private Set<SpecialFeature> specialFeatures;
 
     @Basic
-    @Column(name = "last_update", nullable = false, columnDefinition = "TIMESTAMP")
+    @Column(name = "last_update", columnDefinition = "TIMESTAMP", nullable = false)
     @ColumnDefault("CURRENT_TIMESTAMP")
     @UpdateTimestamp
     @NonNull

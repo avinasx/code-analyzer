@@ -26,19 +26,19 @@ public class CountryEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "country_id", nullable = false, columnDefinition = "SMALLINT UNSIGNED")
+    @Column(name = "country_id", columnDefinition = "SMALLINT UNSIGNED", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Convert(converter = CountryConverter.class)
     private Country countryId;
 
     @Basic
-    @Column(name = "country", nullable = false, length = 50)
+    @Column(name = "country", length = 50, nullable = false)
     @NonNull
     @Size(min = 1, max = 50)
     private String country;
 
     @Basic
-    @Column(name = "last_update", nullable = false, columnDefinition = "TIMESTAMP")
+    @Column(name = "last_update", columnDefinition = "TIMESTAMP", nullable = false)
     @ColumnDefault("CURRENT_TIMESTAMP")
     @UpdateTimestamp
     @NonNull

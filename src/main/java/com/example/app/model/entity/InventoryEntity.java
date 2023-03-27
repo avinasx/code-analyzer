@@ -26,22 +26,24 @@ public class InventoryEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "inventory_id", nullable = false, columnDefinition = "MEDIUMINT UNSIGNED")
+    @Column(name = "inventory_id", columnDefinition = "MEDIUMINT UNSIGNED", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer inventoryId;
 
     @Basic
-    @Column(name = "film_id", nullable = false, insertable = false, updatable = false, columnDefinition = "SMALLINT UNSIGNED")
+    @Column(name = "film_id", columnDefinition = "SMALLINT UNSIGNED", nullable = false,
+            insertable = false, updatable = false)
     @NonNull
     private Integer filmId;
 
     @Basic
-    @Column(name = "store_id", nullable = false, insertable = false, updatable = false, columnDefinition = "TINYINT UNSIGNED")
+    @Column(name = "store_id", columnDefinition = "TINYINT UNSIGNED", nullable = false,
+            insertable = false, updatable = false)
     @NonNull
     private Integer storeId;
 
     @Basic
-    @Column(name = "last_update", nullable = false, columnDefinition = "TIMESTAMP")
+    @Column(name = "last_update", columnDefinition = "TIMESTAMP", nullable = false)
     @ColumnDefault("CURRENT_TIMESTAMP")
     @UpdateTimestamp
     @NonNull

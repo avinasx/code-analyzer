@@ -1,4 +1,4 @@
-package com.example.app.model.internal;
+package com.example.app.model.internal.core;
 
 import com.example.app.model.entity.CityEntity;
 import com.example.app.model.entity.CustomerEntity;

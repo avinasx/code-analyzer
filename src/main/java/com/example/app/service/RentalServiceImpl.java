@@ -1,7 +1,7 @@
 package com.example.app.service;
 
 import com.example.app.exception.ResourceNotFoundException;
-import com.example.app.model.internal.RentalModel;
+import com.example.app.model.internal.core.RentalModel;
 import com.example.app.model.mapping.mapper.RentalMapper;
 import com.example.app.model.request.RentalRequestModel;
 import com.example.app.repository.RentalRepository;
@@ -19,28 +19,28 @@ public class RentalServiceImpl implements RentalService {
     private final RentalMapper rentalMapper;
 
     @Override
-    public List<RentalModel> getAllRentals() {
+    public List<RentalModel> getRentals() {
         var list = rentalRepository.findAll();
         return rentalMapper.mapToDtoList(list);
     }
 
     @Override
-    public Optional<RentalModel> getRentalById(String id) {
-        var entity = rentalRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
-                new ResourceNotFoundException("Rental not found with id '" + id + "'"));
+    public Optional<RentalModel> getRental(String rentalId) {
+        var entity = rentalRepository.findById(Integer.valueOf(rentalId)).orElseThrow(() ->
+                new ResourceNotFoundException("Rental not found with id '" + rentalId + "'"));
         return Optional.of(rentalMapper.mapToDto(entity));
     }
 
     @Override
-    public List<RentalModel> getAllRentalsDetail() {
+    public List<RentalModel> getRentalsDetail() {
         return rentalRepository.findAllRentalsDetail();
     }
 
     @Override
-    public Optional<RentalModel> getRentalDetailById(String id) {
-        var model = rentalRepository.findRentalDetailById(Integer.valueOf(id));
+    public Optional<RentalModel> getRentalDetail(String rentalId) {
+        var model = rentalRepository.findRentalDetailById(Integer.valueOf(rentalId));
         if (model.isEmpty()) {
-            throw new ResourceNotFoundException("Rental not found with id '" + id + "'");
+            throw new ResourceNotFoundException("Rental not found with id '" + rentalId + "'");
         }
         return model;
     }
@@ -54,18 +54,16 @@ public class RentalServiceImpl implements RentalService {
 
     @Override
     @Transactional
-    public RentalModel updateRental(String id, RentalRequestModel model) {
-        var entity = rentalRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
-                new ResourceNotFoundException("Rental not found with id '" + id + "'"));
+    public RentalModel updateRental(String rentalId, RentalRequestModel model) {
+        var entity = rentalRepository.findById(Integer.valueOf(rentalId)).orElseThrow(() ->
+                new ResourceNotFoundException("Rental not found with id '" + rentalId + "'"));
         entity.update(rentalMapper.mapToEntity(model));
         return rentalMapper.mapToDto(entity);
     }
 
     @Override
     @Transactional
-    public void removeRentalById(String id) {
-        var entity = rentalRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
-                new ResourceNotFoundException("Rental not found with id '" + id + "'"));
-        rentalRepository.deleteById(entity.getRentalId());
+    public void deleteRental(String rentalId) {
+        rentalRepository.deleteById(Integer.valueOf(rentalId));
     }
 }

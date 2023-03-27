@@ -1,7 +1,7 @@
 package com.example.app.hateoas.assembler;
 
 import com.example.app.controller.PaymentController;
-import com.example.app.model.internal.PaymentModel;
+import com.example.app.model.internal.core.PaymentModel;
 import com.example.app.model.response.PaymentResponseModel;
 import lombok.NonNull;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
@@ -22,7 +22,7 @@ public class PaymentRepresentationModelAssembler extends RepresentationModelAsse
         var model = instantiateModel(entity);
         model.setPaymentModel(entity);
         model.add(linkTo(methodOn(PaymentController.class).getPayment(String.valueOf(entity.getPaymentId()))).withSelfRel());
-        model.add(linkTo(methodOn(PaymentController.class).getAllPayments()).withRel("payments"));
+        model.add(linkTo(methodOn(PaymentController.class).getPayments()).withRel("payments"));
         return model;
     }
 }

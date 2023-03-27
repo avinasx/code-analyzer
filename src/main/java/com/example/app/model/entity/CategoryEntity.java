@@ -26,19 +26,19 @@ public class CategoryEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "category_id", nullable = false, columnDefinition = "TINYINT UNSIGNED")
+    @Column(name = "category_id", columnDefinition = "TINYINT UNSIGNED", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Convert(converter = CategoryConverter.class)
     private Category categoryId;
 
     @Basic
-    @Column(name = "name", nullable = false, length = 25)
+    @Column(name = "name", length = 25, nullable = false)
     @NonNull
     @Size(min = 1, max = 25)
     private String name;
 
     @Basic
-    @Column(name = "last_update", nullable = false, columnDefinition = "TIMESTAMP")
+    @Column(name = "last_update", columnDefinition = "TIMESTAMP", nullable = false)
     @ColumnDefault("CURRENT_TIMESTAMP")
     @UpdateTimestamp
     @NonNull

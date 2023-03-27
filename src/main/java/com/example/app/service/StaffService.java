@@ -1,24 +1,24 @@
 package com.example.app.service;
 
-import com.example.app.model.internal.StaffDetailModel;
-import com.example.app.model.internal.StaffModel;
+import com.example.app.model.internal.core.StaffModel;
+import com.example.app.model.internal.extra.StaffDetailModel;
 import com.example.app.model.request.StaffRequestModel;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface StaffService {
-    List<StaffModel> getAllStaffs();
+    List<StaffModel> getStaffs();
 
-    Optional<StaffModel> getStaffById(String id);
+    Optional<StaffModel> getStaff(String staffId);
 
-    List<StaffDetailModel> getAllStaffsDetail();
+    List<StaffDetailModel> getStaffsDetail();
 
-    Optional<StaffDetailModel> getStaffDetailById(String id);
+    Optional<StaffDetailModel> getStaffDetail(String staffId);
 
     StaffModel addStaff(StaffRequestModel model);
 
-    StaffModel updateStaff(String id, StaffRequestModel model);
+    StaffModel updateStaff(String staffId, StaffRequestModel model);
 
-    void removeStaffById(String id);
+    void removeStaff(String staffId);
 }

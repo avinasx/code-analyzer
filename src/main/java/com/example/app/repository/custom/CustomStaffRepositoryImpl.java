@@ -3,7 +3,7 @@ package com.example.app.repository.custom;
 import com.example.app.model.entity.QAddressEntity;
 import com.example.app.model.entity.QCityEntity;
 import com.example.app.model.entity.QStaffEntity;
-import com.example.app.model.internal.StaffDetailModel;
+import com.example.app.model.internal.extra.StaffDetailModel;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -28,8 +28,8 @@ public class CustomStaffRepositoryImpl implements CustomStaffRepository {
     }
 
     @Override
-    public Optional<StaffDetailModel> findStaffDetailById(Integer id) {
-        var query = findStaffDetail(id);
+    public Optional<StaffDetailModel> findStaffDetailById(Integer staffId) {
+        var query = findStaffDetail(staffId);
         return Optional.ofNullable(query.fetchFirst());
     }
 

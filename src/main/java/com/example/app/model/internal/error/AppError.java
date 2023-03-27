@@ -1,6 +1,6 @@
 package com.example.app.model.internal.error;
 
-import com.example.app.exception.ErrorLevel;
+import com.example.app.exception.constant.ErrorLevel;
 import lombok.*;
 
 import java.time.Instant;

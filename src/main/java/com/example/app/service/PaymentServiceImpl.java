@@ -1,9 +1,7 @@
 package com.example.app.service;
 
 import com.example.app.exception.ResourceNotFoundException;
-import com.example.app.model.internal.CategorySalesModel;
-import com.example.app.model.internal.PaymentModel;
-import com.example.app.model.internal.StoreSalesModel;
+import com.example.app.model.internal.core.PaymentModel;
 import com.example.app.model.mapping.mapper.PaymentMapper;
 import com.example.app.model.request.PaymentRequestModel;
 import com.example.app.repository.PaymentRepository;
@@ -21,28 +19,28 @@ public class PaymentServiceImpl implements PaymentService {
     private final PaymentMapper paymentMapper;
 
     @Override
-    public List<PaymentModel> getAllPayments() {
+    public List<PaymentModel> getPayments() {
         var list = paymentRepository.findAll();
         return paymentMapper.mapToDtoList(list);
     }
 
     @Override
-    public Optional<PaymentModel> getPaymentById(String id) {
-        var entity = paymentRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
-                new ResourceNotFoundException("Payment not found with id '" + id + "'"));
+    public Optional<PaymentModel> getPayment(String paymentId) {
+        var entity = paymentRepository.findById(Integer.valueOf(paymentId)).orElseThrow(() ->
+                new ResourceNotFoundException("Payment not found with id '" + paymentId + "'"));
         return Optional.of(paymentMapper.mapToDto(entity));
     }
 
     @Override
-    public List<PaymentModel> getAllPaymentsDetail() {
+    public List<PaymentModel> getPaymentsDetail() {
         return paymentRepository.findAllPaymentsDetail();
     }
 
     @Override
-    public Optional<PaymentModel> getPaymentDetailById(String id) {
-        var model = paymentRepository.findPaymentDetailById(Integer.valueOf(id));
+    public Optional<PaymentModel> getPaymentDetail(String paymentId) {
+        var model = paymentRepository.findPaymentDetailById(Integer.valueOf(paymentId));
         if (model.isEmpty()) {
-            throw new ResourceNotFoundException("Payment not found with id '" + id + "'");
+            throw new ResourceNotFoundException("Payment not found with id '" + paymentId + "'");
         }
         return model;
     }
@@ -56,28 +54,16 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     @Transactional
-    public PaymentModel updatePayment(String id, PaymentRequestModel model) {
-        var entity = paymentRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
-                new ResourceNotFoundException("Payment not found with id '" + id + "'"));
+    public PaymentModel updatePayment(String paymentId, PaymentRequestModel model) {
+        var entity = paymentRepository.findById(Integer.valueOf(paymentId)).orElseThrow(() ->
+                new ResourceNotFoundException("Payment not found with id '" + paymentId + "'"));
         entity.update(paymentMapper.mapToEntity(model));
         return paymentMapper.mapToDto(entity);
     }
 
     @Override
     @Transactional
-    public void removePaymentById(String id) {
-        var entity = paymentRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
-                new ResourceNotFoundException("Payment not found with id '" + id + "'"));
-        paymentRepository.deleteById(entity.getPaymentId());
-    }
-
-    @Override
-    public List<CategorySalesModel> getSalesByCategory() {
-        return paymentRepository.calculateSalesByCategory();
-    }
-
-    @Override
-    public List<StoreSalesModel> getSalesByStore() {
-        return paymentRepository.calculateSalesByStore();
+    public void deletePayment(String paymentId) {
+        paymentRepository.deleteById(Integer.valueOf(paymentId));
     }
 }

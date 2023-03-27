@@ -1,4 +1,4 @@
-package com.example.app.model.internal.reserved;
+package com.example.app.model.internal.core;
 
 import com.example.app.model.constant.Country;
 import com.example.app.model.mapping.converter.CountryConverter;

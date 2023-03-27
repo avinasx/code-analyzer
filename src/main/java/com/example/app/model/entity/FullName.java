@@ -14,13 +14,13 @@ import lombok.*;
 @AllArgsConstructor
 public class FullName {
     @Basic
-    @Column(name = "first_name", nullable = false, length = 45)
+    @Column(name = "first_name", length = 45, nullable = false)
     @NonNull
     @Size(min = 1, max = 45)
     private String firstName;
 
     @Basic
-    @Column(name = "last_name", nullable = false, length = 45)
+    @Column(name = "last_name", length = 45, nullable = false)
     @NonNull
     @Size(min = 1, max = 45)
     private String lastName;

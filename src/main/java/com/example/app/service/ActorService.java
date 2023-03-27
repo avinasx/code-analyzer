@@ -1,26 +1,40 @@
 package com.example.app.service;
 
-import com.example.app.model.internal.ActorDetailModel;
-import com.example.app.model.internal.ActorModel;
+import com.example.app.model.internal.core.ActorModel;
+import com.example.app.model.internal.core.FilmModel;
+import com.example.app.model.internal.extra.ActorDetailModel;
+import com.example.app.model.internal.extra.FilmDetailModel;
 import com.example.app.model.request.ActorRequestModel;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface ActorService {
-    List<ActorModel> getAllActors();
+    List<ActorModel> getActors();
 
-    Optional<ActorModel> getActorById(String id);
+    Optional<ActorModel> getActor(String actorId);
 
-    List<ActorDetailModel> getAllActorsDetail();
+    List<ActorDetailModel> getActorsDetail();
 
-    Optional<ActorDetailModel> getActorDetailById(String id);
+    Optional<ActorDetailModel> getActorDetail(String actorId);
 
-    List<ActorModel> findActorByName(String name);
+    List<FilmModel> getActorFilms(String actorId);
+
+    List<FilmModel> getActorFilms(String actorId, String releaseYear, String rating);
+
+    Optional<FilmModel> getActorFilm(String actorId, String filmId);
+
+    Optional<FilmDetailModel> getActorFilmDetail(String actorId, String filmId);
+
+    List<ActorModel> searchActors(String name);
 
     ActorModel addActor(ActorRequestModel model);
 
-    ActorModel updateActor(String id, ActorRequestModel model);
+    FilmModel addActorFilm(String actorId, String filmId);
 
-    void deleteActorById(String id);
+    ActorModel updateActor(String actorId, ActorRequestModel model);
+
+    void deleteActor(String actorId);
+
+    void removeActorFilm(String actorId, String filmId);
 }

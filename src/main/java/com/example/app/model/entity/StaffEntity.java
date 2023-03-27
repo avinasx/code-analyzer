@@ -27,7 +27,7 @@ public class StaffEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "staff_id", nullable = false, columnDefinition = "TINYINT UNSIGNED")
+    @Column(name = "staff_id", columnDefinition = "TINYINT UNSIGNED", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer staffId;
 
@@ -35,47 +35,49 @@ public class StaffEntity implements Serializable {
     private FullName fullName;
 
     @Basic
-    @Column(name = "address_id", nullable = false, insertable = false, updatable = false, columnDefinition = "SMALLINT UNSIGNED")
+    @Column(name = "address_id", columnDefinition = "SMALLINT UNSIGNED", nullable = false,
+            insertable = false, updatable = false)
     @NonNull
     private Integer addressId;
 
     // @Basic
-    // @Column(name = "picture", nullable = true, columnDefinition = "BLOB")
+    // @Column(name = "picture", columnDefinition = "BLOB", nullable = true)
     // @ColumnDefault("NULL")
     // @Lob
     // private byte[] picture;
 
     @Basic
-    @Column(name = "email", nullable = true, length = 50)
+    @Column(name = "email", length = 50, nullable = true)
     @ColumnDefault("NULL")
     @Size(min = 1, max = 50)
     private String email;
 
     @Basic
-    @Column(name = "store_id", nullable = false, insertable = false, updatable = false, columnDefinition = "TINYINT UNSIGNED")
+    @Column(name = "store_id", columnDefinition = "TINYINT UNSIGNED", nullable = false,
+            insertable = false, updatable = false)
     @NonNull
     private Integer storeId;
 
     @Basic
-    @Column(name = "active", nullable = false, columnDefinition = "BOOLEAN")
+    @Column(name = "active", columnDefinition = "BOOLEAN", nullable = false)
     @ColumnDefault("TRUE")
     @NonNull
     private Boolean active;
 
     @Basic
-    @Column(name = "username", nullable = false, length = 16)
+    @Column(name = "username", length = 16, nullable = false)
     @NonNull
     @Size(min = 1, max = 16)
     private String username;
 
     @Basic
-    @Column(name = "password", nullable = true, length = 40, columnDefinition = "VARCHAR(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin")
+    @Column(name = "password", columnDefinition = "VARCHAR(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin", length = 40, nullable = true)
     @ColumnDefault("NULL")
     @Size(min = 1, max = 40)
     private String password;
 
     @Basic
-    @Column(name = "last_update", nullable = false, columnDefinition = "TIMESTAMP")
+    @Column(name = "last_update", columnDefinition = "TIMESTAMP", nullable = false)
     @ColumnDefault("CURRENT_TIMESTAMP")
     @UpdateTimestamp
     @NonNull

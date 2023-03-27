@@ -22,18 +22,18 @@ public class FilmTextEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "film_id", nullable = false, columnDefinition = "SMALLINT UNSIGNED")
+    @Column(name = "film_id", columnDefinition = "SMALLINT UNSIGNED", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer filmId;
 
     @Basic
-    @Column(name = "title", nullable = false, length = 255)
+    @Column(name = "title", length = 255, nullable = false)
     @NonNull
     @Size(min = 1, max = 255)
     private String title;
 
     @Basic
-    @Column(name = "description", nullable = true, length = -1, columnDefinition = "TEXT")
+    @Column(name = "description", columnDefinition = "TEXT", length = -1, nullable = true)
     @Size(max = 65535)
     private String description;
 

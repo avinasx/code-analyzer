@@ -1,5 +1,6 @@
 package com.example.app.exception;
 
+import com.example.app.exception.constant.ErrorCode;
 import com.example.app.model.internal.error.AppError;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AccessLevel;

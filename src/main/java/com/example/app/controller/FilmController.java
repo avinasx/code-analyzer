@@ -1,9 +1,12 @@
 package com.example.app.controller;
 
+import com.example.app.hateoas.assembler.ActorDetailRepresentationModelAssembler;
+import com.example.app.hateoas.assembler.ActorRepresentationModelAssembler;
 import com.example.app.hateoas.assembler.FilmDetailRepresentationModelAssembler;
 import com.example.app.hateoas.assembler.FilmRepresentationModelAssembler;
-import com.example.app.model.internal.FilmModel;
+import com.example.app.model.internal.core.FilmModel;
 import com.example.app.model.request.FilmRequestModel;
+import com.example.app.model.response.ActorResponseModel;
 import com.example.app.model.response.FilmDetailResponseModel;
 import com.example.app.model.response.FilmResponseModel;
 import com.example.app.service.FilmService;
@@ -16,55 +19,81 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
+@RequestMapping(value = "/films")
 @AllArgsConstructor
 public class FilmController {
     private final FilmService filmService;
     private final FilmRepresentationModelAssembler filmAssembler;
     private final FilmDetailRepresentationModelAssembler filmDetailAssembler;
+    private final ActorRepresentationModelAssembler actorAssembler;
+    private final ActorDetailRepresentationModelAssembler actorDetailAssembler;
 
-    @GetMapping(path = "/films")
-    public ResponseEntity<CollectionModel<FilmResponseModel>> getAllFilms() {
-        return ResponseEntity.ok(filmAssembler.toCollectionModel(filmService.getAllFilms()));
+    @GetMapping(path = "")
+    public ResponseEntity<CollectionModel<FilmResponseModel>> getFilms() {
+        return ResponseEntity.ok(filmAssembler.toCollectionModel(
+                filmService.getFilms()));
     }
 
-    @PostMapping(path = "/films")
+    // @GetMapping(path = "")
+    // public ResponseEntity<CollectionModel<FilmResponseModel>> getFilms(
+    //         @RequestParam(required = false) String releaseYear,
+    //         @RequestParam(required = false) String rating) {
+    //     return ResponseEntity.ok(filmAssembler.toCollectionModel(
+    //             filmService.getFilms(releaseYear, rating)));
+    // }
+
+    @PostMapping(path = "")
     public ResponseEntity<Void> addFilm(@RequestBody FilmRequestModel model) {
         var result = filmService.addFilm(model);
         return ResponseEntity.created(linkTo(methodOn(FilmController.class)
                 .getFilm(String.valueOf(result.getFilmId()))).toUri()).build();
     }
 
-    @GetMapping(path = "/films/{id}")
-    public ResponseEntity<FilmResponseModel> getFilm(@PathVariable String id) {
-        return filmService.getFilmById(id)
+    @GetMapping(path = "/{filmId}")
+    public ResponseEntity<FilmResponseModel> getFilm(@PathVariable String filmId) {
+        return filmService.getFilm(filmId)
                 .map(filmAssembler::toModel)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PutMapping(path = "/films/{id}")
-    public ResponseEntity<Void> updateFilm(@PathVariable String id, @RequestBody FilmRequestModel model) {
-        var result = filmService.updateFilm(id, model);
+    @PutMapping(path = "/{filmId}")
+    public ResponseEntity<Void> updateFilm(@PathVariable String filmId, @RequestBody FilmRequestModel model) {
+        var result = filmService.updateFilm(filmId, model);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping(path = "/films/{id}")
-    public ResponseEntity<Void> deleteFilm(@PathVariable String id) {
-        filmService.deleteFilmById(id);
+    @DeleteMapping(path = "/{filmId}")
+    public ResponseEntity<Void> deleteFilm(@PathVariable String filmId) {
+        filmService.deleteFilm(filmId);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping(path = "/films/{id}/details")
-    public ResponseEntity<FilmDetailResponseModel> getFilmDetail(@PathVariable String id) {
-        return filmService.getFilmDetailById(id)
+    @GetMapping(path = "/{filmId}/actors")
+    public ResponseEntity<CollectionModel<ActorResponseModel>> getFilmActors(@PathVariable String filmId) {
+        return ResponseEntity.ok(actorAssembler.toCollectionModel(
+                filmService.getFilmActors(filmId)));
+    }
+
+    @GetMapping(path = "/{filmId}/actors/{actorId}")
+    public ResponseEntity<ActorResponseModel> getFilmActor(@PathVariable String filmId, @PathVariable String actorId) {
+        return filmService.getFilmActor(filmId, actorId)
+                .map(actorAssembler::toModel)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping(path = "/{filmId}/details")
+    public ResponseEntity<FilmDetailResponseModel> getFilmDetail(@PathVariable String filmId) {
+        return filmService.getFilmDetail(filmId)
                 .map(filmDetailAssembler::toModel)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping(path = "/films/{id}/stock")
-    public ResponseEntity<FilmModel> getFilmStock(@PathVariable String id) {
-        return filmService.getFilmStockById(id)
+    @GetMapping(path = "/{filmId}/stock")
+    public ResponseEntity<FilmModel> getFilmStock(@PathVariable String filmId) {
+        return filmService.getFilmStock(filmId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

@@ -28,37 +28,40 @@ public class RentalEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "rental_id", nullable = false, columnDefinition = "INT")
+    @Column(name = "rental_id", columnDefinition = "INT", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer rentalId;
 
     @Basic
-    @Column(name = "rental_date", nullable = false, columnDefinition = "DATETIME")
+    @Column(name = "rental_date", columnDefinition = "DATETIME", nullable = false)
     @NonNull
     private LocalDateTime rentalDate;
 
     @Basic
-    @Column(name = "inventory_id", nullable = false, insertable = false, updatable = false, columnDefinition = "MEDIUMINT UNSIGNED")
+    @Column(name = "inventory_id", columnDefinition = "MEDIUMINT UNSIGNED", nullable = false,
+            insertable = false, updatable = false)
     @NonNull
     private Integer inventoryId;
 
     @Basic
-    @Column(name = "customer_id", nullable = false, insertable = false, updatable = false, columnDefinition = "SMALLINT UNSIGNED")
+    @Column(name = "customer_id", columnDefinition = "SMALLINT UNSIGNED", nullable = false,
+            insertable = false, updatable = false)
     @NonNull
     private Integer customerId;
 
     @Basic
-    @Column(name = "return_date", nullable = true, columnDefinition = "DATETIME")
+    @Column(name = "return_date", columnDefinition = "DATETIME", nullable = true)
     @ColumnDefault("NULL")
     private LocalDateTime returnDate;
 
     @Basic
-    @Column(name = "staff_id", nullable = false, insertable = false, updatable = false, columnDefinition = "TINYINT UNSIGNED")
+    @Column(name = "staff_id", columnDefinition = "TINYINT UNSIGNED", nullable = false,
+            insertable = false, updatable = false)
     @NonNull
     private Integer staffId;
 
     @Basic
-    @Column(name = "last_update", nullable = false, columnDefinition = "TIMESTAMP")
+    @Column(name = "last_update", columnDefinition = "TIMESTAMP", nullable = false)
     @ColumnDefault("CURRENT_TIMESTAMP")
     @UpdateTimestamp
     @NonNull

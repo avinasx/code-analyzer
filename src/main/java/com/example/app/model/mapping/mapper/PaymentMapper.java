@@ -1,7 +1,7 @@
 package com.example.app.model.mapping.mapper;
 
 import com.example.app.model.entity.PaymentEntity;
-import com.example.app.model.internal.PaymentModel;
+import com.example.app.model.internal.core.PaymentModel;
 import com.example.app.model.request.PaymentRequestModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

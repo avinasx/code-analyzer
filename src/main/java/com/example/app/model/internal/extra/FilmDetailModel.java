@@ -1,4 +1,4 @@
-package com.example.app.model.internal;
+package com.example.app.model.internal.extra;
 
 import com.example.app.model.constant.Category;
 import com.example.app.model.constant.FilmRating;
@@ -24,8 +24,8 @@ public class FilmDetailModel {
     /**
      * film id
      */
-    @JsonProperty("fid")
-    private Integer fid;
+    @JsonProperty("filmId")
+    private Integer filmId;
 
     /**
      * film title
@@ -76,7 +76,7 @@ public class FilmDetailModel {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FilmDetailModel that = (FilmDetailModel) o;
-        return Objects.equal(fid, that.fid)
+        return Objects.equal(filmId, that.filmId)
                 && Objects.equal(title, that.title)
                 && Objects.equal(description, that.description)
                 && category == that.category
@@ -88,6 +88,6 @@ public class FilmDetailModel {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(fid, title, description, category, price, length, rating, actors);
+        return Objects.hashCode(filmId, title, description, category, price, length, rating, actors);
     }
 }

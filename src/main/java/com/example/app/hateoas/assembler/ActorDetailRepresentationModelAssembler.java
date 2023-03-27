@@ -1,9 +1,10 @@
 package com.example.app.hateoas.assembler;
 
 import com.example.app.controller.ActorController;
-import com.example.app.model.internal.ActorDetailModel;
+import com.example.app.model.internal.extra.ActorDetailModel;
 import com.example.app.model.response.ActorDetailResponseModel;
 import lombok.NonNull;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +24,13 @@ public class ActorDetailRepresentationModelAssembler extends RepresentationModel
         model.setActorDetailModel(entity);
         model.add(linkTo(methodOn(ActorController.class).getActorDetail(String.valueOf(entity.getActorId()))).withSelfRel());
         model.add(linkTo(methodOn(ActorController.class).getActor(String.valueOf(entity.getActorId()))).withRel("actor"));
-        model.add(linkTo(methodOn(ActorController.class).getAllActors()).withRel("actors"));
+        model.add(linkTo(methodOn(ActorController.class).getActors()).withRel("actors"));
         return model;
+    }
+
+    @Override
+    @NonNull
+    public CollectionModel<ActorDetailResponseModel> toCollectionModel(@NonNull Iterable<? extends ActorDetailModel> entities) {
+        return super.toCollectionModel(entities);
     }
 }

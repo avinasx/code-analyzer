@@ -1,6 +1,6 @@
 ### get actors test
 GET http://localhost:8080/api/v1/actors
-Accept: application/json
+Accept: application/prs.hal-forms+json
 
 > {%
     client.test("Request executed successfully", function () {
@@ -8,20 +8,7 @@ Accept: application/json
     });
 %}
 
-### get an actor test: check response for id 1
-GET http://localhost:8080/api/v1/actors/1
-Accept: application/json
-
-> {%
-    client.test("Request executed successfully", function () {
-        client.assert(response.status === 200, "Response status is not 200");
-        client.assert(response.body.actorId === 1, "Actor id is not 1");
-        client.assert(response.body.firstName === "PENELOPE", "First name is not 'PENELPE'");
-        client.assert(response.body.lastName === "GUINESS", "Last name is not 'GUINESS'");
-    });
-%}
-
-### post an actor test
+### add an actor test
 POST http://localhost:8080/api/v1/actors
 Content-Type: application/json
 
@@ -37,10 +24,39 @@ Content-Type: application/json
     });
 %}
 
-### put an actor test
+### get an actor test: check response for id 1
+GET http://localhost:8080/api/v1/actors/1
+Accept: application/prs.hal-forms+json
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(response.body.actorId === 1, "Actor id is not 1");
+        client.assert(response.body.firstName === "PENELOPE", "First name is not 'PENELPE'");
+        client.assert(response.body.lastName === "GUINESS", "Last name is not 'GUINESS'");
+    });
+%}
+
+### update an actor test: successfully update an actor
+PUT http://localhost:8080/api/v1/actors/11
+Content-Type: application/json
+Accept: application/prs.hal-forms+json
+
+{
+  "firstName": "ZERO",
+  "lastName": "CAGE"
+}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### update an actor test: fail to update an actor that does not exist
 PUT http://localhost:8080/api/v1/actors/9999
 Content-Type: application/json
-Accept: application/json
+Accept: application/prs.hal-forms+json
 
 {
   "firstName": "HELLO",
@@ -53,9 +69,19 @@ Accept: application/json
     });
 %}
 
+### delete an actor test: fail to delete an actor that does not exist
+DELETE http://localhost:8080/api/v1/actors/9999
+Accept: application/prs.hal-forms+json
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 404, "Response status is not 404");
+    });
+%}
+
 ### get details of an actor test: check response for id 1
 GET http://localhost:8080/api/v1/actors/1/details
-Accept: application/json
+Accept: application/prs.hal-forms+json
 
 > {%
     client.test("Request executed successfully", function () {

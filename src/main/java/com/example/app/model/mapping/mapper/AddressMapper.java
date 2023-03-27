@@ -1,7 +1,7 @@
 package com.example.app.model.mapping.mapper;
 
 import com.example.app.model.entity.AddressEntity;
-import com.example.app.model.internal.AddressModel;
+import com.example.app.model.internal.core.AddressModel;
 import com.example.app.model.request.AddressRequestModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

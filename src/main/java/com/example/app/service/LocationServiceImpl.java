@@ -1,8 +1,8 @@
 package com.example.app.service;
 
 import com.example.app.exception.ResourceNotFoundException;
-import com.example.app.model.internal.AddressModel;
-import com.example.app.model.internal.CityModel;
+import com.example.app.model.internal.core.AddressModel;
+import com.example.app.model.internal.core.CityModel;
 import com.example.app.model.mapping.mapper.AddressMapper;
 import com.example.app.model.mapping.mapper.CityMapper;
 import com.example.app.model.request.AddressRequestModel;
@@ -25,28 +25,28 @@ public class LocationServiceImpl implements LocationService {
     private final CityMapper cityMapper;
 
     @Override
-    public List<AddressModel> getAllAddresses() {
+    public List<AddressModel> getAddresses() {
         var list = addressRepository.findAll();
         return addressMapper.mapToDtoList(list);
     }
 
     @Override
-    public Optional<AddressModel> getAddressById(String id) {
-        var entity = addressRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
-                new ResourceNotFoundException("Address not found with id '" + id + "'"));
+    public Optional<AddressModel> getAddress(String addressId) {
+        var entity = addressRepository.findById(Integer.valueOf(addressId)).orElseThrow(() ->
+                new ResourceNotFoundException("Address not found with id '" + addressId + "'"));
         return Optional.of(addressMapper.mapToDto(entity));
     }
 
     @Override
-    public List<AddressModel> getAllAddressesDetail() {
+    public List<AddressModel> getAddressesDetail() {
         return addressRepository.findAllAddressesDetail();
     }
 
     @Override
-    public Optional<AddressModel> getAddressDetailById(String id) {
-        var model = addressRepository.findAddressDetailById(Integer.valueOf(id));
+    public Optional<AddressModel> getAddressDetail(String addressId) {
+        var model = addressRepository.findAddressDetailById(Integer.valueOf(addressId));
         if (model.isEmpty()) {
-            throw new ResourceNotFoundException("Address not found with id '" + id + "'");
+            throw new ResourceNotFoundException("Address not found with id '" + addressId + "'");
         }
         return model;
     }
@@ -60,44 +60,42 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     @Transactional
-    public AddressModel updateAddress(String id, AddressRequestModel model) {
-        var entity = addressRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
-                new ResourceNotFoundException("Address not found with id '" + id + "'"));
+    public AddressModel updateAddress(String addressId, AddressRequestModel model) {
+        var entity = addressRepository.findById(Integer.valueOf(addressId)).orElseThrow(() ->
+                new ResourceNotFoundException("Address not found with id '" + addressId + "'"));
         entity.update(addressMapper.mapToEntity(model));
         return addressMapper.mapToDto(entity);
     }
 
     @Override
     @Transactional
-    public void deleteAddressById(String id) {
-        var entity = addressRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
-                new ResourceNotFoundException("Address not found with id '" + id + "'"));
-        addressRepository.deleteById(entity.getAddressId());
+    public void deleteAddress(String addressId) {
+        addressRepository.deleteById(Integer.valueOf(addressId));
     }
 
     @Override
-    public List<CityModel> getAllCities() {
+    public List<CityModel> getCities() {
         var list = cityRepository.findAll();
         return cityMapper.mapToDtoList(list);
     }
 
     @Override
-    public Optional<CityModel> getCityById(String id) {
-        var entity = cityRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
-                new ResourceNotFoundException("City not found with id '" + id + "'"));
+    public Optional<CityModel> getCity(String cityId) {
+        var entity = cityRepository.findById(Integer.valueOf(cityId)).orElseThrow(() ->
+                new ResourceNotFoundException("City not found with id '" + cityId + "'"));
         return Optional.of(cityMapper.mapToDto(entity));
     }
 
     @Override
-    public List<CityModel> getAllCitiesDetail() {
+    public List<CityModel> getCitiesDetail() {
         return cityRepository.findAllCitiesDetail();
     }
 
     @Override
-    public Optional<CityModel> getCityDetailById(String id) {
-        var model = cityRepository.findCityDetailById(Integer.valueOf(id));
+    public Optional<CityModel> getCityDetail(String cityId) {
+        var model = cityRepository.findCityDetailById(Integer.valueOf(cityId));
         if (model.isEmpty()) {
-            throw new ResourceNotFoundException("City not found with id '" + id + "'");
+            throw new ResourceNotFoundException("City not found with id '" + cityId + "'");
         }
         return model;
     }
@@ -111,18 +109,16 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     @Transactional
-    public CityModel updateCity(String id, CityRequestModel model) {
-        var entity = cityRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
-                new ResourceNotFoundException("City not found with id '" + id + "'"));
+    public CityModel updateCity(String cityId, CityRequestModel model) {
+        var entity = cityRepository.findById(Integer.valueOf(cityId)).orElseThrow(() ->
+                new ResourceNotFoundException("City not found with id '" + cityId + "'"));
         entity.update(cityMapper.mapToEntity(model));
         return cityMapper.mapToDto(entity);
     }
 
     @Override
     @Transactional
-    public void deleteCityById(String id) {
-        var entity = cityRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
-                new ResourceNotFoundException("City not found with id '" + id + "'"));
-        cityRepository.deleteById(entity.getCityId());
+    public void deleteCity(String cityId) {
+        cityRepository.deleteById(Integer.valueOf(cityId));
     }
 }

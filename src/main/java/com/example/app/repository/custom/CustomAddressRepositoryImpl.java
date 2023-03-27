@@ -1,6 +1,6 @@
 package com.example.app.repository.custom;
 
-import com.example.app.model.internal.AddressModel;
+import com.example.app.model.internal.core.AddressModel;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +18,7 @@ public class CustomAddressRepositoryImpl implements CustomAddressRepository {
     }
 
     @Override
-    public Optional<AddressModel> findAddressDetailById(Integer id) {
+    public Optional<AddressModel> findAddressDetailById(Integer addressId) {
         return Optional.empty();
     }
 }

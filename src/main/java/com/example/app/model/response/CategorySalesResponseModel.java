@@ -1,6 +1,6 @@
 package com.example.app.model.response;
 
-import com.example.app.model.internal.CategorySalesModel;
+import com.example.app.model.internal.extra.CategorySalesModel;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.google.common.base.Objects;
 import lombok.*;

@@ -1,56 +1,50 @@
-package com.example.app.model.internal;
+package com.example.app.model.internal.core;
 
+import com.example.app.model.entity.FilmActorEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 import lombok.*;
 
-/**
- * The actor detail model provides a list of films in which actors appear by category.
- */
+import java.time.LocalDateTime;
+import java.util.Collection;
+
 @Getter
 @Setter
 @ToString
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ActorDetailModel {
-    /**
-     * actor id
-     */
+public class ActorModel {
     @JsonProperty("actorId")
     private Integer actorId;
 
-    /**
-     * actor first name
-     */
     @JsonProperty("firstName")
     private String firstName;
 
-    /**
-     * actor last name
-     */
     @JsonProperty("lastName")
     private String lastName;
 
-    /**
-     * a list of films in which the actor appears by category
-     */
-    @JsonProperty("filmInfo")
-    private String filmInfo;
+    @JsonProperty("lastUpdate")
+    private LocalDateTime lastUpdate;
+
+    @JsonIgnore
+    @JsonProperty("filmActorsByActorId")
+    private Collection<FilmActorEntity> filmActorsByActorId;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ActorDetailModel that = (ActorDetailModel) o;
+        ActorModel that = (ActorModel) o;
         return Objects.equal(actorId, that.actorId)
                 && Objects.equal(firstName, that.firstName)
                 && Objects.equal(lastName, that.lastName)
-                && Objects.equal(filmInfo, that.filmInfo);
+                && Objects.equal(lastUpdate, that.lastUpdate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(actorId, firstName, lastName, filmInfo);
+        return Objects.hashCode(actorId, firstName, lastName, lastUpdate);
     }
 }

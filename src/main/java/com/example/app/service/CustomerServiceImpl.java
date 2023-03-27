@@ -1,8 +1,10 @@
 package com.example.app.service;
 
 import com.example.app.exception.ResourceNotFoundException;
-import com.example.app.model.internal.CustomerDetailModel;
-import com.example.app.model.internal.CustomerModel;
+import com.example.app.model.internal.core.CustomerModel;
+import com.example.app.model.internal.core.PaymentModel;
+import com.example.app.model.internal.core.RentalModel;
+import com.example.app.model.internal.extra.CustomerDetailModel;
 import com.example.app.model.mapping.mapper.CustomerMapper;
 import com.example.app.model.request.CustomerRequestModel;
 import com.example.app.repository.CustomerRepository;
@@ -10,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,30 +23,52 @@ public class CustomerServiceImpl implements CustomerService {
     private final CustomerMapper customerMapper;
 
     @Override
-    public List<CustomerModel> getAllCustomers() {
+    public List<CustomerModel> getCustomers() {
         var list = customerRepository.findAll();
         return customerMapper.mapToDtoList(list);
     }
 
     @Override
-    public Optional<CustomerModel> getCustomerById(String id) {
-        var entity = customerRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
-                new ResourceNotFoundException("Customer not found with id '" + id + "'"));
+    public Optional<CustomerModel> getCustomer(String customerId) {
+        var entity = customerRepository.findById(Integer.valueOf(customerId)).orElseThrow(() ->
+                new ResourceNotFoundException("Customer not found with id '" + customerId + "'"));
         return Optional.of(customerMapper.mapToDto(entity));
     }
 
     @Override
-    public List<CustomerDetailModel> getAllCustomersDetail() {
+    public List<CustomerDetailModel> getCustomersDetail() {
         return customerRepository.findAllCustomersDetail();
     }
 
     @Override
-    public Optional<CustomerDetailModel> getCustomerDetailById(String id) {
-        var model = customerRepository.findCustomerDetailById(Integer.valueOf(id));
+    public Optional<CustomerDetailModel> getCustomerDetail(String customerId) {
+        var model = customerRepository.findCustomerDetailById(Integer.valueOf(customerId));
         if (model.isEmpty()) {
-            throw new ResourceNotFoundException("Customer not found with id '" + id + "'");
+            throw new ResourceNotFoundException("Customer not found with id '" + customerId + "'");
         }
         return model;
+    }
+
+    @Override
+    public List<PaymentModel> getCustomerPayments(String customerId) {
+        return customerRepository.findAllCustomerPaymentsById(Integer.valueOf(customerId));
+    }
+
+    @Override
+    public List<PaymentModel> getCustomerPayments(String customerId, String startDate, String endDate) {
+        return customerRepository.findAllCustomerPaymentsByIdWithFilter(Integer.valueOf(customerId),
+                LocalDate.parse(startDate), LocalDate.parse(endDate));
+    }
+
+    @Override
+    public List<RentalModel> getCustomerRentals(String customerId) {
+        return customerRepository.findAllCustomerRentalsById(Integer.valueOf(customerId));
+    }
+
+    @Override
+    public List<RentalModel> getCustomerRentals(String customerId, String status, String startDate, String endDate) {
+        return customerRepository.findAllCustomerRentalsByIdWithFilter(Integer.valueOf(customerId),
+                status, LocalDate.parse(startDate), LocalDate.parse(endDate));
     }
 
     @Override
@@ -55,18 +80,16 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     @Transactional
-    public CustomerModel updateCustomer(String id, CustomerRequestModel model) {
-        var entity = customerRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
-                new ResourceNotFoundException("Customer not found with id '" + id + "'"));
+    public CustomerModel updateCustomer(String customerId, CustomerRequestModel model) {
+        var entity = customerRepository.findById(Integer.valueOf(customerId)).orElseThrow(() ->
+                new ResourceNotFoundException("Customer not found with id '" + customerId + "'"));
         entity.update(customerMapper.mapToEntity(model));
         return customerMapper.mapToDto(entity);
     }
 
     @Override
     @Transactional
-    public void deleteCustomerById(String id) {
-        var entity = customerRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
-                new ResourceNotFoundException("Customer not found with id '" + id + "'"));
-        customerRepository.deleteById(entity.getCustomerId());
+    public void deleteCustomer(String customerId) {
+        customerRepository.deleteById(Integer.valueOf(customerId));
     }
 }

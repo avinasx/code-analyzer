@@ -19,6 +19,8 @@ spring:
       leak-detection-threshold: 60000
       auto-commit: true
   jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:
       ddl-auto: validate
       naming:

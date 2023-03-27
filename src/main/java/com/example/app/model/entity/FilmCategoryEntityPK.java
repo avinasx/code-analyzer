@@ -13,11 +13,13 @@ import java.io.Serializable;
 @ToString
 public class FilmCategoryEntityPK implements Serializable {
     @Id
-    @Column(name = "film_id", nullable = false, insertable = false, updatable = false, columnDefinition = "SMALLINT UNSIGNED")
+    @Column(name = "film_id", columnDefinition = "SMALLINT UNSIGNED", nullable = false,
+            insertable = false, updatable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer filmId;
     @Id
-    @Column(name = "category_id", nullable = false, insertable = false, updatable = false, columnDefinition = "TINYINT UNSIGNED")
+    @Column(name = "category_id", columnDefinition = "TINYINT UNSIGNED", nullable = false,
+            insertable = false, updatable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Convert(converter = CategoryConverter.class)
     private Category categoryId;

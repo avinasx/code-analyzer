@@ -28,24 +28,25 @@ public class CityEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "city_id", nullable = false, columnDefinition = "SMALLINT UNSIGNED")
+    @Column(name = "city_id", columnDefinition = "SMALLINT UNSIGNED", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer cityId;
 
     @Basic
-    @Column(name = "city", nullable = false, length = 50)
+    @Column(name = "city", length = 50, nullable = false)
     @NonNull
     @Size(min = 1, max = 50)
     private String city;
 
     @Basic
-    @Column(name = "country_id", nullable = false, insertable = false, updatable = false, columnDefinition = "SMALLINT UNSIGNED")
+    @Column(name = "country_id", columnDefinition = "SMALLINT UNSIGNED", nullable = false,
+            insertable = false, updatable = false)
     @Convert(converter = CountryConverter.class)
     @NonNull
     private Country countryId;
 
     @Basic
-    @Column(name = "last_update", nullable = false, columnDefinition = "TIMESTAMP")
+    @Column(name = "last_update", columnDefinition = "TIMESTAMP", nullable = false)
     @ColumnDefault("CURRENT_TIMESTAMP")
     @UpdateTimestamp
     @NonNull

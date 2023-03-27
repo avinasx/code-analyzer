@@ -1,7 +1,7 @@
 package com.example.app.model.mapping.mapper;
 
 import com.example.app.model.entity.CustomerEntity;
-import com.example.app.model.internal.CustomerModel;
+import com.example.app.model.internal.core.CustomerModel;
 import com.example.app.model.request.CustomerRequestModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

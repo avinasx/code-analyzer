@@ -1,14 +1,16 @@
 package com.example.app.model.response;
 
-import com.example.app.model.internal.ActorModel;
+import com.example.app.model.internal.core.ActorModel;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.google.common.base.Objects;
 import lombok.*;
 import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
 import java.io.Serial;
 import java.io.Serializable;
 
+@Relation(collectionRelation = "actors", itemRelation = "actor")
 @Getter
 @Setter
 @ToString

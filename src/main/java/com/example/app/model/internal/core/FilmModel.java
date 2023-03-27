@@ -1,12 +1,12 @@
-package com.example.app.model.internal;
+package com.example.app.model.internal.core;
 
+import com.example.app.model.constant.FilmRating;
+import com.example.app.model.constant.Language;
+import com.example.app.model.constant.SpecialFeature;
 import com.example.app.model.entity.FilmActorEntity;
 import com.example.app.model.entity.FilmCategoryEntity;
 import com.example.app.model.entity.InventoryEntity;
 import com.example.app.model.entity.LanguageEntity;
-import com.example.app.model.constant.FilmRating;
-import com.example.app.model.constant.Language;
-import com.example.app.model.constant.SpecialFeature;
 import com.example.app.model.mapping.converter.FilmRatingConverter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -1,16 +1,14 @@
-package com.example.app.model.internal;
+package com.example.app.model.internal.extra;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 import lombok.*;
-import org.springframework.hateoas.server.core.Relation;
 
 import java.math.BigDecimal;
 
 /**
  * The sales by store model provides the data for the total sales by store.
  */
-@Relation(collectionRelation = "storeSales", itemRelation = "storeSales")
 @Getter
 @Setter
 @ToString

@@ -1,7 +1,7 @@
 package com.example.app.hateoas.assembler;
 
 import com.example.app.controller.LocationController;
-import com.example.app.model.internal.CityModel;
+import com.example.app.model.internal.core.CityModel;
 import com.example.app.model.response.CityResponseModel;
 import lombok.NonNull;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
@@ -22,7 +22,7 @@ public class CityRepresentationModelAssembler extends RepresentationModelAssembl
         var model = instantiateModel(entity);
         model.setCityModel(entity);
         model.add(linkTo(methodOn(LocationController.class).getCity(String.valueOf(entity.getCityId()))).withSelfRel());
-        model.add(linkTo(methodOn(LocationController.class).getAllAddresses()).withRel("cities"));
+        model.add(linkTo(methodOn(LocationController.class).getAddresses()).withRel("cities"));
         return model;
     }
 }

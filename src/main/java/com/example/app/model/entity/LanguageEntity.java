@@ -26,19 +26,19 @@ public class LanguageEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "language_id", nullable = false, columnDefinition = "TINYINT UNSIGNED")
+    @Column(name = "language_id", columnDefinition = "TINYINT UNSIGNED", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Convert(converter = LanguageConverter.class)
     private Language languageId;
 
     @Basic
-    @Column(name = "name", nullable = false, length = 20, columnDefinition = "CHAR(20)")
+    @Column(name = "name", columnDefinition = "CHAR(20)", length = 20, nullable = false)
     @NonNull
     @Size(min = 1, max = 20)
     private String name;
 
     @Basic
-    @Column(name = "last_update", nullable = false, columnDefinition = "TIMESTAMP")
+    @Column(name = "last_update", columnDefinition = "TIMESTAMP", nullable = false)
     @ColumnDefault("CURRENT_TIMESTAMP")
     @UpdateTimestamp
     @NonNull

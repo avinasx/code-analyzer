@@ -1,7 +1,7 @@
 package com.example.app.hateoas.assembler;
 
 import com.example.app.controller.StaffController;
-import com.example.app.model.internal.StaffDetailModel;
+import com.example.app.model.internal.extra.StaffDetailModel;
 import com.example.app.model.response.StaffDetailResponseModel;
 import lombok.NonNull;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
@@ -23,7 +23,7 @@ public class StaffDetailRepresentationModelAssembler extends RepresentationModel
         model.setStaffDetailModel(entity);
         model.add(linkTo(methodOn(StaffController.class).getStaffDetail(String.valueOf(entity.getId()))).withSelfRel());
         model.add(linkTo(methodOn(StaffController.class).getStaff(String.valueOf(entity.getId()))).withRel("staff"));
-        model.add(linkTo(methodOn(StaffController.class).getAllStaffs()).withRel("staffs"));
+        model.add(linkTo(methodOn(StaffController.class).getStaffs()).withRel("staffs"));
         return model;
     }
 }

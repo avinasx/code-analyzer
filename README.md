@@ -5,7 +5,6 @@ This is a sample project to demonstrate how to build a REST API using *Spring Bo
 ## Requirements
 
 - Java 17
-- Kotlin 1.8
 - Gradle 7
 
 ## Dependencies and plugins

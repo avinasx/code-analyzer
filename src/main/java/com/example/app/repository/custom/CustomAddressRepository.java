@@ -1,6 +1,6 @@
 package com.example.app.repository.custom;
 
-import com.example.app.model.internal.AddressModel;
+import com.example.app.model.internal.core.AddressModel;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,5 +8,5 @@ import java.util.Optional;
 public interface CustomAddressRepository {
     List<AddressModel> findAllAddressesDetail();
 
-    Optional<AddressModel> findAddressDetailById(Integer id);
+    Optional<AddressModel> findAddressDetailById(Integer addressId);
 }

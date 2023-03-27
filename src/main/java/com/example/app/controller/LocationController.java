@@ -16,6 +16,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
+@RequestMapping(value = "/location")
 @AllArgsConstructor
 public class LocationController {
     private final LocationService locationService;
@@ -23,8 +24,9 @@ public class LocationController {
     private final CityRepresentationModelAssembler cityAssembler;
 
     @GetMapping(path = "/addresses")
-    public ResponseEntity<CollectionModel<AddressResponseModel>> getAllAddresses() {
-        return ResponseEntity.ok(addressAssembler.toCollectionModel(locationService.getAllAddresses()));
+    public ResponseEntity<CollectionModel<AddressResponseModel>> getAddresses() {
+        return ResponseEntity.ok(addressAssembler.toCollectionModel(
+                locationService.getAddresses()));
     }
 
     @PostMapping(path = "/addresses")
@@ -34,37 +36,38 @@ public class LocationController {
                 .getAddress(String.valueOf(result.getAddressId()))).toUri()).build();
     }
 
-    @GetMapping(path = "/addresses/{id}")
-    public ResponseEntity<AddressResponseModel> getAddress(@PathVariable String id) {
-        return locationService.getAddressById(id)
+    @GetMapping(path = "/addresses/{addressId}")
+    public ResponseEntity<AddressResponseModel> getAddress(@PathVariable String addressId) {
+        return locationService.getAddress(addressId)
                 .map(addressAssembler::toModel)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PutMapping(path = "/addresses/{id}")
-    public ResponseEntity<Void> updateAddress(@PathVariable String id, @RequestBody AddressRequestModel model) {
-        var result = locationService.updateAddress(id, model);
+    @PutMapping(path = "/addresses/{addressId}")
+    public ResponseEntity<Void> updateAddress(@PathVariable String addressId, @RequestBody AddressRequestModel model) {
+        var result = locationService.updateAddress(addressId, model);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping(path = "/addresses/{id}")
-    public ResponseEntity<Void> deleteAddress(@PathVariable String id) {
-        locationService.deleteAddressById(id);
+    @DeleteMapping(path = "/addresses/{addressId}")
+    public ResponseEntity<Void> deleteAddress(@PathVariable String addressId) {
+        locationService.deleteAddress(addressId);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping(path = "/addresses/{id}/details")
-    public ResponseEntity<AddressResponseModel> getAddressDetail(@PathVariable String id) {
-        return locationService.getAddressDetailById(id)
+    @GetMapping(path = "/addresses/{addressId}/details")
+    public ResponseEntity<AddressResponseModel> getAddressDetail(@PathVariable String addressId) {
+        return locationService.getAddressDetail(addressId)
                 .map(addressAssembler::toModel)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping(path = "/cities")
-    public ResponseEntity<CollectionModel<CityResponseModel>> getAllCities() {
-        return ResponseEntity.ok(cityAssembler.toCollectionModel(locationService.getAllCities()));
+    public ResponseEntity<CollectionModel<CityResponseModel>> getCities() {
+        return ResponseEntity.ok(cityAssembler.toCollectionModel(
+                locationService.getCities()));
     }
 
     @PostMapping(path = "/cities")
@@ -74,29 +77,29 @@ public class LocationController {
                 .getCity(String.valueOf(result.getCityId()))).toUri()).build();
     }
 
-    @GetMapping(path = "/cities/{id}")
-    public ResponseEntity<CityResponseModel> getCity(@PathVariable String id) {
-        return locationService.getCityById(id)
+    @GetMapping(path = "/cities/{cityId}")
+    public ResponseEntity<CityResponseModel> getCity(@PathVariable String cityId) {
+        return locationService.getCity(cityId)
                 .map(cityAssembler::toModel)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PutMapping(path = "/cities/{id}")
-    public ResponseEntity<Void> updateCity(@PathVariable String id, @RequestBody CityRequestModel model) {
-        var result = locationService.updateCity(id, model);
+    @PutMapping(path = "/cities/{cityId}")
+    public ResponseEntity<Void> updateCity(@PathVariable String cityId, @RequestBody CityRequestModel model) {
+        var result = locationService.updateCity(cityId, model);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping(path = "/cities/{id}")
-    public ResponseEntity<Void> deleteCity(@PathVariable String id) {
-        locationService.deleteCityById(id);
+    @DeleteMapping(path = "/cities/{cityId}")
+    public ResponseEntity<Void> deleteCity(@PathVariable String cityId) {
+        locationService.deleteCity(cityId);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping(path = "/cities/{id}/details")
-    public ResponseEntity<CityResponseModel> getCityDetail(@PathVariable String id) {
-        return locationService.getCityDetailById(id)
+    @GetMapping(path = "/cities/{cityId}/details")
+    public ResponseEntity<CityResponseModel> getCityDetail(@PathVariable String cityId) {
+        return locationService.getCityDetail(cityId)
                 .map(cityAssembler::toModel)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());

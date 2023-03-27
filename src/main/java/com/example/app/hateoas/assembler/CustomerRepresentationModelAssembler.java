@@ -1,7 +1,7 @@
 package com.example.app.hateoas.assembler;
 
 import com.example.app.controller.CustomerController;
-import com.example.app.model.internal.CustomerModel;
+import com.example.app.model.internal.core.CustomerModel;
 import com.example.app.model.response.CustomerResponseModel;
 import lombok.NonNull;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
@@ -22,7 +22,7 @@ public class CustomerRepresentationModelAssembler extends RepresentationModelAss
         var model = instantiateModel(entity);
         model.setCustomerModel(entity);
         model.add(linkTo(methodOn(CustomerController.class).getCustomer(String.valueOf(entity.getCustomerId()))).withSelfRel());
-        model.add(linkTo(methodOn(CustomerController.class).getAllCustomers()).withRel("customers"));
+        model.add(linkTo(methodOn(CustomerController.class).getCustomers()).withRel("customers"));
         return model;
     }
 }

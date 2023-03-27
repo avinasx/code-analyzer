@@ -25,7 +25,7 @@ public class ActorEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "actor_id", nullable = false, columnDefinition = "SMALLINT UNSIGNED")
+    @Column(name = "actor_id", columnDefinition = "SMALLINT UNSIGNED", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer actorId;
 
@@ -33,7 +33,7 @@ public class ActorEntity implements Serializable {
     private FullName fullName;
 
     @Basic
-    @Column(name = "last_update", nullable = false, columnDefinition = "TIMESTAMP")
+    @Column(name = "last_update", columnDefinition = "TIMESTAMP", nullable = false)
     @ColumnDefault("CURRENT_TIMESTAMP")
     @UpdateTimestamp
     @NonNull

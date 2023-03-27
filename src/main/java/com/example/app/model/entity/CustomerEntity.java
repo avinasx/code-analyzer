@@ -28,12 +28,13 @@ public class CustomerEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "customer_id", nullable = false, columnDefinition = "SMALLINT UNSIGNED")
+    @Column(name = "customer_id", columnDefinition = "SMALLINT UNSIGNED", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer customerId;
 
     @Basic
-    @Column(name = "store_id", nullable = false, insertable = false, updatable = false, columnDefinition = "TINYINT UNSIGNED")
+    @Column(name = "store_id", columnDefinition = "TINYINT UNSIGNED", nullable = false,
+            insertable = false, updatable = false)
     @NonNull
     private Integer storeId;
 
@@ -41,28 +42,29 @@ public class CustomerEntity implements Serializable {
     private FullName fullName;
 
     @Basic
-    @Column(name = "email", nullable = true, length = 50)
+    @Column(name = "email", length = 50, nullable = true)
     @Size(min = 1, max = 50)
     private String email;
 
     @Basic
-    @Column(name = "address_id", nullable = false, insertable = false, updatable = false, columnDefinition = "SMALLINT UNSIGNED")
+    @Column(name = "address_id", columnDefinition = "SMALLINT UNSIGNED", nullable = false,
+            insertable = false, updatable = false)
     @NonNull
     private Integer addressId;
 
     @Basic
-    @Column(name = "active", nullable = false, columnDefinition = "BOOLEAN")
+    @Column(name = "active", columnDefinition = "BOOLEAN", nullable = false)
     @ColumnDefault("TRUE")
     @NonNull
     private Boolean active;
 
     @Basic
-    @Column(name = "create_date", nullable = false, columnDefinition = "DATETIME")
+    @Column(name = "create_date", columnDefinition = "DATETIME", nullable = false)
     @NonNull
     private LocalDateTime createDate;
 
     @Basic
-    @Column(name = "last_update", nullable = true, columnDefinition = "TIMESTAMP")
+    @Column(name = "last_update", columnDefinition = "TIMESTAMP", nullable = true)
     @ColumnDefault("CURRENT_TIMESTAMP")
     @UpdateTimestamp
     private LocalDateTime lastUpdate;

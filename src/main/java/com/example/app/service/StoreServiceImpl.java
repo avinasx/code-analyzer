@@ -1,8 +1,9 @@
 package com.example.app.service;
 
 import com.example.app.exception.ResourceNotFoundException;
-import com.example.app.model.internal.StoreDetailModel;
-import com.example.app.model.internal.StoreModel;
+import com.example.app.model.internal.core.StaffModel;
+import com.example.app.model.internal.core.StoreModel;
+import com.example.app.model.internal.extra.StoreDetailModel;
 import com.example.app.model.mapping.mapper.StoreMapper;
 import com.example.app.model.request.StoreRequestModel;
 import com.example.app.repository.StoreRepository;
@@ -20,28 +21,42 @@ public class StoreServiceImpl implements StoreService {
     private final StoreMapper storeMapper;
 
     @Override
-    public List<StoreModel> getAllStores() {
+    public List<StoreModel> getStores() {
         var list = storeRepository.findAll();
         return storeMapper.mapToDtoList(list);
     }
 
     @Override
-    public Optional<StoreModel> getStoreById(String id) {
-        var entity = storeRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
-                new ResourceNotFoundException("Store not found with id '" + id + "'"));
+    public Optional<StoreModel> getStore(String storeId) {
+        var entity = storeRepository.findById(Integer.valueOf(storeId)).orElseThrow(() ->
+                new ResourceNotFoundException("Store not found with id '" + storeId + "'"));
         return Optional.of(storeMapper.mapToDto(entity));
     }
 
     @Override
-    public List<StoreDetailModel> getAllStoresDetail() {
+    public List<StoreDetailModel> getStoresDetail() {
         return storeRepository.findAllStoresDetail();
     }
 
     @Override
-    public Optional<StoreDetailModel> getStoreDetailById(String id) {
-        var model = storeRepository.findStoreDetailById(Integer.valueOf(id));
+    public Optional<StoreDetailModel> getStoreDetail(String storeId) {
+        var model = storeRepository.findStoreDetailById(Integer.valueOf(storeId));
         if (model.isEmpty()) {
-            throw new ResourceNotFoundException("Store not found with id '" + id + "'");
+            throw new ResourceNotFoundException("Store not found with id '" + storeId + "'");
+        }
+        return model;
+    }
+
+    @Override
+    public List<StaffModel> getStoreStaffs(String storeId) {
+        return storeRepository.findAllStoreStaffs(Integer.valueOf(storeId));
+    }
+
+    @Override
+    public Optional<StaffModel> getStoreStaff(String storeId, String staffId) {
+        var model = storeRepository.findStoreStaffById(Integer.valueOf(storeId), Integer.valueOf(staffId));
+        if (model.isEmpty()) {
+            throw new ResourceNotFoundException("Staff not found with id '" + staffId + "'");
         }
         return model;
     }
@@ -54,19 +69,32 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
+    public StaffModel addStoreStaff(String storeId, String staffId) {
+        return null;
+    }
+
+    @Override
     @Transactional
-    public StoreModel updateStore(String id, StoreRequestModel model) {
-        var entity = storeRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
-                new ResourceNotFoundException("Store not found with id '" + id + "'"));
+    public StoreModel updateStore(String storeId, StoreRequestModel model) {
+        var entity = storeRepository.findById(Integer.valueOf(storeId)).orElseThrow(() ->
+                new ResourceNotFoundException("Store not found with id '" + storeId + "'"));
         entity.update(storeMapper.mapToEntity(model));
         return storeMapper.mapToDto(entity);
     }
 
     @Override
+    public StaffModel updateStoreStaff(String storeId, String staffId) {
+        return null;
+    }
+
+    @Override
     @Transactional
-    public void deleteStoreById(String id) {
-        var entity = storeRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
-                new ResourceNotFoundException("Store not found with id '" + id + "'"));
-        storeRepository.deleteById(entity.getStoreId());
+    public void deleteStore(String storeId) {
+        storeRepository.deleteById(Integer.valueOf(storeId));
+    }
+
+    @Override
+    public void removeStoreStaff(String storeId, String staffId) {
+
     }
 }

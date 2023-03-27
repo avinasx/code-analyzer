@@ -1,7 +1,7 @@
 package com.example.app.hateoas.assembler;
 
-import com.example.app.controller.PaymentController;
-import com.example.app.model.internal.StoreSalesModel;
+import com.example.app.controller.ReportController;
+import com.example.app.model.internal.extra.StoreSalesModel;
 import com.example.app.model.response.StoreSalesResponseModel;
 import lombok.NonNull;
 import org.springframework.hateoas.CollectionModel;
@@ -14,7 +14,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @Component
 public class StoreSalesRepresentationModelAssembler extends RepresentationModelAssemblerSupport<StoreSalesModel, StoreSalesResponseModel> {
     public StoreSalesRepresentationModelAssembler() {
-        super(PaymentController.class, StoreSalesResponseModel.class);
+        super(ReportController.class, StoreSalesResponseModel.class);
     }
 
     @Override
@@ -29,8 +29,8 @@ public class StoreSalesRepresentationModelAssembler extends RepresentationModelA
     @Override
     public CollectionModel<StoreSalesResponseModel> toCollectionModel(@NonNull Iterable<? extends StoreSalesModel> entities) {
         var collectionModel = super.toCollectionModel(entities);
-        collectionModel.add(linkTo(methodOn(PaymentController.class).getSalesByStore()).withSelfRel());
-        collectionModel.add(linkTo(methodOn(PaymentController.class).getSalesByCategory()).withRel("categorySales"));
+        collectionModel.add(linkTo(methodOn(ReportController.class).reportSalesByStore()).withSelfRel());
+        collectionModel.add(linkTo(methodOn(ReportController.class).reportSalesByCategory()).withRel("categorySales"));
         return collectionModel;
     }
 }

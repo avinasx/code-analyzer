@@ -15,47 +15,49 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
+@RequestMapping(value = "/staffs")
 @AllArgsConstructor
 public class StaffController {
     private final StaffService staffService;
     private final StaffRepresentationModelAssembler staffAssembler;
     private final StaffDetailRepresentationModelAssembler staffDetailAssembler;
 
-    @GetMapping(path = "/staffs")
-    public ResponseEntity<CollectionModel<StaffResponseModel>> getAllStaffs() {
-        return ResponseEntity.ok(staffAssembler.toCollectionModel(staffService.getAllStaffs()));
+    @GetMapping(path = "")
+    public ResponseEntity<CollectionModel<StaffResponseModel>> getStaffs() {
+        return ResponseEntity.ok(staffAssembler.toCollectionModel(
+                staffService.getStaffs()));
     }
 
-    @PostMapping(path = "/staffs")
+    @PostMapping(path = "")
     public ResponseEntity<Void> addStaff(@RequestBody StaffRequestModel model) {
         var result = staffService.addStaff(model);
         return ResponseEntity.created(linkTo(methodOn(StaffController.class)
                 .getStaff(String.valueOf(result.getStaffId()))).toUri()).build();
     }
 
-    @GetMapping(path = "/staffs/{id}")
-    public ResponseEntity<StaffResponseModel> getStaff(@PathVariable String id) {
-        return staffService.getStaffById(id)
+    @GetMapping(path = "/{staffId}")
+    public ResponseEntity<StaffResponseModel> getStaff(@PathVariable String staffId) {
+        return staffService.getStaff(staffId)
                 .map(staffAssembler::toModel)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PutMapping(path = "/staffs/{id}")
-    public ResponseEntity<Void> updateStaff(@PathVariable String id, @RequestBody StaffRequestModel model) {
-        var result = staffService.updateStaff(id, model);
+    @PutMapping(path = "/{staffId}")
+    public ResponseEntity<Void> updateStaff(@PathVariable String staffId, @RequestBody StaffRequestModel model) {
+        var result = staffService.updateStaff(staffId, model);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping(path = "/staffs/{id}")
-    public ResponseEntity<Void> deleteStaff(@PathVariable String id) {
-        staffService.removeStaffById(id);
+    @DeleteMapping(path = "/{staffId}")
+    public ResponseEntity<Void> deleteStaff(@PathVariable String staffId) {
+        staffService.removeStaff(staffId);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping(path = "/staffs/{id}/details")
-    public ResponseEntity<StaffDetailResponseModel> getStaffDetail(@PathVariable String id) {
-        return staffService.getStaffDetailById(id)
+    @GetMapping(path = "/{staffId}/details")
+    public ResponseEntity<StaffDetailResponseModel> getStaffDetail(@PathVariable String staffId) {
+        return staffService.getStaffDetail(staffId)
                 .map(staffDetailAssembler::toModel)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());

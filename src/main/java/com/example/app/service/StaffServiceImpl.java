@@ -1,8 +1,8 @@
 package com.example.app.service;
 
 import com.example.app.exception.ResourceNotFoundException;
-import com.example.app.model.internal.StaffDetailModel;
-import com.example.app.model.internal.StaffModel;
+import com.example.app.model.internal.core.StaffModel;
+import com.example.app.model.internal.extra.StaffDetailModel;
 import com.example.app.model.mapping.mapper.StaffMapper;
 import com.example.app.model.request.StaffRequestModel;
 import com.example.app.repository.StaffRepository;
@@ -20,28 +20,28 @@ public class StaffServiceImpl implements StaffService {
     private final StaffMapper staffMapper;
 
     @Override
-    public List<StaffModel> getAllStaffs() {
+    public List<StaffModel> getStaffs() {
         var list = staffRepository.findAll();
         return staffMapper.mapToDtoList(list);
     }
 
     @Override
-    public Optional<StaffModel> getStaffById(String id) {
-        var entity = staffRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
-                new ResourceNotFoundException("Staff not found with id '" + id + "'"));
+    public Optional<StaffModel> getStaff(String staffId) {
+        var entity = staffRepository.findById(Integer.valueOf(staffId)).orElseThrow(() ->
+                new ResourceNotFoundException("Staff not found with id '" + staffId + "'"));
         return Optional.of(staffMapper.mapToDto(entity));
     }
 
     @Override
-    public List<StaffDetailModel> getAllStaffsDetail() {
+    public List<StaffDetailModel> getStaffsDetail() {
         return staffRepository.findAllStaffsDetail();
     }
 
     @Override
-    public Optional<StaffDetailModel> getStaffDetailById(String id) {
-        var model = staffRepository.findStaffDetailById(Integer.valueOf(id));
+    public Optional<StaffDetailModel> getStaffDetail(String staffId) {
+        var model = staffRepository.findStaffDetailById(Integer.valueOf(staffId));
         if (model.isEmpty()) {
-            throw new ResourceNotFoundException("Staff not found with id '" + id + "'");
+            throw new ResourceNotFoundException("Staff not found with id '" + staffId + "'");
         }
         return model;
     }
@@ -55,18 +55,16 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     @Transactional
-    public StaffModel updateStaff(String id, StaffRequestModel model) {
-        var entity = staffRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
-                new ResourceNotFoundException("Staff not found with id '" + id + "'"));
+    public StaffModel updateStaff(String staffId, StaffRequestModel model) {
+        var entity = staffRepository.findById(Integer.valueOf(staffId)).orElseThrow(() ->
+                new ResourceNotFoundException("Staff not found with id '" + staffId + "'"));
         entity.update(staffMapper.mapToEntity(model));
         return staffMapper.mapToDto(entity);
     }
 
     @Override
     @Transactional
-    public void removeStaffById(String id) {
-        var entity = staffRepository.findById(Integer.valueOf(id)).orElseThrow(() ->
-                new ResourceNotFoundException("Staff not found with id '" + id + "'"));
-        staffRepository.deleteById(entity.getStaffId());
+    public void removeStaff(String staffId) {
+        staffRepository.deleteById(Integer.valueOf(staffId));
     }
 }

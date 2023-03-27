@@ -1,9 +1,10 @@
 package com.example.app.hateoas.assembler;
 
 import com.example.app.controller.StaffController;
-import com.example.app.model.internal.StaffModel;
+import com.example.app.model.internal.core.StaffModel;
 import com.example.app.model.response.StaffResponseModel;
 import lombok.NonNull;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +23,13 @@ public class StaffRepresentationModelAssembler extends RepresentationModelAssemb
         var model = instantiateModel(entity);
         model.setStaffModel(entity);
         model.add(linkTo(methodOn(StaffController.class).getStaff(String.valueOf(entity.getStaffId()))).withSelfRel());
-        model.add(linkTo(methodOn(StaffController.class).getAllStaffs()).withRel("staffs"));
+        model.add(linkTo(methodOn(StaffController.class).getStaffs()).withRel("staffs"));
         return model;
+    }
+
+    @Override
+    @NonNull
+    public CollectionModel<StaffResponseModel> toCollectionModel(@NonNull Iterable<? extends StaffModel> entities) {
+        return super.toCollectionModel(entities);
     }
 }

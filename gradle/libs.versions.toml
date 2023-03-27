@@ -1,5 +1,5 @@
 [versions]
-spring-boot = "3.0.4"
+spring-boot = "3.0.5"
 spring-dependency = "1.1.0"
 kotlin-plugin = "1.8.10"
 querydsl = "5.0.0"
@@ -39,7 +39,6 @@ lombok-mapstruct = { module = "org.projectlombok:lombok-mapstruct-binding", vers
 
 hibernate-validator = { module = "org.hibernate.validator:hibernate-validator", version = "8.0.0.Final" }
 guava = { module = "com.google.guava:guava", version = "31.1-jre" }
-jackson-xml = { module = "com.fasterxml.jackson.dataformat:jackson-dataformat-xml", version = "2.14.2" }
 mysql-connector = { module = "com.mysql:mysql-connector-j", version = "8.0.32" }
 prometheus = { module = "io.micrometer:micrometer-registry-prometheus", version = "1.10.4" }
 
@@ -54,7 +53,7 @@ kotiln-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin-plugin" 
 asciidoctor = { id = "org.asciidoctor.jvm.convert", version = "3.3.2" }
 
 [bundles]
-web = ["spring-web", "spring-hateoas", "jackson-xml"]
+web = ["spring-web", "spring-hateoas"]
 data = ["spring-data-jpa"]
 security = ["spring-security", "spring-oauth2"]
 querydsl = ["querydsl-sql", "querydsl-sql-codegen", "querydsl-sql-spring", "querydsl-spatial"]

@@ -3,17 +3,22 @@ package com.example.app.repository.custom;
 import com.blazebit.persistence.querydsl.BlazeJPAQuery;
 import com.blazebit.persistence.querydsl.BlazeJPAQueryFactory;
 import com.blazebit.persistence.querydsl.JPQLNextExpressions;
-import com.example.app.model.entity.ActorEntity;
+import com.example.app.model.constant.FilmRating;
 import com.example.app.model.entity.QActorEntity;
 import com.example.app.model.entity.QFilmActorEntity;
+import com.example.app.model.entity.QFilmCategoryEntity;
 import com.example.app.model.entity.QFilmEntity;
-import com.example.app.model.internal.ActorDetailModel;
+import com.example.app.model.internal.core.FilmModel;
+import com.example.app.model.internal.extra.ActorDetailModel;
+import com.example.app.model.internal.extra.FilmDetailModel;
 import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,8 +36,8 @@ public class CustomActorRepositoryImpl implements CustomActorRepository {
     }
 
     @Override
-    public Optional<ActorDetailModel> findActorDetailById(Integer id) {
-        var query = findActorDetail(id);
+    public Optional<ActorDetailModel> findActorDetailById(Integer actorId) {
+        var query = findActorDetail(actorId);
         return Optional.ofNullable(query.fetchFirst());
     }
 
@@ -57,12 +62,93 @@ public class CustomActorRepositoryImpl implements CustomActorRepository {
     }
 
     @Override
-    public List<ActorEntity> findActorByName(String name) {
-        var actor = QActorEntity.actorEntity;
-        var query = jpaQueryFactory
-                .selectFrom(actor)
-                .where((actor.fullName.firstName.contains(name.toUpperCase())
-                        .or(actor.fullName.lastName.contains(name.toUpperCase()))));
+    public List<FilmModel> findAllActorFilmsById(Integer actorId) {
+        var query = findActorFilm(actorId, null, null, null);
         return query.fetch();
+    }
+
+    @Override
+    public List<FilmModel> findAllActorFilmsByIdWithFilter(Integer actorId, LocalDate releaseYear, FilmRating rating) {
+        var query = findActorFilm(actorId, null, releaseYear, rating);
+        return query.fetch();
+    }
+
+    @Override
+    public Optional<FilmModel> findActorFilmById(Integer actorId, Integer filmId) {
+        var query = findActorFilm(actorId, filmId, null, null);
+        return Optional.ofNullable(query.fetchFirst());
+    }
+
+    private JPAQuery<FilmModel> findActorFilm(Integer actorId, Integer filmId, LocalDate releaseYear, FilmRating rating) {
+        var actor = QActorEntity.actorEntity;
+        var film = QFilmEntity.filmEntity;
+        var filmActor = QFilmActorEntity.filmActorEntity;
+
+        var query = jpaQueryFactory
+                .select(Projections.constructor(FilmModel.class))
+                .from(actor)
+                .leftJoin(filmActor).on(filmActor.actorId.eq(actor.actorId))
+                .leftJoin(film).on(filmActor.filmId.eq(film.filmId))
+                .where(actor.actorId.eq(actorId));
+        if (filmId != null) {
+            query.where(film.filmId.eq(filmId));
+        }
+        if (releaseYear != null) {
+            query.where(film.releaseYear.eq(releaseYear));
+        }
+        if (rating != null) {
+            query.where(film.rating.eq(rating));
+        }
+        return query;
+    }
+
+    @Override
+    public Optional<FilmDetailModel> findActorFilmDetailById(Integer actorId, Integer filmId) {
+        var actor = QActorEntity.actorEntity;
+        var film = QFilmEntity.filmEntity;
+        var filmActor = QFilmActorEntity.filmActorEntity;
+        var filmCategory = QFilmCategoryEntity.filmCategoryEntity;
+
+        var query = jpaQueryFactory
+                .select(Projections.constructor(FilmDetailModel.class,
+                        film.filmId.as("filmId"),
+                        film.title.as("title"),
+                        film.description.as("description"),
+                        filmCategory.categoryId.as("category"),
+                        film.rentalRate.as("price"),
+                        film.length.as("length"),
+                        film.rating.as("rating"),
+                        JPQLNextExpressions.groupConcat(actor.fullName.firstName.concat(" ")
+                                .concat(actor.fullName.lastName), ", ").as("actorName")))
+                .from(actor)
+                .leftJoin(filmActor).on(filmActor.actorId.eq(actor.actorId))
+                .leftJoin(film).on(film.filmId.eq(filmActor.filmId))
+                .leftJoin(filmCategory).on(filmCategory.filmId.eq(film.filmId))
+                .where(actor.actorId.eq(actorId))
+                .where(film.filmId.eq(filmId))
+                .groupBy(film.filmId, filmCategory.categoryId);
+        return Optional.ofNullable(query.fetchFirst());
+    }
+
+    @Override
+    @Transactional
+    public Optional<FilmModel> addActorFilm(Integer actorId, Integer filmId) {
+        var filmActor = QFilmActorEntity.filmActorEntity;
+        var query = jpaQueryFactory
+                .insert(filmActor)
+                .columns(filmActor.actorId, filmActor.filmId)
+                .values(actorId, filmId);
+        query.execute();
+        return findActorFilmById(actorId, filmId);
+    }
+
+    @Override
+    public void removeActorFilm(Integer actorId, Integer filmId) {
+        var filmActor = QFilmActorEntity.filmActorEntity;
+        var query = jpaQueryFactory
+                .delete(filmActor)
+                .where(filmActor.actorId.eq(actorId))
+                .where(filmActor.filmId.eq(filmId));
+        query.execute();
     }
 }

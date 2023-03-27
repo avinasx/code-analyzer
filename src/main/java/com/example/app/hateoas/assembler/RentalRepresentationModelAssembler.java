@@ -1,7 +1,7 @@
 package com.example.app.hateoas.assembler;
 
 import com.example.app.controller.RentalController;
-import com.example.app.model.internal.RentalModel;
+import com.example.app.model.internal.core.RentalModel;
 import com.example.app.model.response.RentalResponseModel;
 import lombok.NonNull;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
@@ -22,7 +22,7 @@ public class RentalRepresentationModelAssembler extends RepresentationModelAssem
         var model = instantiateModel(entity);
         model.setRentalModel(entity);
         model.add(linkTo(methodOn(RentalController.class).getRental(String.valueOf(entity.getRentalId()))).withSelfRel());
-        model.add(linkTo(methodOn(RentalController.class).getAllRentals()).withRel("rentals"));
+        model.add(linkTo(methodOn(RentalController.class).getRentals()).withRel("rentals"));
         return model;
     }
 }

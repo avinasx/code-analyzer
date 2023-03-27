@@ -27,51 +27,52 @@ public class AddressEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "address_id", nullable = false, columnDefinition = "SMALLINT UNSIGNED")
+    @Column(name = "address_id", columnDefinition = "SMALLINT UNSIGNED", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer addressId;
 
     @Basic
-    @Column(name = "address", nullable = false, length = 50)
+    @Column(name = "address", length = 50, nullable = false)
     @NonNull
     @Size(min = 1, max = 50)
     private String address;
 
     @Basic
-    @Column(name = "address2", nullable = true, length = 50)
+    @Column(name = "address2", length = 50, nullable = true)
     @Size(min = 1, max = 50)
     private String address2;
 
     @Basic
-    @Column(name = "district", nullable = false, length = 20)
+    @Column(name = "district", length = 20, nullable = false)
     @NonNull
     @Size(min = 1, max = 20)
     private String district;
 
     @Basic
-    @Column(name = "city_id", nullable = false, insertable = false, updatable = false, columnDefinition = "SMALLINT UNSIGNED")
+    @Column(name = "city_id", columnDefinition = "SMALLINT UNSIGNED", nullable = false,
+            insertable = false, updatable = false)
     @NonNull
     private Integer cityId;
 
     @Basic
-    @Column(name = "postal_code", nullable = true, length = 10)
+    @Column(name = "postal_code", length = 10, nullable = true)
     @Size(min = 1, max = 10)
     private String postalCode;
 
     @Basic
-    @Column(name = "phone", nullable = false, length = 20)
+    @Column(name = "phone", length = 20, nullable = false)
     @NonNull
     @Size(min = 1, max = 20)
     private String phone;
 
     // @Basic
-    // @Column(name = "location", nullable = false, columnDefinition = "GEOMETRY SRID 0")
+    // @Column(name = "location", columnDefinition = "GEOMETRY SRID 0", nullable = false)
     // @Convert(converter = GeometryConverter.class)
     // @NonNull
     // private Point location;
 
     @Basic
-    @Column(name = "last_update", nullable = false, columnDefinition = "TIMESTAMP")
+    @Column(name = "last_update", columnDefinition = "TIMESTAMP", nullable = false)
     @ColumnDefault("CURRENT_TIMESTAMP")
     @UpdateTimestamp
     @NonNull

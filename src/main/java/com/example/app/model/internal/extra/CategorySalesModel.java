@@ -1,4 +1,4 @@
-package com.example.app.model.internal;
+package com.example.app.model.internal.extra;
 
 import com.example.app.model.constant.Category;
 import com.example.app.model.mapping.converter.CategoryConverter;

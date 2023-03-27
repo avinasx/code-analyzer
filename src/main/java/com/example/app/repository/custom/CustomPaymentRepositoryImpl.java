@@ -1,10 +1,10 @@
 package com.example.app.repository.custom;
 
-import com.example.app.model.entity.*;
 import com.example.app.model.constant.Country;
-import com.example.app.model.internal.CategorySalesModel;
-import com.example.app.model.internal.PaymentModel;
-import com.example.app.model.internal.StoreSalesModel;
+import com.example.app.model.entity.*;
+import com.example.app.model.internal.core.PaymentModel;
+import com.example.app.model.internal.extra.CategorySalesModel;
+import com.example.app.model.internal.extra.StoreSalesModel;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -32,7 +32,7 @@ public class CustomPaymentRepositoryImpl implements CustomPaymentRepository {
     }
 
     @Override
-    public Optional<PaymentModel> findPaymentDetailById(Integer id) {
+    public Optional<PaymentModel> findPaymentDetailById(Integer paymentId) {
         return Optional.empty();
     }
 

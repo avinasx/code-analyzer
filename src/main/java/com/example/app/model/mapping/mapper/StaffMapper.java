@@ -1,7 +1,7 @@
 package com.example.app.model.mapping.mapper;
 
 import com.example.app.model.entity.StaffEntity;
-import com.example.app.model.internal.StaffModel;
+import com.example.app.model.internal.core.StaffModel;
 import com.example.app.model.request.StaffRequestModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
