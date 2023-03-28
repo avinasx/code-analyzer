@@ -3,6 +3,7 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 val asciidoctorExt: Configuration by configurations.creating
+val snippetsDir by extra { file("build/generated-snippets") }
 
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
@@ -16,10 +17,6 @@ plugins {
 
 group = "com.example"
 version = "0.0.1-SNAPSHOT"
-
-extra {
-    var snippetsDir = file("build/generated-snippets")
-}
 
 kotlin {
     jvmToolchain {
@@ -93,7 +90,7 @@ tasks {
     }
     withType<Test> {
         useJUnitPlatform()
-        outputs.dir("snippetsDir")
+        outputs.dir(snippetsDir)
         testLogging {
             events(
                 TestLogEvent.FAILED,
@@ -116,7 +113,7 @@ tasks {
     asciidoctor {
         dependsOn(test)
         configurations(asciidoctorExt.name)
-        inputs.dir("snippetsDir")
+        inputs.dir(snippetsDir)
         inProcess = JAVA_EXEC
         forkOptions {
             jvmArgs(
