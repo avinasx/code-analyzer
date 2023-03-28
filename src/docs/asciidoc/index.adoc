@@ -1,0 +1,65 @@
+= Sakila REST API Service Reference
+Jinseong Ha;
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 3
+:sectlinks:
+
+[[overview]]
+== Overview
+
+This REST API service provides access to the https://dev.mysql.com/doc/sakila/en/[Sakila database], which is a sample database provided by MySQL for learning and testing purposes. The Sakila database models a DVD rental store company, includes data about films, actors, customers, rentals, and more.
+
+This service provides a simple way to perform CRUD(Create, Read, Update, Delete) operations on the Sakila database. It also provides endpoints to perform more complex queries.
+
+[[API]]
+== API
+
+[[Actor_API]]
+=== Actor API
+
+==== Get actor list
+
+operation::actor-list-tests/get-actors_success[snippets="http-request,http-response,response-fields"]
+
+==== Add actor
+
+operation::actor-update-tests/add-actor_success[snippets="http-request,http-response,request-fields"]
+
+==== Get actor
+
+operation::actor-list-tests/get-actor_success[snippets="http-request,http-response,path-parameters,response-fields"]
+
+==== Update actor
+
+operation::actor-update-tests/update-actor_success[snippets="http-request,http-response,request-fields,path-parameters"]
+
+==== Delete actor
+
+operation::actor-update-tests/delete-actor_success[snippets="http-request,http-response,path-parameters"]
+
+==== Get details of actor
+
+operation::actor-detail-tests/get-actor-detail_success[snippets="http-request,http-response,path-parameters,response-fields"]
+
+==== Get film list of actor
+
+operation::actor-film-tests/get-actor-films_success[snippets="http-request,http-response,path-parameters,response-fields"]
+
+==== Add film to film list of actor
+
+operation::actor-film-tests/add-actor-film_success[snippets="http-request,http-response,request-fields,path-parameters"]
+
+==== Get film of actor
+
+operation::actor-film-tests/get-actor-film_success[snippets="http-request,http-response,path-parameters,response-fields"]
+
+==== Delete film from film list of actor
+
+operation::actor-film-tests/delete-actor-film_success[snippets="http-request,http-response,path-parameters"]
+
+==== Get details of film of actor
+
+operation::actor-film-detail-tests/get-actor-film-detail_success[snippets="http-request,http-response,path-parameters,response-fields"]

@@ -152,12 +152,12 @@ class ActorControllerTest extends RestDocsTestControllerSupport {
                     .andExpect(jsonPath("lastUpdate").value("2006-02-15T09:34:33"))
                     .andDo(restDocsHandler.document(
                             pathParameters(
-                                    parameterWithName("actorId").description("The id of the actor")),
+                                    parameterWithName("actorId").description("Id of the actor")),
                             responseFields(
-                                    fieldWithPath("actorId").description("The id of the actor"),
-                                    fieldWithPath("firstName").description("The first name of the actor"),
-                                    fieldWithPath("lastName").description("The last name of the actor"),
-                                    fieldWithPath("lastUpdate").description("The last update of the actor"),
+                                    fieldWithPath("actorId").description("Id of the actor"),
+                                    fieldWithPath("firstName").description("First name of the actor"),
+                                    fieldWithPath("lastName").description("Last name of the actor"),
+                                    fieldWithPath("lastUpdate").description("Last update of the actor"),
                                     fieldWithPath("_links.self.href").description("Link to the actor's own resource"),
                                     fieldWithPath("_links.self.title").ignored(),
                                     fieldWithPath("_links.self.type").description("HTTP method of the link"),
@@ -563,9 +563,8 @@ class ActorControllerTest extends RestDocsTestControllerSupport {
                     .category(Category.DOCUMENTARY)
                     .price(BigDecimal.valueOf(0.99))
                     .length(86)
-                    .actors("PENELOPE GUINESS")
                     .rating(FilmRating.PG)
-                    // .actors(List.of("PENELOPE GUINESS", "NICK WAHLBERG"))
+                    .actors("PENELOPE GUINESS")
                     .build());
             when(actorService.getActorFilmDetail(actorId, filmId)).thenReturn(model);
 
