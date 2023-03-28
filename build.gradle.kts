@@ -1,6 +1,8 @@
-import org.asciidoctor.gradle.jvm.AsciidoctorTask
+import org.asciidoctor.gradle.jvm.AbstractAsciidoctorTask.JAVA_EXEC
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
+
+val asciidoctorExt: Configuration by configurations.creating
 
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
@@ -14,6 +16,10 @@ plugins {
 
 group = "com.example"
 version = "0.0.1-SNAPSHOT"
+
+extra {
+    var snippetsDir = file("build/generated-snippets")
+}
 
 kotlin {
     jvmToolchain {
@@ -43,16 +49,17 @@ dependencies {
     implementation(libs.spring.actuator)
     // developmentOnly(libs.bundles.develop)
     runtimeOnly(libs.bundles.runtime)
-
-    // test
     // testImplementation(libs.bundles.test)
     testImplementation(libs.spring.test)
-    testImplementation(libs.spring.restdocs)
 
     // annotation processor
     kapt(libs.spring.processor)
     annotationProcessor(libs.spring.processor)
     testAnnotationProcessor(libs.spring.processor)
+
+    // restdocs
+    testImplementation(libs.bundles.restdocs)
+    asciidoctorExt(libs.spring.restdocs.asciidoctor)
 
     // querydsl
     implementation(libs.bundles.querydsl)
@@ -86,6 +93,7 @@ tasks {
     }
     withType<Test> {
         useJUnitPlatform()
+        outputs.dir("snippetsDir")
         testLogging {
             events(
                 TestLogEvent.FAILED,
@@ -105,10 +113,28 @@ tasks {
             }
         }
     }
-    withType<AsciidoctorTask>().named("asciidoctor") {
+    asciidoctor {
         dependsOn(test)
+        configurations(asciidoctorExt.name)
+        inputs.dir("snippetsDir")
+        inProcess = JAVA_EXEC
+        forkOptions {
+            jvmArgs(
+                "--add-opens", "java.base/sun.nio.ch=ALL-UNNAMED",
+                "--add-opens", "java.base/java.io=ALL-UNNAMED"
+            )
+        }
+        doLast {
+            copy {
+                from("build/docs/asciidoc")
+                into("src/main/resources/static/docs")
+            }
+        }
     }
-    withType<Jar> {
+    build {
+        dependsOn(asciidoctor)
+    }
+    processResources {
         duplicatesStrategy = DuplicatesStrategy.INCLUDE
     }
 }

@@ -1,6 +1,7 @@
 [versions]
 spring-boot = "3.0.5"
 spring-dependency = "1.1.0"
+spring-restdocs = "3.0.0"
 kotlin-plugin = "1.8.10"
 querydsl = "5.0.0"
 blaze = "1.6.8"
@@ -17,7 +18,8 @@ spring-actuator = { module = "org.springframework.boot:spring-boot-starter-actua
 spring-processor = { module = "org.springframework.boot:spring-boot-configuration-processor", version.ref = "spring-boot" }
 spring-test = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "spring-boot" }
 spring-security-test = { module = "org.springframework.security:spring-security-test", version.ref = "spring-boot" }
-spring-restdocs = { module = "org.springframework.restdocs:spring-restdocs-mockmvc", version = "3.0.0" }
+spring-restdocs-asciidoctor = { module = "org.springframework.restdocs:spring-restdocs-asciidoctor", version.ref = "spring-restdocs" }
+spring-restdocs-mockmvc = { module = "org.springframework.restdocs:spring-restdocs-mockmvc", version.ref = "spring-restdocs" }
 
 querydsl-jpa = { module = "com.querydsl:querydsl-jpa", version.ref = "querydsl" }
 querydsl-apt = { module = "com.querydsl:querydsl-apt", version.ref = "querydsl" }
@@ -59,4 +61,5 @@ security = ["spring-security", "spring-oauth2"]
 querydsl = ["querydsl-sql", "querydsl-sql-codegen", "querydsl-sql-spring", "querydsl-spatial"]
 develop = ["spring-devtools"]
 runtime = ["mysql-connector", "prometheus"]
-test = ["spring-test", "spring-security-test", "spring-restdocs"]
+test = ["spring-test", "spring-security-test"]
+restdocs = ["spring-restdocs-asciidoctor", "spring-restdocs-mockmvc"]
