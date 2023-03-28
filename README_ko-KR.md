@@ -4,7 +4,7 @@ Sakila REST API Service (Sample Project)
 
 ![Gradle Build](https://github.com/codejsha/spring-rest-sakila/actions/workflows/gradle.yml/badge.svg)
 
-[English](README.md)
+[English](README.md) | [Korean](README_ko-KR.md)
 
 Sakila REST API 서비스는 학습 및 테스트 목적으로 MySQL에서 제공하는 샘플 데이터베이스인 Sakila 데이터베이스에 대한 액세스를 제공합니다. Sakila 데이터베이스는 DVD 대여점 회사를 모델링하고 있으며, 영화, 배우, 고객, 대여 등에 대한 데이터를 포함합니다.
 
@@ -26,7 +26,7 @@ Sakila REST API 서비스는 학습 및 테스트 목적으로 MySQL에서 제�
 - [API 문서](#api-문서)
   - [API 엔드포인트](#api-엔드포인트)
   - [API 레퍼런스](#api-레퍼런스)
-  - [관측가능성](#관측가능성)
+- [관측가능성](#관측가능성)
 - [샘플 데이터](#샘플-데이터)
 - [라이선스](#라이선스)
 
@@ -62,7 +62,7 @@ Sakila REST API 서비스는 학습 및 테스트 목적으로 MySQL에서 제�
 ```bash
 # GitHub CLI
 gh repo clone codejsha/spring-rest-sakila
-# git CLI
+# Git CLI
 git clone https://github.com/codejsha/spring-rest-sakila.git
 ```
 
@@ -131,7 +131,7 @@ Sakila REST API 서비스는 다음과 같은 몇 가지 엔드포인트를 제�
 
 API 레퍼런스는 Spring REST Docs에서 Asciidoctor를 사용하여 생성되며 어플리케이션에서 `http://localhost:8080/api/v1/docs/index.html`로 제공됩니다.
 
-### 관측가능성
+## 관측가능성
 
 어플리케이션은 Spring Boot Actuator와 Micrometer를 사용하여 관측가능성을 제공합니다.
 
@@ -144,8 +144,8 @@ management:
   endpoints:
     web:
       exposure:
-        # include: "health,prometheus"
-        include: "*"
+        include: "health,prometheus"
+        # include: "*"
     jmx:
       exposure:
         exclude: "*"
