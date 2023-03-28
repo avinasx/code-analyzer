@@ -47,8 +47,8 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public PaymentModel addPayment(PaymentRequestModel model) {
-        var result = paymentMapper.mapToEntity(model);
-        var savedEntity = paymentRepository.save(result);
+        var entity = paymentMapper.mapToEntity(model);
+        var savedEntity = paymentRepository.save(entity);
         return paymentMapper.mapToDto(savedEntity);
     }
 
