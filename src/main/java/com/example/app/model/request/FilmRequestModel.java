@@ -13,7 +13,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.EnumSet;
 
 @Getter
 @Setter
@@ -57,7 +57,7 @@ public class FilmRequestModel implements Serializable {
     private FilmRating rating;
 
     @JsonProperty("specialFeatures")
-    private Set<SpecialFeature> specialFeatures;
+    private EnumSet<SpecialFeature> specialFeatures;
 
     @Override
     public boolean equals(Object o) {

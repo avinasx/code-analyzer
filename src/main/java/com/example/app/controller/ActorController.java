@@ -73,8 +73,12 @@ public class ActorController {
 
     @GetMapping(path = "/{actorId}/films")
     public ResponseEntity<CollectionModel<FilmResponseModel>> getActorFilms(@PathVariable String actorId) {
-        return ResponseEntity.ok(filmAssembler.toCollectionModel(
-                actorService.getActorFilms(actorId)));
+        var collectionModel = filmAssembler.toCollectionModel(
+                actorService.getActorFilms(actorId));
+        var updatedCollectionModel = collectionModel.removeLinks()
+                .add(linkTo(methodOn(ActorController.class).getActorFilms(actorId)).withSelfRel())
+                .add(linkTo(methodOn(ActorController.class).getActor(actorId)).withRel("actor"));
+        return ResponseEntity.ok(updatedCollectionModel);
     }
 
     // @GetMapping(path = "/{actorId}/films")

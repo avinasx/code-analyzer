@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Set;
+import java.util.EnumSet;
 
 @Entity(name = "film")
 @Table(name = "film", schema = "sakila", indexes = {
@@ -105,7 +105,7 @@ public class FilmEntity implements Serializable {
     @Column(name = "special_features", columnDefinition = "SET('Trailers','Commentaries','Deleted Scenes','Behind the Scenes')", nullable = true)
     @ColumnDefault("NULL")
     @Convert(converter = SpecialFeatureConverter.class)
-    private Set<SpecialFeature> specialFeatures;
+    private EnumSet<SpecialFeature> specialFeatures;
 
     @Basic
     @Column(name = "last_update", columnDefinition = "TIMESTAMP", nullable = false)

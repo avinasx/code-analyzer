@@ -5,10 +5,12 @@ import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.google.common.base.Objects;
 import lombok.*;
 import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
 import java.io.Serial;
 import java.io.Serializable;
 
+@Relation(collectionRelation = "addresses", itemRelation = "address")
 @Getter
 @Setter
 @ToString

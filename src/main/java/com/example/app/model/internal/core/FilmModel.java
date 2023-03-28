@@ -8,8 +8,11 @@ import com.example.app.model.entity.FilmCategoryEntity;
 import com.example.app.model.entity.InventoryEntity;
 import com.example.app.model.entity.LanguageEntity;
 import com.example.app.model.mapping.converter.FilmRatingConverter;
+import com.example.app.model.mapping.converter.SpecialFeatureConverter;
+import com.example.app.model.mapping.serializer.SpecialFeatureSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.base.Objects;
 import jakarta.persistence.Convert;
 import lombok.*;
@@ -18,7 +21,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Set;
+import java.util.EnumSet;
 
 @Getter
 @Setter
@@ -62,7 +65,9 @@ public class FilmModel {
     private FilmRating rating;
 
     @JsonProperty("specialFeatures")
-    private Set<SpecialFeature> specialFeatures;
+    @Convert(converter = SpecialFeatureConverter.class)
+    @JsonSerialize(using = SpecialFeatureSerializer.class)
+    private EnumSet<SpecialFeature> specialFeatures;
 
     @JsonProperty("lastUpdate")
     private LocalDateTime lastUpdate;

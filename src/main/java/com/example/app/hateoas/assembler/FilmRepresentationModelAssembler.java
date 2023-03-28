@@ -30,6 +30,8 @@ public class FilmRepresentationModelAssembler extends RepresentationModelAssembl
     @NonNull
     @Override
     public CollectionModel<FilmResponseModel> toCollectionModel(@NonNull Iterable<? extends FilmModel> entities) {
-        return super.toCollectionModel(entities);
+        var collectionModel = super.toCollectionModel(entities);
+        collectionModel.add(linkTo(methodOn(FilmController.class).getFilms()).withSelfRel());
+        return collectionModel;
     }
 }

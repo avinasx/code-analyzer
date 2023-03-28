@@ -5,23 +5,23 @@ import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
 import java.util.Arrays;
-import java.util.Set;
+import java.util.EnumSet;
 import java.util.stream.Collectors;
 
 @Converter
-public class SpecialFeatureConverter implements AttributeConverter<Set<SpecialFeature>, String> {
+public class SpecialFeatureConverter implements AttributeConverter<EnumSet<SpecialFeature>, String> {
     @Override
-    public String convertToDatabaseColumn(Set<SpecialFeature> attribute) {
+    public String convertToDatabaseColumn(EnumSet<SpecialFeature> attribute) {
         if (attribute == null) {
             return null;
         }
         return attribute.stream()
-                .map(Enum::name)
+                .map(SpecialFeature::getFeature)
                 .collect(Collectors.joining(","));
     }
 
     @Override
-    public Set<SpecialFeature> convertToEntityAttribute(String dbData) {
+    public EnumSet<SpecialFeature> convertToEntityAttribute(String dbData) {
         if (dbData == null) {
             return null;
         }
@@ -30,6 +30,6 @@ public class SpecialFeatureConverter implements AttributeConverter<Set<SpecialFe
                         .filter(feature -> feature.getFeature().equals(featureString))
                         .findFirst()
                         .orElse(null))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toCollection(() -> EnumSet.noneOf(SpecialFeature.class)));
     }
 }
