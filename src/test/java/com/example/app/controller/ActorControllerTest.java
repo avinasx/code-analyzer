@@ -36,6 +36,8 @@ import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.mockito.Mockito.*;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.responseHeaders;
+import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
+import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
@@ -95,26 +97,28 @@ class ActorControllerTest extends RestDocsTestControllerSupport {
                                     fieldWithPath("_embedded.actors[].lastUpdate").description("Last update of the actor"),
                                     fieldWithPath("_embedded.actors[]._links.self.href").description("Link to the actor's own resource"),
                                     fieldWithPath("_embedded.actors[]._links.self.title").ignored(),
-                                    fieldWithPath("_embedded.actors[]._links.self.type").description("HTTP method of the link"),
+                                    fieldWithPath("_embedded.actors[]._links.self.type").description("HTTP method"),
                                     fieldWithPath("_embedded.actors[]._links.update.href").description("Link to update the actor"),
                                     fieldWithPath("_embedded.actors[]._links.update.title").ignored(),
-                                    fieldWithPath("_embedded.actors[]._links.update.type").description("HTTP method of the link"),
+                                    fieldWithPath("_embedded.actors[]._links.update.type").description("HTTP method"),
                                     fieldWithPath("_embedded.actors[]._links.delete.href").description("Link to delete the actor"),
                                     fieldWithPath("_embedded.actors[]._links.delete.title").ignored(),
-                                    fieldWithPath("_embedded.actors[]._links.delete.type").description("HTTP method of the link"),
+                                    fieldWithPath("_embedded.actors[]._links.delete.type").description("HTTP method"),
                                     fieldWithPath("_embedded.actors[]._links.details.href").description("Link to details of the actor"),
                                     fieldWithPath("_embedded.actors[]._links.details.title").ignored(),
-                                    fieldWithPath("_embedded.actors[]._links.details.type").description("HTTP method of the link"),
+                                    fieldWithPath("_embedded.actors[]._links.details.type").description("HTTP method"),
                                     fieldWithPath("_embedded.actors[]._links.add.href").description("Link to add an actor"),
                                     fieldWithPath("_embedded.actors[]._links.add.title").ignored(),
-                                    fieldWithPath("_embedded.actors[]._links.add.type").description("HTTP method of the link"),
+                                    fieldWithPath("_embedded.actors[]._links.add.type").description("HTTP method"),
                                     fieldWithPath("_embedded.actors[]._links.actors.href").description("Link to the list of actors"),
                                     fieldWithPath("_embedded.actors[]._links.actors.title").ignored(),
-                                    fieldWithPath("_embedded.actors[]._links.actors.type").description("HTTP method of the link"),
-                                    fieldWithPath("_links.self.href").description("Self link of the actors"),
-                                    fieldWithPath("_links.self.title").ignored(),
-                                    fieldWithPath("_links.self.type").description("HTTP method of the link")
-                            )));
+                                    fieldWithPath("_embedded.actors[]._links.actors.type").description("HTTP method"),
+                                    subsectionWithPath("_links").description("Links to other resources")
+                            ),
+                            links(
+                                    linkWithRel("self").description("Link to list of actors")
+                            )
+                    ));
 
             // assert
             verify(actorService, times(1)).getActors();
@@ -158,24 +162,15 @@ class ActorControllerTest extends RestDocsTestControllerSupport {
                                     fieldWithPath("firstName").description("First name of the actor"),
                                     fieldWithPath("lastName").description("Last name of the actor"),
                                     fieldWithPath("lastUpdate").description("Last update of the actor"),
-                                    fieldWithPath("_links.self.href").description("Link to the actor's own resource"),
-                                    fieldWithPath("_links.self.title").ignored(),
-                                    fieldWithPath("_links.self.type").description("HTTP method of the link"),
-                                    fieldWithPath("_links.update.href").description("Link to update the actor"),
-                                    fieldWithPath("_links.update.title").ignored(),
-                                    fieldWithPath("_links.update.type").description("HTTP method of the link"),
-                                    fieldWithPath("_links.delete.href").description("Link to delete the actor"),
-                                    fieldWithPath("_links.delete.title").ignored(),
-                                    fieldWithPath("_links.delete.type").description("HTTP method of the link"),
-                                    fieldWithPath("_links.details.href").description("Link to details of the actor"),
-                                    fieldWithPath("_links.details.title").ignored(),
-                                    fieldWithPath("_links.details.type").description("HTTP method of the link"),
-                                    fieldWithPath("_links.add.href").description("Link to add an actor"),
-                                    fieldWithPath("_links.add.title").ignored(),
-                                    fieldWithPath("_links.add.type").description("HTTP method of the link"),
-                                    fieldWithPath("_links.actors.href").description("Link to the list of actors"),
-                                    fieldWithPath("_links.actors.title").ignored(),
-                                    fieldWithPath("_links.actors.type").description("HTTP method of the link")
+                                    subsectionWithPath("_links").description("Links to other resources")
+                            ),
+                            links(
+                                    linkWithRel("self").description("Self link of the actor"),
+                                    linkWithRel("update").description("Link to update the actor"),
+                                    linkWithRel("delete").description("Link to delete the actor"),
+                                    linkWithRel("details").description("Link to details of the actor"),
+                                    linkWithRel("add").description("Link to add an actor"),
+                                    linkWithRel("actors").description("Link to the list of actors")
                             )
                     ));
 
@@ -321,9 +316,12 @@ class ActorControllerTest extends RestDocsTestControllerSupport {
                                     fieldWithPath("firstName").description("First name of the actor"),
                                     fieldWithPath("lastName").description("Last name of the actor"),
                                     fieldWithPath("filmInfo").description("List of films the actor has been in"),
-                                    fieldWithPath("_links.self.href").description("Link to the actor's own resource"),
-                                    fieldWithPath("_links.actor.href").description("Link to the actor's resource"),
-                                    fieldWithPath("_links.actors.href").description("Link to the list of actors")
+                                    subsectionWithPath("_links").description("Links to other resources")
+                            ),
+                            links(
+                                    linkWithRel("self").description("Link to self"),
+                                    linkWithRel("actor").description("Link to the actor"),
+                                    linkWithRel("actors").description("Link to the list of actors")
                             )
                     ));
 
@@ -428,8 +426,11 @@ class ActorControllerTest extends RestDocsTestControllerSupport {
                                     fieldWithPath("_embedded.films[].lastUpdate").description("Last update of the film"),
                                     fieldWithPath("_embedded.films[]._links.self.href").description("Link to the film"),
                                     fieldWithPath("_embedded.films[]._links.films.href").description("Link to films"),
-                                    fieldWithPath("_links.self.href").description("Link to self"),
-                                    fieldWithPath("_links.actor.href").description("Link to the actor")
+                                    subsectionWithPath("_links").description("Links to other resources")
+                            ),
+                            links(
+                                    linkWithRel("self").description("Link to self"),
+                                    linkWithRel("actor").description("Link to the actor")
                             )
                     ));
 
@@ -483,9 +484,12 @@ class ActorControllerTest extends RestDocsTestControllerSupport {
                                     fieldWithPath("rating").description("Rating of the film"),
                                     fieldWithPath("specialFeatures").description("Special features of the film"),
                                     fieldWithPath("lastUpdate").description("Last update of the film"),
-                                    fieldWithPath("_links.self.href").description("Link to self"),
-                                    fieldWithPath("_links.films.href").description("Link to films of the actor"),
-                                    fieldWithPath("_links.actor.href").description("Link to actor")
+                                    subsectionWithPath("_links").description("Links to other resources")
+                            ),
+                            links(
+                                    linkWithRel("self").description("Link to self"),
+                                    linkWithRel("films").description("Link to films of the actor"),
+                                    linkWithRel("actor").description("Link to actor")
                             )
                     ));
 
@@ -599,10 +603,13 @@ class ActorControllerTest extends RestDocsTestControllerSupport {
                                     fieldWithPath("length").description("Length of the film"),
                                     fieldWithPath("rating").description("Rating of the film"),
                                     fieldWithPath("actors").description("Actors of the film"),
-                                    fieldWithPath("_links.self.href").description("Link to self"),
-                                    fieldWithPath("_links.film.href").description("Link to film"),
-                                    fieldWithPath("_links.films.href").description("Link to films of the actor"),
-                                    fieldWithPath("_links.actor.href").description("Link to actor")
+                                    subsectionWithPath("_links").description("Links to other resources")
+                            ),
+                            links(
+                                    linkWithRel("self").description("Link to self"),
+                                    linkWithRel("film").description("Link to film"),
+                                    linkWithRel("films").description("Link to films of the actor"),
+                                    linkWithRel("actor").description("Link to actor")
                             )
                     ));
 

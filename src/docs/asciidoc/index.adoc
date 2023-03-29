@@ -22,7 +22,7 @@ This service provides a simple way to perform CRUD(Create, Read, Update, Delete)
 
 ==== Get actor list
 
-operation::actor-list-tests/get-actors_success[snippets="http-request,http-response,response-fields"]
+operation::actor-list-tests/get-actors_success[snippets="http-request,http-response,response-fields,links"]
 
 ==== Add actor
 
@@ -30,7 +30,7 @@ operation::actor-update-tests/add-actor_success[snippets="http-request,http-resp
 
 ==== Get actor
 
-operation::actor-list-tests/get-actor_success[snippets="http-request,http-response,path-parameters,response-fields"]
+operation::actor-list-tests/get-actor_success[snippets="http-request,http-response,path-parameters,response-fields,links"]
 
 ==== Update actor
 
@@ -42,11 +42,11 @@ operation::actor-update-tests/delete-actor_success[snippets="http-request,http-r
 
 ==== Get details of actor
 
-operation::actor-detail-tests/get-actor-detail_success[snippets="http-request,http-response,path-parameters,response-fields"]
+operation::actor-detail-tests/get-actor-detail_success[snippets="http-request,http-response,path-parameters,response-fields,links"]
 
 ==== Get film list of actor
 
-operation::actor-film-tests/get-actor-films_success[snippets="http-request,http-response,path-parameters,response-fields"]
+operation::actor-film-tests/get-actor-films_success[snippets="http-request,http-response,path-parameters,response-fields,links"]
 
 ==== Add film to film list of actor
 
@@ -54,7 +54,7 @@ operation::actor-film-tests/add-actor-film_success[snippets="http-request,http-r
 
 ==== Get film of actor
 
-operation::actor-film-tests/get-actor-film_success[snippets="http-request,http-response,path-parameters,response-fields"]
+operation::actor-film-tests/get-actor-film_success[snippets="http-request,http-response,path-parameters,response-fields,links"]
 
 ==== Delete film from film list of actor
 
@@ -62,4 +62,4 @@ operation::actor-film-tests/delete-actor-film_success[snippets="http-request,htt
 
 ==== Get details of film of actor
 
-operation::actor-film-detail-tests/get-actor-film-detail_success[snippets="http-request,http-response,path-parameters,response-fields"]
+operation::actor-film-detail-tests/get-actor-film-detail_success[snippets="http-request,http-response,path-parameters,response-fields,links"]
