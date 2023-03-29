@@ -22,11 +22,11 @@ This service provides a simple way to perform CRUD(Create, Read, Update, Delete)
 
 ==== Get actor list
 
-operation::actor-list-tests/get-actors_success[snippets="http-request,http-response,response-fields,links"]
+operation::actor-list-tests/get-actors_success[snippets="response-fields,links,http-request,http-response"]
 
 ==== Add actor
 
-operation::actor-update-tests/add-actor_success[snippets="http-request,http-response,request-fields"]
+operation::actor-update-tests/add-actor_success[snippets="request-fields,response-headers,http-request,http-response"]
 
 ==== Get actor
 
@@ -34,7 +34,7 @@ operation::actor-list-tests/get-actor_success[snippets="http-request,http-respon
 
 ==== Update actor
 
-operation::actor-update-tests/update-actor_success[snippets="http-request,http-response,request-fields,path-parameters"]
+operation::actor-update-tests/update-actor_success[snippets="http-request,http-response,path-parameters,request-fields"]
 
 ==== Delete actor
 

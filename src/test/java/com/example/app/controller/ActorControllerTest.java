@@ -16,6 +16,7 @@ import com.example.app.model.internal.extra.ActorDetailModel;
 import com.example.app.model.internal.extra.FilmDetailModel;
 import com.example.app.model.request.ActorRequestModel;
 import com.example.app.service.ActorService;
+import com.example.app.util.ConstraintUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -94,24 +95,7 @@ class ActorControllerTest extends RestDocsTestControllerSupport {
                                     fieldWithPath("_embedded.actors[].firstName").description("First name of the actor"),
                                     fieldWithPath("_embedded.actors[].lastName").description("Last name of the actor"),
                                     fieldWithPath("_embedded.actors[].lastUpdate").description("Last update of the actor"),
-                                    fieldWithPath("_embedded.actors[]._links.self.href").description("Link to the actor's own resource"),
-                                    fieldWithPath("_embedded.actors[]._links.self.title").ignored(),
-                                    fieldWithPath("_embedded.actors[]._links.self.type").description("HTTP method"),
-                                    fieldWithPath("_embedded.actors[]._links.update.href").description("Link to update the actor"),
-                                    fieldWithPath("_embedded.actors[]._links.update.title").ignored(),
-                                    fieldWithPath("_embedded.actors[]._links.update.type").description("HTTP method"),
-                                    fieldWithPath("_embedded.actors[]._links.delete.href").description("Link to delete the actor"),
-                                    fieldWithPath("_embedded.actors[]._links.delete.title").ignored(),
-                                    fieldWithPath("_embedded.actors[]._links.delete.type").description("HTTP method"),
-                                    fieldWithPath("_embedded.actors[]._links.details.href").description("Link to details of the actor"),
-                                    fieldWithPath("_embedded.actors[]._links.details.title").ignored(),
-                                    fieldWithPath("_embedded.actors[]._links.details.type").description("HTTP method"),
-                                    fieldWithPath("_embedded.actors[]._links.add.href").description("Link to add an actor"),
-                                    fieldWithPath("_embedded.actors[]._links.add.title").ignored(),
-                                    fieldWithPath("_embedded.actors[]._links.add.type").description("HTTP method"),
-                                    fieldWithPath("_embedded.actors[]._links.actors.href").description("Link to the list of actors"),
-                                    fieldWithPath("_embedded.actors[]._links.actors.title").ignored(),
-                                    fieldWithPath("_embedded.actors[]._links.actors.type").description("HTTP method"),
+                                    subsectionWithPath("_embedded.actors[]._links").description("Links to actor resources"),
                                     subsectionWithPath("_links").description("Links to other resources")
                             ),
                             links(
@@ -212,9 +196,9 @@ class ActorControllerTest extends RestDocsTestControllerSupport {
 
             // act
             mockMvc.perform(post("/actors")
+                            .accept(MediaTypes.HAL_JSON)
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(objectMapper.writeValueAsString(payload))
-                            .accept(MediaTypes.HAL_JSON))
+                            .content(objectMapper.writeValueAsString(payload)))
                     .andDo(print())
                     .andExpect(status().isCreated())
                     .andExpect(header().string("Location", serverUrl + "/actors/" + actorId))
@@ -223,8 +207,8 @@ class ActorControllerTest extends RestDocsTestControllerSupport {
                                     headerWithName("Location").description("The location of the new actor")
                             ),
                             requestFields(
-                                    fieldWithPath("firstName").description("The first name of a new actor"),
-                                    fieldWithPath("lastName").description("The last name of a new actor")
+                                    ConstraintUtils.constrainedFieldWithPath(ActorRequestModel.class, "firstName").description("First name of a new actor"),
+                                    ConstraintUtils.constrainedFieldWithPath(ActorRequestModel.class, "lastName").description("Last name of a new actor")
                             )
                     ));
 
@@ -240,17 +224,17 @@ class ActorControllerTest extends RestDocsTestControllerSupport {
 
             // act
             mockMvc.perform(put("/actors/{actorId}", actorId)
+                            .accept(MediaTypes.HAL_JSON)
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(objectMapper.writeValueAsString(payload))
-                            .accept(MediaTypes.HAL_JSON))
+                            .content(objectMapper.writeValueAsString(payload)))
                     .andDo(print())
                     .andExpect(status().isOk())
                     .andDo(restDocsHandler.document(
                             pathParameters(
-                                    parameterWithName("actorId").description("The id of the actor to update")),
+                                    parameterWithName("actorId").description("Id of the actor to update")),
                             requestFields(
-                                    fieldWithPath("firstName").description("The new first name of the actor"),
-                                    fieldWithPath("lastName").description("The new last name of the actor")
+                                    ConstraintUtils.constrainedFieldWithPath(ActorRequestModel.class, "firstName").description("New first name of the actor"),
+                                    ConstraintUtils.constrainedFieldWithPath(ActorRequestModel.class, "lastName").description("New last name of the actor")
                             )
                     ));
 
@@ -425,8 +409,7 @@ class ActorControllerTest extends RestDocsTestControllerSupport {
                                     fieldWithPath("_embedded.films[].rating").description("Rating of the film"),
                                     fieldWithPath("_embedded.films[].specialFeatures").description("Special features of the film"),
                                     fieldWithPath("_embedded.films[].lastUpdate").description("Last update of the film"),
-                                    fieldWithPath("_embedded.films[]._links.self.href").description("Link to the film"),
-                                    fieldWithPath("_embedded.films[]._links.films.href").description("Link to films"),
+                                    subsectionWithPath("_embedded.films[]._links").description("Links to film resources"),
                                     subsectionWithPath("_links").description("Links to other resources")
                             ),
                             links(
@@ -509,9 +492,9 @@ class ActorControllerTest extends RestDocsTestControllerSupport {
 
             // act
             mockMvc.perform(post("/actors/{actorId}/films", actorId)
+                            .accept(MediaTypes.HAL_JSON)
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(objectMapper.writeValueAsString(payload))
-                            .accept(MediaTypes.HAL_JSON))
+                            .content(objectMapper.writeValueAsString(payload)))
                     .andDo(print())
                     .andExpect(status().isCreated())
                     .andExpect(header().string("Location", serverUrl + "/actors/" + actorId + "/films/" + filmId))
@@ -523,7 +506,7 @@ class ActorControllerTest extends RestDocsTestControllerSupport {
                                     parameterWithName("actorId").description("Id of the actor")
                             ),
                             requestFields(
-                                    fieldWithPath("filmId").description("Id of the film")
+                                    ConstraintUtils.constrainedFieldWithPath(HashMap.class, "filmId").description("Id of the film")
                             )
                     ));
 
