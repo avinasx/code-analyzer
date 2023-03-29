@@ -14,8 +14,8 @@ public interface StaffMapper extends FullNameEmbeddedMapper<StaffEntity, StaffMo
     StaffMapper INSTANCE = Mappers.getMapper(StaffMapper.class);
 
     @Mapping(target = "staffId", ignore = true)
-    @Mapping(target = "fullName.firstName", source = "firstName")
-    @Mapping(target = "fullName.lastName", source = "lastName")
+    @Mapping(target = "fullNameEmbed.firstName", source = "firstName")
+    @Mapping(target = "fullNameEmbed.lastName", source = "lastName")
     @Mapping(target = "lastUpdate", expression = "java(LocalDateTime.now())")
     @Mapping(target = "paymentsByStaffId", ignore = true)
     @Mapping(target = "rentalsByStaffId", ignore = true)

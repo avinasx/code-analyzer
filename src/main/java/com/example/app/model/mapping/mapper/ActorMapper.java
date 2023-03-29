@@ -14,8 +14,8 @@ public interface ActorMapper extends FullNameEmbeddedMapper<ActorEntity, ActorMo
     ActorMapper INSTANCE = Mappers.getMapper(ActorMapper.class);
 
     @Mapping(target = "actorId", ignore = true)
-    @Mapping(target = "fullName.firstName", source = "firstName")
-    @Mapping(target = "fullName.lastName", source = "lastName")
+    @Mapping(target = "fullNameEmbed.firstName", source = "firstName")
+    @Mapping(target = "fullNameEmbed.lastName", source = "lastName")
     @Mapping(target = "lastUpdate", expression = "java(LocalDateTime.now())")
     @Mapping(target = "filmActorsByActorId", ignore = true)
     ActorEntity mapToEntity(ActorRequestModel dto);

@@ -11,6 +11,7 @@ import com.example.app.model.constant.Language;
 import com.example.app.model.constant.SpecialFeature;
 import com.example.app.model.internal.core.ActorModel;
 import com.example.app.model.internal.core.FilmModel;
+import com.example.app.model.internal.core.FullName;
 import com.example.app.model.internal.extra.ActorDetailModel;
 import com.example.app.model.internal.extra.FilmDetailModel;
 import com.example.app.model.request.ActorRequestModel;
@@ -67,14 +68,12 @@ class ActorControllerTest extends RestDocsTestControllerSupport {
         void setUp() {
             guiness = ActorModel.builder()
                     .actorId(1)
-                    .firstName("PENELOPE")
-                    .lastName("GUINESS")
+                    .fullName(FullName.builder().firstName("PENELOPE").lastName("GUINESS").build())
                     .lastUpdate(LocalDateTime.of(2006, 2, 15, 9, 34, 33))
                     .build();
             walhberg = ActorModel.builder()
                     .actorId(2)
-                    .firstName("NICK")
-                    .lastName("WAHLBERG")
+                    .fullName(FullName.builder().firstName("JENNIFER").lastName("WALHBERG").build())
                     .lastUpdate(LocalDateTime.of(2006, 2, 15, 9, 34, 33))
                     .build();
         }
@@ -198,8 +197,10 @@ class ActorControllerTest extends RestDocsTestControllerSupport {
             );
             newActor = ActorModel.builder()
                     .actorId(Integer.valueOf(actorId))
-                    .firstName(payload.get("firstName"))
-                    .lastName(payload.get("lastName"))
+                    .fullName(FullName.builder()
+                            .firstName(payload.get("firstName"))
+                            .lastName(payload.get("lastName"))
+                            .build())
                     .lastUpdate(LocalDateTime.now())
                     .build();
         }

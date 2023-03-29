@@ -64,8 +64,8 @@ public class CustomFilmRepositoryImpl implements CustomFilmRepository {
         var query = jpaQueryFactory
                 .select(Projections.constructor(ActorModel.class,
                         actor.actorId.as("actorId"),
-                        actor.fullName.firstName.as("firstName"),
-                        actor.fullName.lastName.as("lastName")))
+                        actor.fullNameEmbed.firstName.as("firstName"),
+                        actor.fullNameEmbed.lastName.as("lastName")))
                 .from(film)
                 .leftJoin(filmActor).on(filmActor.filmId.eq(film.filmId))
                 .leftJoin(actor).on(actor.actorId.eq(filmActor.actorId))
@@ -103,8 +103,8 @@ public class CustomFilmRepositoryImpl implements CustomFilmRepository {
                         film.rentalRate.as("price"),
                         film.length.as("length"),
                         film.rating.as("rating"),
-                        JPQLNextExpressions.groupConcat(actor.fullName.firstName.concat(" ")
-                                .concat(actor.fullName.lastName), ", ").as("actors")))
+                        JPQLNextExpressions.groupConcat(actor.fullNameEmbed.firstName.concat(" ")
+                                .concat(actor.fullNameEmbed.lastName), ", ").as("actors")))
                 .from(film)
                 .leftJoin(filmCategory).on(filmCategory.filmId.eq(film.filmId))
                 .leftJoin(filmActor).on(filmActor.filmId.eq(film.filmId))

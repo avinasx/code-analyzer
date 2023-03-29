@@ -30,7 +30,7 @@ public class ActorEntity implements Serializable {
     private Integer actorId;
 
     @Embedded
-    private FullName fullName;
+    private FullNameEmbed fullNameEmbed;
 
     @Basic
     @Column(name = "last_update", columnDefinition = "TIMESTAMP", nullable = false)
@@ -44,7 +44,7 @@ public class ActorEntity implements Serializable {
     private Collection<FilmActorEntity> filmActorsByActorId;
 
     public void update(ActorEntity entity) {
-        this.fullName = entity.fullName;
+        this.fullNameEmbed = entity.fullNameEmbed;
         this.lastUpdate = entity.lastUpdate;
     }
 
@@ -54,12 +54,12 @@ public class ActorEntity implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         ActorEntity that = (ActorEntity) o;
         return Objects.equal(actorId, that.actorId)
-                && Objects.equal(fullName, that.fullName)
+                && Objects.equal(fullNameEmbed, that.fullNameEmbed)
                 && Objects.equal(lastUpdate, that.lastUpdate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(actorId, fullName, lastUpdate);
+        return Objects.hashCode(actorId, fullNameEmbed, lastUpdate);
     }
 }

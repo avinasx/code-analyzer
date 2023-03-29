@@ -6,6 +6,7 @@ import com.example.app.model.entity.RentalEntity;
 import com.example.app.model.entity.StoreEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.google.common.base.Objects;
 import lombok.*;
 
@@ -25,11 +26,8 @@ public class CustomerModel {
     @JsonProperty("storeId")
     private Integer storeId;
 
-    @JsonProperty("firstName")
-    private String firstName;
-
-    @JsonProperty("lastName")
-    private String lastName;
+    @JsonUnwrapped
+    private FullName fullName;
 
     @JsonProperty("email")
     private String email;
@@ -69,8 +67,7 @@ public class CustomerModel {
         CustomerModel that = (CustomerModel) o;
         return Objects.equal(customerId, that.customerId)
                 && Objects.equal(storeId, that.storeId)
-                && Objects.equal(firstName, that.firstName)
-                && Objects.equal(lastName, that.lastName)
+                && Objects.equal(fullName, that.fullName)
                 && Objects.equal(email, that.email)
                 && Objects.equal(addressId, that.addressId)
                 && Objects.equal(active, that.active)
@@ -80,7 +77,7 @@ public class CustomerModel {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(customerId, storeId, firstName, lastName, email,
+        return Objects.hashCode(customerId, storeId, fullName, email,
                 addressId, active, createDate, lastUpdate);
     }
 }

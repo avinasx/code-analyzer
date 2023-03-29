@@ -6,6 +6,7 @@ import com.example.app.model.entity.RentalEntity;
 import com.example.app.model.entity.StoreEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.google.common.base.Objects;
 import lombok.*;
 
@@ -22,11 +23,8 @@ public class StaffModel {
     @JsonProperty("staffId")
     private Integer staffId;
 
-    @JsonProperty("firstName")
-    private String firstName;
-
-    @JsonProperty("lastName")
-    private String lastName;
+    @JsonUnwrapped
+    private FullName fullName;
 
     @JsonProperty("addressId")
     private Integer addressId;
@@ -78,8 +76,7 @@ public class StaffModel {
         if (o == null || getClass() != o.getClass()) return false;
         StaffModel that = (StaffModel) o;
         return Objects.equal(staffId, that.staffId)
-                && Objects.equal(firstName, that.firstName)
-                && Objects.equal(lastName, that.lastName)
+                && Objects.equal(fullName, that.fullName)
                 && Objects.equal(addressId, that.addressId)
                 // && Objects.equal(picture, that.picture)
                 && Objects.equal(email, that.email)
@@ -92,9 +89,9 @@ public class StaffModel {
 
     @Override
     public int hashCode() {
-        // return Objects.hashCode(staffId, firstName, lastName, addressId, picture, email,
+        // return Objects.hashCode(staffId, fullName, addressId, picture, email,
         //         storeId, active, username, password, lastUpdate);
-        return Objects.hashCode(staffId, firstName, lastName, addressId, email,
+        return Objects.hashCode(staffId, fullName, addressId, email,
                 storeId, active, username, password, lastUpdate);
     }
 }

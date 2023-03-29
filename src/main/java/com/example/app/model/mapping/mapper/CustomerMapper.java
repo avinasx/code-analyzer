@@ -14,8 +14,8 @@ public interface CustomerMapper extends FullNameEmbeddedMapper<CustomerEntity, C
     CustomerMapper INSTANCE = Mappers.getMapper(CustomerMapper.class);
 
     @Mapping(target = "customerId", ignore = true)
-    @Mapping(target = "fullName.firstName", source = "firstName")
-    @Mapping(target = "fullName.lastName", source = "lastName")
+    @Mapping(target = "fullNameEmbed.firstName", source = "firstName")
+    @Mapping(target = "fullNameEmbed.lastName", source = "lastName")
     @Mapping(target = "lastUpdate", expression = "java(LocalDateTime.now())")
     @Mapping(target = "storeByStoreId", ignore = true)
     @Mapping(target = "addressByAddressId", ignore = true)
