@@ -3,10 +3,6 @@ package com.example.app.model.internal.core;
 import com.example.app.model.constant.FilmRating;
 import com.example.app.model.constant.Language;
 import com.example.app.model.constant.SpecialFeature;
-import com.example.app.model.entity.FilmActorEntity;
-import com.example.app.model.entity.FilmCategoryEntity;
-import com.example.app.model.entity.InventoryEntity;
-import com.example.app.model.entity.LanguageEntity;
 import com.example.app.model.mapping.converter.FilmRatingConverter;
 import com.example.app.model.mapping.converter.SpecialFeatureConverter;
 import com.example.app.model.mapping.serializer.SpecialFeatureSerializer;
@@ -15,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.base.Objects;
 import jakarta.persistence.Convert;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -34,9 +31,11 @@ public class FilmModel {
     private Integer filmId;
 
     @JsonProperty("title")
+    @Size(min = 1, max = 128)
     private String title;
 
     @JsonProperty("description")
+    @Size(max = 65535)
     private String description;
 
     @JsonProperty("releaseYear")
@@ -74,23 +73,28 @@ public class FilmModel {
 
     @JsonIgnore
     @JsonProperty("languageByLanguageId")
-    private LanguageEntity languageByLanguageId;
+    @ToString.Exclude
+    private LanguageModel languageByLanguageId;
 
     @JsonIgnore
     @JsonProperty("languageByOriginalLanguageId")
-    private LanguageEntity languageByOriginalLanguageId;
+    @ToString.Exclude
+    private LanguageModel languageByOriginalLanguageId;
 
     @JsonIgnore
     @JsonProperty("filmActorsByFilmId")
-    private Collection<FilmActorEntity> filmActorsByFilmId;
+    @ToString.Exclude
+    private Collection<FilmActorModel> filmActorsByFilmId;
 
     @JsonIgnore
     @JsonProperty("filmCategoriesByFilmId")
-    private Collection<FilmCategoryEntity> filmCategoriesByFilmId;
+    @ToString.Exclude
+    private Collection<FilmCategoryModel> filmCategoriesByFilmId;
 
     @JsonIgnore
     @JsonProperty("inventoriesByFilmId")
-    private Collection<InventoryEntity> inventoriesByFilmId;
+    @ToString.Exclude
+    private Collection<InventoryModel> inventoriesByFilmId;
 
     @Override
     public boolean equals(Object o) {

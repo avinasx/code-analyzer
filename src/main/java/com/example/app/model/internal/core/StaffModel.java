@@ -1,13 +1,10 @@
 package com.example.app.model.internal.core;
 
-import com.example.app.model.entity.AddressEntity;
-import com.example.app.model.entity.PaymentEntity;
-import com.example.app.model.entity.RentalEntity;
-import com.example.app.model.entity.StoreEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.google.common.base.Objects;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -33,6 +30,7 @@ public class StaffModel {
     // private byte[] picture;
 
     @JsonProperty("email")
+    @Size(min = 1, max = 50)
     private String email;
 
     @JsonProperty("storeId")
@@ -42,9 +40,11 @@ public class StaffModel {
     private Boolean active;
 
     @JsonProperty("username")
+    @Size(min = 1, max = 16)
     private String username;
 
     @JsonProperty("password")
+    @Size(min = 1, max = 40)
     private String password;
 
     @JsonProperty("lastUpdate")
@@ -52,23 +52,28 @@ public class StaffModel {
 
     @JsonIgnore
     @JsonProperty("paymentsByStaffId")
-    private Collection<PaymentEntity> paymentsByStaffId;
+    @ToString.Exclude
+    private Collection<PaymentModel> paymentsByStaffId;
 
     @JsonIgnore
     @JsonProperty("rentalsByStaffId")
-    private Collection<RentalEntity> rentalsByStaffId;
+    @ToString.Exclude
+    private Collection<RentalModel> rentalsByStaffId;
 
     @JsonIgnore
     @JsonProperty("addressByAddressId")
-    private AddressEntity addressByAddressId;
+    @ToString.Exclude
+    private AddressModel addressByAddressId;
 
     @JsonIgnore
     @JsonProperty("storeByStoreId")
-    private StoreEntity storeByStoreId;
+    @ToString.Exclude
+    private StoreModel storeByStoreId;
 
     @JsonIgnore
     @JsonProperty("storesByStaffId")
-    private Collection<StoreEntity> storesByStaffId;
+    @ToString.Exclude
+    private Collection<StoreModel> storesByStaffId;
 
     @Override
     public boolean equals(Object o) {

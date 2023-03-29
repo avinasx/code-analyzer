@@ -2,6 +2,7 @@ package com.example.app.model.internal.core;
 
 import com.example.app.model.constant.Category;
 import com.example.app.model.mapping.converter.CategoryConverter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 import jakarta.persistence.Convert;
@@ -25,6 +26,16 @@ public class FilmCategoryModel {
 
     @JsonProperty("lastUpdate")
     private LocalDateTime lastUpdate;
+
+    @JsonIgnore
+    @JsonProperty("filmByFilmId")
+    @ToString.Exclude
+    private FilmModel filmByFilmId;
+
+    @JsonIgnore
+    @JsonProperty("categoryByCategoryId")
+    @ToString.Exclude
+    private CategoryModel categoryByCategoryId;
 
     @Override
     public boolean equals(Object o) {

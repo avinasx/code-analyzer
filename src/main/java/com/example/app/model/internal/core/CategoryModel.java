@@ -2,12 +2,15 @@ package com.example.app.model.internal.core;
 
 import com.example.app.model.constant.Category;
 import com.example.app.model.mapping.converter.CategoryConverter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 import jakarta.persistence.Convert;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 @Getter
 @Setter
@@ -21,10 +24,16 @@ public class CategoryModel {
     private Category categoryId;
 
     @JsonProperty("name")
+    @Size(min = 1, max = 25)
     private String name;
 
     @JsonProperty("lastUpdate")
     private LocalDateTime lastUpdate;
+
+    @JsonIgnore
+    @JsonProperty("filmCategoriesByCategoryId")
+    @ToString.Exclude
+    private Collection<FilmCategoryModel> filmCategoriesByCategoryId;
 
     @Override
     public boolean equals(Object o) {

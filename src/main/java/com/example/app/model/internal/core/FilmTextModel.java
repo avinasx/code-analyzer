@@ -2,6 +2,7 @@ package com.example.app.model.internal.core;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 @Getter
@@ -15,9 +16,11 @@ public class FilmTextModel {
     private Integer filmId;
 
     @JsonProperty("title")
+    @Size(min = 1, max = 255)
     private String title;
 
     @JsonProperty("description")
+    @Size(max = 65535)
     private String description;
 
     @Override

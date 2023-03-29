@@ -44,8 +44,8 @@ public class CustomCustomerRepositoryImpl implements CustomCustomerRepository {
         var query = jpaQueryFactory
                 .select(Projections.constructor(CustomerDetailModel.class,
                         cu.customerId.as("id"),
-                        Expressions.asString(cu.fullNameEmbed.firstName).concat(" ")
-                                .concat(cu.fullNameEmbed.lastName).as("name"),
+                        Expressions.asString(cu.fullName.firstName).concat(" ")
+                                .concat(cu.fullName.lastName).as("name"),
                         a.address.as("address"),
                         a.postalCode.as("zipCode"),
                         a.phone.as("phone"),

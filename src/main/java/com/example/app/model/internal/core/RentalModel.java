@@ -1,9 +1,5 @@
 package com.example.app.model.internal.core;
 
-import com.example.app.model.entity.CustomerEntity;
-import com.example.app.model.entity.InventoryEntity;
-import com.example.app.model.entity.PaymentEntity;
-import com.example.app.model.entity.StaffEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
@@ -42,19 +38,23 @@ public class RentalModel {
 
     @JsonIgnore
     @JsonProperty("paymentsByRentalId")
-    private Collection<PaymentEntity> paymentsByRentalId;
+    @ToString.Exclude
+    private Collection<PaymentModel> paymentsByRentalId;
 
     @JsonIgnore
     @JsonProperty("inventoryByInventoryId")
-    private InventoryEntity inventoryByInventoryId;
+    @ToString.Exclude
+    private InventoryModel inventoryByInventoryId;
 
     @JsonIgnore
     @JsonProperty("customerByCustomerId")
-    private CustomerEntity customerByCustomerId;
+    @ToString.Exclude
+    private CustomerModel customerByCustomerId;
 
     @JsonIgnore
     @JsonProperty("staffByStaffId")
-    private StaffEntity staffByStaffId;
+    @ToString.Exclude
+    private StaffModel staffByStaffId;
 
     @Override
     public boolean equals(Object o) {

@@ -1,14 +1,11 @@
 package com.example.app.model.internal.core;
 
-import com.example.app.model.entity.CityEntity;
-import com.example.app.model.entity.CustomerEntity;
-import com.example.app.model.entity.StaffEntity;
-import com.example.app.model.entity.StoreEntity;
 import com.example.app.model.mapping.serializer.NullToEmptyStringSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.base.Objects;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -25,22 +22,27 @@ public class AddressModel {
     private Integer addressId;
 
     @JsonProperty("address")
+    @Size(min = 1, max = 50)
     private String address;
 
     @JsonProperty("address2")
     @JsonSerialize(nullsUsing = NullToEmptyStringSerializer.class)
+    @Size(min = 1, max = 50)
     private String address2;
 
     @JsonProperty("district")
+    @Size(min = 1, max = 20)
     private String district;
 
     @JsonProperty("cityId")
     private Integer cityId;
 
     @JsonProperty("postalCode")
+    @Size(min = 1, max = 10)
     private String postalCode;
 
     @JsonProperty("phone")
+    @Size(min = 1, max = 20)
     private String phone;
 
     // @JsonProperty("location")
@@ -51,19 +53,23 @@ public class AddressModel {
 
     @JsonIgnore
     @JsonProperty("cityByCityId")
-    private CityEntity cityByCityId;
+    @ToString.Exclude
+    private CityModel cityByCityId;
 
     @JsonIgnore
     @JsonProperty("customersByAddressId")
-    private Collection<CustomerEntity> customersByAddressId;
+    @ToString.Exclude
+    private Collection<CustomerModel> customersByAddressId;
 
     @JsonIgnore
     @JsonProperty("staffByAddressId")
-    private Collection<StaffEntity> staffByAddressId;
+    @ToString.Exclude
+    private Collection<StaffModel> staffByAddressId;
 
     @JsonIgnore
     @JsonProperty("storesByAddressId")
-    private Collection<StoreEntity> storesByAddressId;
+    @ToString.Exclude
+    private Collection<StoreModel> storesByAddressId;
 
     @Override
     public boolean equals(Object o) {

@@ -32,7 +32,7 @@ public class StaffEntity implements Serializable {
     private Integer staffId;
 
     @Embedded
-    private FullNameEmbed fullNameEmbed;
+    private FullName fullName;
 
     @Basic
     @Column(name = "address_id", columnDefinition = "SMALLINT UNSIGNED", nullable = false,
@@ -108,7 +108,7 @@ public class StaffEntity implements Serializable {
     private Collection<StoreEntity> storesByStaffId;
 
     public void update(StaffEntity entity) {
-        this.fullNameEmbed = entity.fullNameEmbed;
+        this.fullName = entity.fullName;
         this.addressId = entity.addressId;
         // this.picture = entity.picture;
         this.email = entity.email;
@@ -125,7 +125,7 @@ public class StaffEntity implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         StaffEntity that = (StaffEntity) o;
         return Objects.equal(staffId, that.staffId)
-                && Objects.equal(fullNameEmbed, that.fullNameEmbed)
+                && Objects.equal(fullName, that.fullName)
                 && Objects.equal(addressId, that.addressId)
                 // && Objects.equal(picture, that.picture)
                 && Objects.equal(email, that.email)
@@ -140,7 +140,7 @@ public class StaffEntity implements Serializable {
     public int hashCode() {
         // return Objects.hashCode(staffId, fullName, addressId, picture, email,
         //         storeId, active, username, password, lastUpdate);
-        return Objects.hashCode(staffId, fullNameEmbed, addressId, email,
+        return Objects.hashCode(staffId, fullName, addressId, email,
                 storeId, active, username, password, lastUpdate);
     }
 }

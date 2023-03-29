@@ -12,7 +12,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class FullNameEmbed {
+public class FullName {
     @Basic
     @Column(name = "first_name", length = 45, nullable = false)
     @NonNull

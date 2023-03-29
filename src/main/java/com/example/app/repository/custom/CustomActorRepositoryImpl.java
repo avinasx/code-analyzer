@@ -49,8 +49,8 @@ public class CustomActorRepositoryImpl implements CustomActorRepository {
         var query = blazeJPAQueryFactory
                 .select(Projections.constructor(ActorDetailModel.class,
                         actor.actorId.as("actorId"),
-                        actor.fullNameEmbed.firstName.as("firstName"),
-                        actor.fullNameEmbed.lastName.as("lastName"),
+                        actor.fullName.firstName.as("firstName"),
+                        actor.fullName.lastName.as("lastName"),
                         JPQLNextExpressions.groupConcat(film.title, ", ").as("filmTitle")))
                 .from(actor)
                 .leftJoin(filmActor).on(filmActor.actorId.eq(actor.actorId))
@@ -118,8 +118,8 @@ public class CustomActorRepositoryImpl implements CustomActorRepository {
                         film.rentalRate.as("price"),
                         film.length.as("length"),
                         film.rating.as("rating"),
-                        JPQLNextExpressions.groupConcat(actor.fullNameEmbed.firstName.concat(" ")
-                                .concat(actor.fullNameEmbed.lastName), ", ").as("actors")))
+                        JPQLNextExpressions.groupConcat(actor.fullName.firstName.concat(" ")
+                                .concat(actor.fullName.lastName), ", ").as("actors")))
                 .from(actor)
                 .leftJoin(filmActor).on(filmActor.actorId.eq(actor.actorId))
                 .leftJoin(film).on(film.filmId.eq(filmActor.filmId))

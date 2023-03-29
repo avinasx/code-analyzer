@@ -1,11 +1,10 @@
 package com.example.app.model.internal.core;
 
 import com.example.app.model.constant.Country;
-import com.example.app.model.entity.AddressEntity;
-import com.example.app.model.entity.CountryEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -22,6 +21,7 @@ public class CityModel {
     private Integer cityId;
 
     @JsonProperty("city")
+    @Size(min = 1, max = 50)
     private String city;
 
     @JsonProperty("countryId")
@@ -32,11 +32,13 @@ public class CityModel {
 
     @JsonIgnore
     @JsonProperty("addressesByCityId")
-    private Collection<AddressEntity> addressesByCityId;
+    @ToString.Exclude
+    private Collection<AddressModel> addressesByCityId;
 
     @JsonIgnore
     @JsonProperty("countryByCountryId")
-    private CountryEntity countryByCountryId;
+    @ToString.Exclude
+    private CountryModel countryByCountryId;
 
     @Override
     public boolean equals(Object o) {

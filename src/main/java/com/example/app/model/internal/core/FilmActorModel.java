@@ -1,5 +1,6 @@
 package com.example.app.model.internal.core;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 import lombok.*;
@@ -21,6 +22,16 @@ public class FilmActorModel {
 
     @JsonProperty("lastUpdate")
     private LocalDateTime lastUpdate;
+
+    @JsonIgnore
+    @JsonProperty("actorByActorId")
+    @ToString.Exclude
+    private ActorModel actorByActorId;
+
+    @JsonIgnore
+    @JsonProperty("filmByFilmId")
+    @ToString.Exclude
+    private FilmModel filmByFilmId;
 
     @Override
     public boolean equals(Object o) {

@@ -73,8 +73,8 @@ public class CustomPaymentRepositoryImpl implements CustomPaymentRepository {
                 .select(Projections.constructor(StoreSalesModel.class,
                         Expressions.asString(city.city).concat(",")
                                 .concat(city.countryId.stringValue()).as("store"),
-                        Expressions.asString(staff.fullNameEmbed.firstName).concat(" ")
-                                .concat(staff.fullNameEmbed.lastName).as("manager"),
+                        Expressions.asString(staff.fullName.firstName).concat(" ")
+                                .concat(staff.fullName.lastName).as("manager"),
                         payment.amount.sum().as("totalSales")))
                 .from(payment)
                 .innerJoin(rental).on(rental.rentalId.eq(payment.rentalId))

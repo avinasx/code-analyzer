@@ -1,10 +1,12 @@
 package com.example.app.model.internal.core;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 @Getter
 @Setter
@@ -24,6 +26,21 @@ public class InventoryModel {
 
     @JsonProperty("lastUpdate")
     private LocalDateTime lastUpdate;
+
+    @JsonIgnore
+    @JsonProperty("filmByFilmId")
+    @ToString.Exclude
+    private FilmModel filmByFilmId;
+
+    @JsonIgnore
+    @JsonProperty("storeByStoreId")
+    @ToString.Exclude
+    private StoreModel storeByStoreId;
+
+    @JsonIgnore
+    @JsonProperty("rentalsByInventoryId")
+    @ToString.Exclude
+    private Collection<RentalModel> rentalsByInventoryId;
 
     @Override
     public boolean equals(Object o) {

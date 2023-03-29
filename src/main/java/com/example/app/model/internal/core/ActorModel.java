@@ -1,6 +1,5 @@
 package com.example.app.model.internal.core;
 
-import com.example.app.model.entity.FilmActorEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
@@ -28,7 +27,8 @@ public class ActorModel {
 
     @JsonIgnore
     @JsonProperty("filmActorsByActorId")
-    private Collection<FilmActorEntity> filmActorsByActorId;
+    @ToString.Exclude
+    private Collection<FilmActorModel> filmActorsByActorId;
 
     @Override
     public boolean equals(Object o) {

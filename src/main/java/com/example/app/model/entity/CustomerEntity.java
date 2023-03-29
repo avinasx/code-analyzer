@@ -39,7 +39,7 @@ public class CustomerEntity implements Serializable {
     private Integer storeId;
 
     @Embedded
-    private FullNameEmbed fullNameEmbed;
+    private FullName fullName;
 
     @Basic
     @Column(name = "email", length = 50, nullable = true)
@@ -91,7 +91,7 @@ public class CustomerEntity implements Serializable {
 
     public void update(CustomerEntity entity) {
         this.storeId = entity.getStoreId();
-        this.fullNameEmbed = entity.getFullNameEmbed();
+        this.fullName = entity.getFullName();
         this.email = entity.getEmail();
         this.addressId = entity.getAddressId();
         this.active = entity.getActive();
@@ -106,7 +106,7 @@ public class CustomerEntity implements Serializable {
         CustomerEntity that = (CustomerEntity) o;
         return Objects.equal(customerId, that.customerId)
                 && Objects.equal(storeId, that.storeId)
-                && Objects.equal(fullNameEmbed, that.fullNameEmbed)
+                && Objects.equal(fullName, that.fullName)
                 && Objects.equal(email, that.email)
                 && Objects.equal(addressId, that.addressId)
                 && Objects.equal(active, that.active)
@@ -116,7 +116,7 @@ public class CustomerEntity implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(customerId, storeId, fullNameEmbed, email, addressId, active,
+        return Objects.hashCode(customerId, storeId, fullName, email, addressId, active,
                 createDate, lastUpdate);
     }
 }

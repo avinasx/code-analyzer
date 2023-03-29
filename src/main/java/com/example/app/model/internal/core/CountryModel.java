@@ -2,12 +2,15 @@ package com.example.app.model.internal.core;
 
 import com.example.app.model.constant.Country;
 import com.example.app.model.mapping.converter.CountryConverter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 import jakarta.persistence.Convert;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 @Getter
 @Setter
@@ -21,10 +24,16 @@ public class CountryModel {
 
     @JsonProperty("country")
     @Convert(converter = CountryConverter.class)
+    @Size(min = 1, max = 50)
     private Country country;
 
     @JsonProperty("lastUpdate")
     private LocalDateTime lastUpdate;
+
+    @JsonIgnore
+    @JsonProperty("citiesByCountryId")
+    @ToString.Exclude
+    private Collection<CityModel> citiesByCountryId;
 
     @Override
     public boolean equals(Object o) {
