@@ -2,6 +2,7 @@ package com.example.app.model.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.io.Serial;
@@ -30,6 +31,7 @@ public class StaffRequestModel implements Serializable {
     // private byte[] picture;
 
     @JsonProperty("email")
+    @Size(min = 1, max = 50)
     private String email;
 
     @JsonProperty("storeId")
@@ -39,9 +41,11 @@ public class StaffRequestModel implements Serializable {
     private Boolean active;
 
     @JsonProperty("username")
+    @Size(min = 1, max = 16)
     private String username;
 
     @JsonProperty("password")
+    @Size(min = 1, max = 40)
     private String password;
 
     @Override

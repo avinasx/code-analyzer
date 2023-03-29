@@ -4,6 +4,7 @@ import com.example.app.model.mapping.serializer.NullToEmptyStringSerializer;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.base.Objects;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.io.Serial;
@@ -20,22 +21,27 @@ public class AddressRequestModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @JsonProperty("address")
+    @Size(min = 1, max = 50)
     private String address;
 
     @JsonProperty("address2")
     @JsonSerialize(nullsUsing = NullToEmptyStringSerializer.class)
+    @Size(min = 1, max = 50)
     private String address2;
 
     @JsonProperty("district")
+    @Size(min = 1, max = 20)
     private String district;
 
     @JsonProperty("cityId")
     private Integer cityId;
 
     @JsonProperty("postalCode")
+    @Size(min = 1, max = 10)
     private String postalCode;
 
     @JsonProperty("phone")
+    @Size(min = 1, max = 20)
     private String phone;
 
     // @JsonProperty("location")

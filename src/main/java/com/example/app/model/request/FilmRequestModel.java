@@ -7,6 +7,7 @@ import com.example.app.model.mapping.converter.FilmRatingConverter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 import jakarta.persistence.Convert;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.io.Serial;
@@ -26,9 +27,11 @@ public class FilmRequestModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @JsonProperty("title")
+    @Size(min = 1, max = 128)
     private String title;
 
     @JsonProperty("description")
+    @Size(max = 65535)
     private String description;
 
     @JsonProperty("releaseYear")

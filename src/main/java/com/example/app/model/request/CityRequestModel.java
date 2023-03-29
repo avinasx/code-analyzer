@@ -3,6 +3,7 @@ package com.example.app.model.request;
 import com.example.app.model.constant.Country;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.io.Serial;
@@ -19,6 +20,7 @@ public class CityRequestModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @JsonProperty("city")
+    @Size(min = 1, max = 50)
     private String city;
 
     @JsonProperty("countryId")

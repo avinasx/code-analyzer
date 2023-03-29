@@ -2,6 +2,7 @@ package com.example.app.model.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.io.Serial;
@@ -28,6 +29,7 @@ public class CustomerRequestModel implements Serializable {
     private String lastName;
 
     @JsonProperty("email")
+    @Size(min = 1, max = 50)
     private String email;
 
     @JsonProperty("addressId")
