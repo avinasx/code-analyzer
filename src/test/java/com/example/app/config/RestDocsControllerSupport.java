@@ -22,10 +22,10 @@ import org.springframework.web.context.WebApplicationContext;
 
 @WebMvcTest
 @EnableConfigurationProperties(AppUriPropConfig.class)
-@Import(RestDocsTestConfig.class)
+@Import(RestDocsConfig.class)
 @ExtendWith({MockitoExtension.class, RestDocumentationExtension.class})
 @Slf4j
-public class RestDocsTestControllerSupport {
+public class RestDocsControllerSupport {
     @Autowired
     protected AppUriPropConfig uriPropConfig;
     @Autowired

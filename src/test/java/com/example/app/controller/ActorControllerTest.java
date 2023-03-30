@@ -1,6 +1,6 @@
 package com.example.app.controller;
 
-import com.example.app.config.RestDocsTestControllerSupport;
+import com.example.app.config.RestDocsControllerSupport;
 import com.example.app.hateoas.assembler.ActorDetailRepresentationModelAssembler;
 import com.example.app.hateoas.assembler.ActorRepresentationModelAssembler;
 import com.example.app.hateoas.assembler.FilmDetailRepresentationModelAssembler;
@@ -48,7 +48,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = ActorController.class)
-class ActorControllerTest extends RestDocsTestControllerSupport {
+class ActorControllerTest extends RestDocsControllerSupport {
     @MockBean
     private ActorService actorService;
     @SpyBean
