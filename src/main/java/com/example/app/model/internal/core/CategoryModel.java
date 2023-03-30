@@ -8,6 +8,7 @@ import com.google.common.base.Objects;
 import jakarta.persistence.Convert;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import lombok.experimental.FieldNameConstants;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -15,6 +16,7 @@ import java.util.Collection;
 @Getter
 @Setter
 @ToString
+@FieldNameConstants
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

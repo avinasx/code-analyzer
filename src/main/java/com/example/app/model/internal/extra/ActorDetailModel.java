@@ -3,6 +3,7 @@ package com.example.app.model.internal.extra;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 import lombok.*;
+import lombok.experimental.FieldNameConstants;
 
 /**
  * The actor detail model provides a list of films in which actors appear by category.
@@ -10,6 +11,7 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
+@FieldNameConstants
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

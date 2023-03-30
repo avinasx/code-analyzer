@@ -3,10 +3,12 @@ package com.example.app.model.internal.core;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import lombok.experimental.FieldNameConstants;
 
 @Getter
 @Setter
 @ToString
+@FieldNameConstants
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

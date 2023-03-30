@@ -3,6 +3,7 @@ package com.example.app.model.internal.extra;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 import lombok.*;
+import lombok.experimental.FieldNameConstants;
 
 import java.math.BigDecimal;
 
@@ -12,6 +13,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @ToString
+@FieldNameConstants
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

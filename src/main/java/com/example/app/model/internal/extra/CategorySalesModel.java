@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 import jakarta.persistence.Convert;
 import lombok.*;
+import lombok.experimental.FieldNameConstants;
 
 import java.math.BigDecimal;
 
@@ -15,6 +16,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @ToString
+@FieldNameConstants
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

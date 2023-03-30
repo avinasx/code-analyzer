@@ -10,11 +10,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
-import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 import org.springframework.restdocs.templates.TemplateFormats;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -22,16 +20,16 @@ import org.springframework.web.context.WebApplicationContext;
 
 @WebMvcTest
 @EnableConfigurationProperties(AppUriPropConfig.class)
-@Import(RestDocsConfig.class)
+// @Import(RestDocsConfig.class)
 @ExtendWith({MockitoExtension.class, RestDocumentationExtension.class})
 @Slf4j
 public class RestDocsControllerSupport {
     @Autowired
     protected AppUriPropConfig uriPropConfig;
     @Autowired
-    protected RestDocumentationResultHandler restDocsHandler;
-    @Autowired
     protected ObjectMapper objectMapper;
+    // @Autowired
+    // protected RestDocumentationResultHandler restDocsHandler;
 
     protected MockMvc mockMvc;
     protected String serverUrl;
@@ -48,7 +46,6 @@ public class RestDocsControllerSupport {
                 .apply(MockMvcRestDocumentation.documentationConfiguration(provider)
                         .uris().withScheme(this.uriPropConfig.getScheme())
                         .withHost(this.uriPropConfig.getHost()).withPort(this.uriPropConfig.getPort()))
-                .alwaysDo(this.restDocsHandler)
                 .build();
     }
 

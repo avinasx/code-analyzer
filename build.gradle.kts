@@ -3,7 +3,7 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 val asciidoctorExt: Configuration by configurations.creating
-val snippetsDir by extra { file("build/generated-snippets") }
+val snippetsDir by extra { file("build/generated-snippets/asciidoctor") }
 
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
@@ -13,6 +13,7 @@ plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotiln.kapt)
     alias(libs.plugins.asciidoctor)
+    alias(libs.plugins.epages.restdocs)
 }
 
 group = "com.example"
@@ -37,6 +38,20 @@ configurations {
     }
 }
 
+openapi3 {
+    this.setServer("http://localhost:8080/api/v1")
+    title = "Sakila REST API Service"
+    description = "Sakila REST API Service (Sample Project)"
+    version = getVersion().toString()
+    format = "yaml"
+}
+
+postman {
+    baseUrl = "http://localhost:8080/api/v1"
+    title = "Sakila REST API Service"
+    version = getVersion().toString()
+}
+
 dependencies {
     implementation(libs.bundles.web)
     implementation(libs.bundles.data)
@@ -57,6 +72,7 @@ dependencies {
     // restdocs
     testImplementation(libs.bundles.restdocs)
     asciidoctorExt(libs.spring.restdocs.asciidoctor)
+    testImplementation(libs.epages.restdocs.mockmvc)
 
     // querydsl
     implementation(libs.bundles.querydsl)
@@ -121,15 +137,21 @@ tasks {
                 "--add-opens", "java.base/java.io=ALL-UNNAMED"
             )
         }
+    }
+    bootJar {
+        dependsOn(asciidoctor)
+        dependsOn("openapi3")
+        dependsOn("postman")
         doLast {
             copy {
                 from("build/docs/asciidoc")
                 into("src/main/resources/static/docs")
             }
+            copy {
+                from("build/api-spec")
+                into("src/main/resources/static/docs")
+            }
         }
-    }
-    build {
-        dependsOn(asciidoctor)
     }
     processResources {
         duplicatesStrategy = DuplicatesStrategy.INCLUDE

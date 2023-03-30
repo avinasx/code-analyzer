@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 import jakarta.persistence.Convert;
 import lombok.*;
+import lombok.experimental.FieldNameConstants;
 
 /**
  * The customer detail model provides a list of customers, with name and address.
@@ -13,6 +14,7 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
+@FieldNameConstants
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

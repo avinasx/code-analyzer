@@ -6,6 +6,7 @@ kotlin-plugin = "1.8.10"
 querydsl = "5.0.0"
 blaze = "1.6.8"
 mapstruct = "1.5.3.Final"
+epages-restdocs = "0.17.1"
 
 [libraries]
 spring-web = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "spring-boot" }
@@ -39,6 +40,8 @@ mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.re
 lombok = { module = "org.projectlombok:lombok", version = "1.18.26" }
 lombok-mapstruct = { module = "org.projectlombok:lombok-mapstruct-binding", version = "0.2.0" }
 
+epages-restdocs-mockmvc = { module = "com.epages:restdocs-api-spec-mockmvc", version.ref = "epages-restdocs" }
+
 hibernate-validator = { module = "org.hibernate.validator:hibernate-validator", version = "8.0.0.Final" }
 guava = { module = "com.google.guava:guava", version = "31.1-jre" }
 mysql-connector = { module = "com.mysql:mysql-connector-j", version = "8.0.32" }
@@ -52,6 +55,7 @@ kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotl
 kotlin-jpa = { id = "org.jetbrains.kotlin.plugin.jpa", version.ref = "kotlin-plugin" }
 kotlin-lombok = { id = "org.jetbrains.kotlin.plugin.lombok", version.ref = "kotlin-plugin" }
 kotiln-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin-plugin" }
+epages-restdocs = { id = "com.epages.restdocs-api-spec", version.ref = "epages-restdocs" }
 asciidoctor = { id = "org.asciidoctor.jvm.convert", version = "3.3.2" }
 
 [bundles]

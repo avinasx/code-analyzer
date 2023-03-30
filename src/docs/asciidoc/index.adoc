@@ -20,46 +20,68 @@ This service provides a simple way to perform CRUD(Create, Read, Update, Delete)
 [[Actor_API]]
 === Actor API
 
-==== Get actor list
+==== GET /actors
 
-operation::actor-list-tests/get-actors_success[snippets="response-fields,links,http-request,http-response"]
+Get list of actor
 
-==== Add actor
+operation::asciidoctor/actor-list-tests/get-actors_success[snippets="http-request,http-response,response-fields,links"]
 
-operation::actor-update-tests/add-actor_success[snippets="request-fields,response-headers,http-request,http-response"]
+==== POST /actors
 
-==== Get actor
+Add actor
 
-operation::actor-list-tests/get-actor_success[snippets="http-request,http-response,path-parameters,response-fields,links"]
+operation::asciidoctor/actor-update-tests/add-actor_success[snippets="http-request,request-fields,http-response,response-headers"]
 
-==== Update actor
+==== GET /actors/{actorId}
 
-operation::actor-update-tests/update-actor_success[snippets="http-request,http-response,path-parameters,request-fields"]
+Get actor
 
-==== Delete actor
+operation::asciidoctor/actor-list-tests/get-actor_success[snippets="path-parameters,http-request,http-response,response-fields,links"]
 
-operation::actor-update-tests/delete-actor_success[snippets="http-request,http-response,path-parameters"]
+==== PUT /actors/{actorId}
 
-==== Get details of actor
+Update actor
 
-operation::actor-detail-tests/get-actor-detail_success[snippets="http-request,http-response,path-parameters,response-fields,links"]
+operation::asciidoctor/actor-update-tests/update-actor_success[snippets="path-parameters,http-request,request-fields,http-response"]
 
-==== Get film list of actor
+==== DELETE /actors/{actorId}
 
-operation::actor-film-tests/get-actor-films_success[snippets="http-request,http-response,path-parameters,response-fields,links"]
+Delete actor
 
-==== Add film to film list of actor
+operation::asciidoctor/actor-update-tests/delete-actor_success[snippets="path-parameters,http-request,http-response"]
 
-operation::actor-film-tests/add-actor-film_success[snippets="http-request,http-response,request-fields,path-parameters"]
+==== GET /actors/{actorId}/details
 
-==== Get film of actor
+Get details of actor
 
-operation::actor-film-tests/get-actor-film_success[snippets="http-request,http-response,path-parameters,response-fields,links"]
+operation::asciidoctor/actor-detail-tests/get-actor-detail_success[snippets="path-parameters,http-request,http-response,response-fields,links"]
 
-==== Delete film from film list of actor
+==== GET /actors/{actorId}/films
 
-operation::actor-film-tests/delete-actor-film_success[snippets="http-request,http-response,path-parameters"]
+Get film list of actor
 
-==== Get details of film of actor
+operation::asciidoctor/actor-film-tests/get-actor-films_success[snippets="path-parameters,http-request,http-response,response-fields,links"]
 
-operation::actor-film-detail-tests/get-actor-film-detail_success[snippets="http-request,http-response,path-parameters,response-fields,links"]
+==== POST /actors/{actorId}/films
+
+Add film to film list of actor
+
+operation::asciidoctor/actor-film-tests/add-actor-film_success[snippets="path-parameters,http-request,http-response,request-fields"]
+
+==== GET /actors/{actorId}/films/{filmId}
+
+Get film of actor
+
+operation::asciidoctor/actor-film-tests/get-actor-film_success[snippets="path-parameters,http-request,http-response,response-fields,links"]
+
+==== DELETE /actors/{actorId}/films/{filmId}
+
+Remove film from film list of actor
+
+operation::asciidoctor/actor-film-tests/delete-actor-film_success[snippets="path-parameters,http-request,http-response"]
+
+==== GET /actors/{actorId}/films/{filmId}/details
+
+Get details of film of actor
+
+operation::asciidoctor/actor-film-detail-tests/get-actor-film-detail_success[snippets="path-parameters,http-request,http-response,response-fields,links"]

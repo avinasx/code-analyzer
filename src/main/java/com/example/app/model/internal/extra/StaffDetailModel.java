@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 import jakarta.persistence.Convert;
 import lombok.*;
+import lombok.experimental.FieldNameConstants;
 
 /**
  * The staff detail model provides address and store information for staff members.
@@ -13,6 +14,7 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
+@FieldNameConstants
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
