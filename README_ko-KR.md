@@ -109,16 +109,12 @@ app:
 // build.gradle.kts
 openapi3 {
     this.setServer("http://localhost:8080/api/v1")
-    title = "Sakila REST API Service"
-    description = "Sakila REST API Service (Sample Project)"
-    version = getVersion().toString()
-    format = "yaml"
+    ...
 }
 
 postman {
     baseUrl = "http://localhost:8080/api/v1"
-    title = "Sakila REST API Service"
-    version = getVersion().toString()
+    ...
 }
 ```
 
@@ -176,7 +172,6 @@ management:
     web:
       exposure:
         include: "health,prometheus"
-        # include: "*"
     jmx:
       exposure:
         exclude: "*"
