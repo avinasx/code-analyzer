@@ -26,19 +26,18 @@ spring:
       naming:
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    open-in-view: true
     show-sql: true
 
 logging:
   level:
     root: info
-    # org.hibernate.SQL: info
 
 management:
   endpoints:
     web:
       exposure:
         include: "health,prometheus"
-        # include: "*"
     jmx:
       exposure:
         exclude: "*"

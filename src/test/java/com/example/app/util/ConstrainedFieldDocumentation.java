@@ -3,7 +3,6 @@ package com.example.app.util;
 import com.epages.restdocs.apispec.ConstrainedFields;
 import lombok.AllArgsConstructor;
 import org.springframework.restdocs.payload.FieldDescriptor;
-import org.springframework.restdocs.snippet.Attributes;
 
 import java.util.List;
 import java.util.stream.Collectors;
