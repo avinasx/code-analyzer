@@ -142,16 +142,6 @@ tasks {
         dependsOn(asciidoctor)
         dependsOn("openapi3")
         dependsOn("postman")
-        doLast {
-            copy {
-                from("build/docs/asciidoc")
-                into("src/main/resources/static/docs")
-            }
-            copy {
-                from("build/api-spec")
-                into("src/main/resources/static/docs")
-            }
-        }
     }
     processResources {
         duplicatesStrategy = DuplicatesStrategy.INCLUDE

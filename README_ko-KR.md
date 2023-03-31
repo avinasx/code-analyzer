@@ -148,15 +148,15 @@ Sakila REST API 서비스는 다음과 같은 몇 가지 엔드포인트를 제�
 
 ### 레퍼런스
 
-API 레퍼런스 문서는 Spring REST Docs에서 Asciidoctor를 사용하여 생성되며 어플리케이션에서 `/api/v1/docs/index.html`로 제공됩니다.
+API 레퍼런스 문서는 Spring REST Docs에서 Asciidoctor를 사용하여 생성됩니다.
 
 ### OpenAPI/Swagger
 
-OpenAPI 스펙 `openapi3.yaml` 파일은 Swagger UI 사용하여 렌더링할 수 있습니다. OpenAPI 사양은 Spring REST Docs로 부터 생성되며 `/api/v1/docs` 아래 경로에서 제공됩니다.
+OpenAPI 스펙 `openapi3.yaml` 파일은 Swagger UI 사용하여 렌더링할 수 있습니다. OpenAPI 사양은 Spring REST Docs로 부터 생성됩니다.
 
 ### Postman
 
-Postman 컬렉션 파일 `postman-collection.json`은 요청 및 응답에 대한 엔드포인트 예제를 포함하고 있습니다. 컬렉션은 Spring REST Docs로 부터 생성되며  `/api/v1/docs` 아래 경로에서 제공됩니다.
+Postman 컬렉션 파일 `postman-collection.json`은 요청 및 응답에 대한 엔드포인트 예제를 포함하고 있습니다. 컬렉션은 Spring REST Docs로 부터 생성됩니다.
 
 ## 관측가능성
 
