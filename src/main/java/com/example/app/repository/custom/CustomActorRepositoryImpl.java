@@ -9,8 +9,8 @@ import com.example.app.model.entity.QFilmActorEntity;
 import com.example.app.model.entity.QFilmCategoryEntity;
 import com.example.app.model.entity.QFilmEntity;
 import com.example.app.model.internal.core.FilmModel;
-import com.example.app.model.internal.extra.ActorDetailModel;
-import com.example.app.model.internal.extra.FilmDetailModel;
+import com.example.app.model.internal.extra.ActorDetailsModel;
+import com.example.app.model.internal.extra.FilmDetailsModel;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -30,24 +30,24 @@ public class CustomActorRepositoryImpl implements CustomActorRepository {
     private BlazeJPAQueryFactory blazeJPAQueryFactory;
 
     @Override
-    public List<ActorDetailModel> findAllActorsDetail() {
+    public List<ActorDetailsModel> findAllActorDetailsList() {
         var query = findActorDetail(null);
         return query.fetch();
     }
 
     @Override
-    public Optional<ActorDetailModel> findActorDetailById(Integer actorId) {
+    public Optional<ActorDetailsModel> findActorDetailsById(Integer actorId) {
         var query = findActorDetail(actorId);
-        return Optional.ofNullable(query.fetchFirst());
+        return Optional.of(query.fetchFirst());
     }
 
-    private BlazeJPAQuery<ActorDetailModel> findActorDetail(Integer id) {
+    private BlazeJPAQuery<ActorDetailsModel> findActorDetail(Integer id) {
         var actor = QActorEntity.actorEntity;
         var film = QFilmEntity.filmEntity;
         var filmActor = QFilmActorEntity.filmActorEntity;
 
         var query = blazeJPAQueryFactory
-                .select(Projections.constructor(ActorDetailModel.class,
+                .select(Projections.constructor(ActorDetailsModel.class,
                         actor.actorId.as("actorId"),
                         actor.fullName.firstName.as("firstName"),
                         actor.fullName.lastName.as("lastName"),
@@ -62,13 +62,13 @@ public class CustomActorRepositoryImpl implements CustomActorRepository {
     }
 
     @Override
-    public List<FilmModel> findAllActorFilmsById(Integer actorId) {
+    public List<FilmModel> findAllActorFilmListById(Integer actorId) {
         var query = findActorFilm(actorId, null, null, null);
         return query.fetch();
     }
 
     @Override
-    public List<FilmModel> findAllActorFilmsByIdWithFilter(Integer actorId, LocalDate releaseYear, FilmRating rating) {
+    public List<FilmModel> findAllActorFilmListByIdWithFilter(Integer actorId, LocalDate releaseYear, FilmRating rating) {
         var query = findActorFilm(actorId, null, releaseYear, rating);
         return query.fetch();
     }
@@ -76,7 +76,7 @@ public class CustomActorRepositoryImpl implements CustomActorRepository {
     @Override
     public Optional<FilmModel> findActorFilmById(Integer actorId, Integer filmId) {
         var query = findActorFilm(actorId, filmId, null, null);
-        return Optional.ofNullable(query.fetchFirst());
+        return Optional.of(query.fetchFirst());
     }
 
     private JPAQuery<FilmModel> findActorFilm(Integer actorId, Integer filmId, LocalDate releaseYear, FilmRating rating) {
@@ -103,14 +103,14 @@ public class CustomActorRepositoryImpl implements CustomActorRepository {
     }
 
     @Override
-    public Optional<FilmDetailModel> findActorFilmDetailById(Integer actorId, Integer filmId) {
+    public Optional<FilmDetailsModel> findActorFilmDetailsById(Integer actorId, Integer filmId) {
         var actor = QActorEntity.actorEntity;
         var film = QFilmEntity.filmEntity;
         var filmActor = QFilmActorEntity.filmActorEntity;
         var filmCategory = QFilmCategoryEntity.filmCategoryEntity;
 
         var query = jpaQueryFactory
-                .select(Projections.constructor(FilmDetailModel.class,
+                .select(Projections.constructor(FilmDetailsModel.class,
                         film.filmId.as("filmId"),
                         film.title.as("title"),
                         film.description.as("description"),
@@ -127,7 +127,7 @@ public class CustomActorRepositoryImpl implements CustomActorRepository {
                 .where(actor.actorId.eq(actorId))
                 .where(film.filmId.eq(filmId))
                 .groupBy(film.filmId, filmCategory.categoryId);
-        return Optional.ofNullable(query.fetchFirst());
+        return Optional.of(query.fetchFirst());
     }
 
     @Override

@@ -18,7 +18,7 @@ import lombok.experimental.FieldNameConstants;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomerDetailModel {
+public class CustomerDetailsModel {
     /**
      * customer id
      */
@@ -78,7 +78,7 @@ public class CustomerDetailModel {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CustomerDetailModel that = (CustomerDetailModel) o;
+        CustomerDetailsModel that = (CustomerDetailsModel) o;
         return Objects.equal(id, that.id)
                 && Objects.equal(name, that.name)
                 && Objects.equal(address, that.address)

@@ -2,22 +2,22 @@ package com.example.app.service;
 
 import com.example.app.model.internal.core.StaffModel;
 import com.example.app.model.internal.core.StoreModel;
-import com.example.app.model.internal.extra.StoreDetailModel;
+import com.example.app.model.internal.extra.StoreDetailsModel;
 import com.example.app.model.request.StoreRequestModel;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface StoreService {
-    List<StoreModel> getStores();
+    List<StoreModel> getStoreList();
 
     Optional<StoreModel> getStore(String storeId);
 
-    List<StoreDetailModel> getStoresDetail();
+    List<StoreDetailsModel> getStoreDetailsList();
 
-    Optional<StoreDetailModel> getStoreDetail(String storeId);
+    Optional<StoreDetailsModel> getStoreDetails(String storeId);
 
-    List<StaffModel> getStoreStaffs(String storeId);
+    List<StaffModel> getStoreStaffList(String storeId);
 
     Optional<StaffModel> getStoreStaff(String storeId, String staffId);
 

@@ -1,9 +1,9 @@
 package com.example.app.hateoas.assembler;
 
 import com.example.app.controller.ActorController;
+import com.example.app.model.constant.HalRelation;
 import com.example.app.model.internal.core.ActorModel;
 import com.example.app.model.response.ActorResponseModel;
-import lombok.NonNull;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.http.HttpMethod;
@@ -19,30 +19,30 @@ public class ActorRepresentationModelAssembler extends RepresentationModelAssemb
     }
 
     @Override
-    @NonNull
-    public ActorResponseModel toModel(@NonNull ActorModel entity) {
+    @lombok.NonNull
+    public ActorResponseModel toModel(@lombok.NonNull ActorModel entity) {
         var model = instantiateModel(entity);
         model.setActorModel(entity);
         model.add(linkTo(methodOn(ActorController.class).getActor(String.valueOf(entity.getActorId())))
                 .withSelfRel().withType(HttpMethod.GET.name()).withTitle("Get actor"));
         model.add(linkTo(methodOn(ActorController.class).updateActor(String.valueOf(entity.getActorId()), null))
-                .withRel("update").withType(HttpMethod.PUT.name()).withTitle("Update actor"));
+                .withRel(HalRelation.Fields.update).withType(HttpMethod.PUT.name()).withTitle("Update actor"));
         model.add(linkTo(methodOn(ActorController.class).deleteActor(String.valueOf(entity.getActorId())))
-                .withRel("delete").withType(HttpMethod.DELETE.name()).withTitle("Delete actor"));
-        model.add(linkTo(methodOn(ActorController.class).getActorDetail(String.valueOf(entity.getActorId())))
-                .withRel("details").withType(HttpMethod.GET.name()).withTitle("Get details of actor"));
+                .withRel(HalRelation.Fields.delete).withType(HttpMethod.DELETE.name()).withTitle("Delete actor"));
+        model.add(linkTo(methodOn(ActorController.class).getActorDetails(String.valueOf(entity.getActorId())))
+                .withRel(HalRelation.Fields.details).withType(HttpMethod.GET.name()).withTitle("Get details of actor"));
         model.add(linkTo(methodOn(ActorController.class).addActor(null))
-                .withRel("add").withType(HttpMethod.POST.name()).withTitle("Add actor"));
-        model.add(linkTo(methodOn(ActorController.class).getActors())
-                .withRel("actors").withType(HttpMethod.GET.name()).withTitle("Get actors"));
+                .withRel(HalRelation.Fields.create).withType(HttpMethod.POST.name()).withTitle("Add actor"));
+        model.add(linkTo(methodOn(ActorController.class).getActorList())
+                .withRel(HalRelation.Fields.actorList).withType(HttpMethod.GET.name()).withTitle("Get actors"));
         return model;
     }
 
     @Override
-    @NonNull
-    public CollectionModel<ActorResponseModel> toCollectionModel(@NonNull Iterable<? extends ActorModel> entities) {
+    @lombok.NonNull
+    public CollectionModel<ActorResponseModel> toCollectionModel(@lombok.NonNull Iterable<? extends ActorModel> entities) {
         var collectionModel = super.toCollectionModel(entities);
-        collectionModel.add(linkTo(methodOn(ActorController.class).getActors())
+        collectionModel.add(linkTo(methodOn(ActorController.class).getActorList())
                 .withSelfRel().withType(HttpMethod.GET.name()).withTitle("Get actors"));
         return collectionModel;
     }

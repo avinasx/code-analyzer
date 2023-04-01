@@ -1,9 +1,9 @@
 package com.example.app.hateoas.assembler;
 
 import com.example.app.controller.FilmController;
+import com.example.app.model.constant.HalRelation;
 import com.example.app.model.internal.core.FilmModel;
 import com.example.app.model.response.FilmResponseModel;
-import lombok.NonNull;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
@@ -18,20 +18,20 @@ public class FilmRepresentationModelAssembler extends RepresentationModelAssembl
     }
 
     @Override
-    @NonNull
-    public FilmResponseModel toModel(@NonNull FilmModel entity) {
+    @lombok.NonNull
+    public FilmResponseModel toModel(@lombok.NonNull FilmModel entity) {
         var model = instantiateModel(entity);
         model.setFilmModel(entity);
         model.add(linkTo(methodOn(FilmController.class).getFilm(String.valueOf(entity.getFilmId()))).withSelfRel());
-        model.add(linkTo(methodOn(FilmController.class).getFilms()).withRel("films"));
+        model.add(linkTo(methodOn(FilmController.class).getFilmList()).withRel(HalRelation.Fields.filmList));
         return model;
     }
 
-    @NonNull
     @Override
-    public CollectionModel<FilmResponseModel> toCollectionModel(@NonNull Iterable<? extends FilmModel> entities) {
+    @lombok.NonNull
+    public CollectionModel<FilmResponseModel> toCollectionModel(@lombok.NonNull Iterable<? extends FilmModel> entities) {
         var collectionModel = super.toCollectionModel(entities);
-        collectionModel.add(linkTo(methodOn(FilmController.class).getFilms()).withSelfRel());
+        collectionModel.add(linkTo(methodOn(FilmController.class).getFilmList()).withSelfRel());
         return collectionModel;
     }
 }

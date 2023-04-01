@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CustomAddressRepository {
-    List<AddressModel> findAllAddressesDetail();
+    List<AddressModel> findAllAddressDetailsList();
 
-    Optional<AddressModel> findAddressDetailById(Integer addressId);
+    Optional<AddressModel> findAddressDetailsById(Integer addressId);
 }

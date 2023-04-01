@@ -8,13 +8,13 @@ import java.util.Optional;
 
 public interface PaymentService {
 
-    List<PaymentModel> getPayments();
+    List<PaymentModel> getPaymentList();
 
     Optional<PaymentModel> getPayment(String paymentId);
 
-    List<PaymentModel> getPaymentsDetail();
+    List<PaymentModel> getPaymentDetailsList();
 
-    Optional<PaymentModel> getPaymentDetail(String paymentId);
+    Optional<PaymentModel> getPaymentDetails(String paymentId);
 
     PaymentModel addPayment(PaymentRequestModel model);
 

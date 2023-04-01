@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CustomPaymentRepository {
-    List<PaymentModel> findAllPaymentsDetail();
+    List<PaymentModel> findAllPaymentDetailsList();
 
-    Optional<PaymentModel> findPaymentDetailById(Integer paymentId);
+    Optional<PaymentModel> findPaymentDetailsById(Integer paymentId);
 
     List<CategorySalesModel> calculateSalesByCategory();
 

@@ -2,6 +2,7 @@ package com.example.app.model.entity;
 
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -33,13 +34,13 @@ public class PaymentEntity implements Serializable {
     @Basic
     @Column(name = "customer_id", columnDefinition = "SMALLINT UNSIGNED", nullable = false,
             insertable = false, updatable = false)
-    @NonNull
+    @NotNull
     private Integer customerId;
 
     @Basic
     @Column(name = "staff_id", columnDefinition = "TINYINT UNSIGNED", nullable = false,
             insertable = false, updatable = false)
-    @NonNull
+    @NotNull
     private Integer staffId;
 
     @Basic
@@ -50,12 +51,12 @@ public class PaymentEntity implements Serializable {
 
     @Basic
     @Column(name = "amount", columnDefinition = "DECIMAL(5,2)", precision = 2, nullable = false)
-    @NonNull
+    @NotNull
     private BigDecimal amount;
 
     @Basic
     @Column(name = "payment_date", columnDefinition = "DATETIME", nullable = false)
-    @NonNull
+    @NotNull
     private LocalDateTime paymentDate;
 
     @Basic
@@ -66,13 +67,13 @@ public class PaymentEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "customer_id", nullable = false)
-    @NonNull
+    @NotNull
     @ToString.Exclude
     private CustomerEntity customerByCustomerId;
 
     @ManyToOne
     @JoinColumn(name = "staff_id", referencedColumnName = "staff_id", nullable = false)
-    @NonNull
+    @NotNull
     @ToString.Exclude
     private StaffEntity staffByStaffId;
 

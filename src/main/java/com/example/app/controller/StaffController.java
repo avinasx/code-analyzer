@@ -1,6 +1,6 @@
 package com.example.app.controller;
 
-import com.example.app.hateoas.assembler.StaffDetailRepresentationModelAssembler;
+import com.example.app.hateoas.assembler.StaffDetailsRepresentationModelAssembler;
 import com.example.app.hateoas.assembler.StaffRepresentationModelAssembler;
 import com.example.app.model.request.StaffRequestModel;
 import com.example.app.model.response.StaffDetailResponseModel;
@@ -20,12 +20,12 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class StaffController {
     private final StaffService staffService;
     private final StaffRepresentationModelAssembler staffAssembler;
-    private final StaffDetailRepresentationModelAssembler staffDetailAssembler;
+    private final StaffDetailsRepresentationModelAssembler staffDetailsAssembler;
 
     @GetMapping(path = "")
-    public ResponseEntity<CollectionModel<StaffResponseModel>> getStaffs() {
+    public ResponseEntity<CollectionModel<StaffResponseModel>> getStaffList() {
         return ResponseEntity.ok(staffAssembler.toCollectionModel(
-                staffService.getStaffs()));
+                staffService.getStaffList()));
     }
 
     @PostMapping(path = "")
@@ -56,9 +56,9 @@ public class StaffController {
     }
 
     @GetMapping(path = "/{staffId}/details")
-    public ResponseEntity<StaffDetailResponseModel> getStaffDetail(@PathVariable String staffId) {
-        return staffService.getStaffDetail(staffId)
-                .map(staffDetailAssembler::toModel)
+    public ResponseEntity<StaffDetailResponseModel> getStaffDetails(@PathVariable String staffId) {
+        return staffService.getStaffDetails(staffId)
+                .map(staffDetailsAssembler::toModel)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

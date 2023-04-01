@@ -4,7 +4,7 @@ import com.example.app.exception.ResourceNotFoundException;
 import com.example.app.model.constant.FilmRating;
 import com.example.app.model.internal.core.ActorModel;
 import com.example.app.model.internal.core.FilmModel;
-import com.example.app.model.internal.extra.FilmDetailModel;
+import com.example.app.model.internal.extra.FilmDetailsModel;
 import com.example.app.model.mapping.mapper.FilmMapper;
 import com.example.app.model.request.FilmRequestModel;
 import com.example.app.repository.FilmRepository;
@@ -23,13 +23,13 @@ public class FilmServiceImpl implements FilmService {
     private final FilmMapper filmMapper;
 
     @Override
-    public List<FilmModel> getFilms() {
+    public List<FilmModel> getFilmList() {
         var list = filmRepository.findAll();
         return filmMapper.mapToDtoList(list);
     }
 
     @Override
-    public List<FilmModel> getFilms(String releaseYear, String rating) {
+    public List<FilmModel> getFilmList(String releaseYear, String rating) {
         return filmRepository.findAllWithFilter(LocalDate.parse(releaseYear), FilmRating.valueOf(rating));
     }
 
@@ -41,8 +41,8 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
-    public List<ActorModel> getFilmActors(String filmId) {
-        return filmRepository.findAllFilmActorsById(Integer.valueOf(filmId));
+    public List<ActorModel> getFilmActorList(String filmId) {
+        return filmRepository.findAllFilmActorListById(Integer.valueOf(filmId));
     }
 
     @Override
@@ -55,13 +55,13 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
-    public List<FilmDetailModel> getFilmsDetail() {
-        return filmRepository.findAllFilmsDetail();
+    public List<FilmDetailsModel> getFilmDetailsList() {
+        return filmRepository.findAllFilmListDetail();
     }
 
     @Override
-    public Optional<FilmDetailModel> getFilmDetail(String filmId) {
-        var model = filmRepository.findFilmDetailById(Integer.valueOf(filmId));
+    public Optional<FilmDetailsModel> getFilmDetails(String filmId) {
+        var model = filmRepository.findFilmDetailsById(Integer.valueOf(filmId));
         if (model.isEmpty()) {
             throw new ResourceNotFoundException("Film not found with id '" + filmId + "'");
         }

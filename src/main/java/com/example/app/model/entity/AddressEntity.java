@@ -2,6 +2,7 @@ package com.example.app.model.entity;
 
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -33,7 +34,7 @@ public class AddressEntity implements Serializable {
 
     @Basic
     @Column(name = "address", length = 50, nullable = false)
-    @NonNull
+    @NotNull
     @Size(min = 1, max = 50)
     private String address;
 
@@ -44,14 +45,14 @@ public class AddressEntity implements Serializable {
 
     @Basic
     @Column(name = "district", length = 20, nullable = false)
-    @NonNull
+    @NotNull
     @Size(min = 1, max = 20)
     private String district;
 
     @Basic
     @Column(name = "city_id", columnDefinition = "SMALLINT UNSIGNED", nullable = false,
             insertable = false, updatable = false)
-    @NonNull
+    @NotNull
     private Integer cityId;
 
     @Basic
@@ -61,26 +62,26 @@ public class AddressEntity implements Serializable {
 
     @Basic
     @Column(name = "phone", length = 20, nullable = false)
-    @NonNull
+    @NotNull
     @Size(min = 1, max = 20)
     private String phone;
 
     // @Basic
     // @Column(name = "location", columnDefinition = "GEOMETRY SRID 0", nullable = false)
     // @Convert(converter = GeometryConverter.class)
-    // @NonNull
+    // @NotNull
     // private Point location;
 
     @Basic
     @Column(name = "last_update", columnDefinition = "TIMESTAMP", nullable = false)
     @ColumnDefault("CURRENT_TIMESTAMP")
     @UpdateTimestamp
-    @NonNull
+    @NotNull
     private LocalDateTime lastUpdate;
 
     @ManyToOne
     @JoinColumn(name = "city_id", referencedColumnName = "city_id", nullable = false)
-    @NonNull
+    @NotNull
     @ToString.Exclude
     private CityEntity cityByCityId;
 

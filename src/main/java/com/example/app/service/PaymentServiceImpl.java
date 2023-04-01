@@ -19,7 +19,7 @@ public class PaymentServiceImpl implements PaymentService {
     private final PaymentMapper paymentMapper;
 
     @Override
-    public List<PaymentModel> getPayments() {
+    public List<PaymentModel> getPaymentList() {
         var list = paymentRepository.findAll();
         return paymentMapper.mapToDtoList(list);
     }
@@ -32,13 +32,13 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public List<PaymentModel> getPaymentsDetail() {
-        return paymentRepository.findAllPaymentsDetail();
+    public List<PaymentModel> getPaymentDetailsList() {
+        return paymentRepository.findAllPaymentDetailsList();
     }
 
     @Override
-    public Optional<PaymentModel> getPaymentDetail(String paymentId) {
-        var model = paymentRepository.findPaymentDetailById(Integer.valueOf(paymentId));
+    public Optional<PaymentModel> getPaymentDetails(String paymentId) {
+        var model = paymentRepository.findPaymentDetailsById(Integer.valueOf(paymentId));
         if (model.isEmpty()) {
             throw new ResourceNotFoundException("Payment not found with id '" + paymentId + "'");
         }

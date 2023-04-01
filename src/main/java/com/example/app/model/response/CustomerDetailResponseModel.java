@@ -1,6 +1,7 @@
 package com.example.app.model.response;
 
-import com.example.app.model.internal.extra.CustomerDetailModel;
+import com.example.app.model.constant.HalRelation;
+import com.example.app.model.internal.extra.CustomerDetailsModel;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.google.common.base.Objects;
 import lombok.*;
@@ -10,7 +11,8 @@ import org.springframework.hateoas.server.core.Relation;
 import java.io.Serial;
 import java.io.Serializable;
 
-@Relation(collectionRelation = "customerDetails", itemRelation = "customerDetails")
+@Relation(collectionRelation = HalRelation.Fields.customerDetailsList,
+        itemRelation = HalRelation.Fields.customerDetails)
 @Getter
 @Setter
 @ToString
@@ -22,7 +24,7 @@ public class CustomerDetailResponseModel extends RepresentationModel<CustomerDet
     private static final long serialVersionUID = 1L;
 
     @JsonUnwrapped
-    private CustomerDetailModel customerDetailModel;
+    private CustomerDetailsModel customerDetailsModel;
 
     @Override
     public boolean equals(Object o) {
@@ -30,11 +32,11 @@ public class CustomerDetailResponseModel extends RepresentationModel<CustomerDet
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         CustomerDetailResponseModel that = (CustomerDetailResponseModel) o;
-        return Objects.equal(customerDetailModel, that.customerDetailModel);
+        return Objects.equal(customerDetailsModel, that.customerDetailsModel);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(super.hashCode(), customerDetailModel);
+        return Objects.hashCode(super.hashCode(), customerDetailsModel);
     }
 }

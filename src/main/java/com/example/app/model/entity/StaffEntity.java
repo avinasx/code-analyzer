@@ -2,6 +2,7 @@ package com.example.app.model.entity;
 
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -37,7 +38,7 @@ public class StaffEntity implements Serializable {
     @Basic
     @Column(name = "address_id", columnDefinition = "SMALLINT UNSIGNED", nullable = false,
             insertable = false, updatable = false)
-    @NonNull
+    @NotNull
     private Integer addressId;
 
     // @Basic
@@ -55,18 +56,18 @@ public class StaffEntity implements Serializable {
     @Basic
     @Column(name = "store_id", columnDefinition = "TINYINT UNSIGNED", nullable = false,
             insertable = false, updatable = false)
-    @NonNull
+    @NotNull
     private Integer storeId;
 
     @Basic
     @Column(name = "active", columnDefinition = "BOOLEAN", nullable = false)
     @ColumnDefault("TRUE")
-    @NonNull
+    @NotNull
     private Boolean active;
 
     @Basic
     @Column(name = "username", length = 16, nullable = false)
-    @NonNull
+    @NotNull
     @Size(min = 1, max = 16)
     private String username;
 
@@ -80,7 +81,7 @@ public class StaffEntity implements Serializable {
     @Column(name = "last_update", columnDefinition = "TIMESTAMP", nullable = false)
     @ColumnDefault("CURRENT_TIMESTAMP")
     @UpdateTimestamp
-    @NonNull
+    @NotNull
     private LocalDateTime lastUpdate;
 
     @OneToMany(mappedBy = "staffByStaffId", cascade = CascadeType.ALL)
@@ -93,13 +94,13 @@ public class StaffEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "address_id", referencedColumnName = "address_id", nullable = false)
-    @NonNull
+    @NotNull
     @ToString.Exclude
     private AddressEntity addressByAddressId;
 
     @ManyToOne
     @JoinColumn(name = "store_id", referencedColumnName = "store_id", nullable = false)
-    @NonNull
+    @NotNull
     @ToString.Exclude
     private StoreEntity storeByStoreId;
 

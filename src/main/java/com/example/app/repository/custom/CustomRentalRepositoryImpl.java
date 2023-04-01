@@ -13,12 +13,12 @@ import java.util.Optional;
 @AllArgsConstructor
 public class CustomRentalRepositoryImpl implements CustomRentalRepository {
     @Override
-    public List<RentalModel> findAllRentalsDetail() {
+    public List<RentalModel> findAllRentalDetailsList() {
         return null;
     }
 
     @Override
-    public Optional<RentalModel> findRentalDetailById(Integer rentalId) {
+    public Optional<RentalModel> findRentalDetailsById(Integer rentalId) {
         return Optional.empty();
     }
 }

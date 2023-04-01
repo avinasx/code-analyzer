@@ -3,6 +3,7 @@ package com.example.app.config;
 import com.example.app.config.properties.AppUriPropConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.MessageSource;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
@@ -18,14 +20,21 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.Locale;
+
 @WebMvcTest
 @EnableConfigurationProperties(AppUriPropConfig.class)
 // @Import(RestDocsConfig.class)
 @ExtendWith({MockitoExtension.class, RestDocumentationExtension.class})
 @Slf4j
 public class RestDocsControllerSupport {
+    protected final String RESTDOCS_DOCUMENT_IDENTIFIER = "asciidoctor/{class-name}/{method-name}";
+    protected final String OPENAPI_DOCUMENT_IDENTIFIER = "openapi/{class-name}/{method-name}";
+
     @Autowired
     protected AppUriPropConfig uriPropConfig;
+    @Autowired
+    protected MessageSource messageSource;
     @Autowired
     protected ObjectMapper objectMapper;
     // @Autowired
@@ -51,5 +60,10 @@ public class RestDocsControllerSupport {
 
     @AfterEach
     void tearDown() {
+    }
+
+    @NotNull
+    protected String getMessageSourceMessage(@NotNull String code) {
+        return messageSource.getMessage(code, null, Locale.getDefault());
     }
 }

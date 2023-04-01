@@ -12,13 +12,14 @@ epages-restdocs = "0.17.1"
 spring-web = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "spring-boot" }
 spring-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa", version.ref = "spring-boot" }
 spring-hateoas = { module = "org.springframework.boot:spring-boot-starter-hateoas", version.ref = "spring-boot" }
-spring-security = { module = "org.springframework.boot:spring-boot-starter-security", version.ref = "spring-boot" }
-spring-oauth2 = { module = "org.springframework.boot:spring-boot-starter-oauth2-client", version.ref = "spring-boot" }
+# spring-security = { module = "org.springframework.boot:spring-boot-starter-security", version.ref = "spring-boot" }
+# spring-oauth2 = { module = "org.springframework.boot:spring-boot-starter-oauth2-client", version.ref = "spring-boot" }
+spring-validation = { module = "org.springframework.boot:spring-boot-starter-validation", version.ref = "spring-boot" }
 spring-devtools = { module = "org.springframework.boot:spring-boot-devtools", version.ref = "spring-boot" }
 spring-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator", version.ref = "spring-boot" }
 spring-processor = { module = "org.springframework.boot:spring-boot-configuration-processor", version.ref = "spring-boot" }
 spring-test = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "spring-boot" }
-spring-security-test = { module = "org.springframework.security:spring-security-test", version.ref = "spring-boot" }
+# spring-security-test = { module = "org.springframework.security:spring-security-test", version.ref = "spring-boot" }
 spring-restdocs-asciidoctor = { module = "org.springframework.restdocs:spring-restdocs-asciidoctor", version.ref = "spring-restdocs" }
 spring-restdocs-mockmvc = { module = "org.springframework.restdocs:spring-restdocs-mockmvc", version.ref = "spring-restdocs" }
 
@@ -42,7 +43,6 @@ lombok-mapstruct = { module = "org.projectlombok:lombok-mapstruct-binding", vers
 
 epages-restdocs-mockmvc = { module = "com.epages:restdocs-api-spec-mockmvc", version.ref = "epages-restdocs" }
 
-hibernate-validator = { module = "org.hibernate.validator:hibernate-validator", version = "8.0.0.Final" }
 guava = { module = "com.google.guava:guava", version = "31.1-jre" }
 mysql-connector = { module = "com.mysql:mysql-connector-j", version = "8.0.32" }
 prometheus = { module = "io.micrometer:micrometer-registry-prometheus", version = "1.10.4" }
@@ -60,10 +60,10 @@ asciidoctor = { id = "org.asciidoctor.jvm.convert", version = "3.3.2" }
 
 [bundles]
 web = ["spring-web", "spring-hateoas"]
-data = ["spring-data-jpa"]
-security = ["spring-security", "spring-oauth2"]
+data = ["spring-data-jpa", "spring-validation"]
+# security = ["spring-security", "spring-oauth2"]
 querydsl = ["querydsl-sql", "querydsl-sql-codegen", "querydsl-sql-spring", "querydsl-spatial"]
 develop = ["spring-devtools"]
 runtime = ["mysql-connector", "prometheus"]
-test = ["spring-test", "spring-security-test"]
+# test = ["spring-test", "spring-security-test"]
 restdocs = ["spring-restdocs-asciidoctor", "spring-restdocs-mockmvc"]

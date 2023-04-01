@@ -4,6 +4,7 @@ import com.example.app.model.constant.Language;
 import com.example.app.model.mapping.converter.LanguageConverter;
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -33,7 +34,7 @@ public class LanguageEntity implements Serializable {
 
     @Basic
     @Column(name = "name", columnDefinition = "CHAR(20)", length = 20, nullable = false)
-    @NonNull
+    @NotNull
     @Size(min = 1, max = 20)
     private String name;
 
@@ -41,7 +42,7 @@ public class LanguageEntity implements Serializable {
     @Column(name = "last_update", columnDefinition = "TIMESTAMP", nullable = false)
     @ColumnDefault("CURRENT_TIMESTAMP")
     @UpdateTimestamp
-    @NonNull
+    @NotNull
     private LocalDateTime lastUpdate;
 
     @OneToMany(mappedBy = "languageByLanguageId", cascade = CascadeType.ALL)

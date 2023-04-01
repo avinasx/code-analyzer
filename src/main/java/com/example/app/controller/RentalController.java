@@ -20,9 +20,9 @@ public class RentalController {
     private final RentalRepresentationModelAssembler rentalAssembler;
 
     @GetMapping(path = "")
-    public ResponseEntity<CollectionModel<RentalResponseModel>> getRentals() {
+    public ResponseEntity<CollectionModel<RentalResponseModel>> getRentalList() {
         return ResponseEntity.ok(rentalAssembler.toCollectionModel(
-                rentalService.getRentals()));
+                rentalService.getRentalList()));
     }
 
     @PostMapping(path = "")
@@ -53,8 +53,8 @@ public class RentalController {
     }
 
     @GetMapping(path = "/{rentalId}/details")
-    public ResponseEntity<RentalResponseModel> getRentalDetail(@PathVariable String rentalId) {
-        return rentalService.getRentalDetail(rentalId)
+    public ResponseEntity<RentalResponseModel> getRentalDetails(@PathVariable String rentalId) {
+        return rentalService.getRentalDetails(rentalId)
                 .map(rentalAssembler::toModel)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());

@@ -8,13 +8,13 @@ import java.util.Optional;
 
 public interface RentalService {
 
-    List<RentalModel> getRentals();
+    List<RentalModel> getRentalList();
 
     Optional<RentalModel> getRental(String rentalId);
 
-    List<RentalModel> getRentalsDetail();
+    List<RentalModel> getRentalDetailsList();
 
-    Optional<RentalModel> getRentalDetail(String rentalId);
+    Optional<RentalModel> getRentalDetails(String rentalId);
 
     RentalModel addRental(RentalRequestModel model);
 

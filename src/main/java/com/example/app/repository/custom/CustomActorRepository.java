@@ -2,25 +2,25 @@ package com.example.app.repository.custom;
 
 import com.example.app.model.constant.FilmRating;
 import com.example.app.model.internal.core.FilmModel;
-import com.example.app.model.internal.extra.ActorDetailModel;
-import com.example.app.model.internal.extra.FilmDetailModel;
+import com.example.app.model.internal.extra.ActorDetailsModel;
+import com.example.app.model.internal.extra.FilmDetailsModel;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 public interface CustomActorRepository {
-    List<ActorDetailModel> findAllActorsDetail();
+    List<ActorDetailsModel> findAllActorDetailsList();
 
-    Optional<ActorDetailModel> findActorDetailById(Integer actorId);
+    Optional<ActorDetailsModel> findActorDetailsById(Integer actorId);
 
-    List<FilmModel> findAllActorFilmsById(Integer actorId);
+    List<FilmModel> findAllActorFilmListById(Integer actorId);
 
-    List<FilmModel> findAllActorFilmsByIdWithFilter(Integer actorId, LocalDate releaseYear, FilmRating rating);
+    List<FilmModel> findAllActorFilmListByIdWithFilter(Integer actorId, LocalDate releaseYear, FilmRating rating);
 
     Optional<FilmModel> findActorFilmById(Integer actorId, Integer filmId);
 
-    Optional<FilmDetailModel> findActorFilmDetailById(Integer actorId, Integer filmId);
+    Optional<FilmDetailsModel> findActorFilmDetailsById(Integer actorId, Integer filmId);
 
     Optional<FilmModel> addActorFilm(Integer actorId, Integer filmId);
 

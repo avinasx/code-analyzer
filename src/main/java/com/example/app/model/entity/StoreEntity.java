@@ -2,6 +2,7 @@ package com.example.app.model.entity;
 
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -33,20 +34,20 @@ public class StoreEntity implements Serializable {
     @Basic
     @Column(name = "manager_staff_id", columnDefinition = "TINYINT UNSIGNED", nullable = false,
             insertable = false, updatable = false)
-    @NonNull
+    @NotNull
     private Integer managerStaffId;
 
     @Basic
     @Column(name = "address_id", columnDefinition = "SMALLINT UNSIGNED", nullable = false,
             insertable = false, updatable = false)
-    @NonNull
+    @NotNull
     private Integer addressId;
 
     @Basic
     @Column(name = "last_update", columnDefinition = "TIMESTAMP", nullable = false)
     @ColumnDefault("CURRENT_TIMESTAMP")
     @UpdateTimestamp
-    @NonNull
+    @NotNull
     private LocalDateTime lastUpdate;
 
     @OneToMany(mappedBy = "storeByStoreId", cascade = CascadeType.ALL)
@@ -63,13 +64,13 @@ public class StoreEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "manager_staff_id", referencedColumnName = "staff_id", nullable = false)
-    @NonNull
+    @NotNull
     @ToString.Exclude
     private StaffEntity staffByManagerStaffId;
 
     @ManyToOne
     @JoinColumn(name = "address_id", referencedColumnName = "address_id", nullable = false)
-    @NonNull
+    @NotNull
     @ToString.Exclude
     private AddressEntity addressByAddressId;
 

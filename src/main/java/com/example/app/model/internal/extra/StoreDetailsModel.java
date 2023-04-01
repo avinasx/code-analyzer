@@ -12,7 +12,7 @@ import lombok.experimental.FieldNameConstants;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class StoreDetailModel {
+public class StoreDetailsModel {
     @JsonProperty("id")
     private Integer id;
 
@@ -29,7 +29,7 @@ public class StoreDetailModel {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        StoreDetailModel that = (StoreDetailModel) o;
+        StoreDetailsModel that = (StoreDetailsModel) o;
         return Objects.equal(id, that.id)
                 && Objects.equal(store, that.store)
                 && Objects.equal(manager, that.manager)

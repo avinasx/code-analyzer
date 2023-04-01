@@ -2,6 +2,7 @@ package com.example.app.model.entity;
 
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -33,31 +34,31 @@ public class InventoryEntity implements Serializable {
     @Basic
     @Column(name = "film_id", columnDefinition = "SMALLINT UNSIGNED", nullable = false,
             insertable = false, updatable = false)
-    @NonNull
+    @NotNull
     private Integer filmId;
 
     @Basic
     @Column(name = "store_id", columnDefinition = "TINYINT UNSIGNED", nullable = false,
             insertable = false, updatable = false)
-    @NonNull
+    @NotNull
     private Integer storeId;
 
     @Basic
     @Column(name = "last_update", columnDefinition = "TIMESTAMP", nullable = false)
     @ColumnDefault("CURRENT_TIMESTAMP")
     @UpdateTimestamp
-    @NonNull
+    @NotNull
     private LocalDateTime lastUpdate;
 
     @ManyToOne
     @JoinColumn(name = "film_id", referencedColumnName = "film_id", nullable = false)
-    @NonNull
+    @NotNull
     @ToString.Exclude
     private FilmEntity filmByFilmId;
 
     @ManyToOne
     @JoinColumn(name = "store_id", referencedColumnName = "store_id", nullable = false)
-    @NonNull
+    @NotNull
     @ToString.Exclude
     private StoreEntity storeByStoreId;
 

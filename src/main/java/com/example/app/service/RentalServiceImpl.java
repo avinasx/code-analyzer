@@ -19,7 +19,7 @@ public class RentalServiceImpl implements RentalService {
     private final RentalMapper rentalMapper;
 
     @Override
-    public List<RentalModel> getRentals() {
+    public List<RentalModel> getRentalList() {
         var list = rentalRepository.findAll();
         return rentalMapper.mapToDtoList(list);
     }
@@ -32,13 +32,13 @@ public class RentalServiceImpl implements RentalService {
     }
 
     @Override
-    public List<RentalModel> getRentalsDetail() {
-        return rentalRepository.findAllRentalsDetail();
+    public List<RentalModel> getRentalDetailsList() {
+        return rentalRepository.findAllRentalDetailsList();
     }
 
     @Override
-    public Optional<RentalModel> getRentalDetail(String rentalId) {
-        var model = rentalRepository.findRentalDetailById(Integer.valueOf(rentalId));
+    public Optional<RentalModel> getRentalDetails(String rentalId) {
+        var model = rentalRepository.findRentalDetailsById(Integer.valueOf(rentalId));
         if (model.isEmpty()) {
             throw new ResourceNotFoundException("Rental not found with id '" + rentalId + "'");
         }

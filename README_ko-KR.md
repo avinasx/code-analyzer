@@ -109,12 +109,12 @@ app:
 // build.gradle.kts
 openapi3 {
     this.setServer("http://localhost:8080/api/v1")
-    ...
+    // ...
 }
 
 postman {
     baseUrl = "http://localhost:8080/api/v1"
-    ...
+    // ...
 }
 ```
 

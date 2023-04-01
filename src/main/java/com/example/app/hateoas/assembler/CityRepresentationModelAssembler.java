@@ -1,9 +1,9 @@
 package com.example.app.hateoas.assembler;
 
 import com.example.app.controller.LocationController;
+import com.example.app.model.constant.HalRelation;
 import com.example.app.model.internal.core.CityModel;
 import com.example.app.model.response.CityResponseModel;
-import lombok.NonNull;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
@@ -17,12 +17,12 @@ public class CityRepresentationModelAssembler extends RepresentationModelAssembl
     }
 
     @Override
-    @NonNull
-    public CityResponseModel toModel(@NonNull CityModel entity) {
+    @lombok.NonNull
+    public CityResponseModel toModel(@lombok.NonNull CityModel entity) {
         var model = instantiateModel(entity);
         model.setCityModel(entity);
         model.add(linkTo(methodOn(LocationController.class).getCity(String.valueOf(entity.getCityId()))).withSelfRel());
-        model.add(linkTo(methodOn(LocationController.class).getAddresses()).withRel("cities"));
+        model.add(linkTo(methodOn(LocationController.class).getAddressList()).withRel(HalRelation.Fields.addressList));
         return model;
     }
 }

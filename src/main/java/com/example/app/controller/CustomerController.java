@@ -1,6 +1,6 @@
 package com.example.app.controller;
 
-import com.example.app.hateoas.assembler.CustomerDetailRepresentationModelAssembler;
+import com.example.app.hateoas.assembler.CustomerDetailsRepresentationModelAssembler;
 import com.example.app.hateoas.assembler.CustomerRepresentationModelAssembler;
 import com.example.app.hateoas.assembler.PaymentRepresentationModelAssembler;
 import com.example.app.hateoas.assembler.RentalRepresentationModelAssembler;
@@ -24,15 +24,15 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class CustomerController {
     private final CustomerService customerService;
     private final CustomerRepresentationModelAssembler customerAssembler;
-    private final CustomerDetailRepresentationModelAssembler customerDetailAssembler;
+    private final CustomerDetailsRepresentationModelAssembler customerDetailsAssembler;
     private final PaymentRepresentationModelAssembler paymentAssembler;
 
     private final RentalRepresentationModelAssembler rentalAssembler;
 
     @GetMapping(path = "")
-    public ResponseEntity<CollectionModel<CustomerResponseModel>> getCustomers() {
+    public ResponseEntity<CollectionModel<CustomerResponseModel>> getCustomerList() {
         return ResponseEntity.ok(customerAssembler.toCollectionModel(
-                customerService.getCustomers()));
+                customerService.getCustomerList()));
     }
 
     @PostMapping(path = "")
@@ -63,17 +63,17 @@ public class CustomerController {
     }
 
     @GetMapping(path = "/{customerId}/details")
-    public ResponseEntity<CustomerDetailResponseModel> getCustomerDetail(@PathVariable String customerId) {
-        return customerService.getCustomerDetail(customerId)
-                .map(customerDetailAssembler::toModel)
+    public ResponseEntity<CustomerDetailResponseModel> getCustomerDetails(@PathVariable String customerId) {
+        return customerService.getCustomerDetails(customerId)
+                .map(customerDetailsAssembler::toModel)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping(path = "/{customerId}/payments")
-    public ResponseEntity<CollectionModel<PaymentResponseModel>> getCustomerPayments(@PathVariable String customerId) {
+    public ResponseEntity<CollectionModel<PaymentResponseModel>> getCustomerPaymentList(@PathVariable String customerId) {
         return ResponseEntity.ok(paymentAssembler.toCollectionModel(
-                customerService.getCustomerPayments(customerId)));
+                customerService.getCustomerPaymentList(customerId)));
     }
 
     // @GetMapping(path = "/{customerId}/payments")
@@ -86,9 +86,9 @@ public class CustomerController {
     // }
 
     @GetMapping(path = "/{customerId}/rentals")
-    public ResponseEntity<CollectionModel<RentalResponseModel>> getCustomerRentals(@PathVariable String customerId) {
+    public ResponseEntity<CollectionModel<RentalResponseModel>> getCustomerRentalList(@PathVariable String customerId) {
         return ResponseEntity.ok(rentalAssembler.toCollectionModel(
-                customerService.getCustomerRentals(customerId)));
+                customerService.getCustomerRentalList(customerId)));
     }
 
     // @GetMapping(path = "/{customerId}/rentals")

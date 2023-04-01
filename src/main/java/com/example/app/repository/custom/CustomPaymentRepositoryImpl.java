@@ -27,12 +27,12 @@ public class CustomPaymentRepositoryImpl implements CustomPaymentRepository {
     }
 
     @Override
-    public List<PaymentModel> findAllPaymentsDetail() {
+    public List<PaymentModel> findAllPaymentDetailsList() {
         return null;
     }
 
     @Override
-    public Optional<PaymentModel> findPaymentDetailById(Integer paymentId) {
+    public Optional<PaymentModel> findPaymentDetailsById(Integer paymentId) {
         return Optional.empty();
     }
 

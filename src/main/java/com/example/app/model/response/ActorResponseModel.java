@@ -1,5 +1,6 @@
 package com.example.app.model.response;
 
+import com.example.app.model.constant.HalRelation;
 import com.example.app.model.internal.core.ActorModel;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.google.common.base.Objects;
@@ -10,7 +11,8 @@ import org.springframework.hateoas.server.core.Relation;
 import java.io.Serial;
 import java.io.Serializable;
 
-@Relation(collectionRelation = "actors", itemRelation = "actor")
+@Relation(collectionRelation = HalRelation.Fields.actorList,
+        itemRelation = HalRelation.Fields.actor)
 @Getter
 @Setter
 @ToString

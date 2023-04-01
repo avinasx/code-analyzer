@@ -1,8 +1,8 @@
 package com.example.app.controller;
 
-import com.example.app.hateoas.assembler.ActorDetailRepresentationModelAssembler;
+import com.example.app.hateoas.assembler.ActorDetailsRepresentationModelAssembler;
 import com.example.app.hateoas.assembler.ActorRepresentationModelAssembler;
-import com.example.app.hateoas.assembler.FilmDetailRepresentationModelAssembler;
+import com.example.app.hateoas.assembler.FilmDetailsRepresentationModelAssembler;
 import com.example.app.hateoas.assembler.FilmRepresentationModelAssembler;
 import com.example.app.model.internal.core.FilmModel;
 import com.example.app.model.request.FilmRequestModel;
@@ -24,14 +24,14 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class FilmController {
     private final FilmService filmService;
     private final FilmRepresentationModelAssembler filmAssembler;
-    private final FilmDetailRepresentationModelAssembler filmDetailAssembler;
+    private final FilmDetailsRepresentationModelAssembler filmDetailsAssembler;
     private final ActorRepresentationModelAssembler actorAssembler;
-    private final ActorDetailRepresentationModelAssembler actorDetailAssembler;
+    private final ActorDetailsRepresentationModelAssembler actorDetailsAssembler;
 
     @GetMapping(path = "")
-    public ResponseEntity<CollectionModel<FilmResponseModel>> getFilms() {
+    public ResponseEntity<CollectionModel<FilmResponseModel>> getFilmList() {
         return ResponseEntity.ok(filmAssembler.toCollectionModel(
-                filmService.getFilms()));
+                filmService.getFilmList()));
     }
 
     // @GetMapping(path = "")
@@ -70,9 +70,9 @@ public class FilmController {
     }
 
     @GetMapping(path = "/{filmId}/actors")
-    public ResponseEntity<CollectionModel<ActorResponseModel>> getFilmActors(@PathVariable String filmId) {
+    public ResponseEntity<CollectionModel<ActorResponseModel>> getFilmActorList(@PathVariable String filmId) {
         return ResponseEntity.ok(actorAssembler.toCollectionModel(
-                filmService.getFilmActors(filmId)));
+                filmService.getFilmActorList(filmId)));
     }
 
     @GetMapping(path = "/{filmId}/actors/{actorId}")
@@ -84,9 +84,9 @@ public class FilmController {
     }
 
     @GetMapping(path = "/{filmId}/details")
-    public ResponseEntity<FilmDetailResponseModel> getFilmDetail(@PathVariable String filmId) {
-        return filmService.getFilmDetail(filmId)
-                .map(filmDetailAssembler::toModel)
+    public ResponseEntity<FilmDetailResponseModel> getFilmDetails(@PathVariable String filmId) {
+        return filmService.getFilmDetails(filmId)
+                .map(filmDetailsAssembler::toModel)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

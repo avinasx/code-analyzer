@@ -25,7 +25,7 @@ public class LocationServiceImpl implements LocationService {
     private final CityMapper cityMapper;
 
     @Override
-    public List<AddressModel> getAddresses() {
+    public List<AddressModel> getAddressList() {
         var list = addressRepository.findAll();
         return addressMapper.mapToDtoList(list);
     }
@@ -38,13 +38,13 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public List<AddressModel> getAddressesDetail() {
-        return addressRepository.findAllAddressesDetail();
+    public List<AddressModel> getAddressDetailsList() {
+        return addressRepository.findAllAddressDetailsList();
     }
 
     @Override
-    public Optional<AddressModel> getAddressDetail(String addressId) {
-        var model = addressRepository.findAddressDetailById(Integer.valueOf(addressId));
+    public Optional<AddressModel> getAddressDetails(String addressId) {
+        var model = addressRepository.findAddressDetailsById(Integer.valueOf(addressId));
         if (model.isEmpty()) {
             throw new ResourceNotFoundException("Address not found with id '" + addressId + "'");
         }
@@ -74,7 +74,7 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public List<CityModel> getCities() {
+    public List<CityModel> getCityList() {
         var list = cityRepository.findAll();
         return cityMapper.mapToDtoList(list);
     }
@@ -87,13 +87,13 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public List<CityModel> getCitiesDetail() {
-        return cityRepository.findAllCitiesDetail();
+    public List<CityModel> getCityDetailsList() {
+        return cityRepository.findAllCityDetailsList();
     }
 
     @Override
-    public Optional<CityModel> getCityDetail(String cityId) {
-        var model = cityRepository.findCityDetailById(Integer.valueOf(cityId));
+    public Optional<CityModel> getCityDetails(String cityId) {
+        var model = cityRepository.findCityDetailsById(Integer.valueOf(cityId));
         if (model.isEmpty()) {
             throw new ResourceNotFoundException("City not found with id '" + cityId + "'");
         }

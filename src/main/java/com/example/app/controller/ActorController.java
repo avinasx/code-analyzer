@@ -1,9 +1,11 @@
 package com.example.app.controller;
 
-import com.example.app.hateoas.assembler.ActorDetailRepresentationModelAssembler;
+import com.example.app.hateoas.assembler.ActorDetailsRepresentationModelAssembler;
 import com.example.app.hateoas.assembler.ActorRepresentationModelAssembler;
-import com.example.app.hateoas.assembler.FilmDetailRepresentationModelAssembler;
+import com.example.app.hateoas.assembler.FilmDetailsRepresentationModelAssembler;
 import com.example.app.hateoas.assembler.FilmRepresentationModelAssembler;
+import com.example.app.model.constant.HalRelation;
+import com.example.app.model.internal.core.FilmModel;
 import com.example.app.model.request.ActorRequestModel;
 import com.example.app.model.response.ActorDetailResponseModel;
 import com.example.app.model.response.ActorResponseModel;
@@ -26,14 +28,14 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class ActorController {
     private final ActorService actorService;
     private final ActorRepresentationModelAssembler actorAssembler;
-    private final ActorDetailRepresentationModelAssembler actorDetailAssembler;
+    private final ActorDetailsRepresentationModelAssembler actorDetailsAssembler;
     private final FilmRepresentationModelAssembler filmAssembler;
-    private final FilmDetailRepresentationModelAssembler filmDetailAssembler;
+    private final FilmDetailsRepresentationModelAssembler filmDetailsAssembler;
 
     @GetMapping(path = "")
-    public ResponseEntity<CollectionModel<ActorResponseModel>> getActors() {
+    public ResponseEntity<CollectionModel<ActorResponseModel>> getActorList() {
         return ResponseEntity.ok(actorAssembler.toCollectionModel(
-                actorService.getActors()));
+                actorService.getActorList()));
     }
 
     @PostMapping(path = "")
@@ -64,20 +66,20 @@ public class ActorController {
     }
 
     @GetMapping(path = "/{actorId}/details")
-    public ResponseEntity<ActorDetailResponseModel> getActorDetail(@PathVariable String actorId) {
-        return actorService.getActorDetail(actorId)
-                .map(actorDetailAssembler::toModel)
+    public ResponseEntity<ActorDetailResponseModel> getActorDetails(@PathVariable String actorId) {
+        return actorService.getActorDetails(actorId)
+                .map(actorDetailsAssembler::toModel)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping(path = "/{actorId}/films")
-    public ResponseEntity<CollectionModel<FilmResponseModel>> getActorFilms(@PathVariable String actorId) {
+    public ResponseEntity<CollectionModel<FilmResponseModel>> getActorFilmList(@PathVariable String actorId) {
         var representation = filmAssembler.toCollectionModel(
-                actorService.getActorFilms(actorId));
+                actorService.getActorFilmList(actorId));
         var updatedRepresentation = representation.removeLinks()
-                .add(linkTo(methodOn(ActorController.class).getActorFilms(actorId)).withSelfRel())
-                .add(linkTo(methodOn(ActorController.class).getActor(actorId)).withRel("actor"));
+                .add(linkTo(methodOn(ActorController.class).getActorFilmList(actorId)).withSelfRel())
+                .add(linkTo(methodOn(ActorController.class).getActor(actorId)).withRel(HalRelation.Fields.actor));
         return ResponseEntity.ok(updatedRepresentation);
     }
 
@@ -91,7 +93,7 @@ public class ActorController {
 
     @PostMapping(path = "/{actorId}/films")
     public ResponseEntity<Void> addActorFilm(@PathVariable String actorId, @RequestBody Map<String, String> input) {
-        var result = actorService.addActorFilm(actorId, input.get("filmId"));
+        var result = actorService.addActorFilm(actorId, input.get(FilmModel.Fields.filmId));
         return ResponseEntity.created(linkTo(methodOn(ActorController.class)
                 .getActorFilm(actorId, String.valueOf(result.getFilmId()))).toUri()).build();
     }
@@ -102,8 +104,8 @@ public class ActorController {
                 .map(filmAssembler::toModel);
         var updatedRepresentation = representation.map(r -> r.removeLinks()
                 .add(linkTo(methodOn(ActorController.class).getActorFilm(actorId, filmId)).withSelfRel())
-                .add(linkTo(methodOn(ActorController.class).getActorFilms(actorId)).withRel("films"))
-                .add(linkTo(methodOn(ActorController.class).getActor(actorId)).withRel("actor")));
+                .add(linkTo(methodOn(ActorController.class).getActorFilmList(actorId)).withRel(HalRelation.Fields.filmList))
+                .add(linkTo(methodOn(ActorController.class).getActor(actorId)).withRel(HalRelation.Fields.actor)));
         return updatedRepresentation.map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -115,15 +117,15 @@ public class ActorController {
     }
 
     @GetMapping(path = "/{actorId}/films/{filmId}/details")
-    public ResponseEntity<FilmDetailResponseModel> getActorFilmDetail(@PathVariable String actorId,
-                                                                      @PathVariable String filmId) {
-        var representation = actorService.getActorFilmDetail(actorId, filmId)
-                .map(filmDetailAssembler::toModel);
+    public ResponseEntity<FilmDetailResponseModel> getActorFilmDetails(@PathVariable String actorId,
+                                                                       @PathVariable String filmId) {
+        var representation = actorService.getActorFilmDetails(actorId, filmId)
+                .map(filmDetailsAssembler::toModel);
         var updatedRepresentation = representation.map(r -> r.removeLinks()
-                .add(linkTo(methodOn(ActorController.class).getActorFilmDetail(actorId, filmId)).withSelfRel())
-                .add(linkTo(methodOn(ActorController.class).getActorFilm(actorId, filmId)).withRel("film"))
-                .add(linkTo(methodOn(ActorController.class).getActorFilms(actorId)).withRel("films"))
-                .add(linkTo(methodOn(ActorController.class).getActor(actorId)).withRel("actor")));
+                .add(linkTo(methodOn(ActorController.class).getActorFilmDetails(actorId, filmId)).withSelfRel())
+                .add(linkTo(methodOn(ActorController.class).getActorFilm(actorId, filmId)).withRel(HalRelation.Fields.film))
+                .add(linkTo(methodOn(ActorController.class).getActorFilmList(actorId)).withRel(HalRelation.Fields.filmList))
+                .add(linkTo(methodOn(ActorController.class).getActor(actorId)).withRel(HalRelation.Fields.actor)));
         return updatedRepresentation.map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -131,6 +133,6 @@ public class ActorController {
     @PostMapping(path = "/search")
     public ResponseEntity<CollectionModel<ActorResponseModel>> searchActorByName(@RequestBody Map<String, String> input) {
         return ResponseEntity.ok(actorAssembler.toCollectionModel(
-                actorService.searchActors(input.get("name"))));
+                actorService.searchActorList(input.get("name"))));
     }
 }

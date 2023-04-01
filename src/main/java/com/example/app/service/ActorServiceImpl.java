@@ -4,8 +4,8 @@ import com.example.app.exception.ResourceNotFoundException;
 import com.example.app.model.constant.FilmRating;
 import com.example.app.model.internal.core.ActorModel;
 import com.example.app.model.internal.core.FilmModel;
-import com.example.app.model.internal.extra.ActorDetailModel;
-import com.example.app.model.internal.extra.FilmDetailModel;
+import com.example.app.model.internal.extra.ActorDetailsModel;
+import com.example.app.model.internal.extra.FilmDetailsModel;
 import com.example.app.model.mapping.mapper.ActorMapper;
 import com.example.app.model.request.ActorRequestModel;
 import com.example.app.repository.ActorRepository;
@@ -24,7 +24,7 @@ public class ActorServiceImpl implements ActorService {
     private final ActorMapper actorMapper;
 
     @Override
-    public List<ActorModel> getActors() {
+    public List<ActorModel> getActorList() {
         var list = actorRepository.findAll();
         return actorMapper.mapToDtoList(list);
     }
@@ -37,13 +37,13 @@ public class ActorServiceImpl implements ActorService {
     }
 
     @Override
-    public List<ActorDetailModel> getActorsDetail() {
-        return actorRepository.findAllActorsDetail();
+    public List<ActorDetailsModel> getActorDetailsList() {
+        return actorRepository.findAllActorDetailsList();
     }
 
     @Override
-    public Optional<ActorDetailModel> getActorDetail(String actorId) {
-        var model = actorRepository.findActorDetailById(Integer.valueOf(actorId));
+    public Optional<ActorDetailsModel> getActorDetails(String actorId) {
+        var model = actorRepository.findActorDetailsById(Integer.valueOf(actorId));
         if (model.isEmpty()) {
             throw new ResourceNotFoundException("Actor not found with id '" + actorId + "'");
         }
@@ -51,13 +51,13 @@ public class ActorServiceImpl implements ActorService {
     }
 
     @Override
-    public List<FilmModel> getActorFilms(String actorId) {
-        return actorRepository.findAllActorFilmsById(Integer.valueOf(actorId));
+    public List<FilmModel> getActorFilmList(String actorId) {
+        return actorRepository.findAllActorFilmListById(Integer.valueOf(actorId));
     }
 
     @Override
-    public List<FilmModel> getActorFilms(String actorId, String releaseYear, String rating) {
-        return actorRepository.findAllActorFilmsByIdWithFilter(Integer.valueOf(actorId),
+    public List<FilmModel> getActorFilmList(String actorId, String releaseYear, String rating) {
+        return actorRepository.findAllActorFilmListByIdWithFilter(Integer.valueOf(actorId),
                 LocalDate.parse(releaseYear), FilmRating.valueOf(rating));
     }
 
@@ -71,8 +71,8 @@ public class ActorServiceImpl implements ActorService {
     }
 
     @Override
-    public Optional<FilmDetailModel> getActorFilmDetail(String actorId, String filmId) {
-        var model = actorRepository.findActorFilmDetailById(Integer.valueOf(actorId), Integer.valueOf(filmId));
+    public Optional<FilmDetailsModel> getActorFilmDetails(String actorId, String filmId) {
+        var model = actorRepository.findActorFilmDetailsById(Integer.valueOf(actorId), Integer.valueOf(filmId));
         if (model.isEmpty()) {
             throw new ResourceNotFoundException("Actor not found with id '" + actorId + "'");
         }
@@ -80,7 +80,7 @@ public class ActorServiceImpl implements ActorService {
     }
 
     @Override
-    public List<ActorModel> searchActors(String name) {
+    public List<ActorModel> searchActorList(String name) {
         var list = actorRepository.findActorEntitiesByFullNameFirstNameContainsOrFullNameLastNameContains(name, name);
         if (list.isEmpty()) {
             throw new ResourceNotFoundException("Actor not found with name '" + name + "'");

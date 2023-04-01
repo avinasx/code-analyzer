@@ -2,6 +2,7 @@ package com.example.app.model.entity;
 
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -34,19 +35,19 @@ public class RentalEntity implements Serializable {
 
     @Basic
     @Column(name = "rental_date", columnDefinition = "DATETIME", nullable = false)
-    @NonNull
+    @NotNull
     private LocalDateTime rentalDate;
 
     @Basic
     @Column(name = "inventory_id", columnDefinition = "MEDIUMINT UNSIGNED", nullable = false,
             insertable = false, updatable = false)
-    @NonNull
+    @NotNull
     private Integer inventoryId;
 
     @Basic
     @Column(name = "customer_id", columnDefinition = "SMALLINT UNSIGNED", nullable = false,
             insertable = false, updatable = false)
-    @NonNull
+    @NotNull
     private Integer customerId;
 
     @Basic
@@ -57,14 +58,14 @@ public class RentalEntity implements Serializable {
     @Basic
     @Column(name = "staff_id", columnDefinition = "TINYINT UNSIGNED", nullable = false,
             insertable = false, updatable = false)
-    @NonNull
+    @NotNull
     private Integer staffId;
 
     @Basic
     @Column(name = "last_update", columnDefinition = "TIMESTAMP", nullable = false)
     @ColumnDefault("CURRENT_TIMESTAMP")
     @UpdateTimestamp
-    @NonNull
+    @NotNull
     private LocalDateTime lastUpdate;
 
     @OneToMany(mappedBy = "rentalByRentalId", cascade = CascadeType.ALL)
@@ -73,19 +74,19 @@ public class RentalEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "inventory_id", referencedColumnName = "inventory_id", nullable = false)
-    @NonNull
+    @NotNull
     @ToString.Exclude
     private InventoryEntity inventoryByInventoryId;
 
     @ManyToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "customer_id", nullable = false)
-    @NonNull
+    @NotNull
     @ToString.Exclude
     private CustomerEntity customerByCustomerId;
 
     @ManyToOne
     @JoinColumn(name = "staff_id", referencedColumnName = "staff_id", nullable = false)
-    @NonNull
+    @NotNull
     @ToString.Exclude
     private StaffEntity staffByStaffId;
 

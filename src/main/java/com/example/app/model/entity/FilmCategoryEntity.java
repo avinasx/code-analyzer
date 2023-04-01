@@ -4,6 +4,7 @@ import com.example.app.model.constant.Category;
 import com.example.app.model.mapping.converter.CategoryConverter;
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -35,25 +36,25 @@ public class FilmCategoryEntity implements Serializable {
             insertable = false, updatable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Convert(converter = CategoryConverter.class)
-    @NonNull
+    @NotNull
     private Category categoryId;
 
     @Basic
     @Column(name = "last_update", columnDefinition = "TIMESTAMP", nullable = false)
     @ColumnDefault("CURRENT_TIMESTAMP")
     @UpdateTimestamp
-    @NonNull
+    @NotNull
     private LocalDateTime lastUpdate;
 
     @ManyToOne
     @JoinColumn(name = "film_id", referencedColumnName = "film_id", nullable = false)
-    @NonNull
+    @NotNull
     @ToString.Exclude
     private FilmEntity filmByFilmId;
 
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "category_id", nullable = false)
-    @NonNull
+    @NotNull
     @ToString.Exclude
     private CategoryEntity categoryByCategoryId;
 

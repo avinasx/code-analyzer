@@ -1,12 +1,12 @@
 package com.example.app.repository.custom;
 
-import com.example.app.model.internal.extra.StaffDetailModel;
+import com.example.app.model.internal.extra.StaffDetailsModel;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface CustomStaffRepository {
-    List<StaffDetailModel> findAllStaffsDetail();
+    List<StaffDetailsModel> findAllStaffDetailsList();
 
-    Optional<StaffDetailModel> findStaffDetailById(Integer staffId);
+    Optional<StaffDetailsModel> findStaffDetailsById(Integer staffId);
 }

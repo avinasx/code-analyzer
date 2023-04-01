@@ -8,6 +8,7 @@ import com.example.app.model.mapping.converter.LanguageConverter;
 import com.example.app.model.mapping.converter.SpecialFeatureConverter;
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -43,7 +44,7 @@ public class FilmEntity implements Serializable {
 
     @Basic
     @Column(name = "title", length = 128, nullable = false)
-    @NonNull
+    @NotNull
     @Size(min = 1, max = 128)
     private String title;
 
@@ -62,7 +63,7 @@ public class FilmEntity implements Serializable {
     @Column(name = "language_id", columnDefinition = "TINYINT UNSIGNED", nullable = false,
             insertable = false, updatable = false)
     @Convert(converter = LanguageConverter.class)
-    @NonNull
+    @NotNull
     private Language languageId;
 
     @Basic
@@ -75,13 +76,13 @@ public class FilmEntity implements Serializable {
     @Basic
     @Column(name = "rental_duration", columnDefinition = "TINYINT UNSIGNED", nullable = false)
     @ColumnDefault("3")
-    @NonNull
+    @NotNull
     private Integer rentalDuration;
 
     @Basic
     @Column(name = "rental_rate", columnDefinition = "DECIMAL(4,2)", precision = 2, nullable = false)
     @ColumnDefault("4.99")
-    @NonNull
+    @NotNull
     private BigDecimal rentalRate;
 
     @Basic
@@ -92,7 +93,7 @@ public class FilmEntity implements Serializable {
     @Basic
     @Column(name = "replacement_cost", columnDefinition = "DECIMAL(5,2)", precision = 2, nullable = false)
     @ColumnDefault("19.99")
-    @NonNull
+    @NotNull
     private BigDecimal replacementCost;
 
     @Basic
@@ -111,12 +112,12 @@ public class FilmEntity implements Serializable {
     @Column(name = "last_update", columnDefinition = "TIMESTAMP", nullable = false)
     @ColumnDefault("CURRENT_TIMESTAMP")
     @UpdateTimestamp
-    @NonNull
+    @NotNull
     private LocalDateTime lastUpdate;
 
     @ManyToOne
     @JoinColumn(name = "language_id", referencedColumnName = "language_id", nullable = false)
-    @NonNull
+    @NotNull
     @ToString.Exclude
     private LanguageEntity languageByLanguageId;
 

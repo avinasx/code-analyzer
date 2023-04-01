@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CustomRentalRepository {
-    List<RentalModel> findAllRentalsDetail();
+    List<RentalModel> findAllRentalDetailsList();
 
-    Optional<RentalModel> findRentalDetailById(Integer rentalId);
+    Optional<RentalModel> findRentalDetailsById(Integer rentalId);
 }

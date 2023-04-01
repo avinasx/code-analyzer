@@ -1,9 +1,9 @@
 package com.example.app.hateoas.assembler;
 
 import com.example.app.controller.RentalController;
+import com.example.app.model.constant.HalRelation;
 import com.example.app.model.internal.core.RentalModel;
 import com.example.app.model.response.RentalResponseModel;
-import lombok.NonNull;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
@@ -17,12 +17,12 @@ public class RentalRepresentationModelAssembler extends RepresentationModelAssem
     }
 
     @Override
-    @NonNull
-    public RentalResponseModel toModel(@NonNull RentalModel entity) {
+    @lombok.NonNull
+    public RentalResponseModel toModel(@lombok.NonNull RentalModel entity) {
         var model = instantiateModel(entity);
         model.setRentalModel(entity);
         model.add(linkTo(methodOn(RentalController.class).getRental(String.valueOf(entity.getRentalId()))).withSelfRel());
-        model.add(linkTo(methodOn(RentalController.class).getRentals()).withRel("rentals"));
+        model.add(linkTo(methodOn(RentalController.class).getRentalList()).withRel(HalRelation.Fields.rentalList));
         return model;
     }
 }

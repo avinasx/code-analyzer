@@ -13,12 +13,12 @@ import java.util.Optional;
 @AllArgsConstructor
 public class CustomAddressRepositoryImpl implements CustomAddressRepository {
     @Override
-    public List<AddressModel> findAllAddressesDetail() {
+    public List<AddressModel> findAllAddressDetailsList() {
         return null;
     }
 
     @Override
-    public Optional<AddressModel> findAddressDetailById(Integer addressId) {
+    public Optional<AddressModel> findAddressDetailsById(Integer addressId) {
         return Optional.empty();
     }
 }

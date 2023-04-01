@@ -2,6 +2,7 @@ package com.example.app.model.entity;
 
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -35,7 +36,7 @@ public class CustomerEntity implements Serializable {
     @Basic
     @Column(name = "store_id", columnDefinition = "TINYINT UNSIGNED", nullable = false,
             insertable = false, updatable = false)
-    @NonNull
+    @NotNull
     private Integer storeId;
 
     @Embedded
@@ -49,18 +50,18 @@ public class CustomerEntity implements Serializable {
     @Basic
     @Column(name = "address_id", columnDefinition = "SMALLINT UNSIGNED", nullable = false,
             insertable = false, updatable = false)
-    @NonNull
+    @NotNull
     private Integer addressId;
 
     @Basic
     @Column(name = "active", columnDefinition = "BOOLEAN", nullable = false)
     @ColumnDefault("TRUE")
-    @NonNull
+    @NotNull
     private Boolean active;
 
     @Basic
     @Column(name = "create_date", columnDefinition = "DATETIME", nullable = false)
-    @NonNull
+    @NotNull
     private LocalDateTime createDate;
 
     @Basic
@@ -71,13 +72,13 @@ public class CustomerEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "store_id", referencedColumnName = "store_id", nullable = false)
-    @NonNull
+    @NotNull
     @ToString.Exclude
     private StoreEntity storeByStoreId;
 
     @ManyToOne
     @JoinColumn(name = "address_id", referencedColumnName = "address_id", nullable = false)
-    @NonNull
+    @NotNull
     @ToString.Exclude
     private AddressEntity addressByAddressId;
 

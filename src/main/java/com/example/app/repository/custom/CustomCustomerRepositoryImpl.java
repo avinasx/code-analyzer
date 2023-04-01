@@ -6,7 +6,7 @@ import com.example.app.model.entity.QCustomerEntity;
 import com.example.app.model.entity.QPaymentEntity;
 import com.example.app.model.internal.core.PaymentModel;
 import com.example.app.model.internal.core.RentalModel;
-import com.example.app.model.internal.extra.CustomerDetailModel;
+import com.example.app.model.internal.extra.CustomerDetailsModel;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -26,23 +26,23 @@ public class CustomCustomerRepositoryImpl implements CustomCustomerRepository {
     private JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<CustomerDetailModel> findAllCustomersDetail() {
+    public List<CustomerDetailsModel> findAllCustomerDetailsList() {
         var query = findCustomerDetail(null);
         return query.fetch();
     }
 
     @Override
-    public Optional<CustomerDetailModel> findCustomerDetailById(Integer customerId) {
+    public Optional<CustomerDetailsModel> findCustomerDetailsById(Integer customerId) {
         var query = findCustomerDetail(customerId);
-        return Optional.ofNullable(query.fetchFirst());
+        return Optional.of(query.fetchFirst());
     }
 
-    private JPAQuery<CustomerDetailModel> findCustomerDetail(Integer id) {
+    private JPAQuery<CustomerDetailsModel> findCustomerDetail(Integer id) {
         var cu = new QCustomerEntity("cu");
         var a = new QAddressEntity("a");
         var city = new QCityEntity("city");
         var query = jpaQueryFactory
-                .select(Projections.constructor(CustomerDetailModel.class,
+                .select(Projections.constructor(CustomerDetailsModel.class,
                         cu.customerId.as("id"),
                         Expressions.asString(cu.fullName.firstName).concat(" ")
                                 .concat(cu.fullName.lastName).as("name"),
@@ -63,13 +63,13 @@ public class CustomCustomerRepositoryImpl implements CustomCustomerRepository {
     }
 
     @Override
-    public List<PaymentModel> findAllCustomerPaymentsById(Integer customerId) {
+    public List<PaymentModel> findAllCustomerPaymentListById(Integer customerId) {
         var query = findCustomerPayments(customerId, null, null);
         return query.fetch();
     }
 
     @Override
-    public List<PaymentModel> findAllCustomerPaymentsByIdWithFilter(Integer customerId, LocalDate startDate, LocalDate endDate) {
+    public List<PaymentModel> findAllCustomerPaymentListByIdWithFilter(Integer customerId, LocalDate startDate, LocalDate endDate) {
         var query = findCustomerPayments(customerId, startDate, endDate);
         return query.fetch();
     }
@@ -96,13 +96,13 @@ public class CustomCustomerRepositoryImpl implements CustomCustomerRepository {
     }
 
     @Override
-    public List<RentalModel> findAllCustomerRentalsById(Integer customerId) {
+    public List<RentalModel> findAllCustomerRentalListById(Integer customerId) {
         var query = findCustomerRentals(customerId, null, null, null);
         return query.fetch();
     }
 
     @Override
-    public List<RentalModel> findAllCustomerRentalsByIdWithFilter(Integer customerId, String status, LocalDate startDate, LocalDate endDate) {
+    public List<RentalModel> findAllCustomerRentalListByIdWithFilter(Integer customerId, String status, LocalDate startDate, LocalDate endDate) {
         var query = findCustomerRentals(customerId, status, startDate, endDate);
         return query.fetch();
     }

@@ -24,9 +24,9 @@ public class LocationController {
     private final CityRepresentationModelAssembler cityAssembler;
 
     @GetMapping(path = "/addresses")
-    public ResponseEntity<CollectionModel<AddressResponseModel>> getAddresses() {
+    public ResponseEntity<CollectionModel<AddressResponseModel>> getAddressList() {
         return ResponseEntity.ok(addressAssembler.toCollectionModel(
-                locationService.getAddresses()));
+                locationService.getAddressList()));
     }
 
     @PostMapping(path = "/addresses")
@@ -57,17 +57,17 @@ public class LocationController {
     }
 
     @GetMapping(path = "/addresses/{addressId}/details")
-    public ResponseEntity<AddressResponseModel> getAddressDetail(@PathVariable String addressId) {
-        return locationService.getAddressDetail(addressId)
+    public ResponseEntity<AddressResponseModel> getAddressDetails(@PathVariable String addressId) {
+        return locationService.getAddressDetails(addressId)
                 .map(addressAssembler::toModel)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping(path = "/cities")
-    public ResponseEntity<CollectionModel<CityResponseModel>> getCities() {
+    public ResponseEntity<CollectionModel<CityResponseModel>> getCityList() {
         return ResponseEntity.ok(cityAssembler.toCollectionModel(
-                locationService.getCities()));
+                locationService.getCityList()));
     }
 
     @PostMapping(path = "/cities")
@@ -98,8 +98,8 @@ public class LocationController {
     }
 
     @GetMapping(path = "/cities/{cityId}/details")
-    public ResponseEntity<CityResponseModel> getCityDetail(@PathVariable String cityId) {
-        return locationService.getCityDetail(cityId)
+    public ResponseEntity<CityResponseModel> getCityDetails(@PathVariable String cityId) {
+        return locationService.getCityDetails(cityId)
                 .map(cityAssembler::toModel)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());

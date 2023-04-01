@@ -4,6 +4,7 @@ import com.example.app.model.constant.Country;
 import com.example.app.model.mapping.converter.CountryConverter;
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -34,7 +35,7 @@ public class CityEntity implements Serializable {
 
     @Basic
     @Column(name = "city", length = 50, nullable = false)
-    @NonNull
+    @NotNull
     @Size(min = 1, max = 50)
     private String city;
 
@@ -42,14 +43,14 @@ public class CityEntity implements Serializable {
     @Column(name = "country_id", columnDefinition = "SMALLINT UNSIGNED", nullable = false,
             insertable = false, updatable = false)
     @Convert(converter = CountryConverter.class)
-    @NonNull
+    @NotNull
     private Country countryId;
 
     @Basic
     @Column(name = "last_update", columnDefinition = "TIMESTAMP", nullable = false)
     @ColumnDefault("CURRENT_TIMESTAMP")
     @UpdateTimestamp
-    @NonNull
+    @NotNull
     private LocalDateTime lastUpdate;
 
     @OneToMany(mappedBy = "cityByCityId", cascade = CascadeType.ALL)
@@ -58,7 +59,7 @@ public class CityEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "country_id", referencedColumnName = "country_id", nullable = false)
-    @NonNull
+    @NotNull
     @ToString.Exclude
     private CountryEntity countryByCountryId;
 

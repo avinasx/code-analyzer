@@ -3,7 +3,7 @@ package com.example.app.service;
 import com.example.app.exception.ResourceNotFoundException;
 import com.example.app.model.internal.core.StaffModel;
 import com.example.app.model.internal.core.StoreModel;
-import com.example.app.model.internal.extra.StoreDetailModel;
+import com.example.app.model.internal.extra.StoreDetailsModel;
 import com.example.app.model.mapping.mapper.StoreMapper;
 import com.example.app.model.request.StoreRequestModel;
 import com.example.app.repository.StoreRepository;
@@ -21,7 +21,7 @@ public class StoreServiceImpl implements StoreService {
     private final StoreMapper storeMapper;
 
     @Override
-    public List<StoreModel> getStores() {
+    public List<StoreModel> getStoreList() {
         var list = storeRepository.findAll();
         return storeMapper.mapToDtoList(list);
     }
@@ -34,13 +34,13 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public List<StoreDetailModel> getStoresDetail() {
-        return storeRepository.findAllStoresDetail();
+    public List<StoreDetailsModel> getStoreDetailsList() {
+        return storeRepository.findAllStoreDetailsList();
     }
 
     @Override
-    public Optional<StoreDetailModel> getStoreDetail(String storeId) {
-        var model = storeRepository.findStoreDetailById(Integer.valueOf(storeId));
+    public Optional<StoreDetailsModel> getStoreDetails(String storeId) {
+        var model = storeRepository.findStoreDetailsById(Integer.valueOf(storeId));
         if (model.isEmpty()) {
             throw new ResourceNotFoundException("Store not found with id '" + storeId + "'");
         }
@@ -48,8 +48,8 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public List<StaffModel> getStoreStaffs(String storeId) {
-        return storeRepository.findAllStoreStaffs(Integer.valueOf(storeId));
+    public List<StaffModel> getStoreStaffList(String storeId) {
+        return storeRepository.findAllStoreStaffList(Integer.valueOf(storeId));
     }
 
     @Override

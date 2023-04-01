@@ -15,7 +15,7 @@ import lombok.experimental.FieldNameConstants;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ActorDetailModel {
+public class ActorDetailsModel {
     /**
      * actor id
      */
@@ -44,7 +44,7 @@ public class ActorDetailModel {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ActorDetailModel that = (ActorDetailModel) o;
+        ActorDetailsModel that = (ActorDetailsModel) o;
         return Objects.equal(actorId, that.actorId)
                 && Objects.equal(firstName, that.firstName)
                 && Objects.equal(lastName, that.lastName)

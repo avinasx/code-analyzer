@@ -20,9 +20,9 @@ public class PaymentController {
     private final PaymentRepresentationModelAssembler paymentAssembler;
 
     @GetMapping(path = "")
-    public ResponseEntity<CollectionModel<PaymentResponseModel>> getPayments() {
+    public ResponseEntity<CollectionModel<PaymentResponseModel>> getPaymentList() {
         return ResponseEntity.ok(paymentAssembler.toCollectionModel(
-                paymentService.getPayments()));
+                paymentService.getPaymentList()));
     }
 
     @PostMapping(path = "")
@@ -53,8 +53,8 @@ public class PaymentController {
     }
 
     @GetMapping(path = "/{paymentId}/details")
-    public ResponseEntity<PaymentResponseModel> getPaymentDetail(@PathVariable String paymentId) {
-        return paymentService.getPaymentDetail(paymentId)
+    public ResponseEntity<PaymentResponseModel> getPaymentDetails(@PathVariable String paymentId) {
+        return paymentService.getPaymentDetails(paymentId)
                 .map(paymentAssembler::toModel)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());

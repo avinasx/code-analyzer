@@ -13,12 +13,12 @@ import java.util.Optional;
 @AllArgsConstructor
 public class CustomCityRepositoryImpl implements CustomCityRepository {
     @Override
-    public List<CityModel> findAllCitiesDetail() {
+    public List<CityModel> findAllCityDetailsList() {
         return null;
     }
 
     @Override
-    public Optional<CityModel> findCityDetailById(Integer cityId) {
+    public Optional<CityModel> findCityDetailsById(Integer cityId) {
         return Optional.empty();
     }
 }

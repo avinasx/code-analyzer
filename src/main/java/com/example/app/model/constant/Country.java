@@ -134,6 +134,7 @@ public enum Country {
 
     /**
      * Replace last country id in string to country name.
+     *
      * @param str string with country id
      * @return string with country name
      */

@@ -22,7 +22,7 @@ import java.math.BigDecimal;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FilmDetailModel {
+public class FilmDetailsModel {
     /**
      * film id
      */
@@ -77,7 +77,7 @@ public class FilmDetailModel {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        FilmDetailModel that = (FilmDetailModel) o;
+        FilmDetailsModel that = (FilmDetailsModel) o;
         return Objects.equal(filmId, that.filmId)
                 && Objects.equal(title, that.title)
                 && Objects.equal(description, that.description)

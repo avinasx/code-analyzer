@@ -9,13 +9,13 @@ import java.util.List;
 import java.util.Optional;
 
 public interface LocationService {
-    List<AddressModel> getAddresses();
+    List<AddressModel> getAddressList();
 
     Optional<AddressModel> getAddress(String addressId);
 
-    List<AddressModel> getAddressesDetail();
+    List<AddressModel> getAddressDetailsList();
 
-    Optional<AddressModel> getAddressDetail(String addressId);
+    Optional<AddressModel> getAddressDetails(String addressId);
 
     AddressModel addAddress(AddressRequestModel model);
 
@@ -23,13 +23,13 @@ public interface LocationService {
 
     void deleteAddress(String addressId);
 
-    List<CityModel> getCities();
+    List<CityModel> getCityList();
 
     Optional<CityModel> getCity(String cityId);
 
-    List<CityModel> getCitiesDetail();
+    List<CityModel> getCityDetailsList();
 
-    Optional<CityModel> getCityDetail(String cityId);
+    Optional<CityModel> getCityDetails(String cityId);
 
     CityModel addCity(CityRequestModel model);
 

@@ -2,7 +2,7 @@ package com.example.app.service;
 
 import com.example.app.exception.ResourceNotFoundException;
 import com.example.app.model.internal.core.StaffModel;
-import com.example.app.model.internal.extra.StaffDetailModel;
+import com.example.app.model.internal.extra.StaffDetailsModel;
 import com.example.app.model.mapping.mapper.StaffMapper;
 import com.example.app.model.request.StaffRequestModel;
 import com.example.app.repository.StaffRepository;
@@ -20,7 +20,7 @@ public class StaffServiceImpl implements StaffService {
     private final StaffMapper staffMapper;
 
     @Override
-    public List<StaffModel> getStaffs() {
+    public List<StaffModel> getStaffList() {
         var list = staffRepository.findAll();
         return staffMapper.mapToDtoList(list);
     }
@@ -33,13 +33,13 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public List<StaffDetailModel> getStaffsDetail() {
-        return staffRepository.findAllStaffsDetail();
+    public List<StaffDetailsModel> getStaffDetailsList() {
+        return staffRepository.findAllStaffDetailsList();
     }
 
     @Override
-    public Optional<StaffDetailModel> getStaffDetail(String staffId) {
-        var model = staffRepository.findStaffDetailById(Integer.valueOf(staffId));
+    public Optional<StaffDetailsModel> getStaffDetails(String staffId) {
+        var model = staffRepository.findStaffDetailsById(Integer.valueOf(staffId));
         if (model.isEmpty()) {
             throw new ResourceNotFoundException("Staff not found with id '" + staffId + "'");
         }

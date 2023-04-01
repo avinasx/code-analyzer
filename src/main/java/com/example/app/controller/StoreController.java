@@ -1,7 +1,7 @@
 package com.example.app.controller;
 
 import com.example.app.hateoas.assembler.StaffRepresentationModelAssembler;
-import com.example.app.hateoas.assembler.StoreDetailRepresentationModelAssembler;
+import com.example.app.hateoas.assembler.StoreDetailsRepresentationModelAssembler;
 import com.example.app.hateoas.assembler.StoreRepresentationModelAssembler;
 import com.example.app.model.request.StoreRequestModel;
 import com.example.app.model.response.StaffResponseModel;
@@ -22,13 +22,13 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class StoreController {
     private final StoreService storeService;
     private final StoreRepresentationModelAssembler storeAssembler;
-    private final StoreDetailRepresentationModelAssembler storeDetailAssembler;
+    private final StoreDetailsRepresentationModelAssembler storeDetailsAssembler;
     private final StaffRepresentationModelAssembler staffAssembler;
 
     @GetMapping(path = "")
-    public ResponseEntity<CollectionModel<StoreResponseModel>> getStores() {
+    public ResponseEntity<CollectionModel<StoreResponseModel>> getStoreList() {
         return ResponseEntity.ok(storeAssembler.toCollectionModel(
-                storeService.getStores()));
+                storeService.getStoreList()));
     }
 
     @PostMapping(path = "")
@@ -75,9 +75,9 @@ public class StoreController {
     // }
 
     @GetMapping(path = "/{storeId}/staffs")
-    public ResponseEntity<CollectionModel<StaffResponseModel>> getStoreStaffs(@PathVariable String storeId) {
+    public ResponseEntity<CollectionModel<StaffResponseModel>> getStoreStaffList(@PathVariable String storeId) {
         return ResponseEntity.ok(staffAssembler.toCollectionModel(
-                storeService.getStoreStaffs(storeId)));
+                storeService.getStoreStaffList(storeId)));
     }
 
     @GetMapping(path = "/{storeId}/staffs/{staffId}")
@@ -108,9 +108,9 @@ public class StoreController {
     }
 
     @GetMapping(path = "/{storeId}/details")
-    public ResponseEntity<StoreDetailResponseModel> getStoreDetail(@PathVariable String storeId) {
-        return storeService.getStoreDetail(storeId)
-                .map(storeDetailAssembler::toModel)
+    public ResponseEntity<StoreDetailResponseModel> getStoreDetails(@PathVariable String storeId) {
+        return storeService.getStoreDetails(storeId)
+                .map(storeDetailsAssembler::toModel)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

@@ -10,7 +10,7 @@ import com.example.app.model.entity.QFilmCategoryEntity;
 import com.example.app.model.entity.QFilmEntity;
 import com.example.app.model.internal.core.ActorModel;
 import com.example.app.model.internal.core.FilmModel;
-import com.example.app.model.internal.extra.FilmDetailModel;
+import com.example.app.model.internal.extra.FilmDetailsModel;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -45,7 +45,7 @@ public class CustomFilmRepositoryImpl implements CustomFilmRepository {
     }
 
     @Override
-    public List<ActorModel> findAllFilmActorsById(Integer filmId) {
+    public List<ActorModel> findAllFilmActorListById(Integer filmId) {
         var query = findFilmActor(filmId, null);
         return query.fetch();
     }
@@ -53,7 +53,7 @@ public class CustomFilmRepositoryImpl implements CustomFilmRepository {
     @Override
     public Optional<ActorModel> findFilmActorById(Integer filmId, Integer actorId) {
         var query = findFilmActor(filmId, actorId);
-        return Optional.ofNullable(query.fetchFirst());
+        return Optional.of(query.fetchFirst());
     }
 
     private JPAQuery<ActorModel> findFilmActor(Integer filmId, Integer actorId) {
@@ -77,25 +77,25 @@ public class CustomFilmRepositoryImpl implements CustomFilmRepository {
     }
 
     @Override
-    public List<FilmDetailModel> findAllFilmsDetail() {
+    public List<FilmDetailsModel> findAllFilmListDetail() {
         var query = findFilmDetail(null);
         return query.fetch();
     }
 
     @Override
-    public Optional<FilmDetailModel> findFilmDetailById(Integer filmId) {
+    public Optional<FilmDetailsModel> findFilmDetailsById(Integer filmId) {
         var query = findFilmDetail(filmId);
-        return Optional.ofNullable(query.fetchFirst());
+        return Optional.of(query.fetchFirst());
     }
 
-    private BlazeJPAQuery<FilmDetailModel> findFilmDetail(Integer id) {
+    private BlazeJPAQuery<FilmDetailsModel> findFilmDetail(Integer id) {
         var actor = QActorEntity.actorEntity;
         var film = QFilmEntity.filmEntity;
         var filmActor = QFilmActorEntity.filmActorEntity;
         var filmCategory = QFilmCategoryEntity.filmCategoryEntity;
 
         var query = blazeJPAQueryFactory
-                .select(Projections.constructor(FilmDetailModel.class,
+                .select(Projections.constructor(FilmDetailsModel.class,
                         film.filmId.as("filmId"),
                         film.title.as("title"),
                         film.description.as("description"),
