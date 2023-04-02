@@ -415,6 +415,7 @@ class ActorControllerTest extends RestDocsControllerSupport {
             // descriptors
             var actorBase = HalRelation.Fields.actor + "." + HalRelation.Fields.details + ".";
             var actorLinkBase = HalRelation.Fields.actor + ".hal." + HalRelation.Fields.item + ".";
+            var actorListLinkBase = HalRelation.Fields.actor + ".hal." + HalRelation.Fields.collection + ".";
 
             var pathParameterList = List.of(
                     parameterWithName(ActorModel.Fields.actorId).description(getMessageSourceMessage(actorBase + "pathParameter." + ActorModel.Fields.actorId)));
@@ -425,9 +426,9 @@ class ActorControllerTest extends RestDocsControllerSupport {
                     fieldWithPath(ActorDetailsModel.Fields.filmInfo).description(getMessageSourceMessage(actorBase + "responseField." + ActorDetailsModel.Fields.filmInfo)),
                     subsectionWithPath(HalRelation.Fields._links).description(getMessageSourceMessage(actorLinkBase + HalRelation.Fields._links)));
             var linkList = List.of(
-                    linkWithRel(HalRelation.Fields.self).description(actorLinkBase + HalRelation.Fields.self),
-                    linkWithRel(HalRelation.Fields.actor).description(actorLinkBase + HalRelation.Fields.actor),
-                    linkWithRel(HalRelation.Fields.actorList).description(actorLinkBase + HalRelation.Fields.actorList));
+                    linkWithRel(HalRelation.Fields.self).description(getMessageSourceMessage(actorLinkBase + HalRelation.Fields.self)),
+                    linkWithRel(HalRelation.Fields.actor).description(getMessageSourceMessage(actorLinkBase + HalRelation.Fields.self)),
+                    linkWithRel(HalRelation.Fields.actorList).description(getMessageSourceMessage(actorListLinkBase + HalRelation.Fields.self)));
             var openapiPathParameterList = OpenApiDescriptorTransformer.transformParameter(pathParameterList);
 
             // restdocs
