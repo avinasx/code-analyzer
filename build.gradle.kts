@@ -11,7 +11,7 @@ plugins {
     alias(libs.plugins.spring.boot)
     alias(libs.plugins.spring.dependency)
     alias(libs.plugins.kotlin.jvm)
-    alias(libs.plugins.kotiln.kapt)
+    alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.asciidoctor)
     alias(libs.plugins.epages.restdocs)
 }

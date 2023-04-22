@@ -54,7 +54,7 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin-plugin" }
 kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin-plugin" }
 kotlin-jpa = { id = "org.jetbrains.kotlin.plugin.jpa", version.ref = "kotlin-plugin" }
 kotlin-lombok = { id = "org.jetbrains.kotlin.plugin.lombok", version.ref = "kotlin-plugin" }
-kotiln-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin-plugin" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin-plugin" }
 epages-restdocs = { id = "com.epages.restdocs-api-spec", version.ref = "epages-restdocs" }
 asciidoctor = { id = "org.asciidoctor.jvm.convert", version = "3.3.2" }
 
