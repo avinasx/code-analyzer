@@ -10,6 +10,8 @@ This REST API service provides access to the [Sakila database](https://dev.mysql
 
 This service provides a simple way to perform CRUD(Create, Read, Update, Delete) operations on the Sakila database. It also provides endpoints to perform more complex queries.
 
+Microservices version is go to: https://github.com/codejsha/sakila-microservices
+
 ## Table of Contents
 
 - [Table of Contents](#table-of-contents)
