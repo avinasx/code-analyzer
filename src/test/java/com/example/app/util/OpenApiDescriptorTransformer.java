@@ -13,13 +13,13 @@ import java.util.stream.Collectors;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class OpenApiDescriptorTransformer {
     public static List<HeaderDescriptorWithType> transformHeader(List<HeaderDescriptor> descriptorList) {
-        return descriptorList.parallelStream()
+        return descriptorList.stream()
                 .map(HeaderDescriptorWithType.Companion::fromHeaderDescriptor)
                 .collect(Collectors.toList());
     }
 
     public static List<ParameterDescriptorWithType> transformParameter(List<ParameterDescriptor> descriptorList) {
-        return descriptorList.parallelStream()
+        return descriptorList.stream()
                 .map(ParameterDescriptorWithType.Companion::fromParameterDescriptor)
                 .collect(Collectors.toList());
     }

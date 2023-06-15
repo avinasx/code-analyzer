@@ -1,25 +1,28 @@
 [versions]
 spring-boot = "3.0.5"
 spring-dependency = "1.1.0"
+spring-security = "6.0.2"
 spring-restdocs = "3.0.0"
+asciidoctor= "3.3.2"
+epages-restdocs = "0.17.1"
 kotlin-plugin = "1.8.10"
 querydsl = "5.0.0"
 blaze = "1.6.8"
-mapstruct = "1.5.3.Final"
-epages-restdocs = "0.17.1"
+mapstruct = "1.5.5.Final"
 
 [libraries]
 spring-web = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "spring-boot" }
-spring-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa", version.ref = "spring-boot" }
 spring-hateoas = { module = "org.springframework.boot:spring-boot-starter-hateoas", version.ref = "spring-boot" }
-# spring-security = { module = "org.springframework.boot:spring-boot-starter-security", version.ref = "spring-boot" }
-# spring-oauth2 = { module = "org.springframework.boot:spring-boot-starter-oauth2-client", version.ref = "spring-boot" }
+spring-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa", version.ref = "spring-boot" }
+spring-data-redis = { module = "org.springframework.boot:spring-boot-starter-data-redis", version.ref = "spring-boot" }
 spring-validation = { module = "org.springframework.boot:spring-boot-starter-validation", version.ref = "spring-boot" }
-spring-devtools = { module = "org.springframework.boot:spring-boot-devtools", version.ref = "spring-boot" }
+spring-security = { module = "org.springframework.boot:spring-boot-starter-security", version.ref = "spring-boot" }
+# spring-oauth2 = { module = "org.springframework.boot:spring-boot-starter-oauth2-client", version.ref = "spring-boot" }
 spring-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator", version.ref = "spring-boot" }
+# spring-devtools = { module = "org.springframework.boot:spring-boot-devtools", version.ref = "spring-boot" }
 spring-processor = { module = "org.springframework.boot:spring-boot-configuration-processor", version.ref = "spring-boot" }
 spring-test = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "spring-boot" }
-# spring-security-test = { module = "org.springframework.security:spring-security-test", version.ref = "spring-boot" }
+spring-security-test = { module = "org.springframework.security:spring-security-test", version.ref = "spring-security" }
 spring-restdocs-asciidoctor = { module = "org.springframework.restdocs:spring-restdocs-asciidoctor", version.ref = "spring-restdocs" }
 spring-restdocs-mockmvc = { module = "org.springframework.restdocs:spring-restdocs-mockmvc", version.ref = "spring-restdocs" }
 
@@ -37,12 +40,10 @@ blaze-querydsl = { module = "com.blazebit:blaze-persistence-integration-querydsl
 
 mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }
 mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstruct" }
+epages-restdocs-mockmvc = { module = "com.epages:restdocs-api-spec-mockmvc", version.ref = "epages-restdocs" }
 
 lombok = { module = "org.projectlombok:lombok", version = "1.18.26" }
 lombok-mapstruct = { module = "org.projectlombok:lombok-mapstruct-binding", version = "0.2.0" }
-
-epages-restdocs-mockmvc = { module = "com.epages:restdocs-api-spec-mockmvc", version.ref = "epages-restdocs" }
-
 guava = { module = "com.google.guava:guava", version = "31.1-jre" }
 mysql-connector = { module = "com.mysql:mysql-connector-j", version = "8.0.32" }
 prometheus = { module = "io.micrometer:micrometer-registry-prometheus", version = "1.10.4" }
@@ -56,14 +57,4 @@ kotlin-jpa = { id = "org.jetbrains.kotlin.plugin.jpa", version.ref = "kotlin-plu
 kotlin-lombok = { id = "org.jetbrains.kotlin.plugin.lombok", version.ref = "kotlin-plugin" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin-plugin" }
 epages-restdocs = { id = "com.epages.restdocs-api-spec", version.ref = "epages-restdocs" }
-asciidoctor = { id = "org.asciidoctor.jvm.convert", version = "3.3.2" }
-
-[bundles]
-web = ["spring-web", "spring-hateoas"]
-data = ["spring-data-jpa", "spring-validation"]
-# security = ["spring-security", "spring-oauth2"]
-querydsl = ["querydsl-sql", "querydsl-sql-codegen", "querydsl-sql-spring", "querydsl-spatial"]
-develop = ["spring-devtools"]
-runtime = ["mysql-connector", "prometheus"]
-# test = ["spring-test", "spring-security-test"]
-restdocs = ["spring-restdocs-asciidoctor", "spring-restdocs-mockmvc"]
+asciidoctor = { id = "org.asciidoctor.jvm.convert", version.ref = "asciidoctor" }

@@ -61,7 +61,7 @@ Sakila REST API 서비스는 학습 및 테스트 목적으로 MySQL에서 제�
 
 ### 외부 MySQL 데이터베이스
 
-애플리케이션을 실행하려면 외부 MySQL 데이터베이스가 필요합니다. 외부 데이터베이스는 [MySQL docker](https://hub.docker.com/_/mysql) 컨테이너 또는 온-프레미스 프로세스로 실행할 수 있습니다 ([MySQL Community Downloads](https://dev.mysql.com/downloads/)). 설치 후 [Sakila 데이터베이스](https://dev.mysql.com/doc/sakila/en/) 공식 가이드를 따라 데이터베이스 구조를 생성하고 데이터를 채워넣습니다. 환경 구성 예제는 다음 링크를 참고하세요: https://github.com/codejsha/infrastructure-examples/tree/main/mysql
+애플리케이션을 실행하려면 외부 MySQL 데이터베이스가 필요합니다. 외부 데이터베이스는 [MySQL docker](https://hub.docker.com/_/mysql) 컨테이너 또는 온-프레미스 프로세스로 실행할 수 있습니다 ([MySQL Community Downloads](https://dev.mysql.com/downloads/)). 설치하고 나서 [Sakila 데이터베이스](https://dev.mysql.com/doc/sakila/en/) 공식 가이드를 따라 데이터베이스 구조를 생성하고 데이터를 채워넣습니다. 환경 구성 예제는 다음 링크를 참고하세요: https://github.com/codejsha/infrastructure-examples/tree/main/mysql
 
 ## 설치
 

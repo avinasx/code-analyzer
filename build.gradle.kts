@@ -53,15 +53,18 @@ postman {
 }
 
 dependencies {
-    implementation(libs.bundles.web)
-    implementation(libs.bundles.data)
-    // implementation(libs.bundles.security)
-    implementation(libs.guava)
+    implementation(libs.spring.web)
+    implementation(libs.spring.hateoas)
+    implementation(libs.spring.data.jpa)
+    implementation(libs.spring.data.redis)
+    implementation(libs.spring.validation)
+    implementation(libs.spring.security)
     implementation(libs.spring.actuator)
-    // developmentOnly(libs.bundles.develop)
-    runtimeOnly(libs.bundles.runtime)
-    // testImplementation(libs.bundles.test)
+    implementation(libs.guava)
+    runtimeOnly(libs.mysql.connector)
+    runtimeOnly(libs.prometheus)
     testImplementation(libs.spring.test)
+    testImplementation(libs.spring.security.test)
 
     // annotation processor
     kapt(libs.spring.processor)
@@ -69,12 +72,16 @@ dependencies {
     testAnnotationProcessor(libs.spring.processor)
 
     // restdocs
-    testImplementation(libs.bundles.restdocs)
-    asciidoctorExt(libs.spring.restdocs.asciidoctor)
+    testImplementation(libs.spring.restdocs.asciidoctor)
+    testImplementation(libs.spring.restdocs.mockmvc)
     testImplementation(libs.epages.restdocs.mockmvc)
+    asciidoctorExt(libs.spring.restdocs.asciidoctor)
 
     // querydsl
-    implementation(libs.bundles.querydsl)
+    implementation(libs.querydsl.sql)
+    implementation(libs.querydsl.sql.codegen)
+    implementation(libs.querydsl.sql.spring)
+    implementation(libs.querydsl.spatial)
     implementation(variantOf(libs.querydsl.jpa) { classifier("jakarta") })
     kapt(variantOf(libs.querydsl.apt) { classifier("jakarta") })
 
@@ -108,17 +115,17 @@ tasks {
         outputs.dir(snippetsDir)
         testLogging {
             events(
-                TestLogEvent.FAILED,
-                TestLogEvent.PASSED,
-                TestLogEvent.SKIPPED
+                    TestLogEvent.FAILED,
+                    TestLogEvent.PASSED,
+                    TestLogEvent.SKIPPED
             )
             debug {
                 events(
-                    TestLogEvent.FAILED,
-                    TestLogEvent.PASSED,
-                    TestLogEvent.SKIPPED,
-                    TestLogEvent.STANDARD_OUT,
-                    TestLogEvent.STANDARD_ERROR
+                        TestLogEvent.FAILED,
+                        TestLogEvent.PASSED,
+                        TestLogEvent.SKIPPED,
+                        TestLogEvent.STANDARD_OUT,
+                        TestLogEvent.STANDARD_ERROR
                 )
                 showStackTraces = true
                 exceptionFormat = TestExceptionFormat.FULL
@@ -132,12 +139,12 @@ tasks {
         inProcess = JAVA_EXEC
         forkOptions {
             jvmArgs(
-                "--add-opens", "java.base/sun.nio.ch=ALL-UNNAMED",
-                "--add-opens", "java.base/java.io=ALL-UNNAMED"
+                    "--add-opens", "java.base/sun.nio.ch=ALL-UNNAMED",
+                    "--add-opens", "java.base/java.io=ALL-UNNAMED"
             )
         }
     }
-    bootJar {
+    build {
         dependsOn(asciidoctor)
         dependsOn("openapi3")
         dependsOn("postman")

@@ -28,6 +28,10 @@ spring:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     open-in-view: true
     show-sql: true
+  data:
+    redis:
+      host: localhost
+      port: 6379
 
 logging:
   level:
