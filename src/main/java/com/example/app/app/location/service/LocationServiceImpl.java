@@ -1,9 +1,7 @@
 package com.example.app.app.location.service;
 
-import com.example.app.app.catalog.domain.dto.AddressModel;
-import com.example.app.app.location.domain.dto.AddressRequestModel;
-import com.example.app.app.location.domain.dto.CityModel;
-import com.example.app.app.location.domain.dto.CityRequestModel;
+import com.example.app.app.location.domain.dto.AddressDto;
+import com.example.app.app.location.domain.dto.CityDto;
 import com.example.app.app.location.domain.mapper.AddressMapper;
 import com.example.app.app.location.domain.mapper.CityMapper;
 import com.example.app.app.location.repository.AddressRepository;
@@ -26,14 +24,14 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<AddressModel> getAddressList() {
+    public List<AddressDto.Address> getAddressList() {
         var list = addressRepository.findAll();
         return addressMapper.mapToDtoList(list);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<AddressModel> getAddress(String addressId) {
+    public Optional<AddressDto.Address> getAddress(String addressId) {
         var entity = addressRepository.findById(Integer.valueOf(addressId)).orElseThrow(() ->
                 new ResourceNotFoundException("Address not found with id '" + addressId + "'"));
         return Optional.of(addressMapper.mapToDto(entity));
@@ -41,13 +39,13 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<AddressModel> getAddressDetailsList() {
+    public List<AddressDto.Address> getAddressDetailsList() {
         return addressRepository.findAllAddressDetailsList();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<AddressModel> getAddressDetails(String addressId) {
+    public Optional<AddressDto.Address> getAddressDetails(String addressId) {
         var model = addressRepository.findAddressDetailsById(Integer.valueOf(addressId));
         if (model.isEmpty()) {
             throw new ResourceNotFoundException("Address not found with id '" + addressId + "'");
@@ -57,7 +55,7 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     @Transactional
-    public AddressModel addAddress(AddressRequestModel model) {
+    public AddressDto.Address addAddress(AddressDto.AddressRequest model) {
         var entity = addressMapper.mapToEntity(model);
         var savedEntity = addressRepository.save(entity);
         return addressMapper.mapToDto(savedEntity);
@@ -65,7 +63,7 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     @Transactional
-    public AddressModel updateAddress(String addressId, AddressRequestModel model) {
+    public AddressDto.Address updateAddress(String addressId, AddressDto.AddressRequest model) {
         var entity = addressRepository.findById(Integer.valueOf(addressId)).orElseThrow(() ->
                 new ResourceNotFoundException("Address not found with id '" + addressId + "'"));
         entity.update(addressMapper.mapToEntity(model));
@@ -80,14 +78,14 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<CityModel> getCityList() {
+    public List<CityDto.City> getCityList() {
         var list = cityRepository.findAll();
         return cityMapper.mapToDtoList(list);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<CityModel> getCity(String cityId) {
+    public Optional<CityDto.City> getCity(String cityId) {
         var entity = cityRepository.findById(Integer.valueOf(cityId)).orElseThrow(() ->
                 new ResourceNotFoundException("City not found with id '" + cityId + "'"));
         return Optional.of(cityMapper.mapToDto(entity));
@@ -95,13 +93,13 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<CityModel> getCityDetailsList() {
+    public List<CityDto.City> getCityDetailsList() {
         return cityRepository.findAllCityDetailsList();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<CityModel> getCityDetails(String cityId) {
+    public Optional<CityDto.City> getCityDetails(String cityId) {
         var model = cityRepository.findCityDetailsById(Integer.valueOf(cityId));
         if (model.isEmpty()) {
             throw new ResourceNotFoundException("City not found with id '" + cityId + "'");
@@ -111,7 +109,7 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     @Transactional
-    public CityModel addCity(CityRequestModel model) {
+    public CityDto.City addCity(CityDto.CityRequest model) {
         var entity = cityMapper.mapToEntity(model);
         var savedEntity = cityRepository.save(entity);
         return cityMapper.mapToDto(savedEntity);
@@ -119,7 +117,7 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     @Transactional
-    public CityModel updateCity(String cityId, CityRequestModel model) {
+    public CityDto.City updateCity(String cityId, CityDto.CityRequest model) {
         var entity = cityRepository.findById(Integer.valueOf(cityId)).orElseThrow(() ->
                 new ResourceNotFoundException("City not found with id '" + cityId + "'"));
         entity.update(cityMapper.mapToEntity(model));

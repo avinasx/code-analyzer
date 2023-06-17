@@ -2,10 +2,8 @@ package com.example.app.app.location.controller;
 
 import com.example.app.app.location.assembler.AddressRepresentationModelAssembler;
 import com.example.app.app.location.assembler.CityRepresentationModelAssembler;
-import com.example.app.app.location.domain.dto.AddressRequestModel;
-import com.example.app.app.location.domain.dto.AddressResponseModel;
-import com.example.app.app.location.domain.dto.CityRequestModel;
-import com.example.app.app.location.domain.dto.CityResponseModel;
+import com.example.app.app.location.domain.dto.AddressDto;
+import com.example.app.app.location.domain.dto.CityDto;
 import com.example.app.app.location.service.LocationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
@@ -24,20 +22,20 @@ public class LocationController {
     private final CityRepresentationModelAssembler cityAssembler;
 
     @GetMapping(path = "/addresses")
-    public ResponseEntity<CollectionModel<AddressResponseModel>> getAddressList() {
+    public ResponseEntity<CollectionModel<AddressDto.AddressResponse>> getAddressList() {
         return ResponseEntity.ok(addressAssembler.toCollectionModel(
                 locationService.getAddressList()));
     }
 
     @PostMapping(path = "/addresses")
-    public ResponseEntity<Void> addAddress(@RequestBody AddressRequestModel model) {
+    public ResponseEntity<Void> addAddress(@RequestBody AddressDto.AddressRequest model) {
         var result = locationService.addAddress(model);
         return ResponseEntity.created(linkTo(methodOn(LocationController.class)
                 .getAddress(String.valueOf(result.getAddressId()))).toUri()).build();
     }
 
     @GetMapping(path = "/addresses/{addressId}")
-    public ResponseEntity<AddressResponseModel> getAddress(@PathVariable String addressId) {
+    public ResponseEntity<AddressDto.AddressResponse> getAddress(@PathVariable String addressId) {
         return locationService.getAddress(addressId)
                 .map(addressAssembler::toModel)
                 .map(ResponseEntity::ok)
@@ -45,7 +43,7 @@ public class LocationController {
     }
 
     @PutMapping(path = "/addresses/{addressId}")
-    public ResponseEntity<Void> updateAddress(@PathVariable String addressId, @RequestBody AddressRequestModel model) {
+    public ResponseEntity<Void> updateAddress(@PathVariable String addressId, @RequestBody AddressDto.AddressRequest model) {
         var result = locationService.updateAddress(addressId, model);
         return ResponseEntity.ok().build();
     }
@@ -57,7 +55,7 @@ public class LocationController {
     }
 
     @GetMapping(path = "/addresses/{addressId}/details")
-    public ResponseEntity<AddressResponseModel> getAddressDetails(@PathVariable String addressId) {
+    public ResponseEntity<AddressDto.AddressResponse> getAddressDetails(@PathVariable String addressId) {
         return locationService.getAddressDetails(addressId)
                 .map(addressAssembler::toModel)
                 .map(ResponseEntity::ok)
@@ -65,20 +63,20 @@ public class LocationController {
     }
 
     @GetMapping(path = "/cities")
-    public ResponseEntity<CollectionModel<CityResponseModel>> getCityList() {
+    public ResponseEntity<CollectionModel<CityDto.CityResponse>> getCityList() {
         return ResponseEntity.ok(cityAssembler.toCollectionModel(
                 locationService.getCityList()));
     }
 
     @PostMapping(path = "/cities")
-    public ResponseEntity<Void> addCity(@RequestBody CityRequestModel model) {
+    public ResponseEntity<Void> addCity(@RequestBody CityDto.CityRequest model) {
         var result = locationService.addCity(model);
         return ResponseEntity.created(linkTo(methodOn(LocationController.class)
                 .getCity(String.valueOf(result.getCityId()))).toUri()).build();
     }
 
     @GetMapping(path = "/cities/{cityId}")
-    public ResponseEntity<CityResponseModel> getCity(@PathVariable String cityId) {
+    public ResponseEntity<CityDto.CityResponse> getCity(@PathVariable String cityId) {
         return locationService.getCity(cityId)
                 .map(cityAssembler::toModel)
                 .map(ResponseEntity::ok)
@@ -86,7 +84,7 @@ public class LocationController {
     }
 
     @PutMapping(path = "/cities/{cityId}")
-    public ResponseEntity<Void> updateCity(@PathVariable String cityId, @RequestBody CityRequestModel model) {
+    public ResponseEntity<Void> updateCity(@PathVariable String cityId, @RequestBody CityDto.CityRequest model) {
         var result = locationService.updateCity(cityId, model);
         return ResponseEntity.ok().build();
     }
@@ -98,7 +96,7 @@ public class LocationController {
     }
 
     @GetMapping(path = "/cities/{cityId}/details")
-    public ResponseEntity<CityResponseModel> getCityDetails(@PathVariable String cityId) {
+    public ResponseEntity<CityDto.CityResponse> getCityDetails(@PathVariable String cityId) {
         return locationService.getCityDetails(cityId)
                 .map(cityAssembler::toModel)
                 .map(ResponseEntity::ok)

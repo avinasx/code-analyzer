@@ -1,33 +1,32 @@
 package com.example.app.app.store.service;
 
-import com.example.app.app.staff.domain.dto.StaffModel;
-import com.example.app.app.staff.domain.dto.StoreDetailsModel;
-import com.example.app.app.store.domain.dto.StoreModel;
-import com.example.app.app.store.domain.dto.StoreRequestModel;
+import com.example.app.app.staff.domain.dto.StaffDto;
+import com.example.app.app.store.domain.dto.StoreDetailsDto;
+import com.example.app.app.store.domain.dto.StoreDto;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface StoreService {
-    List<StoreModel> getStoreList();
+    List<StoreDto.Store> getStoreList();
 
-    Optional<StoreModel> getStore(String storeId);
+    Optional<StoreDto.Store> getStore(String storeId);
 
-    List<StoreDetailsModel> getStoreDetailsList();
+    List<StoreDetailsDto.StoreDetails> getStoreDetailsList();
 
-    Optional<StoreDetailsModel> getStoreDetails(String storeId);
+    Optional<StoreDetailsDto.StoreDetails> getStoreDetails(String storeId);
 
-    List<StaffModel> getStoreStaffList(String storeId);
+    List<StaffDto.Staff> getStoreStaffList(String storeId);
 
-    Optional<StaffModel> getStoreStaff(String storeId, String staffId);
+    Optional<StaffDto.Staff> getStoreStaff(String storeId, String staffId);
 
-    StoreModel addStore(StoreRequestModel model);
+    StoreDto.Store addStore(StoreDto.StoreRequest model);
 
-    StaffModel addStoreStaff(String storeId, String staffId);
+    StaffDto.Staff addStoreStaff(String storeId, String staffId);
 
-    StoreModel updateStore(String storeId, StoreRequestModel model);
+    StoreDto.Store updateStore(String storeId, StoreDto.StoreRequest model);
 
-    StaffModel updateStoreStaff(String storeId, String staffId);
+    StaffDto.Staff updateStoreStaff(String storeId, String staffId);
 
     void deleteStore(String storeId);
 

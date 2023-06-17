@@ -1,8 +1,7 @@
 package com.example.app.app.catalog.assembler;
 
 import com.example.app.app.catalog.controller.FilmController;
-import com.example.app.app.catalog.domain.dto.FilmModel;
-import com.example.app.app.catalog.domain.dto.FilmResponseModel;
+import com.example.app.app.catalog.domain.dto.FilmDto;
 import com.example.app.common.constant.HalRelation;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
@@ -12,16 +11,16 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
-public class FilmRepresentationModelAssembler extends RepresentationModelAssemblerSupport<FilmModel, FilmResponseModel> {
+public class FilmRepresentationModelAssembler extends RepresentationModelAssemblerSupport<FilmDto.Film, FilmDto.FilmResponse> {
     public FilmRepresentationModelAssembler() {
-        super(FilmController.class, FilmResponseModel.class);
+        super(FilmController.class, FilmDto.FilmResponse.class);
     }
 
     @Override
     @lombok.NonNull
-    public FilmResponseModel toModel(@lombok.NonNull FilmModel entity) {
+    public FilmDto.FilmResponse toModel(@lombok.NonNull FilmDto.Film entity) {
         var model = instantiateModel(entity);
-        model.setFilmModel(entity);
+        model.setFilm(entity);
         model.add(linkTo(methodOn(FilmController.class).getFilm(String.valueOf(entity.getFilmId()))).withSelfRel());
         model.add(linkTo(methodOn(FilmController.class).getFilmList(null, null, null)).withRel(HalRelation.Fields.filmList));
         return model;
@@ -29,7 +28,7 @@ public class FilmRepresentationModelAssembler extends RepresentationModelAssembl
 
     @Override
     @lombok.NonNull
-    public CollectionModel<FilmResponseModel> toCollectionModel(@lombok.NonNull Iterable<? extends FilmModel> entities) {
+    public CollectionModel<FilmDto.FilmResponse> toCollectionModel(@lombok.NonNull Iterable<? extends FilmDto.Film> entities) {
         var collectionModel = super.toCollectionModel(entities);
         collectionModel.add(linkTo(methodOn(FilmController.class).getFilmList(null, null, null)).withSelfRel());
         return collectionModel;

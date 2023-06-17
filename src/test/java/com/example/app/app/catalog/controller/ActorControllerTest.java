@@ -63,17 +63,17 @@ class ActorControllerTest extends RestDocsControllerSupport {
 
     @Nested
     class ActorListTests {
-        private ActorModel guiness;
-        private ActorModel walhberg;
+        private ActorDto.Actor guiness;
+        private ActorDto.Actor walhberg;
 
         @BeforeEach
         void setUp() {
-            guiness = ActorModel.builder()
+            guiness = ActorDto.Actor.builder()
                     .actorId(1)
                     .fullName(FullName.builder().firstName("PENELOPE").lastName("GUINESS").build())
                     .lastUpdate(LocalDateTime.of(2006, 2, 15, 9, 34, 33))
                     .build();
-            walhberg = ActorModel.builder()
+            walhberg = ActorDto.Actor.builder()
                     .actorId(2)
                     .fullName(FullName.builder().firstName("JENNIFER").lastName("WALHBERG").build())
                     .lastUpdate(LocalDateTime.of(2006, 2, 15, 9, 34, 33))
@@ -102,10 +102,10 @@ class ActorControllerTest extends RestDocsControllerSupport {
             var embeddedBase = HalRelation.Fields._embedded + "." + HalRelation.Fields.actorList + "[].";
 
             var responseFieldList = List.of(
-                    fieldWithPath(embeddedBase + ActorModel.Fields.actorId).description(getMessageSourceMessage(actorBase + "responseField." + ActorModel.Fields.actorId)),
+                    fieldWithPath(embeddedBase + ActorDto.Actor.Fields.actorId).description(getMessageSourceMessage(actorBase + "responseField." + ActorDto.Actor.Fields.actorId)),
                     fieldWithPath(embeddedBase + FullName.Fields.firstName).description(getMessageSourceMessage(actorBase + "responseField." + FullName.Fields.firstName)),
                     fieldWithPath(embeddedBase + FullName.Fields.lastName).description(getMessageSourceMessage(actorBase + "responseField." + FullName.Fields.lastName)),
-                    fieldWithPath(embeddedBase + ActorModel.Fields.lastUpdate).description(getMessageSourceMessage(actorBase + "responseField." + ActorModel.Fields.lastUpdate)),
+                    fieldWithPath(embeddedBase + ActorDto.Actor.Fields.lastUpdate).description(getMessageSourceMessage(actorBase + "responseField." + ActorDto.Actor.Fields.lastUpdate)),
                     subsectionWithPath(embeddedBase + HalRelation.Fields._links).description(getMessageSourceMessage(actorListLinkBase + HalRelation.Fields._links)),
                     subsectionWithPath(HalRelation.Fields._links).description(getMessageSourceMessage(actorLinkBase + HalRelation.Fields._links)));
             var linkList = List.of(
@@ -157,10 +157,10 @@ class ActorControllerTest extends RestDocsControllerSupport {
             // assert
             execute.andDo(print())
                     .andExpect(status().isOk())
-                    .andExpect(jsonPath(ActorModel.Fields.actorId).value(1))
+                    .andExpect(jsonPath(ActorDto.Actor.Fields.actorId).value(1))
                     .andExpect(jsonPath(FullName.Fields.firstName).value("PENELOPE"))
                     .andExpect(jsonPath(FullName.Fields.lastName).value("GUINESS"))
-                    .andExpect(jsonPath(ActorModel.Fields.lastUpdate).value("2006-02-15T09:34:33"))
+                    .andExpect(jsonPath(ActorDto.Actor.Fields.lastUpdate).value("2006-02-15T09:34:33"))
                     .andExpect(jsonPath(HalRelation.Fields._links + "." + HalRelation.Fields.self + ".href").value(serverUrl + "/actors/" + actorId))
                     .andExpect(jsonPath(HalRelation.Fields._links + "." + HalRelation.Fields.update + ".href").value(serverUrl + "/actors/" + actorId))
                     .andExpect(jsonPath(HalRelation.Fields._links + "." + HalRelation.Fields.delete + ".href").value(serverUrl + "/actors/" + actorId))
@@ -175,12 +175,12 @@ class ActorControllerTest extends RestDocsControllerSupport {
             var actorListLinkBase = HalRelation.Fields.actor + ".hal." + HalRelation.Fields.collection + ".";
 
             var pathParameterList = List.of(
-                    parameterWithName(ActorModel.Fields.actorId).description(getMessageSourceMessage(actorBase + "pathParameter." + ActorModel.Fields.actorId)));
+                    parameterWithName(ActorDto.Actor.Fields.actorId).description(getMessageSourceMessage(actorBase + "pathParameter." + ActorDto.Actor.Fields.actorId)));
             var responseFieldList = List.of(
-                    fieldWithPath(ActorModel.Fields.actorId).description(getMessageSourceMessage(actorBase + "responseField." + ActorModel.Fields.actorId)),
+                    fieldWithPath(ActorDto.Actor.Fields.actorId).description(getMessageSourceMessage(actorBase + "responseField." + ActorDto.Actor.Fields.actorId)),
                     fieldWithPath(FullName.Fields.firstName).description(getMessageSourceMessage(actorBase + "responseField." + FullName.Fields.firstName)),
                     fieldWithPath(FullName.Fields.lastName).description(getMessageSourceMessage(actorBase + "responseField." + FullName.Fields.lastName)),
-                    fieldWithPath(ActorModel.Fields.lastUpdate).description(getMessageSourceMessage(actorBase + "responseField." + ActorModel.Fields.lastUpdate)),
+                    fieldWithPath(ActorDto.Actor.Fields.lastUpdate).description(getMessageSourceMessage(actorBase + "responseField." + ActorDto.Actor.Fields.lastUpdate)),
                     subsectionWithPath(HalRelation.Fields._links).description(getMessageSourceMessage(actorLinkBase + HalRelation.Fields._links)));
             var linkList = List.of(
                     linkWithRel(HalRelation.Fields.self).description(getMessageSourceMessage(actorLinkBase + HalRelation.Fields.self)),
@@ -214,8 +214,8 @@ class ActorControllerTest extends RestDocsControllerSupport {
     class ActorUpdateTests {
         private String actorId;
         private HashMap<String, String> payload;
-        private ActorRequestModel requestModel;
-        private ActorModel newActor;
+        private ActorDto.ActorRequest requestModel;
+        private ActorDto.Actor newActor;
 
         @BeforeEach
         void setUp() {
@@ -223,11 +223,11 @@ class ActorControllerTest extends RestDocsControllerSupport {
             payload = new HashMap<>();
             payload.put("firstName", "HELLO");
             payload.put("lastName", "WORLD");
-            requestModel = new ActorRequestModel(
-                    payload.get(ActorRequestModel.Fields.firstName),
-                    payload.get(ActorRequestModel.Fields.lastName)
+            requestModel = new ActorDto.ActorRequest(
+                    payload.get(ActorDto.ActorRequest.Fields.firstName),
+                    payload.get(ActorDto.ActorRequest.Fields.lastName)
             );
-            newActor = ActorModel.builder()
+            newActor = ActorDto.Actor.builder()
                     .actorId(Integer.valueOf(actorId))
                     .fullName(FullName.builder()
                             .firstName(payload.get(FullName.Fields.firstName))
@@ -253,18 +253,18 @@ class ActorControllerTest extends RestDocsControllerSupport {
                     .andExpect(status().isCreated())
                     .andExpect(header().string(HttpHeaders.LOCATION, serverUrl + "/actors/" + actorId));
             verify(actorService, times(1)).addActor(requestModel);
-            verify(actorService, times(1)).addActor(any(ActorRequestModel.class));
+            verify(actorService, times(1)).addActor(any(ActorDto.ActorRequest.class));
 
             // descriptors
             var actorBase = HalRelation.Fields.actor + "." + HalRelation.Fields.create + ".";
 
             var requestFieldList = List.of(
-                    fieldWithPath(ActorRequestModel.Fields.firstName).description(getMessageSourceMessage(actorBase + "requestField." + ActorRequestModel.Fields.firstName)),
-                    fieldWithPath(ActorRequestModel.Fields.lastName).description(getMessageSourceMessage(actorBase + "requestField." + ActorRequestModel.Fields.lastName)));
+                    fieldWithPath(ActorDto.ActorRequest.Fields.firstName).description(getMessageSourceMessage(actorBase + "requestField." + ActorDto.ActorRequest.Fields.firstName)),
+                    fieldWithPath(ActorDto.ActorRequest.Fields.lastName).description(getMessageSourceMessage(actorBase + "requestField." + ActorDto.ActorRequest.Fields.lastName)));
             var responseHeaderList = List.of(
                     headerWithName(HttpHeaders.LOCATION).description(getMessageSourceMessage(actorBase + "responseHeader." + HttpHeaders.LOCATION)));
             var openapiResponseHeaderList = OpenApiDescriptorTransformer.transformHeader(responseHeaderList);
-            var fieldDescriptors = new ConstrainedFieldDocumentation(ActorRequestModel.class);
+            var fieldDescriptors = new ConstrainedFieldDocumentation(ActorDto.ActorRequest.class);
             var restdocsRequestFieldList = fieldDescriptors.restdocsFields(requestFieldList);
             var openapiRequestFieldList = fieldDescriptors.openapiFields(requestFieldList);
 
@@ -300,18 +300,18 @@ class ActorControllerTest extends RestDocsControllerSupport {
             execute.andDo(print())
                     .andExpect(status().isOk());
             verify(actorService, times(1)).updateActor(actorId, requestModel);
-            verify(actorService, times(1)).updateActor(anyString(), any(ActorRequestModel.class));
+            verify(actorService, times(1)).updateActor(anyString(), any(ActorDto.ActorRequest.class));
 
             // descriptors
             var actorBase = HalRelation.Fields.actor + "." + HalRelation.Fields.update + ".";
 
             var pathParameterList = List.of(
-                    parameterWithName(ActorModel.Fields.actorId).description(getMessageSourceMessage(actorBase + "pathParameter." + ActorModel.Fields.actorId)));
+                    parameterWithName(ActorDto.Actor.Fields.actorId).description(getMessageSourceMessage(actorBase + "pathParameter." + ActorDto.Actor.Fields.actorId)));
             var requestFieldList = List.of(
-                    fieldWithPath(ActorRequestModel.Fields.firstName).description(getMessageSourceMessage(actorBase + "requestField." + ActorRequestModel.Fields.firstName)),
-                    fieldWithPath(ActorRequestModel.Fields.lastName).description(getMessageSourceMessage(actorBase + "requestField." + ActorRequestModel.Fields.lastName)));
+                    fieldWithPath(ActorDto.ActorRequest.Fields.firstName).description(getMessageSourceMessage(actorBase + "requestField." + ActorDto.ActorRequest.Fields.firstName)),
+                    fieldWithPath(ActorDto.ActorRequest.Fields.lastName).description(getMessageSourceMessage(actorBase + "requestField." + ActorDto.ActorRequest.Fields.lastName)));
             var openapiPathParameterList = OpenApiDescriptorTransformer.transformParameter(pathParameterList);
-            var fieldDescriptors = new ConstrainedFieldDocumentation(ActorRequestModel.class);
+            var fieldDescriptors = new ConstrainedFieldDocumentation(ActorDto.ActorRequest.class);
             var restdocsRequestFieldList = fieldDescriptors.restdocsFields(requestFieldList);
             var openapiRequestFieldList = fieldDescriptors.openapiFields(requestFieldList);
 
@@ -350,8 +350,8 @@ class ActorControllerTest extends RestDocsControllerSupport {
             var actorBase = HalRelation.Fields.actor + "." + HalRelation.Fields.delete + ".";
 
             var pathParameterList = List.of(
-                    parameterWithName(ActorModel.Fields.actorId).description(
-                            getMessageSourceMessage(actorBase + "pathParameter." + ActorModel.Fields.actorId)));
+                    parameterWithName(ActorDto.Actor.Fields.actorId).description(
+                            getMessageSourceMessage(actorBase + "pathParameter." + ActorDto.Actor.Fields.actorId)));
             var openapiPathParameterList = OpenApiDescriptorTransformer.transformParameter(pathParameterList);
 
             // restdocs
@@ -377,7 +377,7 @@ class ActorControllerTest extends RestDocsControllerSupport {
         void getActorDetails_success() throws Exception {
             // arrange
             var actorId = "1";
-            var model = ActorDetailsModel.builder()
+            var model = ActorDetailsDto.ActorDetails.builder()
                     .actorId(Integer.valueOf(actorId))
                     .firstName("PENELOPE")
                     .lastName("GUINESS")
@@ -395,10 +395,10 @@ class ActorControllerTest extends RestDocsControllerSupport {
             // assert
             execute.andDo(print())
                     .andExpect(status().isOk())
-                    .andExpect(jsonPath(ActorDetailsModel.Fields.actorId).value(1))
-                    .andExpect(jsonPath(ActorDetailsModel.Fields.firstName).value("PENELOPE"))
-                    .andExpect(jsonPath(ActorDetailsModel.Fields.lastName).value("GUINESS"))
-                    .andExpect(jsonPath(ActorDetailsModel.Fields.filmInfo)
+                    .andExpect(jsonPath(ActorDetailsDto.ActorDetails.Fields.actorId).value(1))
+                    .andExpect(jsonPath(ActorDetailsDto.ActorDetails.Fields.firstName).value("PENELOPE"))
+                    .andExpect(jsonPath(ActorDetailsDto.ActorDetails.Fields.lastName).value("GUINESS"))
+                    .andExpect(jsonPath(ActorDetailsDto.ActorDetails.Fields.filmInfo)
                             .value("ACADEMY DINOSAUR, ANACONDA CONFESSIONS, ANGELS LIFE, BULWORTH COMMANDMENTS, " +
                                     "CHEAPER CLYDE, COLOR PHILADELPHIA, ELEPHANT TROJAN, GLEAMING JAWBREAKER, HUMAN GRAFFITI, " +
                                     "KING EVOLUTION, LADY STAGE, LANGUAGE COWBOY, MULHOLLAND BEAST, OKLAHOMA JUMANJI, " +
@@ -414,12 +414,12 @@ class ActorControllerTest extends RestDocsControllerSupport {
             var actorListLinkBase = HalRelation.Fields.actor + ".hal." + HalRelation.Fields.collection + ".";
 
             var pathParameterList = List.of(
-                    parameterWithName(ActorModel.Fields.actorId).description(getMessageSourceMessage(actorBase + "pathParameter." + ActorModel.Fields.actorId)));
+                    parameterWithName(ActorDto.Actor.Fields.actorId).description(getMessageSourceMessage(actorBase + "pathParameter." + ActorDto.Actor.Fields.actorId)));
             var responseFieldList = List.of(
-                    fieldWithPath(ActorDetailsModel.Fields.actorId).description(getMessageSourceMessage(actorBase + "responseField." + ActorDetailsModel.Fields.actorId)),
-                    fieldWithPath(ActorDetailsModel.Fields.firstName).description(getMessageSourceMessage(actorBase + "responseField." + ActorDetailsModel.Fields.firstName)),
-                    fieldWithPath(ActorDetailsModel.Fields.lastName).description(getMessageSourceMessage(actorBase + "responseField." + ActorDetailsModel.Fields.lastName)),
-                    fieldWithPath(ActorDetailsModel.Fields.filmInfo).description(getMessageSourceMessage(actorBase + "responseField." + ActorDetailsModel.Fields.filmInfo)),
+                    fieldWithPath(ActorDetailsDto.ActorDetails.Fields.actorId).description(getMessageSourceMessage(actorBase + "responseField." + ActorDetailsDto.ActorDetails.Fields.actorId)),
+                    fieldWithPath(ActorDetailsDto.ActorDetails.Fields.firstName).description(getMessageSourceMessage(actorBase + "responseField." + ActorDetailsDto.ActorDetails.Fields.firstName)),
+                    fieldWithPath(ActorDetailsDto.ActorDetails.Fields.lastName).description(getMessageSourceMessage(actorBase + "responseField." + ActorDetailsDto.ActorDetails.Fields.lastName)),
+                    fieldWithPath(ActorDetailsDto.ActorDetails.Fields.filmInfo).description(getMessageSourceMessage(actorBase + "responseField." + ActorDetailsDto.ActorDetails.Fields.filmInfo)),
                     subsectionWithPath(HalRelation.Fields._links).description(getMessageSourceMessage(actorLinkBase + HalRelation.Fields._links)));
             var linkList = List.of(
                     linkWithRel(HalRelation.Fields.self).description(getMessageSourceMessage(actorLinkBase + HalRelation.Fields.self)),
@@ -448,12 +448,12 @@ class ActorControllerTest extends RestDocsControllerSupport {
 
     @Nested
     class ActorFilmTests {
-        private FilmModel academyDinosaur;
-        private FilmModel aceGoldfinger;
+        private FilmDto.Film academyDinosaur;
+        private FilmDto.Film aceGoldfinger;
 
         @BeforeEach
         void setUp() {
-            academyDinosaur = FilmModel.builder()
+            academyDinosaur = FilmDto.Film.builder()
                     .filmId(1)
                     .title("ACADEMY DINOSAUR")
                     .description("A Epic Drama of a Feminist And a Mad Scientist who must Battle a Teacher in The Canadian Rockies")
@@ -468,7 +468,7 @@ class ActorControllerTest extends RestDocsControllerSupport {
                     .specialFeatures(EnumSet.of(SpecialFeature.BEHIND_THE_SCENES, SpecialFeature.DELETED_SCENES))
                     .lastUpdate(LocalDateTime.now())
                     .build();
-            aceGoldfinger = FilmModel.builder()
+            aceGoldfinger = FilmDto.Film.builder()
                     .filmId(2)
                     .title("ACE GOLDFINGER")
                     .description("A Astounding Epistle of a Database Administrator And a Explorer who must Find a Car in Ancient China")
@@ -510,21 +510,21 @@ class ActorControllerTest extends RestDocsControllerSupport {
             var embeddedBase = HalRelation.Fields._embedded + "." + HalRelation.Fields.filmList + "[].";
 
             var pathParameterList = List.of(
-                    parameterWithName(ActorModel.Fields.actorId).description(getMessageSourceMessage(actorFilmBase + "pathParameter." + ActorModel.Fields.actorId)));
+                    parameterWithName(ActorDto.Actor.Fields.actorId).description(getMessageSourceMessage(actorFilmBase + "pathParameter." + ActorDto.Actor.Fields.actorId)));
             var responseFieldList = List.of(
-                    fieldWithPath(embeddedBase + FilmModel.Fields.filmId).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmModel.Fields.filmId)),
-                    fieldWithPath(embeddedBase + FilmModel.Fields.title).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmModel.Fields.title)),
-                    fieldWithPath(embeddedBase + FilmModel.Fields.description).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmModel.Fields.description)),
-                    fieldWithPath(embeddedBase + FilmModel.Fields.releaseYear).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmModel.Fields.releaseYear)),
-                    fieldWithPath(embeddedBase + FilmModel.Fields.languageId).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmModel.Fields.languageId)),
-                    fieldWithPath(embeddedBase + FilmModel.Fields.originalLanguageId).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmModel.Fields.originalLanguageId)),
-                    fieldWithPath(embeddedBase + FilmModel.Fields.rentalDuration).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmModel.Fields.rentalDuration)),
-                    fieldWithPath(embeddedBase + FilmModel.Fields.rentalRate).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmModel.Fields.rentalRate)),
-                    fieldWithPath(embeddedBase + FilmModel.Fields.length).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmModel.Fields.length)),
-                    fieldWithPath(embeddedBase + FilmModel.Fields.replacementCost).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmModel.Fields.replacementCost)),
-                    fieldWithPath(embeddedBase + FilmModel.Fields.rating).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmModel.Fields.rating)),
-                    fieldWithPath(embeddedBase + FilmModel.Fields.specialFeatures).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmModel.Fields.specialFeatures)),
-                    fieldWithPath(embeddedBase + FilmModel.Fields.lastUpdate).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmModel.Fields.lastUpdate)),
+                    fieldWithPath(embeddedBase + FilmDto.Film.Fields.filmId).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDto.Film.Fields.filmId)),
+                    fieldWithPath(embeddedBase + FilmDto.Film.Fields.title).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDto.Film.Fields.title)),
+                    fieldWithPath(embeddedBase + FilmDto.Film.Fields.description).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDto.Film.Fields.description)),
+                    fieldWithPath(embeddedBase + FilmDto.Film.Fields.releaseYear).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDto.Film.Fields.releaseYear)),
+                    fieldWithPath(embeddedBase + FilmDto.Film.Fields.languageId).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDto.Film.Fields.languageId)),
+                    fieldWithPath(embeddedBase + FilmDto.Film.Fields.originalLanguageId).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDto.Film.Fields.originalLanguageId)),
+                    fieldWithPath(embeddedBase + FilmDto.Film.Fields.rentalDuration).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDto.Film.Fields.rentalDuration)),
+                    fieldWithPath(embeddedBase + FilmDto.Film.Fields.rentalRate).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDto.Film.Fields.rentalRate)),
+                    fieldWithPath(embeddedBase + FilmDto.Film.Fields.length).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDto.Film.Fields.length)),
+                    fieldWithPath(embeddedBase + FilmDto.Film.Fields.replacementCost).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDto.Film.Fields.replacementCost)),
+                    fieldWithPath(embeddedBase + FilmDto.Film.Fields.rating).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDto.Film.Fields.rating)),
+                    fieldWithPath(embeddedBase + FilmDto.Film.Fields.specialFeatures).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDto.Film.Fields.specialFeatures)),
+                    fieldWithPath(embeddedBase + FilmDto.Film.Fields.lastUpdate).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDto.Film.Fields.lastUpdate)),
                     subsectionWithPath(embeddedBase + HalRelation.Fields._links).description(getMessageSourceMessage(filmListLinkBase + HalRelation.Fields._links)),
                     subsectionWithPath(HalRelation.Fields._links).description(getMessageSourceMessage(filmLinkBase + HalRelation.Fields._links)));
             var linkList = List.of(
@@ -576,22 +576,22 @@ class ActorControllerTest extends RestDocsControllerSupport {
             var filmListLinkBase = HalRelation.Fields.film + ".hal." + HalRelation.Fields.collection + ".";
 
             var pathParameterList = List.of(
-                    parameterWithName(ActorModel.Fields.actorId).description(getMessageSourceMessage(actorFilmBase + "pathParameter." + ActorModel.Fields.actorId)),
-                    parameterWithName(FilmModel.Fields.filmId).description(getMessageSourceMessage(actorFilmBase + "pathParameter." + FilmModel.Fields.filmId)));
+                    parameterWithName(ActorDto.Actor.Fields.actorId).description(getMessageSourceMessage(actorFilmBase + "pathParameter." + ActorDto.Actor.Fields.actorId)),
+                    parameterWithName(FilmDto.Film.Fields.filmId).description(getMessageSourceMessage(actorFilmBase + "pathParameter." + FilmDto.Film.Fields.filmId)));
             var responseFieldList = List.of(
-                    fieldWithPath(FilmModel.Fields.filmId).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmModel.Fields.filmId)),
-                    fieldWithPath(FilmModel.Fields.title).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmModel.Fields.title)),
-                    fieldWithPath(FilmModel.Fields.description).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmModel.Fields.description)),
-                    fieldWithPath(FilmModel.Fields.releaseYear).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmModel.Fields.releaseYear)),
-                    fieldWithPath(FilmModel.Fields.languageId).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmModel.Fields.languageId)),
-                    fieldWithPath(FilmModel.Fields.originalLanguageId).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmModel.Fields.originalLanguageId)),
-                    fieldWithPath(FilmModel.Fields.rentalDuration).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmModel.Fields.rentalDuration)),
-                    fieldWithPath(FilmModel.Fields.rentalRate).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmModel.Fields.rentalRate)),
-                    fieldWithPath(FilmModel.Fields.length).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmModel.Fields.length)),
-                    fieldWithPath(FilmModel.Fields.replacementCost).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmModel.Fields.replacementCost)),
-                    fieldWithPath(FilmModel.Fields.rating).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmModel.Fields.rating)),
-                    fieldWithPath(FilmModel.Fields.specialFeatures).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmModel.Fields.specialFeatures)),
-                    fieldWithPath(FilmModel.Fields.lastUpdate).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmModel.Fields.lastUpdate)),
+                    fieldWithPath(FilmDto.Film.Fields.filmId).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDto.Film.Fields.filmId)),
+                    fieldWithPath(FilmDto.Film.Fields.title).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDto.Film.Fields.title)),
+                    fieldWithPath(FilmDto.Film.Fields.description).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDto.Film.Fields.description)),
+                    fieldWithPath(FilmDto.Film.Fields.releaseYear).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDto.Film.Fields.releaseYear)),
+                    fieldWithPath(FilmDto.Film.Fields.languageId).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDto.Film.Fields.languageId)),
+                    fieldWithPath(FilmDto.Film.Fields.originalLanguageId).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDto.Film.Fields.originalLanguageId)),
+                    fieldWithPath(FilmDto.Film.Fields.rentalDuration).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDto.Film.Fields.rentalDuration)),
+                    fieldWithPath(FilmDto.Film.Fields.rentalRate).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDto.Film.Fields.rentalRate)),
+                    fieldWithPath(FilmDto.Film.Fields.length).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDto.Film.Fields.length)),
+                    fieldWithPath(FilmDto.Film.Fields.replacementCost).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDto.Film.Fields.replacementCost)),
+                    fieldWithPath(FilmDto.Film.Fields.rating).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDto.Film.Fields.rating)),
+                    fieldWithPath(FilmDto.Film.Fields.specialFeatures).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDto.Film.Fields.specialFeatures)),
+                    fieldWithPath(FilmDto.Film.Fields.lastUpdate).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDto.Film.Fields.lastUpdate)),
                     subsectionWithPath(HalRelation.Fields._links).description(getMessageSourceMessage(filmLinkBase + HalRelation.Fields._links)));
             var linkList = List.of(
                     linkWithRel(HalRelation.Fields.self).description(getMessageSourceMessage(filmLinkBase + HalRelation.Fields.self)),
@@ -623,7 +623,7 @@ class ActorControllerTest extends RestDocsControllerSupport {
             var actorId = "1";
             var filmId = "1";
             var payload = new HashMap<String, String>();
-            payload.put(FilmModel.Fields.filmId, filmId);
+            payload.put(FilmDto.Film.Fields.filmId, filmId);
             when(actorService.addActorFilm(actorId, filmId)).thenReturn(academyDinosaur);
 
             // act
@@ -642,14 +642,14 @@ class ActorControllerTest extends RestDocsControllerSupport {
             var actorFilmBase = HalRelation.Fields.actor + "." + HalRelation.Fields.film + "." + HalRelation.Fields.create + ".";
 
             var pathParameterList = List.of(
-                    parameterWithName(ActorModel.Fields.actorId).description(getMessageSourceMessage(actorFilmBase + "pathParameter." + ActorModel.Fields.actorId)));
+                    parameterWithName(ActorDto.Actor.Fields.actorId).description(getMessageSourceMessage(actorFilmBase + "pathParameter." + ActorDto.Actor.Fields.actorId)));
             var requestFieldList = List.of(
-                    fieldWithPath(FilmModel.Fields.filmId).description(getMessageSourceMessage(actorFilmBase + "requestField." + FilmModel.Fields.filmId)));
+                    fieldWithPath(FilmDto.Film.Fields.filmId).description(getMessageSourceMessage(actorFilmBase + "requestField." + FilmDto.Film.Fields.filmId)));
             var responseHeaderList = List.of(
                     headerWithName(HttpHeaders.LOCATION).description(getMessageSourceMessage(actorFilmBase + "responseHeader." + HttpHeaders.LOCATION)));
             var openapiResponseHeaderList = OpenApiDescriptorTransformer.transformHeader(responseHeaderList);
             var openapiPathParameterList = OpenApiDescriptorTransformer.transformParameter(pathParameterList);
-            var fieldDescriptors = new ConstrainedFieldDocumentation(ActorRequestModel.class);
+            var fieldDescriptors = new ConstrainedFieldDocumentation(ActorDto.ActorRequest.class);
             var restdocsRequestFieldList = fieldDescriptors.restdocsFields(requestFieldList);
             var openapiRequestFieldList = fieldDescriptors.openapiFields(requestFieldList);
 
@@ -691,8 +691,8 @@ class ActorControllerTest extends RestDocsControllerSupport {
             var actorFilmBase = HalRelation.Fields.actor + "." + HalRelation.Fields.film + "." + HalRelation.Fields.delete + ".";
 
             var pathParameterList = List.of(
-                    parameterWithName(ActorModel.Fields.actorId).description(getMessageSourceMessage(actorFilmBase + "pathParameter." + ActorModel.Fields.actorId)),
-                    parameterWithName(FilmModel.Fields.filmId).description(getMessageSourceMessage(actorFilmBase + "pathParameter." + FilmModel.Fields.filmId)));
+                    parameterWithName(ActorDto.Actor.Fields.actorId).description(getMessageSourceMessage(actorFilmBase + "pathParameter." + ActorDto.Actor.Fields.actorId)),
+                    parameterWithName(FilmDto.Film.Fields.filmId).description(getMessageSourceMessage(actorFilmBase + "pathParameter." + FilmDto.Film.Fields.filmId)));
             var openapiPathParameterList = OpenApiDescriptorTransformer.transformParameter(pathParameterList);
 
             // restdocs
@@ -718,7 +718,7 @@ class ActorControllerTest extends RestDocsControllerSupport {
             // arrange
             var actorId = "1";
             var filmId = "1";
-            var model = Optional.of(FilmDetailsModel.builder()
+            var model = Optional.of(FilmDetailsDto.FilmDetails.builder()
                     .filmId(1)
                     .title("ACADEMY DINOSAUR")
                     .description("A Epic Drama of a Feminist And a Mad Scientist who must Battle a Teacher in The Canadian Rockies")
@@ -750,17 +750,17 @@ class ActorControllerTest extends RestDocsControllerSupport {
             var filmListLinkBase = HalRelation.Fields.film + ".hal." + HalRelation.Fields.collection + ".";
 
             var pathParameterList = List.of(
-                    parameterWithName(ActorModel.Fields.actorId).description(getMessageSourceMessage(actorFilmBase + "pathParameter." + ActorModel.Fields.actorId)),
-                    parameterWithName(FilmModel.Fields.filmId).description(getMessageSourceMessage(actorFilmBase + "pathParameter." + FilmModel.Fields.filmId)));
+                    parameterWithName(ActorDto.Actor.Fields.actorId).description(getMessageSourceMessage(actorFilmBase + "pathParameter." + ActorDto.Actor.Fields.actorId)),
+                    parameterWithName(FilmDto.Film.Fields.filmId).description(getMessageSourceMessage(actorFilmBase + "pathParameter." + FilmDto.Film.Fields.filmId)));
             var responseFieldList = List.of(
-                    fieldWithPath(FilmDetailsModel.Fields.filmId).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDetailsModel.Fields.filmId)),
-                    fieldWithPath(FilmDetailsModel.Fields.title).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDetailsModel.Fields.title)),
-                    fieldWithPath(FilmDetailsModel.Fields.description).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDetailsModel.Fields.description)),
-                    fieldWithPath(FilmDetailsModel.Fields.category).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDetailsModel.Fields.category)),
-                    fieldWithPath(FilmDetailsModel.Fields.price).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDetailsModel.Fields.price)),
-                    fieldWithPath(FilmDetailsModel.Fields.length).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDetailsModel.Fields.length)),
-                    fieldWithPath(FilmDetailsModel.Fields.rating).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDetailsModel.Fields.rating)),
-                    fieldWithPath(FilmDetailsModel.Fields.actors).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDetailsModel.Fields.actors)),
+                    fieldWithPath(FilmDetailsDto.FilmDetails.Fields.filmId).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDetailsDto.FilmDetails.Fields.filmId)),
+                    fieldWithPath(FilmDetailsDto.FilmDetails.Fields.title).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDetailsDto.FilmDetails.Fields.title)),
+                    fieldWithPath(FilmDetailsDto.FilmDetails.Fields.description).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDetailsDto.FilmDetails.Fields.description)),
+                    fieldWithPath(FilmDetailsDto.FilmDetails.Fields.category).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDetailsDto.FilmDetails.Fields.category)),
+                    fieldWithPath(FilmDetailsDto.FilmDetails.Fields.price).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDetailsDto.FilmDetails.Fields.price)),
+                    fieldWithPath(FilmDetailsDto.FilmDetails.Fields.length).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDetailsDto.FilmDetails.Fields.length)),
+                    fieldWithPath(FilmDetailsDto.FilmDetails.Fields.rating).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDetailsDto.FilmDetails.Fields.rating)),
+                    fieldWithPath(FilmDetailsDto.FilmDetails.Fields.actors).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDetailsDto.FilmDetails.Fields.actors)),
                     subsectionWithPath(HalRelation.Fields._links).description(getMessageSourceMessage(filmLinkBase + HalRelation.Fields._links)));
             var linkList = List.of(
                     linkWithRel(HalRelation.Fields.self).description(getMessageSourceMessage(filmLinkBase + HalRelation.Fields.self)),

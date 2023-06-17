@@ -1,23 +1,23 @@
 package com.example.app.app.customer.repository.custom;
 
-import com.example.app.app.customer.domain.dto.CustomerDetailsModel;
-import com.example.app.app.payment.domain.dto.PaymentModel;
-import com.example.app.app.rental.domain.dto.RentalModel;
+import com.example.app.app.customer.domain.dto.CustomerDetailsDto;
+import com.example.app.app.payment.domain.dto.PaymentDto;
+import com.example.app.app.rental.domain.dto.RentalDto;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 public interface CustomCustomerRepository {
-    List<CustomerDetailsModel> findAllCustomerDetailsList();
+    List<CustomerDetailsDto.CustomerDetails> findAllCustomerDetailsList();
 
-    Optional<CustomerDetailsModel> findCustomerDetailsById(Integer customerId);
+    Optional<CustomerDetailsDto.CustomerDetails> findCustomerDetailsById(Integer customerId);
 
-    List<PaymentModel> findAllCustomerPaymentListById(Integer customerId);
+    List<PaymentDto.Payment> findAllCustomerPaymentListById(Integer customerId);
 
-    List<PaymentModel> findAllCustomerPaymentListByIdWithFilter(Integer customerId, LocalDate startDate, LocalDate endDate);
+    List<PaymentDto.Payment> findAllCustomerPaymentListByIdWithFilter(Integer customerId, LocalDate startDate, LocalDate endDate);
 
-    List<RentalModel> findAllCustomerRentalListById(Integer customerId);
+    List<RentalDto.Rental> findAllCustomerRentalListById(Integer customerId);
 
-    List<RentalModel> findAllCustomerRentalListByIdWithFilter(Integer customerId, String status, LocalDate startDate, LocalDate endDate);
+    List<RentalDto.Rental> findAllCustomerRentalListByIdWithFilter(Integer customerId, String status, LocalDate startDate, LocalDate endDate);
 }

@@ -1,16 +1,16 @@
 package com.example.app.app.payment.repository.custom;
 
-import com.example.app.app.catalog.domain.dto.CategorySalesModel;
 import com.example.app.app.catalog.domain.entity.QFilmCategoryEntity;
 import com.example.app.app.catalog.domain.entity.QFilmEntity;
 import com.example.app.app.location.domain.entity.QAddressEntity;
 import com.example.app.app.location.domain.entity.QCityEntity;
-import com.example.app.app.payment.domain.dto.PaymentModel;
+import com.example.app.app.payment.domain.dto.PaymentDto;
 import com.example.app.app.payment.domain.entity.QPaymentEntity;
 import com.example.app.app.payment.repository.CustomPaymentRepository;
 import com.example.app.app.rental.domain.entity.QRentalEntity;
 import com.example.app.app.staff.domain.entity.QStaffEntity;
-import com.example.app.app.store.domain.dto.StoreSalesModel;
+import com.example.app.app.store.domain.dto.CategorySalesDto;
+import com.example.app.app.store.domain.dto.StoreSalesDto;
 import com.example.app.app.store.domain.entity.QInventoryEntity;
 import com.example.app.app.store.domain.entity.QStoreEntity;
 import com.example.app.common.constant.Country;
@@ -28,23 +28,23 @@ import java.util.Optional;
 public class CustomPaymentRepositoryImpl implements CustomPaymentRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
-    private static void replaceCountryIdToCountry(StoreSalesModel result) {
+    private static void replaceCountryIdToCountry(StoreSalesDto.StoreSales result) {
         var replacedStore = Country.replaceCountryIdToCountryInString(result.getStore());
         result.setStore(replacedStore);
     }
 
     @Override
-    public List<PaymentModel> findAllPaymentDetailsList() {
+    public List<PaymentDto.Payment> findAllPaymentDetailsList() {
         return null;
     }
 
     @Override
-    public Optional<PaymentModel> findPaymentDetailsById(Integer paymentId) {
+    public Optional<PaymentDto.Payment> findPaymentDetailsById(Integer paymentId) {
         return Optional.empty();
     }
 
     @Override
-    public List<CategorySalesModel> calculateSalesByCategory() {
+    public List<CategorySalesDto.CategorySales> calculateSalesByCategory() {
         var payment = QPaymentEntity.paymentEntity;
         var rental = QRentalEntity.rentalEntity;
         var inventory = QInventoryEntity.inventoryEntity;
@@ -53,7 +53,7 @@ public class CustomPaymentRepositoryImpl implements CustomPaymentRepository {
 
         var totalSales = payment.amount.sum();
         var query = jpaQueryFactory
-                .select(Projections.constructor(CategorySalesModel.class,
+                .select(Projections.constructor(CategorySalesDto.CategorySales.class,
                         filmCategory.categoryId.as("category"),
                         totalSales.as("totalSales")))
                 .from(payment)
@@ -67,7 +67,7 @@ public class CustomPaymentRepositoryImpl implements CustomPaymentRepository {
     }
 
     @Override
-    public List<StoreSalesModel> calculateSalesByStore() {
+    public List<StoreSalesDto.StoreSales> calculateSalesByStore() {
         var payment = QPaymentEntity.paymentEntity;
         var rental = QRentalEntity.rentalEntity;
         var inventory = QInventoryEntity.inventoryEntity;
@@ -77,7 +77,7 @@ public class CustomPaymentRepositoryImpl implements CustomPaymentRepository {
         var staff = QStaffEntity.staffEntity;
 
         var query = jpaQueryFactory
-                .select(Projections.constructor(StoreSalesModel.class,
+                .select(Projections.constructor(StoreSalesDto.StoreSales.class,
                         Expressions.asString(city.city).concat(",")
                                 .concat(city.countryId.stringValue()).as("store"),
                         Expressions.asString(staff.fullName.firstName).concat(" ")

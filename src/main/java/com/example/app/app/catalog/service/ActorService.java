@@ -1,34 +1,37 @@
 package com.example.app.app.catalog.service;
 
-import com.example.app.app.catalog.domain.dto.*;
+import com.example.app.app.catalog.domain.dto.ActorDetailsDto;
+import com.example.app.app.catalog.domain.dto.ActorDto;
+import com.example.app.app.catalog.domain.dto.FilmDetailsDto;
+import com.example.app.app.catalog.domain.dto.FilmDto;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface ActorService {
-    List<ActorModel> getActorList();
+    List<ActorDto.Actor> getActorList();
 
-    Optional<ActorModel> getActor(String actorId);
+    Optional<ActorDto.Actor> getActor(String actorId);
 
-    List<ActorDetailsModel> getActorDetailsList();
+    List<ActorDetailsDto.ActorDetails> getActorDetailsList();
 
-    Optional<ActorDetailsModel> getActorDetails(String actorId);
+    Optional<ActorDetailsDto.ActorDetails> getActorDetails(String actorId);
 
-    List<FilmModel> getActorFilmList(String actorId);
+    List<FilmDto.Film> getActorFilmList(String actorId);
 
-    List<FilmModel> getActorFilmList(String actorId, String releaseYear, String rating);
+    List<FilmDto.Film> getActorFilmList(String actorId, String releaseYear, String rating);
 
-    Optional<FilmModel> getActorFilm(String actorId, String filmId);
+    Optional<FilmDto.Film> getActorFilm(String actorId, String filmId);
 
-    Optional<FilmDetailsModel> getActorFilmDetails(String actorId, String filmId);
+    Optional<FilmDetailsDto.FilmDetails> getActorFilmDetails(String actorId, String filmId);
 
-    List<ActorModel> searchActorList(String name);
+    List<ActorDto.Actor> searchActorList(String name);
 
-    ActorModel addActor(ActorRequestModel model);
+    ActorDto.Actor addActor(ActorDto.ActorRequest model);
 
-    FilmModel addActorFilm(String actorId, String filmId);
+    FilmDto.Film addActorFilm(String actorId, String filmId);
 
-    ActorModel updateActor(String actorId, ActorRequestModel model);
+    ActorDto.Actor updateActor(String actorId, ActorDto.ActorRequest model);
 
     void deleteActor(String actorId);
 

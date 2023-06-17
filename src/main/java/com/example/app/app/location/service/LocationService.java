@@ -1,39 +1,37 @@
 package com.example.app.app.location.service;
 
-import com.example.app.app.catalog.domain.dto.AddressModel;
-import com.example.app.app.location.domain.dto.AddressRequestModel;
-import com.example.app.app.location.domain.dto.CityModel;
-import com.example.app.app.location.domain.dto.CityRequestModel;
+import com.example.app.app.location.domain.dto.AddressDto;
+import com.example.app.app.location.domain.dto.CityDto;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface LocationService {
-    List<AddressModel> getAddressList();
+    List<AddressDto.Address> getAddressList();
 
-    Optional<AddressModel> getAddress(String addressId);
+    Optional<AddressDto.Address> getAddress(String addressId);
 
-    List<AddressModel> getAddressDetailsList();
+    List<AddressDto.Address> getAddressDetailsList();
 
-    Optional<AddressModel> getAddressDetails(String addressId);
+    Optional<AddressDto.Address> getAddressDetails(String addressId);
 
-    AddressModel addAddress(AddressRequestModel model);
+    AddressDto.Address addAddress(AddressDto.AddressRequest model);
 
-    AddressModel updateAddress(String addressId, AddressRequestModel model);
+    AddressDto.Address updateAddress(String addressId, AddressDto.AddressRequest model);
 
     void deleteAddress(String addressId);
 
-    List<CityModel> getCityList();
+    List<CityDto.City> getCityList();
 
-    Optional<CityModel> getCity(String cityId);
+    Optional<CityDto.City> getCity(String cityId);
 
-    List<CityModel> getCityDetailsList();
+    List<CityDto.City> getCityDetailsList();
 
-    Optional<CityModel> getCityDetails(String cityId);
+    Optional<CityDto.City> getCityDetails(String cityId);
 
-    CityModel addCity(CityRequestModel model);
+    CityDto.City addCity(CityDto.CityRequest model);
 
-    CityModel updateCity(String cityId, CityRequestModel model);
+    CityDto.City updateCity(String cityId, CityDto.CityRequest model);
 
     void deleteCity(String cityId);
 }

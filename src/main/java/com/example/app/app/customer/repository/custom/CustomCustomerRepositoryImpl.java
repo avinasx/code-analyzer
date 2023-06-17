@@ -1,12 +1,12 @@
 package com.example.app.app.customer.repository.custom;
 
-import com.example.app.app.customer.domain.dto.CustomerDetailsModel;
+import com.example.app.app.customer.domain.dto.CustomerDetailsDto;
 import com.example.app.app.customer.domain.entity.QCustomerEntity;
 import com.example.app.app.location.domain.entity.QAddressEntity;
 import com.example.app.app.location.domain.entity.QCityEntity;
-import com.example.app.app.payment.domain.dto.PaymentModel;
+import com.example.app.app.payment.domain.dto.PaymentDto;
 import com.example.app.app.payment.domain.entity.QPaymentEntity;
-import com.example.app.app.rental.domain.dto.RentalModel;
+import com.example.app.app.rental.domain.dto.RentalDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -24,23 +24,23 @@ public class CustomCustomerRepositoryImpl implements CustomCustomerRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<CustomerDetailsModel> findAllCustomerDetailsList() {
+    public List<CustomerDetailsDto.CustomerDetails> findAllCustomerDetailsList() {
         var query = findCustomerDetail(null);
         return query.fetch();
     }
 
     @Override
-    public Optional<CustomerDetailsModel> findCustomerDetailsById(Integer customerId) {
+    public Optional<CustomerDetailsDto.CustomerDetails> findCustomerDetailsById(Integer customerId) {
         var query = findCustomerDetail(customerId);
         return Optional.of(query.fetchFirst());
     }
 
-    private JPAQuery<CustomerDetailsModel> findCustomerDetail(Integer id) {
+    private JPAQuery<CustomerDetailsDto.CustomerDetails> findCustomerDetail(Integer id) {
         var cu = new QCustomerEntity("cu");
         var a = new QAddressEntity("a");
         var city = new QCityEntity("city");
         var query = jpaQueryFactory
-                .select(Projections.constructor(CustomerDetailsModel.class,
+                .select(Projections.constructor(CustomerDetailsDto.CustomerDetails.class,
                         cu.customerId.as("id"),
                         Expressions.asString(cu.fullName.firstName).concat(" ")
                                 .concat(cu.fullName.lastName).as("name"),
@@ -61,22 +61,22 @@ public class CustomCustomerRepositoryImpl implements CustomCustomerRepository {
     }
 
     @Override
-    public List<PaymentModel> findAllCustomerPaymentListById(Integer customerId) {
+    public List<PaymentDto.Payment> findAllCustomerPaymentListById(Integer customerId) {
         var query = findCustomerPayments(customerId, null, null);
         return query.fetch();
     }
 
     @Override
-    public List<PaymentModel> findAllCustomerPaymentListByIdWithFilter(Integer customerId, LocalDate startDate, LocalDate endDate) {
+    public List<PaymentDto.Payment> findAllCustomerPaymentListByIdWithFilter(Integer customerId, LocalDate startDate, LocalDate endDate) {
         var query = findCustomerPayments(customerId, startDate, endDate);
         return query.fetch();
     }
 
-    private JPAQuery<PaymentModel> findCustomerPayments(Integer customerId, LocalDate startDate, LocalDate endDate) {
+    private JPAQuery<PaymentDto.Payment> findCustomerPayments(Integer customerId, LocalDate startDate, LocalDate endDate) {
         var customer = QCustomerEntity.customerEntity;
         var payment = QPaymentEntity.paymentEntity;
         var query = jpaQueryFactory
-                .select(Projections.constructor(PaymentModel.class,
+                .select(Projections.constructor(PaymentDto.Payment.class,
                         payment.paymentId.as("id"),
                         payment.customerId.as("customerId"),
                         payment.staffId.as("staffId"),
@@ -94,22 +94,22 @@ public class CustomCustomerRepositoryImpl implements CustomCustomerRepository {
     }
 
     @Override
-    public List<RentalModel> findAllCustomerRentalListById(Integer customerId) {
+    public List<RentalDto.Rental> findAllCustomerRentalListById(Integer customerId) {
         var query = findCustomerRentals(customerId, null, null, null);
         return query.fetch();
     }
 
     @Override
-    public List<RentalModel> findAllCustomerRentalListByIdWithFilter(Integer customerId, String status, LocalDate startDate, LocalDate endDate) {
+    public List<RentalDto.Rental> findAllCustomerRentalListByIdWithFilter(Integer customerId, String status, LocalDate startDate, LocalDate endDate) {
         var query = findCustomerRentals(customerId, status, startDate, endDate);
         return query.fetch();
     }
 
-    private JPAQuery<RentalModel> findCustomerRentals(Integer customerId, String status, LocalDate startDate, LocalDate endDate) {
+    private JPAQuery<RentalDto.Rental> findCustomerRentals(Integer customerId, String status, LocalDate startDate, LocalDate endDate) {
         var customer = QCustomerEntity.customerEntity;
         var rental = QPaymentEntity.paymentEntity;
         var query = jpaQueryFactory
-                .select(Projections.constructor(RentalModel.class,
+                .select(Projections.constructor(RentalDto.Rental.class,
                         rental.paymentId.as("id"),
                         rental.customerId.as("customerId"),
                         rental.staffId.as("staffId"),

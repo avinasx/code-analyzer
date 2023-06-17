@@ -2,8 +2,8 @@ package com.example.app.app.store.controller;
 
 import com.example.app.app.store.assembler.CategorySalesRepresentationModelAssembler;
 import com.example.app.app.store.assembler.StoreSalesRepresentationModelAssembler;
-import com.example.app.app.store.domain.dto.CategorySalesResponseModel;
-import com.example.app.app.store.domain.dto.StoreSalesResponseModel;
+import com.example.app.app.store.domain.dto.CategorySalesDto;
+import com.example.app.app.store.domain.dto.StoreSalesDto;
 import com.example.app.app.store.service.ReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
@@ -21,13 +21,13 @@ public class ReportController {
     private final StoreSalesRepresentationModelAssembler storeSalesAssembler;
 
     @GetMapping(path = "/sales/categories")
-    public ResponseEntity<CollectionModel<CategorySalesResponseModel>> reportSalesByCategory() {
+    public ResponseEntity<CollectionModel<CategorySalesDto.CategorySalesResponse>> reportSalesByCategory() {
         return ResponseEntity.ok(categorySalesAssembler.toCollectionModel(
                 reportService.reportSalesByCategory()));
     }
 
     @GetMapping(path = "/sales/stores")
-    public ResponseEntity<CollectionModel<StoreSalesResponseModel>> reportSalesByStore() {
+    public ResponseEntity<CollectionModel<StoreSalesDto.StoreSalesResponse>> reportSalesByStore() {
         return ResponseEntity.ok(storeSalesAssembler.toCollectionModel(
                 reportService.reportSalesByStore()));
     }

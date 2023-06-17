@@ -1,13 +1,13 @@
 package com.example.app.app.store.service;
 
-import com.example.app.app.catalog.domain.dto.CategorySalesModel;
-import com.example.app.app.store.domain.dto.StoreSalesModel;
+import com.example.app.app.store.domain.dto.CategorySalesDto;
+import com.example.app.app.store.domain.dto.StoreSalesDto;
 
 import java.util.List;
 
 public interface ReportService {
 
-    List<CategorySalesModel> reportSalesByCategory();
+    List<CategorySalesDto.CategorySales> reportSalesByCategory();
 
-    List<StoreSalesModel> reportSalesByStore();
+    List<StoreSalesDto.StoreSales> reportSalesByStore();
 }

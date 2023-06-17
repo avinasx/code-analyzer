@@ -1,18 +1,18 @@
 package com.example.app.app.payment.repository;
 
-import com.example.app.app.catalog.domain.dto.CategorySalesModel;
-import com.example.app.app.payment.domain.dto.PaymentModel;
-import com.example.app.app.store.domain.dto.StoreSalesModel;
+import com.example.app.app.payment.domain.dto.PaymentDto;
+import com.example.app.app.store.domain.dto.CategorySalesDto;
+import com.example.app.app.store.domain.dto.StoreSalesDto;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface CustomPaymentRepository {
-    List<PaymentModel> findAllPaymentDetailsList();
+    List<PaymentDto.Payment> findAllPaymentDetailsList();
 
-    Optional<PaymentModel> findPaymentDetailsById(Integer paymentId);
+    Optional<PaymentDto.Payment> findPaymentDetailsById(Integer paymentId);
 
-    List<CategorySalesModel> calculateSalesByCategory();
+    List<CategorySalesDto.CategorySales> calculateSalesByCategory();
 
-    List<StoreSalesModel> calculateSalesByStore();
+    List<StoreSalesDto.StoreSales> calculateSalesByStore();
 }

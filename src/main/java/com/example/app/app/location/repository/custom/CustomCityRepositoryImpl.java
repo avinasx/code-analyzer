@@ -1,6 +1,6 @@
 package com.example.app.app.location.repository.custom;
 
-import com.example.app.app.location.domain.dto.CityModel;
+import com.example.app.app.location.domain.dto.CityDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -11,12 +11,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CustomCityRepositoryImpl implements CustomCityRepository {
     @Override
-    public List<CityModel> findAllCityDetailsList() {
+    public List<CityDto.City> findAllCityDetailsList() {
         return null;
     }
 
     @Override
-    public Optional<CityModel> findCityDetailsById(Integer cityId) {
+    public Optional<CityDto.City> findCityDetailsById(Integer cityId) {
         return Optional.empty();
     }
 }

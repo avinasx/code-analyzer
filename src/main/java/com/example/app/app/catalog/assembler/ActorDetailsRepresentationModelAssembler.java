@@ -1,8 +1,7 @@
 package com.example.app.app.catalog.assembler;
 
 import com.example.app.app.catalog.controller.ActorController;
-import com.example.app.app.catalog.domain.dto.ActorDetailResponseModel;
-import com.example.app.app.catalog.domain.dto.ActorDetailsModel;
+import com.example.app.app.catalog.domain.dto.ActorDetailsDto;
 import com.example.app.common.constant.HalRelation;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
@@ -12,14 +11,14 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
-public class ActorDetailsRepresentationModelAssembler extends RepresentationModelAssemblerSupport<ActorDetailsModel, ActorDetailResponseModel> {
+public class ActorDetailsRepresentationModelAssembler extends RepresentationModelAssemblerSupport<ActorDetailsDto.ActorDetails, ActorDetailsDto.ActorDetailsResponse> {
     public ActorDetailsRepresentationModelAssembler() {
-        super(ActorController.class, ActorDetailResponseModel.class);
+        super(ActorController.class, ActorDetailsDto.ActorDetailsResponse.class);
     }
 
     @Override
     @lombok.NonNull
-    public ActorDetailResponseModel toModel(@lombok.NonNull ActorDetailsModel entity) {
+    public ActorDetailsDto.ActorDetailsResponse toModel(@lombok.NonNull ActorDetailsDto.ActorDetails entity) {
         var model = instantiateModel(entity);
         model.setActorDetailsModel(entity);
         model.add(linkTo(methodOn(ActorController.class).getActorDetails(String.valueOf(entity.getActorId()))).withSelfRel());
@@ -30,7 +29,7 @@ public class ActorDetailsRepresentationModelAssembler extends RepresentationMode
 
     @Override
     @lombok.NonNull
-    public CollectionModel<ActorDetailResponseModel> toCollectionModel(@lombok.NonNull Iterable<? extends ActorDetailsModel> entities) {
+    public CollectionModel<ActorDetailsDto.ActorDetailsResponse> toCollectionModel(@lombok.NonNull Iterable<? extends ActorDetailsDto.ActorDetails> entities) {
         return super.toCollectionModel(entities);
     }
 }

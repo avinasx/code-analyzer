@@ -1,24 +1,23 @@
 package com.example.app.app.staff.service;
 
-import com.example.app.app.staff.domain.dto.StaffDetailsModel;
-import com.example.app.app.staff.domain.dto.StaffModel;
-import com.example.app.app.staff.domain.dto.StaffRequestModel;
+import com.example.app.app.staff.domain.dto.StaffDetailsDto;
+import com.example.app.app.staff.domain.dto.StaffDto;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface StaffService {
-    List<StaffModel> getStaffList();
+    List<StaffDto.Staff> getStaffList();
 
-    Optional<StaffModel> getStaff(String staffId);
+    Optional<StaffDto.Staff> getStaff(String staffId);
 
-    List<StaffDetailsModel> getStaffDetailsList();
+    List<StaffDetailsDto.StaffDetails> getStaffDetailsList();
 
-    Optional<StaffDetailsModel> getStaffDetails(String staffId);
+    Optional<StaffDetailsDto.StaffDetails> getStaffDetails(String staffId);
 
-    StaffModel addStaff(StaffRequestModel model);
+    StaffDto.Staff addStaff(StaffDto.StaffRequest model);
 
-    StaffModel updateStaff(String staffId, StaffRequestModel model);
+    StaffDto.Staff updateStaff(String staffId, StaffDto.StaffRequest model);
 
     void removeStaff(String staffId);
 }

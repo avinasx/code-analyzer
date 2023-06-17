@@ -1,0 +1,119 @@
+package com.example.app.app.catalog.domain.dto;
+
+import com.example.app.common.constant.HalRelation;
+import com.example.app.common.domain.dto.FullName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import com.google.common.base.Objects;
+import lombok.*;
+import lombok.experimental.FieldNameConstants;
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
+
+import java.io.Serial;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.Collection;
+
+public class ActorDto {
+    @Getter
+    @Setter
+    @ToString
+    @FieldNameConstants
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Actor {
+        @JsonProperty(Fields.actorId)
+        private Integer actorId;
+
+        @JsonUnwrapped
+        private FullName fullName;
+
+        @JsonProperty(Fields.lastUpdate)
+        private LocalDateTime lastUpdate;
+
+        @JsonIgnore
+        @JsonProperty(Fields.filmActorsByActorId)
+        @ToString.Exclude
+        private Collection<FilmDto.FilmActor> filmActorsByActorId;
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Actor that = (Actor) o;
+            return Objects.equal(actorId, that.actorId)
+                    && Objects.equal(fullName, that.fullName)
+                    && Objects.equal(lastUpdate, that.lastUpdate);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hashCode(actorId, fullName, lastUpdate);
+        }
+    }
+
+    @Getter
+    @Setter
+    @ToString
+    @FieldNameConstants
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ActorRequest implements Serializable {
+        @Serial
+        private static final long serialVersionUID = 1L;
+
+        @JsonProperty(Fields.firstName)
+        private String firstName;
+
+        @JsonProperty(Fields.lastName)
+        private String lastName;
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            ActorRequest that = (ActorRequest) o;
+            return Objects.equal(firstName, that.firstName)
+                    && Objects.equal(lastName, that.lastName);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hashCode(firstName, lastName);
+        }
+    }
+
+    @Relation(collectionRelation = HalRelation.Fields.actorList,
+            itemRelation = HalRelation.Fields.actor)
+    @Getter
+    @Setter
+    @ToString
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ActorResponse extends RepresentationModel<ActorResponse> implements Serializable {
+        @Serial
+        private static final long serialVersionUID = 1L;
+
+        @JsonUnwrapped
+        private Actor actor;
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            if (!super.equals(o)) return false;
+            ActorResponse that = (ActorResponse) o;
+            return Objects.equal(actor, that.actor);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hashCode(super.hashCode(), actor);
+        }
+    }
+}

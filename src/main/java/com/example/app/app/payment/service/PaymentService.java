@@ -1,24 +1,23 @@
 package com.example.app.app.payment.service;
 
-import com.example.app.app.payment.domain.dto.PaymentModel;
-import com.example.app.app.payment.domain.dto.PaymentRequestModel;
+import com.example.app.app.payment.domain.dto.PaymentDto;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface PaymentService {
 
-    List<PaymentModel> getPaymentList();
+    List<PaymentDto.Payment> getPaymentList();
 
-    Optional<PaymentModel> getPayment(String paymentId);
+    Optional<PaymentDto.Payment> getPayment(String paymentId);
 
-    List<PaymentModel> getPaymentDetailsList();
+    List<PaymentDto.Payment> getPaymentDetailsList();
 
-    Optional<PaymentModel> getPaymentDetails(String paymentId);
+    Optional<PaymentDto.Payment> getPaymentDetails(String paymentId);
 
-    PaymentModel addPayment(PaymentRequestModel model);
+    PaymentDto.Payment addPayment(PaymentDto.PaymentRequest model);
 
-    PaymentModel updatePayment(String paymentId, PaymentRequestModel model);
+    PaymentDto.Payment updatePayment(String paymentId, PaymentDto.PaymentRequest model);
 
     void deletePayment(String paymentId);
 }

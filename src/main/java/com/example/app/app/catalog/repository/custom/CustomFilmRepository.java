@@ -1,27 +1,27 @@
 package com.example.app.app.catalog.repository.custom;
 
-import com.example.app.app.catalog.domain.dto.ActorModel;
-import com.example.app.app.catalog.domain.dto.FilmDetailsModel;
-import com.example.app.app.catalog.domain.dto.FilmModel;
+import com.example.app.app.catalog.domain.dto.ActorDto;
+import com.example.app.app.catalog.domain.dto.FilmDetailsDto;
+import com.example.app.app.catalog.domain.dto.FilmDto;
 import com.example.app.common.constant.FilmRating;
 import org.springframework.data.domain.Pageable;
 
-import java.time.LocalDate;
+import java.time.Year;
 import java.util.List;
 import java.util.Optional;
 
 public interface CustomFilmRepository {
-    List<FilmModel> findAllFilmList(Pageable pageable);
+    List<FilmDto.Film> findAllFilmList(Pageable pageable);
 
-    List<FilmModel> findAllFilmListWithFilter(LocalDate releaseYear, FilmRating rating, Pageable pageable);
+    List<FilmDto.Film> findAllFilmListWithFilter(Year releaseYear, FilmRating rating, Pageable pageable);
 
-    List<ActorModel> findAllFilmActorListById(Integer filmId);
+    List<ActorDto.Actor> findAllFilmActorListById(Integer filmId);
 
-    Optional<ActorModel> findFilmActorById(Integer filmId, Integer actorId);
+    Optional<ActorDto.Actor> findFilmActorById(Integer filmId, Integer actorId);
 
-    List<FilmDetailsModel> findAllFilmListDetail();
+    List<FilmDetailsDto.FilmDetails> findAllFilmListDetail();
 
-    Optional<FilmDetailsModel> findFilmDetailsById(Integer filmId);
+    Optional<FilmDetailsDto.FilmDetails> findFilmDetailsById(Integer filmId);
 
-    Optional<FilmModel> findFilmStockById(Integer filmId);
+    Optional<FilmDto.Film> findFilmStockById(Integer filmId);
 }

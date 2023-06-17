@@ -2,7 +2,7 @@ package com.example.app.app.staff.repository.custom;
 
 import com.example.app.app.location.domain.entity.QAddressEntity;
 import com.example.app.app.location.domain.entity.QCityEntity;
-import com.example.app.app.staff.domain.dto.StaffDetailsModel;
+import com.example.app.app.staff.domain.dto.StaffDetailsDto;
 import com.example.app.app.staff.domain.entity.QStaffEntity;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
@@ -20,24 +20,24 @@ public class CustomStaffRepositoryImpl implements CustomStaffRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<StaffDetailsModel> findAllStaffDetailsList() {
+    public List<StaffDetailsDto.StaffDetails> findAllStaffDetailsList() {
         var query = findStaffDetail(null);
         return query.fetch();
     }
 
     @Override
-    public Optional<StaffDetailsModel> findStaffDetailsById(Integer staffId) {
+    public Optional<StaffDetailsDto.StaffDetails> findStaffDetailsById(Integer staffId) {
         var query = findStaffDetail(staffId);
         return Optional.of(query.fetchFirst());
     }
 
-    private JPAQuery<StaffDetailsModel> findStaffDetail(Integer id) {
+    private JPAQuery<StaffDetailsDto.StaffDetails> findStaffDetail(Integer id) {
         var staff = QStaffEntity.staffEntity;
         var address = QAddressEntity.addressEntity;
         var city = QCityEntity.cityEntity;
 
         var query = jpaQueryFactory
-                .select(Projections.constructor(StaffDetailsModel.class,
+                .select(Projections.constructor(StaffDetailsDto.StaffDetails.class,
                         staff.staffId.as("id"),
                         Expressions.asString(staff.fullName.firstName).concat(" ")
                                 .concat(staff.fullName.lastName).as("name"),

@@ -1,8 +1,7 @@
 package com.example.app.app.staff.service;
 
-import com.example.app.app.staff.domain.dto.StaffDetailsModel;
-import com.example.app.app.staff.domain.dto.StaffModel;
-import com.example.app.app.staff.domain.dto.StaffRequestModel;
+import com.example.app.app.staff.domain.dto.StaffDetailsDto;
+import com.example.app.app.staff.domain.dto.StaffDto;
 import com.example.app.app.staff.domain.mapper.StaffMapper;
 import com.example.app.app.staff.repository.StaffRepository;
 import com.example.app.common.exception.ResourceNotFoundException;
@@ -21,14 +20,14 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<StaffModel> getStaffList() {
+    public List<StaffDto.Staff> getStaffList() {
         var list = staffRepository.findAll();
         return staffMapper.mapToDtoList(list);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<StaffModel> getStaff(String staffId) {
+    public Optional<StaffDto.Staff> getStaff(String staffId) {
         var entity = staffRepository.findById(Integer.valueOf(staffId)).orElseThrow(() ->
                 new ResourceNotFoundException("Staff not found with id '" + staffId + "'"));
         return Optional.of(staffMapper.mapToDto(entity));
@@ -36,13 +35,13 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<StaffDetailsModel> getStaffDetailsList() {
+    public List<StaffDetailsDto.StaffDetails> getStaffDetailsList() {
         return staffRepository.findAllStaffDetailsList();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<StaffDetailsModel> getStaffDetails(String staffId) {
+    public Optional<StaffDetailsDto.StaffDetails> getStaffDetails(String staffId) {
         var model = staffRepository.findStaffDetailsById(Integer.valueOf(staffId));
         if (model.isEmpty()) {
             throw new ResourceNotFoundException("Staff not found with id '" + staffId + "'");
@@ -52,7 +51,7 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     @Transactional
-    public StaffModel addStaff(StaffRequestModel model) {
+    public StaffDto.Staff addStaff(StaffDto.StaffRequest model) {
         var entity = staffMapper.mapToEntity(model);
         var savedEntity = staffRepository.save(entity);
         return staffMapper.mapToDto(savedEntity);
@@ -60,7 +59,7 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     @Transactional
-    public StaffModel updateStaff(String staffId, StaffRequestModel model) {
+    public StaffDto.Staff updateStaff(String staffId, StaffDto.StaffRequest model) {
         var entity = staffRepository.findById(Integer.valueOf(staffId)).orElseThrow(() ->
                 new ResourceNotFoundException("Staff not found with id '" + staffId + "'"));
         entity.update(staffMapper.mapToEntity(model));

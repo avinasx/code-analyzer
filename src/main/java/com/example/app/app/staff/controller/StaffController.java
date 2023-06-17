@@ -2,9 +2,8 @@ package com.example.app.app.staff.controller;
 
 import com.example.app.app.staff.assembler.StaffDetailsRepresentationModelAssembler;
 import com.example.app.app.staff.assembler.StaffRepresentationModelAssembler;
-import com.example.app.app.staff.domain.dto.StaffDetailResponseModel;
-import com.example.app.app.staff.domain.dto.StaffRequestModel;
-import com.example.app.app.staff.domain.dto.StaffResponseModel;
+import com.example.app.app.staff.domain.dto.StaffDetailsDto;
+import com.example.app.app.staff.domain.dto.StaffDto;
 import com.example.app.app.staff.service.StaffService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
@@ -23,20 +22,20 @@ public class StaffController {
     private final StaffDetailsRepresentationModelAssembler staffDetailsAssembler;
 
     @GetMapping(path = "")
-    public ResponseEntity<CollectionModel<StaffResponseModel>> getStaffList() {
+    public ResponseEntity<CollectionModel<StaffDto.StaffResponse>> getStaffList() {
         return ResponseEntity.ok(staffAssembler.toCollectionModel(
                 staffService.getStaffList()));
     }
 
     @PostMapping(path = "")
-    public ResponseEntity<Void> addStaff(@RequestBody StaffRequestModel model) {
+    public ResponseEntity<Void> addStaff(@RequestBody StaffDto.StaffRequest model) {
         var result = staffService.addStaff(model);
         return ResponseEntity.created(linkTo(methodOn(StaffController.class)
                 .getStaff(String.valueOf(result.getStaffId()))).toUri()).build();
     }
 
     @GetMapping(path = "/{staffId}")
-    public ResponseEntity<StaffResponseModel> getStaff(@PathVariable String staffId) {
+    public ResponseEntity<StaffDto.StaffResponse> getStaff(@PathVariable String staffId) {
         return staffService.getStaff(staffId)
                 .map(staffAssembler::toModel)
                 .map(ResponseEntity::ok)
@@ -44,7 +43,7 @@ public class StaffController {
     }
 
     @PutMapping(path = "/{staffId}")
-    public ResponseEntity<Void> updateStaff(@PathVariable String staffId, @RequestBody StaffRequestModel model) {
+    public ResponseEntity<Void> updateStaff(@PathVariable String staffId, @RequestBody StaffDto.StaffRequest model) {
         var result = staffService.updateStaff(staffId, model);
         return ResponseEntity.ok().build();
     }
@@ -56,7 +55,7 @@ public class StaffController {
     }
 
     @GetMapping(path = "/{staffId}/details")
-    public ResponseEntity<StaffDetailResponseModel> getStaffDetails(@PathVariable String staffId) {
+    public ResponseEntity<StaffDetailsDto.StaffDetailsResponse> getStaffDetails(@PathVariable String staffId) {
         return staffService.getStaffDetails(staffId)
                 .map(staffDetailsAssembler::toModel)
                 .map(ResponseEntity::ok)

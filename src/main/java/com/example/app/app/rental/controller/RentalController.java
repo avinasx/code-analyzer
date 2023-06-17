@@ -1,8 +1,7 @@
 package com.example.app.app.rental.controller;
 
 import com.example.app.app.rental.assembler.RentalRepresentationModelAssembler;
-import com.example.app.app.rental.domain.dto.RentalRequestModel;
-import com.example.app.app.rental.domain.dto.RentalResponseModel;
+import com.example.app.app.rental.domain.dto.RentalDto;
 import com.example.app.app.rental.service.RentalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
@@ -20,20 +19,20 @@ public class RentalController {
     private final RentalRepresentationModelAssembler rentalAssembler;
 
     @GetMapping(path = "")
-    public ResponseEntity<CollectionModel<RentalResponseModel>> getRentalList() {
+    public ResponseEntity<CollectionModel<RentalDto.RentalResponse>> getRentalList() {
         return ResponseEntity.ok(rentalAssembler.toCollectionModel(
                 rentalService.getRentalList()));
     }
 
     @PostMapping(path = "")
-    public ResponseEntity<Void> addRental(@RequestBody RentalRequestModel model) {
+    public ResponseEntity<Void> addRental(@RequestBody RentalDto.RentalRequest model) {
         var result = rentalService.addRental(model);
         return ResponseEntity.created(linkTo(methodOn(RentalController.class)
                 .getRental(String.valueOf(result.getRentalId()))).toUri()).build();
     }
 
     @GetMapping(path = "/{rentalId}")
-    public ResponseEntity<RentalResponseModel> getRental(@PathVariable String rentalId) {
+    public ResponseEntity<RentalDto.RentalResponse> getRental(@PathVariable String rentalId) {
         return rentalService.getRental(rentalId)
                 .map(rentalAssembler::toModel)
                 .map(ResponseEntity::ok)
@@ -41,7 +40,7 @@ public class RentalController {
     }
 
     @PutMapping(path = "/{rentalId}")
-    public ResponseEntity<Void> updateRental(@PathVariable String rentalId, @ModelAttribute RentalRequestModel model) {
+    public ResponseEntity<Void> updateRental(@PathVariable String rentalId, @ModelAttribute RentalDto.RentalRequest model) {
         var result = rentalService.updateRental(rentalId, model);
         return ResponseEntity.ok().build();
     }
@@ -53,7 +52,7 @@ public class RentalController {
     }
 
     @GetMapping(path = "/{rentalId}/details")
-    public ResponseEntity<RentalResponseModel> getRentalDetails(@PathVariable String rentalId) {
+    public ResponseEntity<RentalDto.RentalResponse> getRentalDetails(@PathVariable String rentalId) {
         return rentalService.getRentalDetails(rentalId)
                 .map(rentalAssembler::toModel)
                 .map(ResponseEntity::ok)

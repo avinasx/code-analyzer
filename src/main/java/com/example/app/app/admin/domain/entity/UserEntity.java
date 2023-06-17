@@ -2,14 +2,11 @@ package com.example.app.app.admin.domain.entity;
 
 import com.example.app.app.admin.domain.converter.UserAuthorityConverter;
 import com.example.app.app.admin.domain.vo.UserAuthority;
-import com.example.app.app.catalog.domain.converter.SpecialFeatureConverter;
 import com.example.app.app.customer.domain.entity.CustomerEntity;
-import com.example.app.common.constant.SpecialFeature;
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 
 import java.io.Serial;
 import java.io.Serializable;

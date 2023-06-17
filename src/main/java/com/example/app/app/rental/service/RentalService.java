@@ -1,24 +1,23 @@
 package com.example.app.app.rental.service;
 
-import com.example.app.app.rental.domain.dto.RentalModel;
-import com.example.app.app.rental.domain.dto.RentalRequestModel;
+import com.example.app.app.rental.domain.dto.RentalDto;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface RentalService {
 
-    List<RentalModel> getRentalList();
+    List<RentalDto.Rental> getRentalList();
 
-    Optional<RentalModel> getRental(String rentalId);
+    Optional<RentalDto.Rental> getRental(String rentalId);
 
-    List<RentalModel> getRentalDetailsList();
+    List<RentalDto.Rental> getRentalDetailsList();
 
-    Optional<RentalModel> getRentalDetails(String rentalId);
+    Optional<RentalDto.Rental> getRentalDetails(String rentalId);
 
-    RentalModel addRental(RentalRequestModel model);
+    RentalDto.Rental addRental(RentalDto.RentalRequest model);
 
-    RentalModel updateRental(String rentalId, RentalRequestModel model);
+    RentalDto.Rental updateRental(String rentalId, RentalDto.RentalRequest model);
 
     void deleteRental(String rentalId);
 }

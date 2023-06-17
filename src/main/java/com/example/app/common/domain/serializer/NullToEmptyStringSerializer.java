@@ -16,10 +16,6 @@ import java.lang.reflect.Type;
  * Custom null serializer that represents null values as empty strings in JSON.
  */
 public class NullToEmptyStringSerializer extends StdSerializer<Object> {
-    public NullToEmptyStringSerializer() {
-        this(null);
-    }
-
     public NullToEmptyStringSerializer(Class<Object> t) {
         super(t);
     }

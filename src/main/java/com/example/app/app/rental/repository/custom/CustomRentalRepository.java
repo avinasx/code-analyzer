@@ -1,12 +1,12 @@
 package com.example.app.app.rental.repository.custom;
 
-import com.example.app.app.rental.domain.dto.RentalModel;
+import com.example.app.app.rental.domain.dto.RentalDto;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface CustomRentalRepository {
-    List<RentalModel> findAllRentalDetailsList();
+    List<RentalDto.Rental> findAllRentalDetailsList();
 
-    Optional<RentalModel> findRentalDetailsById(Integer rentalId);
+    Optional<RentalDto.Rental> findRentalDetailsById(Integer rentalId);
 }

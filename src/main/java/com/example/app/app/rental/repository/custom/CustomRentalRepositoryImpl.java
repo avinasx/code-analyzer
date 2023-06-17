@@ -1,6 +1,6 @@
 package com.example.app.app.rental.repository.custom;
 
-import com.example.app.app.rental.domain.dto.RentalModel;
+import com.example.app.app.rental.domain.dto.RentalDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -11,12 +11,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CustomRentalRepositoryImpl implements CustomRentalRepository {
     @Override
-    public List<RentalModel> findAllRentalDetailsList() {
+    public List<RentalDto.Rental> findAllRentalDetailsList() {
         return null;
     }
 
     @Override
-    public Optional<RentalModel> findRentalDetailsById(Integer rentalId) {
+    public Optional<RentalDto.Rental> findRentalDetailsById(Integer rentalId) {
         return Optional.empty();
     }
 }

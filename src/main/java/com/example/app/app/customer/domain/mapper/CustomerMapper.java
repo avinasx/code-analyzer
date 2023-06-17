@@ -1,7 +1,6 @@
 package com.example.app.app.customer.domain.mapper;
 
-import com.example.app.app.customer.domain.dto.CustomerModel;
-import com.example.app.app.customer.domain.dto.CustomerRequestModel;
+import com.example.app.app.customer.domain.dto.CustomerDto;
 import com.example.app.app.customer.domain.entity.CustomerEntity;
 import com.example.app.common.domain.mapper.GenericMapper;
 import org.mapstruct.Mapper;
@@ -10,7 +9,7 @@ import org.mapstruct.Mapping;
 import java.time.LocalDateTime;
 
 @Mapper(componentModel = "spring", imports = {LocalDateTime.class})
-public interface CustomerMapper extends GenericMapper<CustomerEntity, CustomerModel> {
+public interface CustomerMapper extends GenericMapper<CustomerEntity, CustomerDto.Customer> {
     @Mapping(target = "customerId", ignore = true)
     @Mapping(target = "fullName.firstName", source = "firstName")
     @Mapping(target = "fullName.lastName", source = "lastName")
@@ -20,5 +19,5 @@ public interface CustomerMapper extends GenericMapper<CustomerEntity, CustomerMo
     @Mapping(target = "paymentsByCustomerId", ignore = true)
     @Mapping(target = "rentalsByCustomerId", ignore = true)
     @Mapping(target = "userByCustomerId", ignore = true)
-    CustomerEntity mapToEntity(CustomerRequestModel dto);
+    CustomerEntity mapToEntity(CustomerDto.CustomerRequest dto);
 }

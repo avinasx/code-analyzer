@@ -1,17 +1,17 @@
 package com.example.app.app.store.repository;
 
-import com.example.app.app.staff.domain.dto.StaffModel;
-import com.example.app.app.staff.domain.dto.StoreDetailsModel;
+import com.example.app.app.staff.domain.dto.StaffDto;
+import com.example.app.app.store.domain.dto.StoreDetailsDto;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface CustomStoreRepository {
-    List<StoreDetailsModel> findAllStoreDetailsList();
+    List<StoreDetailsDto.StoreDetails> findAllStoreDetailsList();
 
-    Optional<StoreDetailsModel> findStoreDetailsById(Integer storeId);
+    Optional<StoreDetailsDto.StoreDetails> findStoreDetailsById(Integer storeId);
 
-    List<StaffModel> findAllStoreStaffList(Integer storeId);
+    List<StaffDto.Staff> findAllStoreStaffList(Integer storeId);
 
-    Optional<StaffModel> findStoreStaffById(Integer storeId, Integer staffId);
+    Optional<StaffDto.Staff> findStoreStaffById(Integer storeId, Integer staffId);
 }

@@ -2,9 +2,9 @@ package com.example.app.app.store.repository;
 
 import com.example.app.app.location.domain.entity.QAddressEntity;
 import com.example.app.app.location.domain.entity.QCityEntity;
-import com.example.app.app.staff.domain.dto.StaffModel;
-import com.example.app.app.staff.domain.dto.StoreDetailsModel;
+import com.example.app.app.staff.domain.dto.StaffDto;
 import com.example.app.app.staff.domain.entity.QStaffEntity;
+import com.example.app.app.store.domain.dto.StoreDetailsDto;
 import com.example.app.app.store.domain.entity.QStoreEntity;
 import com.example.app.common.constant.Country;
 import com.querydsl.core.types.Projections;
@@ -22,7 +22,7 @@ import java.util.Optional;
 public class CustomStoreRepositoryImpl implements CustomStoreRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
-    private static void replaceCountryIdToCountry(StoreDetailsModel result) {
+    private static void replaceCountryIdToCountry(StoreDetailsDto.StoreDetails result) {
         var replacedStore = Country.replaceCountryIdToCountryInString(result.getStore());
         var replacedAddress = Country.replaceCountryIdToCountryInString(result.getAddress());
         result.setStore(replacedStore);
@@ -30,7 +30,7 @@ public class CustomStoreRepositoryImpl implements CustomStoreRepository {
     }
 
     @Override
-    public List<StoreDetailsModel> findAllStoreDetailsList() {
+    public List<StoreDetailsDto.StoreDetails> findAllStoreDetailsList() {
         var query = findStoreDetail(null);
         var result = query.fetch();
         result.forEach(CustomStoreRepositoryImpl::replaceCountryIdToCountry);
@@ -38,21 +38,21 @@ public class CustomStoreRepositoryImpl implements CustomStoreRepository {
     }
 
     @Override
-    public Optional<StoreDetailsModel> findStoreDetailsById(Integer storeId) {
+    public Optional<StoreDetailsDto.StoreDetails> findStoreDetailsById(Integer storeId) {
         var query = findStoreDetail(storeId);
         var result = query.fetchFirst();
         replaceCountryIdToCountry(result);
         return Optional.of(result);
     }
 
-    private JPAQuery<StoreDetailsModel> findStoreDetail(Integer id) {
+    private JPAQuery<StoreDetailsDto.StoreDetails> findStoreDetail(Integer id) {
         var address = QAddressEntity.addressEntity;
         var city = QCityEntity.cityEntity;
         var staff = QStaffEntity.staffEntity;
         var store = QStoreEntity.storeEntity;
 
         var query = jpaQueryFactory
-                .select(Projections.constructor(StoreDetailsModel.class,
+                .select(Projections.constructor(StoreDetailsDto.StoreDetails.class,
                         store.storeId.as("id"),
                         Expressions.asString(city.city).concat(",")
                                 .concat(city.countryId.stringValue()).as("store"),
@@ -73,23 +73,23 @@ public class CustomStoreRepositoryImpl implements CustomStoreRepository {
     }
 
     @Override
-    public List<StaffModel> findAllStoreStaffList(Integer storeId) {
+    public List<StaffDto.Staff> findAllStoreStaffList(Integer storeId) {
         var query = findStoreStaff(storeId, null);
         return query.fetch();
     }
 
     @Override
-    public Optional<StaffModel> findStoreStaffById(Integer storeId, Integer staffId) {
+    public Optional<StaffDto.Staff> findStoreStaffById(Integer storeId, Integer staffId) {
         var query = findStoreStaff(storeId, staffId);
         return Optional.of(query.fetchFirst());
     }
 
-    private JPAQuery<StaffModel> findStoreStaff(Integer storeId, Integer staffId) {
+    private JPAQuery<StaffDto.Staff> findStoreStaff(Integer storeId, Integer staffId) {
         var staff = QStaffEntity.staffEntity;
         var store = QStoreEntity.storeEntity;
 
         var query = jpaQueryFactory
-                .select(Projections.constructor(StaffModel.class))
+                .select(Projections.constructor(StaffDto.Staff.class))
                 .from(staff)
                 .innerJoin(store).on(store.storeId.eq(staff.storeId))
                 .where(store.storeId.eq(storeId));

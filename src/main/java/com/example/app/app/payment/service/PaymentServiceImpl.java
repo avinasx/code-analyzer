@@ -1,7 +1,6 @@
 package com.example.app.app.payment.service;
 
-import com.example.app.app.payment.domain.dto.PaymentModel;
-import com.example.app.app.payment.domain.dto.PaymentRequestModel;
+import com.example.app.app.payment.domain.dto.PaymentDto;
 import com.example.app.app.payment.domain.mapper.PaymentMapper;
 import com.example.app.app.payment.repository.PaymentRepository;
 import com.example.app.common.exception.ResourceNotFoundException;
@@ -20,14 +19,14 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<PaymentModel> getPaymentList() {
+    public List<PaymentDto.Payment> getPaymentList() {
         var list = paymentRepository.findAll();
         return paymentMapper.mapToDtoList(list);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<PaymentModel> getPayment(String paymentId) {
+    public Optional<PaymentDto.Payment> getPayment(String paymentId) {
         var entity = paymentRepository.findById(Integer.valueOf(paymentId)).orElseThrow(() ->
                 new ResourceNotFoundException("Payment not found with id '" + paymentId + "'"));
         return Optional.of(paymentMapper.mapToDto(entity));
@@ -35,13 +34,13 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<PaymentModel> getPaymentDetailsList() {
+    public List<PaymentDto.Payment> getPaymentDetailsList() {
         return paymentRepository.findAllPaymentDetailsList();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<PaymentModel> getPaymentDetails(String paymentId) {
+    public Optional<PaymentDto.Payment> getPaymentDetails(String paymentId) {
         var model = paymentRepository.findPaymentDetailsById(Integer.valueOf(paymentId));
         if (model.isEmpty()) {
             throw new ResourceNotFoundException("Payment not found with id '" + paymentId + "'");
@@ -51,7 +50,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     @Transactional
-    public PaymentModel addPayment(PaymentRequestModel model) {
+    public PaymentDto.Payment addPayment(PaymentDto.PaymentRequest model) {
         var entity = paymentMapper.mapToEntity(model);
         var savedEntity = paymentRepository.save(entity);
         return paymentMapper.mapToDto(savedEntity);
@@ -59,7 +58,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     @Transactional
-    public PaymentModel updatePayment(String paymentId, PaymentRequestModel model) {
+    public PaymentDto.Payment updatePayment(String paymentId, PaymentDto.PaymentRequest model) {
         var entity = paymentRepository.findById(Integer.valueOf(paymentId)).orElseThrow(() ->
                 new ResourceNotFoundException("Payment not found with id '" + paymentId + "'"));
         entity.update(paymentMapper.mapToEntity(model));

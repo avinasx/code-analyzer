@@ -4,7 +4,10 @@ import com.example.app.app.catalog.assembler.ActorDetailsRepresentationModelAsse
 import com.example.app.app.catalog.assembler.ActorRepresentationModelAssembler;
 import com.example.app.app.catalog.assembler.FilmDetailsRepresentationModelAssembler;
 import com.example.app.app.catalog.assembler.FilmRepresentationModelAssembler;
-import com.example.app.app.catalog.domain.dto.*;
+import com.example.app.app.catalog.domain.dto.ActorDetailsDto;
+import com.example.app.app.catalog.domain.dto.ActorDto;
+import com.example.app.app.catalog.domain.dto.FilmDetailsDto;
+import com.example.app.app.catalog.domain.dto.FilmDto;
 import com.example.app.app.catalog.service.ActorService;
 import com.example.app.common.constant.HalRelation;
 import lombok.RequiredArgsConstructor;
@@ -28,20 +31,20 @@ public class ActorController {
     private final FilmDetailsRepresentationModelAssembler filmDetailsAssembler;
 
     @GetMapping(path = "")
-    public ResponseEntity<CollectionModel<ActorResponseModel>> getActorList() {
+    public ResponseEntity<CollectionModel<ActorDto.ActorResponse>> getActorList() {
         return ResponseEntity.ok(actorAssembler.toCollectionModel(
                 actorService.getActorList()));
     }
 
     @PostMapping(path = "")
-    public ResponseEntity<Void> addActor(@RequestBody ActorRequestModel model) {
+    public ResponseEntity<Void> addActor(@RequestBody ActorDto.ActorRequest model) {
         var result = actorService.addActor(model);
         return ResponseEntity.created(linkTo(methodOn(ActorController.class)
                 .getActor(String.valueOf(result.getActorId()))).toUri()).build();
     }
 
     @GetMapping(path = "/{actorId}")
-    public ResponseEntity<ActorResponseModel> getActor(@PathVariable String actorId) {
+    public ResponseEntity<ActorDto.ActorResponse> getActor(@PathVariable String actorId) {
         return actorService.getActor(actorId)
                 .map(actorAssembler::toModel)
                 .map(ResponseEntity::ok)
@@ -49,7 +52,7 @@ public class ActorController {
     }
 
     @PutMapping(path = "/{actorId}")
-    public ResponseEntity<Void> updateActor(@PathVariable String actorId, @RequestBody ActorRequestModel model) {
+    public ResponseEntity<Void> updateActor(@PathVariable String actorId, @RequestBody ActorDto.ActorRequest model) {
         var result = actorService.updateActor(actorId, model);
         return ResponseEntity.ok().build();
     }
@@ -61,7 +64,7 @@ public class ActorController {
     }
 
     @GetMapping(path = "/{actorId}/details")
-    public ResponseEntity<ActorDetailResponseModel> getActorDetails(@PathVariable String actorId) {
+    public ResponseEntity<ActorDetailsDto.ActorDetailsResponse> getActorDetails(@PathVariable String actorId) {
         return actorService.getActorDetails(actorId)
                 .map(actorDetailsAssembler::toModel)
                 .map(ResponseEntity::ok)
@@ -69,7 +72,7 @@ public class ActorController {
     }
 
     @GetMapping(path = "/{actorId}/films")
-    public ResponseEntity<CollectionModel<FilmResponseModel>> getActorFilmList(@PathVariable String actorId) {
+    public ResponseEntity<CollectionModel<FilmDto.FilmResponse>> getActorFilmList(@PathVariable String actorId) {
         var representation = filmAssembler.toCollectionModel(
                 actorService.getActorFilmList(actorId));
         var updatedRepresentation = representation.removeLinks()
@@ -88,13 +91,13 @@ public class ActorController {
 
     @PostMapping(path = "/{actorId}/films")
     public ResponseEntity<Void> addActorFilm(@PathVariable String actorId, @RequestBody Map<String, String> input) {
-        var result = actorService.addActorFilm(actorId, input.get(FilmModel.Fields.filmId));
+        var result = actorService.addActorFilm(actorId, input.get(FilmDto.Film.Fields.filmId));
         return ResponseEntity.created(linkTo(methodOn(ActorController.class)
                 .getActorFilm(actorId, String.valueOf(result.getFilmId()))).toUri()).build();
     }
 
     @GetMapping(path = "/{actorId}/films/{filmId}")
-    public ResponseEntity<FilmResponseModel> getActorFilm(@PathVariable String actorId, @PathVariable String filmId) {
+    public ResponseEntity<FilmDto.FilmResponse> getActorFilm(@PathVariable String actorId, @PathVariable String filmId) {
         var representation = actorService.getActorFilm(actorId, filmId)
                 .map(filmAssembler::toModel);
         var updatedRepresentation = representation.map(r -> r.removeLinks()
@@ -112,8 +115,8 @@ public class ActorController {
     }
 
     @GetMapping(path = "/{actorId}/films/{filmId}/details")
-    public ResponseEntity<FilmDetailResponseModel> getActorFilmDetails(@PathVariable String actorId,
-                                                                       @PathVariable String filmId) {
+    public ResponseEntity<FilmDetailsDto.FilmDetailsResponse> getActorFilmDetails(@PathVariable String actorId,
+                                                                                  @PathVariable String filmId) {
         var representation = actorService.getActorFilmDetails(actorId, filmId)
                 .map(filmDetailsAssembler::toModel);
         var updatedRepresentation = representation.map(r -> r.removeLinks()
@@ -126,7 +129,7 @@ public class ActorController {
     }
 
     @PostMapping(path = "/search")
-    public ResponseEntity<CollectionModel<ActorResponseModel>> searchActorByName(@RequestBody Map<String, String> input) {
+    public ResponseEntity<CollectionModel<ActorDto.ActorResponse>> searchActorByName(@RequestBody Map<String, String> input) {
         return ResponseEntity.ok(actorAssembler.toCollectionModel(
                 actorService.searchActorList(input.get("name"))));
     }

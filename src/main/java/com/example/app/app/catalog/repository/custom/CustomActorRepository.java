@@ -1,8 +1,8 @@
 package com.example.app.app.catalog.repository.custom;
 
-import com.example.app.app.catalog.domain.dto.ActorDetailsModel;
-import com.example.app.app.catalog.domain.dto.FilmDetailsModel;
-import com.example.app.app.catalog.domain.dto.FilmModel;
+import com.example.app.app.catalog.domain.dto.ActorDetailsDto;
+import com.example.app.app.catalog.domain.dto.FilmDetailsDto;
+import com.example.app.app.catalog.domain.dto.FilmDto;
 import com.example.app.common.constant.FilmRating;
 
 import java.time.LocalDate;
@@ -10,19 +10,19 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CustomActorRepository {
-    List<ActorDetailsModel> findAllActorDetailsList();
+    List<ActorDetailsDto.ActorDetails> findAllActorDetailsList();
 
-    Optional<ActorDetailsModel> findActorDetailsById(Integer actorId);
+    Optional<ActorDetailsDto.ActorDetails> findActorDetailsById(Integer actorId);
 
-    List<FilmModel> findAllActorFilmListById(Integer actorId);
+    List<FilmDto.Film> findAllActorFilmListById(Integer actorId);
 
-    List<FilmModel> findAllActorFilmListByIdWithFilter(Integer actorId, LocalDate releaseYear, FilmRating rating);
+    List<FilmDto.Film> findAllActorFilmListByIdWithFilter(Integer actorId, LocalDate releaseYear, FilmRating rating);
 
-    Optional<FilmModel> findActorFilmById(Integer actorId, Integer filmId);
+    Optional<FilmDto.Film> findActorFilmById(Integer actorId, Integer filmId);
 
-    Optional<FilmDetailsModel> findActorFilmDetailsById(Integer actorId, Integer filmId);
+    Optional<FilmDetailsDto.FilmDetails> findActorFilmDetailsById(Integer actorId, Integer filmId);
 
-    Optional<FilmModel> addActorFilm(Integer actorId, Integer filmId);
+    Optional<FilmDto.Film> addActorFilm(Integer actorId, Integer filmId);
 
     void removeActorFilm(Integer actorId, Integer filmId);
 }
