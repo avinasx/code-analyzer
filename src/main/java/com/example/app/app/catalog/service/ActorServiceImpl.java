@@ -15,7 +15,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
+import java.time.Year;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,7 +67,7 @@ public class ActorServiceImpl implements ActorService {
     @Transactional(readOnly = true)
     public List<FilmDto.Film> getActorFilmList(String actorId, String releaseYear, String rating) {
         return actorRepository.findAllActorFilmListByIdWithFilter(Integer.valueOf(actorId),
-                LocalDate.parse(releaseYear), FilmRating.valueOf(rating));
+                Year.parse(releaseYear), FilmRating.valueOf(rating));
     }
 
     @Override

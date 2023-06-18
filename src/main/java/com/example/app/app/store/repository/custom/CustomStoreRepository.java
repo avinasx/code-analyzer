@@ -1,4 +1,4 @@
-package com.example.app.app.store.repository;
+package com.example.app.app.store.repository.custom;
 
 import com.example.app.app.staff.domain.dto.StaffDto;
 import com.example.app.app.store.domain.dto.StoreDetailsDto;

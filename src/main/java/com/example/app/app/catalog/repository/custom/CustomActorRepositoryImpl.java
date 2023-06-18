@@ -17,9 +17,11 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
+import java.time.Year;
 import java.util.List;
 import java.util.Optional;
+
+import static com.example.app.common.repository.ExpressionUtils.filterEquals;
 
 @Repository
 @RequiredArgsConstructor
@@ -44,19 +46,16 @@ public class CustomActorRepositoryImpl implements CustomActorRepository {
         var film = QFilmEntity.filmEntity;
         var filmActor = QFilmActorEntity.filmActorEntity;
 
-        var query = blazeJPAQueryFactory
+        return blazeJPAQueryFactory
                 .select(Projections.constructor(ActorDetailsDto.ActorDetails.class,
-                        actor.actorId.as("actorId"),
-                        actor.fullName.firstName.as("firstName"),
-                        actor.fullName.lastName.as("lastName"),
-                        JPQLNextExpressions.groupConcat(film.title, ", ").as("filmTitle")))
+                        actor.actorId.as(ActorDetailsDto.ActorDetails.Fields.actorId),
+                        actor.fullName.firstName.as(ActorDetailsDto.ActorDetails.Fields.firstName),
+                        actor.fullName.lastName.as(ActorDetailsDto.ActorDetails.Fields.lastName),
+                        JPQLNextExpressions.groupConcat(film.title, ", ").as(ActorDetailsDto.ActorDetails.Fields.filmInfo)))
                 .from(actor)
                 .leftJoin(filmActor).on(filmActor.actorId.eq(actor.actorId))
-                .leftJoin(film).on(filmActor.filmId.eq(film.filmId));
-        if (id != null) {
-            query.where(actor.actorId.eq(id));
-        }
-        return query;
+                .leftJoin(film).on(filmActor.filmId.eq(film.filmId))
+                .where(filterEquals(actor.actorId, id));
     }
 
     @Override
@@ -66,7 +65,7 @@ public class CustomActorRepositoryImpl implements CustomActorRepository {
     }
 
     @Override
-    public List<FilmDto.Film> findAllActorFilmListByIdWithFilter(Integer actorId, LocalDate releaseYear, FilmRating rating) {
+    public List<FilmDto.Film> findAllActorFilmListByIdWithFilter(Integer actorId, Year releaseYear, FilmRating rating) {
         var query = findActorFilm(actorId, null, releaseYear, rating);
         return query.fetch();
     }
@@ -77,27 +76,21 @@ public class CustomActorRepositoryImpl implements CustomActorRepository {
         return Optional.of(query.fetchFirst());
     }
 
-    private JPAQuery<FilmDto.Film> findActorFilm(Integer actorId, Integer filmId, LocalDate releaseYear, FilmRating rating) {
+    private JPAQuery<FilmDto.Film> findActorFilm(Integer actorId, Integer filmId, Year releaseYear, FilmRating rating) {
         var actor = QActorEntity.actorEntity;
         var film = QFilmEntity.filmEntity;
         var filmActor = QFilmActorEntity.filmActorEntity;
 
-        var query = jpaQueryFactory
+        return jpaQueryFactory
                 .select(Projections.constructor(FilmDto.Film.class))
                 .from(actor)
                 .leftJoin(filmActor).on(filmActor.actorId.eq(actor.actorId))
                 .leftJoin(film).on(filmActor.filmId.eq(film.filmId))
-                .where(actor.actorId.eq(actorId));
-        if (filmId != null) {
-            query.where(film.filmId.eq(filmId));
-        }
-        if (releaseYear != null) {
-            query.where(film.releaseYear.eq(releaseYear));
-        }
-        if (rating != null) {
-            query.where(film.rating.eq(rating));
-        }
-        return query;
+                .where(actor.actorId.eq(actorId))
+                .where(filterEquals(film.filmId, filmId))
+                .where(filterEquals(film.releaseYear.year(),
+                        Optional.ofNullable(releaseYear).map(Year::getValue).orElse(null)))
+                .where(filterEquals(film.rating, rating));
     }
 
     @Override
@@ -109,15 +102,15 @@ public class CustomActorRepositoryImpl implements CustomActorRepository {
 
         var query = jpaQueryFactory
                 .select(Projections.constructor(FilmDetailsDto.FilmDetails.class,
-                        film.filmId.as("filmId"),
-                        film.title.as("title"),
-                        film.description.as("description"),
-                        filmCategory.categoryId.as("category"),
-                        film.rentalRate.as("price"),
-                        film.length.as("length"),
-                        film.rating.as("rating"),
+                        film.filmId.as(FilmDetailsDto.FilmDetails.Fields.filmId),
+                        film.title.as(FilmDetailsDto.FilmDetails.Fields.title),
+                        film.description.as(FilmDetailsDto.FilmDetails.Fields.description),
+                        filmCategory.categoryId.as(FilmDetailsDto.FilmDetails.Fields.category),
+                        film.rentalRate.as(FilmDetailsDto.FilmDetails.Fields.price),
+                        film.length.as(FilmDetailsDto.FilmDetails.Fields.length),
+                        film.rating.as(FilmDetailsDto.FilmDetails.Fields.rating),
                         JPQLNextExpressions.groupConcat(actor.fullName.firstName.concat(" ")
-                                .concat(actor.fullName.lastName), ", ").as("actors")))
+                                .concat(actor.fullName.lastName), ", ").as(FilmDetailsDto.FilmDetails.Fields.actors)))
                 .from(actor)
                 .leftJoin(filmActor).on(filmActor.actorId.eq(actor.actorId))
                 .leftJoin(film).on(film.filmId.eq(filmActor.filmId))

@@ -5,7 +5,7 @@ import com.example.app.app.catalog.domain.dto.FilmDetailsDto;
 import com.example.app.app.catalog.domain.dto.FilmDto;
 import com.example.app.common.constant.FilmRating;
 
-import java.time.LocalDate;
+import java.time.Year;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +16,7 @@ public interface CustomActorRepository {
 
     List<FilmDto.Film> findAllActorFilmListById(Integer actorId);
 
-    List<FilmDto.Film> findAllActorFilmListByIdWithFilter(Integer actorId, LocalDate releaseYear, FilmRating rating);
+    List<FilmDto.Film> findAllActorFilmListByIdWithFilter(Integer actorId, Year releaseYear, FilmRating rating);
 
     Optional<FilmDto.Film> findActorFilmById(Integer actorId, Integer filmId);
 

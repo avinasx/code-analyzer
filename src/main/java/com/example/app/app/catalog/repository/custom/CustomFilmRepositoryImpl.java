@@ -12,6 +12,7 @@ import com.example.app.app.catalog.domain.entity.QFilmCategoryEntity;
 import com.example.app.app.catalog.domain.entity.QFilmEntity;
 import com.example.app.app.catalog.domain.mapper.FilmMapper;
 import com.example.app.common.constant.FilmRating;
+import com.example.app.common.domain.dto.FullName;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -19,11 +20,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.time.Year;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static com.example.app.common.repository.ExpressionUtils.filterEquals;
 
 @Repository
 @RequiredArgsConstructor
@@ -46,14 +48,10 @@ public class CustomFilmRepositoryImpl implements CustomFilmRepository {
     public List<FilmDto.Film> findAllFilmListWithFilter(Year releaseYear, FilmRating rating, Pageable pageable) {
         var film = QFilmEntity.filmEntity;
         var query = jpaQueryFactory
-                .selectFrom(film);
-        if (releaseYear != null) {
-            query.where(film.releaseYear.eq(LocalDate.from(releaseYear)));
-        }
-        if (rating != null) {
-            query.where(film.rating.eq(rating));
-        }
-        query.offset(pageable.getOffset())
+                .selectFrom(film)
+                .where(filterEquals(film.releaseYear.year(), releaseYear.getValue()))
+                .where(filterEquals(film.rating, rating))
+                .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
         return query.fetch().stream().map(filmMapper::mapToDto).collect(Collectors.toList());
     }
@@ -75,19 +73,16 @@ public class CustomFilmRepositoryImpl implements CustomFilmRepository {
         var filmActor = QFilmActorEntity.filmActorEntity;
         var film = QFilmEntity.filmEntity;
 
-        var query = jpaQueryFactory
+        return jpaQueryFactory
                 .select(Projections.constructor(ActorDto.Actor.class,
-                        actor.actorId.as("actorId"),
-                        actor.fullName.firstName.as("firstName"),
-                        actor.fullName.lastName.as("lastName")))
+                        actor.actorId.as(ActorDto.Actor.Fields.actorId),
+                        actor.fullName.firstName.as(FullName.Fields.firstName),
+                        actor.fullName.lastName.as(FullName.Fields.lastName)))
                 .from(film)
                 .leftJoin(filmActor).on(filmActor.filmId.eq(film.filmId))
                 .leftJoin(actor).on(actor.actorId.eq(filmActor.actorId))
-                .where(film.filmId.eq(filmId));
-        if (actorId != null) {
-            query.where(actor.actorId.eq(actorId));
-        }
-        return query;
+                .where(film.filmId.eq(filmId))
+                .where(filterEquals(actor.actorId, actorId));
     }
 
     @Override
@@ -108,26 +103,23 @@ public class CustomFilmRepositoryImpl implements CustomFilmRepository {
         var filmActor = QFilmActorEntity.filmActorEntity;
         var filmCategory = QFilmCategoryEntity.filmCategoryEntity;
 
-        var query = blazeJPAQueryFactory
+        return blazeJPAQueryFactory
                 .select(Projections.constructor(FilmDetailsDto.FilmDetails.class,
-                        film.filmId.as("filmId"),
-                        film.title.as("title"),
-                        film.description.as("description"),
-                        filmCategory.categoryId.as("category"),
-                        film.rentalRate.as("price"),
-                        film.length.as("length"),
-                        film.rating.as("rating"),
+                        film.filmId.as(FilmDetailsDto.FilmDetails.Fields.filmId),
+                        film.title.as(FilmDetailsDto.FilmDetails.Fields.title),
+                        film.description.as(FilmDetailsDto.FilmDetails.Fields.description),
+                        filmCategory.categoryId.as(FilmDetailsDto.FilmDetails.Fields.category),
+                        film.rentalRate.as(FilmDetailsDto.FilmDetails.Fields.price),
+                        film.length.as(FilmDetailsDto.FilmDetails.Fields.length),
+                        film.rating.as(FilmDetailsDto.FilmDetails.Fields.rating),
                         JPQLNextExpressions.groupConcat(actor.fullName.firstName.concat(" ")
-                                .concat(actor.fullName.lastName), ", ").as("actors")))
+                                .concat(actor.fullName.lastName), ", ").as(FilmDetailsDto.FilmDetails.Fields.actors)))
                 .from(film)
                 .leftJoin(filmCategory).on(filmCategory.filmId.eq(film.filmId))
                 .leftJoin(filmActor).on(filmActor.filmId.eq(film.filmId))
                 .leftJoin(actor).on(actor.actorId.eq(filmActor.actorId))
+                .where(filterEquals(film.filmId, id))
                 .groupBy(film.filmId, filmCategory.categoryId);
-        if (id != null) {
-            query.where(film.filmId.eq(id));
-        }
-        return query;
     }
 
     @Override

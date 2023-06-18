@@ -1,4 +1,4 @@
-package com.example.app.app.store.repository;
+package com.example.app.app.store.repository.custom;
 
 import com.example.app.app.location.domain.entity.QAddressEntity;
 import com.example.app.app.location.domain.entity.QCityEntity;

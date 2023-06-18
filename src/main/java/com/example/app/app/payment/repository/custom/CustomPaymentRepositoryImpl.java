@@ -6,7 +6,6 @@ import com.example.app.app.location.domain.entity.QAddressEntity;
 import com.example.app.app.location.domain.entity.QCityEntity;
 import com.example.app.app.payment.domain.dto.PaymentDto;
 import com.example.app.app.payment.domain.entity.QPaymentEntity;
-import com.example.app.app.payment.repository.CustomPaymentRepository;
 import com.example.app.app.rental.domain.entity.QRentalEntity;
 import com.example.app.app.staff.domain.entity.QStaffEntity;
 import com.example.app.app.store.domain.dto.CategorySalesDto;

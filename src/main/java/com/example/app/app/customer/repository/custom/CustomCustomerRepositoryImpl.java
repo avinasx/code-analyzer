@@ -7,6 +7,7 @@ import com.example.app.app.location.domain.entity.QCityEntity;
 import com.example.app.app.payment.domain.dto.PaymentDto;
 import com.example.app.app.payment.domain.entity.QPaymentEntity;
 import com.example.app.app.rental.domain.dto.RentalDto;
+import com.example.app.app.rental.domain.entity.QRentalEntity;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -17,6 +18,9 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+
+import static com.example.app.common.repository.ExpressionUtils.filterBetween;
+import static com.example.app.common.repository.ExpressionUtils.filterEquals;
 
 @Repository
 @RequiredArgsConstructor
@@ -36,28 +40,26 @@ public class CustomCustomerRepositoryImpl implements CustomCustomerRepository {
     }
 
     private JPAQuery<CustomerDetailsDto.CustomerDetails> findCustomerDetail(Integer id) {
-        var cu = new QCustomerEntity("cu");
-        var a = new QAddressEntity("a");
-        var city = new QCityEntity("city");
-        var query = jpaQueryFactory
+        var customer = QCustomerEntity.customerEntity;
+        var address = QAddressEntity.addressEntity;
+        var city = QCityEntity.cityEntity;
+        return jpaQueryFactory
                 .select(Projections.constructor(CustomerDetailsDto.CustomerDetails.class,
-                        cu.customerId.as("id"),
-                        Expressions.asString(cu.fullName.firstName).concat(" ")
-                                .concat(cu.fullName.lastName).as("name"),
-                        a.address.as("address"),
-                        a.postalCode.as("zipCode"),
-                        a.phone.as("phone"),
-                        city.city.as("city"),
-                        city.countryId.as("country"),
-                        Expressions.stringTemplate("IF({0}, 'active', '')", cu.active).as("notes"),
-                        cu.storeId.as("sid")))
-                .from(cu)
-                .join(a).on(cu.addressId.eq(a.addressId))
-                .join(city).on(a.cityId.eq(city.cityId));
-        if (id != null) {
-            query.where(cu.customerId.eq(id));
-        }
-        return query;
+                        customer.customerId.as(CustomerDetailsDto.CustomerDetails.Fields.id),
+                        Expressions.asString(customer.fullName.firstName).concat(" ")
+                                .concat(customer.fullName.lastName).as(CustomerDetailsDto.CustomerDetails.Fields.name),
+                        address.address.as(CustomerDetailsDto.CustomerDetails.Fields.address),
+                        address.postalCode.as(CustomerDetailsDto.CustomerDetails.Fields.zipCode),
+                        address.phone.as(CustomerDetailsDto.CustomerDetails.Fields.phone),
+                        city.city.as(CustomerDetailsDto.CustomerDetails.Fields.city),
+                        city.countryId.as(CustomerDetailsDto.CustomerDetails.Fields.country),
+                        Expressions.stringTemplate("IF({0}, 'active', '')", customer.active)
+                                .as(CustomerDetailsDto.CustomerDetails.Fields.notes),
+                        customer.storeId.as(CustomerDetailsDto.CustomerDetails.Fields.sid)))
+                .from(customer)
+                .join(address).on(customer.addressId.eq(address.addressId))
+                .join(city).on(address.cityId.eq(city.cityId))
+                .where(filterEquals(customer.customerId, id));
     }
 
     @Override
@@ -75,22 +77,21 @@ public class CustomCustomerRepositoryImpl implements CustomCustomerRepository {
     private JPAQuery<PaymentDto.Payment> findCustomerPayments(Integer customerId, LocalDate startDate, LocalDate endDate) {
         var customer = QCustomerEntity.customerEntity;
         var payment = QPaymentEntity.paymentEntity;
-        var query = jpaQueryFactory
+        return jpaQueryFactory
                 .select(Projections.constructor(PaymentDto.Payment.class,
-                        payment.paymentId.as("id"),
-                        payment.customerId.as("customerId"),
-                        payment.staffId.as("staffId"),
-                        payment.rentalId.as("rentalId"),
-                        payment.amount.as("amount"),
-                        payment.paymentDate.as("paymentDate"),
-                        payment.lastUpdate.as("lastUpdate")))
+                        payment.paymentId.as(PaymentDto.Payment.Fields.paymentId),
+                        payment.customerId.as(PaymentDto.Payment.Fields.customerId),
+                        payment.staffId.as(PaymentDto.Payment.Fields.staffId),
+                        payment.rentalId.as(PaymentDto.Payment.Fields.rentalId),
+                        payment.amount.as(PaymentDto.Payment.Fields.amount),
+                        payment.paymentDate.as(PaymentDto.Payment.Fields.paymentDate),
+                        payment.lastUpdate.as(PaymentDto.Payment.Fields.lastUpdate)))
                 .from(payment)
                 .join(customer).on(payment.customerId.eq(customer.customerId))
-                .where(customer.customerId.eq(customerId));
-        if (startDate != null && endDate != null) {
-            query.where(payment.paymentDate.between(startDate.atStartOfDay(), endDate.atStartOfDay()));
-        }
-        return query;
+                .where(customer.customerId.eq(customerId))
+                .where(filterBetween(payment.paymentDate,
+                        Optional.ofNullable(startDate).map(LocalDate::atStartOfDay).orElse(null),
+                        Optional.ofNullable(endDate).map(LocalDate::atStartOfDay).orElse(null)));
     }
 
     @Override
@@ -107,22 +108,21 @@ public class CustomCustomerRepositoryImpl implements CustomCustomerRepository {
 
     private JPAQuery<RentalDto.Rental> findCustomerRentals(Integer customerId, String status, LocalDate startDate, LocalDate endDate) {
         var customer = QCustomerEntity.customerEntity;
-        var rental = QPaymentEntity.paymentEntity;
-        var query = jpaQueryFactory
+        var rental = QRentalEntity.rentalEntity;
+        return jpaQueryFactory
                 .select(Projections.constructor(RentalDto.Rental.class,
-                        rental.paymentId.as("id"),
-                        rental.customerId.as("customerId"),
-                        rental.staffId.as("staffId"),
-                        rental.rentalId.as("rentalId"),
-                        rental.amount.as("amount"),
-                        rental.paymentDate.as("paymentDate"),
-                        rental.lastUpdate.as("lastUpdate")))
+                        rental.rentalId.as(RentalDto.Rental.Fields.rentalId),
+                        rental.customerId.as(RentalDto.Rental.Fields.customerId),
+                        rental.staffId.as(RentalDto.Rental.Fields.staffId),
+                        rental.rentalId.as(RentalDto.Rental.Fields.rentalId),
+                        rental.rentalDate.as(RentalDto.Rental.Fields.rentalDate),
+                        rental.returnDate.as(RentalDto.Rental.Fields.returnDate),
+                        rental.lastUpdate.as(RentalDto.Rental.Fields.lastUpdate)))
                 .from(rental)
                 .join(customer).on(rental.customerId.eq(customer.customerId))
-                .where(customer.customerId.eq(customerId));
-        if (startDate != null && endDate != null) {
-            query.where(rental.paymentDate.between(startDate.atStartOfDay(), endDate.atStartOfDay()));
-        }
-        return query;
+                .where(customer.customerId.eq(customerId))
+                .where(filterBetween(rental.rentalDate,
+                        Optional.ofNullable(startDate).map(LocalDate::atStartOfDay).orElse(null),
+                        Optional.ofNullable(endDate).map(LocalDate::atStartOfDay).orElse(null)));
     }
 }

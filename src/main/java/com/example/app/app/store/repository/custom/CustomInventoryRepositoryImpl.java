@@ -1,4 +1,4 @@
-package com.example.app.app.store.repository;
+package com.example.app.app.store.repository.custom;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

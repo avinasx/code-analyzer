@@ -1,4 +1,4 @@
-package com.example.app.app.payment.repository;
+package com.example.app.app.payment.repository.custom;
 
 import com.example.app.app.payment.domain.dto.PaymentDto;
 import com.example.app.app.store.domain.dto.CategorySalesDto;

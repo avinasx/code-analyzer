@@ -14,6 +14,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+import static com.example.app.common.repository.ExpressionUtils.filterEquals;
+
 @Repository
 @RequiredArgsConstructor
 public class CustomStaffRepositoryImpl implements CustomStaffRepository {
@@ -36,7 +38,7 @@ public class CustomStaffRepositoryImpl implements CustomStaffRepository {
         var address = QAddressEntity.addressEntity;
         var city = QCityEntity.cityEntity;
 
-        var query = jpaQueryFactory
+        return jpaQueryFactory
                 .select(Projections.constructor(StaffDetailsDto.StaffDetails.class,
                         staff.staffId.as("id"),
                         Expressions.asString(staff.fullName.firstName).concat(" ")
@@ -49,10 +51,7 @@ public class CustomStaffRepositoryImpl implements CustomStaffRepository {
                         staff.storeId.as("sid")))
                 .from(staff)
                 .join(address).on(address.addressId.eq(staff.addressId))
-                .join(city).on(city.cityId.eq(address.cityId));
-        if (id != null) {
-            query.where(staff.staffId.eq(id));
-        }
-        return query;
+                .join(city).on(city.cityId.eq(address.cityId))
+                .where(filterEquals(staff.staffId, id));
     }
 }
