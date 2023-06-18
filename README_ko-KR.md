@@ -32,7 +32,6 @@ Sakila REST API 서비스는 학습 및 테스트 목적으로 MySQL에서 제�
   - [Postman](#postman)
 - [관측가능성](#관측가능성)
 - [샘플 데이터](#샘플-데이터)
-- [라이선스](#라이선스)
 
 ## 시작하기
 
@@ -52,12 +51,7 @@ Sakila REST API 서비스는 학습 및 테스트 목적으로 MySQL에서 제�
 - Spring REST Docs
 - Lombok
 - Querydsl
-- Blaze Persistence
 - MapStruct
-- Google Guava
-- Asciidoctor
-- ePages Spring REST Docs API Specification (restdocs-api-spec)
-- Micrometer Prometheus
 
 ### 외부 MySQL 데이터베이스
 
@@ -182,23 +176,3 @@ management:
 ## 샘플 데이터
 
 샘플 데이터는 [MySQL Sakila sample database](https://dev.mysql.com/doc/sakila/en/)에서 가져온 것입니다. DVD 대여점에 관련된 데이터를 포함하고 있으며, 영화, 배우, 고객, 대여 등에 대한 데이터를 포함하고 있습니다. 또한 데이터베이스에서는 뷰, 저장 프로시저, 트리거도 제공합니다.
-
-## 라이선스
-
-이 프로젝트는 Apache License 2.0 라이선스를 따릅니다.
-
-```text
-Copyright 2023 Jinseong Ha
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-```

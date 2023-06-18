@@ -32,7 +32,6 @@ Microservices version is go to: https://github.com/codejsha/sakila-microservices
   - [Postman](#postman)
 - [Observability](#observability)
 - [Sample Data](#sample-data)
-- [License](#license)
 
 ## Getting Started
 
@@ -52,12 +51,7 @@ For a complete list, see the `gradle/libs.versions.toml` file.
 - Spring REST Docs
 - Lombok
 - Querydsl
-- Blaze Persistence
 - MapStruct
-- Google Guava
-- Asciidoctor
-- ePages Spring REST Docs API Specification (restdocs-api-spec)
-- Micrometer Prometheus
 
 ### External MySQL database
 
@@ -182,23 +176,3 @@ management:
 ## Sample Data
 
 The sample data is from [MySQL Sakila sample database](https://dev.mysql.com/doc/sakila/en/). It is a relational database model for a DVD rental store which contains data related to films, actors, customers, rentals, and more. The database also serves views, stored procedures, and triggers.
-
-## License
-
-This project is licensed under the Apache License 2.0.
-
-```text
-Copyright 2023 Jinseong Ha
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-```
