@@ -1,16 +1,11 @@
 package com.example.app.app.catalog.domain.dto;
 
 import com.example.app.app.catalog.domain.converter.CategoryConverter;
-import com.example.app.app.catalog.domain.converter.FilmRatingConverter;
-import com.example.app.app.catalog.domain.converter.SpecialFeatureConverter;
-import com.example.app.app.catalog.domain.serializer.SpecialFeatureSerializer;
 import com.example.app.app.location.domain.dto.LanguageDto;
-import com.example.app.app.store.domain.dto.InventoryDto;
 import com.example.app.common.constant.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.base.Objects;
 import jakarta.persistence.Convert;
 import jakarta.validation.constraints.Size;
@@ -24,7 +19,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.EnumSet;
 
 public class FilmDto {
@@ -69,12 +63,9 @@ public class FilmDto {
         private BigDecimal replacementCost;
 
         @JsonProperty(Fields.rating)
-        @Convert(converter = FilmRatingConverter.class)
         private FilmRating rating;
 
         @JsonProperty(Fields.specialFeatures)
-        @Convert(converter = SpecialFeatureConverter.class)
-        @JsonSerialize(using = SpecialFeatureSerializer.class)
         private EnumSet<SpecialFeature> specialFeatures;
 
         @JsonProperty(Fields.lastUpdate)
@@ -89,21 +80,6 @@ public class FilmDto {
         @JsonProperty(Fields.languageByOriginalLanguageId)
         @ToString.Exclude
         private LanguageDto.Language languageByOriginalLanguageId;
-
-        @JsonIgnore
-        @JsonProperty(Fields.filmActorsByFilmId)
-        @ToString.Exclude
-        private Collection<FilmActor> filmActorsByFilmId;
-
-        @JsonIgnore
-        @JsonProperty(Fields.filmCategoriesByFilmId)
-        @ToString.Exclude
-        private Collection<FilmCategory> filmCategoriesByFilmId;
-
-        @JsonIgnore
-        @JsonProperty(Fields.inventoriesByFilmId)
-        @ToString.Exclude
-        private Collection<InventoryDto.Inventory> inventoriesByFilmId;
 
         @Override
         public boolean equals(Object o) {
@@ -174,7 +150,6 @@ public class FilmDto {
         private BigDecimal replacementCost;
 
         @JsonProperty(Fields.rating)
-        @Convert(converter = FilmRatingConverter.class)
         private FilmRating rating;
 
         @JsonProperty(Fields.specialFeatures)

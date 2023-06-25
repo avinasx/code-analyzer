@@ -1,7 +1,6 @@
 package com.example.app.app.store.domain.entity;
 
 import com.example.app.app.catalog.domain.entity.FilmEntity;
-import com.example.app.app.rental.domain.entity.RentalEntity;
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -12,7 +11,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Collection;
 
 @Entity(name = "inventory")
 @Table(name = "inventory", schema = "sakila", indexes = {
@@ -63,10 +61,6 @@ public class InventoryEntity implements Serializable {
     @NotNull
     @ToString.Exclude
     private StoreEntity storeByStoreId;
-
-    @OneToMany(mappedBy = "inventoryByInventoryId", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    private Collection<RentalEntity> rentalsByInventoryId;
 
     public void update(InventoryEntity entity) {
         this.filmId = entity.getFilmId();

@@ -15,7 +15,6 @@ import org.springframework.hateoas.server.core.Relation;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Collection;
 
 public class CityDto {
     @Getter
@@ -38,11 +37,6 @@ public class CityDto {
 
         @JsonProperty(Fields.lastUpdate)
         private LocalDateTime lastUpdate;
-
-        @JsonIgnore
-        @JsonProperty(Fields.addressesByCityId)
-        @ToString.Exclude
-        private Collection<AddressDto.Address> addressesByCityId;
 
         @JsonIgnore
         @JsonProperty(Fields.countryByCountryId)

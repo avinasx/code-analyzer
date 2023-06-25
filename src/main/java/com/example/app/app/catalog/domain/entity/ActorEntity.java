@@ -11,7 +11,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Collection;
 
 @Entity(name = "actor")
 @Table(name = "actor", schema = "sakila", indexes = {
@@ -40,10 +39,6 @@ public class ActorEntity implements Serializable {
     @UpdateTimestamp
     @NotNull
     private LocalDateTime lastUpdate;
-
-    @OneToMany(mappedBy = "actorByActorId", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    private Collection<FilmActorEntity> filmActorsByActorId;
 
     public void update(ActorEntity entity) {
         this.fullName = entity.fullName;

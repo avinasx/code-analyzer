@@ -8,6 +8,9 @@ import com.example.app.app.store.domain.dto.StoreDetailsDto;
 import com.example.app.app.store.domain.dto.StoreDto;
 import com.example.app.app.store.service.StoreService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,20 +28,21 @@ public class StoreController {
     private final StaffRepresentationModelAssembler staffAssembler;
 
     @GetMapping(path = "")
-    public ResponseEntity<CollectionModel<StoreDto.StoreResponse>> getStoreList() {
+    public ResponseEntity<CollectionModel<StoreDto.StoreResponse>> getStoreList(
+            @PageableDefault(size = 10, page = 0, direction = Sort.Direction.ASC) Pageable pageable) {
         return ResponseEntity.ok(storeAssembler.toCollectionModel(
-                storeService.getStoreList()));
+                storeService.getStoreList(pageable)));
     }
 
     @PostMapping(path = "")
     public ResponseEntity<Void> addStore(@RequestBody StoreDto.StoreRequest model) {
         var result = storeService.addStore(model);
         return ResponseEntity.created(linkTo(methodOn(StoreController.class)
-                .getStore(String.valueOf(result.getStoreId()))).toUri()).build();
+                .getStore(result.getStoreId())).toUri()).build();
     }
 
     @GetMapping(path = "/{storeId}")
-    public ResponseEntity<StoreDto.StoreResponse> getStore(@PathVariable String storeId) {
+    public ResponseEntity<StoreDto.StoreResponse> getStore(@PathVariable Integer storeId) {
         return storeService.getStore(storeId)
                 .map(storeAssembler::toModel)
                 .map(ResponseEntity::ok)
@@ -46,42 +50,27 @@ public class StoreController {
     }
 
     @PutMapping(path = "/{storeId}")
-    public ResponseEntity<Void> updateStore(@PathVariable String storeId, @ModelAttribute StoreDto.StoreRequest model) {
+    public ResponseEntity<Void> updateStore(@PathVariable Integer storeId,
+                                            @ModelAttribute StoreDto.StoreRequest model) {
         var result = storeService.updateStore(storeId, model);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(path = "/{storeId}")
-    public ResponseEntity<Void> deleteStore(@PathVariable String storeId) {
+    public ResponseEntity<Void> deleteStore(@PathVariable Integer storeId) {
         storeService.deleteStore(storeId);
         return ResponseEntity.noContent().build();
     }
 
-    // @GetMapping(path = "/{storeId}/inventory")
-    // public ResponseEntity<CollectionModel<StoreResponseModel>> getStoreInventory(@PathVariable String storeId) {
-    //     return storeService.getStoreInventory(storeId)
-    //             .map(storeAssembler::toCollectionModel)
-    //             .map(ResponseEntity::ok)
-    //             .orElse(ResponseEntity.notFound().build());
-    // }
-    //
-    // @GetMapping(path = "/{storeId}/inventory/{filmId}")
-    // public ResponseEntity<StoreResponseModel> getStoreInventory(@PathVariable String storeId, @PathVariable String filmId) {
-    //     return storeService.getStoreInventory(storeId, filmId)
-    //             .map(storeAssembler::toModel)
-    //             .map(ResponseEntity::ok)
-    //             .orElse(ResponseEntity.notFound().build());
-    // }
-
     @GetMapping(path = "/{storeId}/staffs")
-    public ResponseEntity<CollectionModel<StaffDto.StaffResponse>> getStoreStaffList(@PathVariable String storeId) {
+    public ResponseEntity<CollectionModel<StaffDto.StaffResponse>> getStoreStaffList(@PathVariable Integer storeId) {
         return ResponseEntity.ok(staffAssembler.toCollectionModel(
                 storeService.getStoreStaffList(storeId)));
     }
 
     @GetMapping(path = "/{storeId}/staffs/{staffId}")
-    public ResponseEntity<StaffDto.StaffResponse> getStoreStaff(@PathVariable String storeId,
-                                                                @PathVariable String staffId) {
+    public ResponseEntity<StaffDto.StaffResponse> getStoreStaff(@PathVariable Integer storeId,
+                                                                @PathVariable Integer staffId) {
         return storeService.getStoreStaff(storeId, staffId)
                 .map(staffAssembler::toModel)
                 .map(ResponseEntity::ok)
@@ -89,25 +78,28 @@ public class StoreController {
     }
 
     @PostMapping(path = "/{storeId}/staffs/{staffId}")
-    public ResponseEntity<Void> addStoreStaff(@PathVariable String storeId, @PathVariable String staffId) {
+    public ResponseEntity<Void> addStoreStaff(@PathVariable Integer storeId,
+                                              @PathVariable Integer staffId) {
         var result = storeService.addStoreStaff(storeId, staffId);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping(path = "/{storeId}/staffs/{staffId}")
-    public ResponseEntity<Void> updateStoreStaff(@PathVariable String storeId, @PathVariable String staffId) {
+    public ResponseEntity<Void> updateStoreStaff(@PathVariable Integer storeId,
+                                                 @PathVariable Integer staffId) {
         var result = storeService.updateStoreStaff(storeId, staffId);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(path = "/{storeId}/staffs/{staffId}")
-    public ResponseEntity<Void> deleteStoreStaff(@PathVariable String storeId, @PathVariable String staffId) {
+    public ResponseEntity<Void> deleteStoreStaff(@PathVariable Integer storeId,
+                                                 @PathVariable Integer staffId) {
         storeService.removeStoreStaff(storeId, staffId);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping(path = "/{storeId}/details")
-    public ResponseEntity<StoreDetailsDto.StoreDetailsResponse> getStoreDetails(@PathVariable String storeId) {
+    public ResponseEntity<StoreDetailsDto.StoreDetailsResponse> getStoreDetails(@PathVariable Integer storeId) {
         return storeService.getStoreDetails(storeId)
                 .map(storeDetailsAssembler::toModel)
                 .map(ResponseEntity::ok)

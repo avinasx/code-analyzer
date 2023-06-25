@@ -10,14 +10,18 @@ import java.time.LocalDateTime;
 
 @Mapper(componentModel = "spring", imports = {LocalDateTime.class})
 public interface CustomerMapper extends GenericMapper<CustomerEntity, CustomerDto.Customer> {
+    @Override
+    @Mapping(target = "storeByStoreId", ignore = true)
+    @Mapping(target = "addressByAddressId", ignore = true)
+    @Mapping(target = "userByCustomerId", ignore = true)
+    CustomerDto.Customer mapToDto(CustomerEntity entity);
+
     @Mapping(target = "customerId", ignore = true)
     @Mapping(target = "fullName.firstName", source = "firstName")
     @Mapping(target = "fullName.lastName", source = "lastName")
     @Mapping(target = "lastUpdate", expression = "java(LocalDateTime.now())")
     @Mapping(target = "storeByStoreId", ignore = true)
     @Mapping(target = "addressByAddressId", ignore = true)
-    @Mapping(target = "paymentsByCustomerId", ignore = true)
-    @Mapping(target = "rentalsByCustomerId", ignore = true)
     @Mapping(target = "userByCustomerId", ignore = true)
     CustomerEntity mapToEntity(CustomerDto.CustomerRequest dto);
 }

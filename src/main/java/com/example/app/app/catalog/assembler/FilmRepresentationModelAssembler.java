@@ -3,6 +3,7 @@ package com.example.app.app.catalog.assembler;
 import com.example.app.app.catalog.controller.FilmController;
 import com.example.app.app.catalog.domain.dto.FilmDto;
 import com.example.app.common.constant.HalRelation;
+import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
@@ -21,8 +22,8 @@ public class FilmRepresentationModelAssembler extends RepresentationModelAssembl
     public FilmDto.FilmResponse toModel(@lombok.NonNull FilmDto.Film entity) {
         var model = instantiateModel(entity);
         model.setFilm(entity);
-        model.add(linkTo(methodOn(FilmController.class).getFilm(String.valueOf(entity.getFilmId()))).withSelfRel());
-        model.add(linkTo(methodOn(FilmController.class).getFilmList(null, null, null)).withRel(HalRelation.Fields.filmList));
+        model.add(linkTo(methodOn(FilmController.class).getFilm(entity.getFilmId())).withSelfRel());
+        model.add(linkTo(methodOn(FilmController.class).getFilmList(null, null, Pageable.unpaged())).withRel(HalRelation.Fields.filmList));
         return model;
     }
 
@@ -30,7 +31,7 @@ public class FilmRepresentationModelAssembler extends RepresentationModelAssembl
     @lombok.NonNull
     public CollectionModel<FilmDto.FilmResponse> toCollectionModel(@lombok.NonNull Iterable<? extends FilmDto.Film> entities) {
         var collectionModel = super.toCollectionModel(entities);
-        collectionModel.add(linkTo(methodOn(FilmController.class).getFilmList(null, null, null)).withSelfRel());
+        collectionModel.add(linkTo(methodOn(FilmController.class).getFilmList(null, null, Pageable.unpaged())).withSelfRel());
         return collectionModel;
     }
 }

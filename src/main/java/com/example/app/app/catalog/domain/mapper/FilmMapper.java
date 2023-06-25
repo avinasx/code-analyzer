@@ -10,19 +10,14 @@ import java.time.LocalDateTime;
 
 @Mapper(componentModel = "spring", imports = {LocalDateTime.class})
 public interface FilmMapper extends GenericMapper<FilmEntity, FilmDto.Film> {
+    @Override
+    @Mapping(target = "languageByLanguageId", ignore = true)
+    @Mapping(target = "languageByOriginalLanguageId", ignore = true)
+    FilmDto.Film mapToDto(FilmEntity entity);
+
     @Mapping(target = "filmId", ignore = true)
     @Mapping(target = "lastUpdate", expression = "java(LocalDateTime.now())")
     @Mapping(target = "languageByLanguageId", ignore = true)
     @Mapping(target = "languageByOriginalLanguageId", ignore = true)
-    @Mapping(target = "filmActorsByFilmId", ignore = true)
-    @Mapping(target = "filmCategoriesByFilmId", ignore = true)
-    @Mapping(target = "inventoriesByFilmId", ignore = true)
     FilmEntity mapToEntity(FilmDto.FilmRequest dto);
-
-    @Mapping(target = "languageByLanguageId", ignore = true)
-    @Mapping(target = "languageByOriginalLanguageId", ignore = true)
-    @Mapping(target = "filmActorsByFilmId", ignore = true)
-    @Mapping(target = "filmCategoriesByFilmId", ignore = true)
-    @Mapping(target = "inventoriesByFilmId", ignore = true)
-    FilmDto.Film mapToDto(FilmEntity entity);
 }

@@ -1,6 +1,5 @@
 package com.example.app.app.location.domain.entity;
 
-import com.example.app.app.catalog.domain.entity.FilmEntity;
 import com.example.app.app.location.domain.converter.LanguageConverter;
 import com.example.app.common.constant.Language;
 import com.google.common.base.Objects;
@@ -14,7 +13,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Collection;
 
 @Entity(name = "language")
 @Table(name = "language", schema = "sakila")
@@ -45,14 +43,6 @@ public class LanguageEntity implements Serializable {
     @UpdateTimestamp
     @NotNull
     private LocalDateTime lastUpdate;
-
-    @OneToMany(mappedBy = "languageByLanguageId", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    private Collection<FilmEntity> filmsByLanguageId;
-
-    @OneToMany(mappedBy = "languageByOriginalLanguageId", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    private Collection<FilmEntity> filmsByOriginalLanguageId;
 
     public void update(LanguageEntity entity) {
         this.name = entity.name;

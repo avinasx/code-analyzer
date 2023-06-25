@@ -3,6 +3,7 @@ package com.example.app.app.staff.assembler;
 import com.example.app.app.staff.controller.StaffController;
 import com.example.app.app.staff.domain.dto.StaffDto;
 import com.example.app.common.constant.HalRelation;
+import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
@@ -21,8 +22,8 @@ public class StaffRepresentationModelAssembler extends RepresentationModelAssemb
     public StaffDto.StaffResponse toModel(@lombok.NonNull StaffDto.Staff entity) {
         var model = instantiateModel(entity);
         model.setStaff(entity);
-        model.add(linkTo(methodOn(StaffController.class).getStaff(String.valueOf(entity.getStaffId()))).withSelfRel());
-        model.add(linkTo(methodOn(StaffController.class).getStaffList()).withRel(HalRelation.Fields.staffList));
+        model.add(linkTo(methodOn(StaffController.class).getStaff(entity.getStaffId())).withSelfRel());
+        model.add(linkTo(methodOn(StaffController.class).getStaffList(Pageable.unpaged())).withRel(HalRelation.Fields.staffList));
         return model;
     }
 

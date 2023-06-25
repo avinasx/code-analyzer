@@ -1,13 +1,13 @@
 package com.example.app.util;
 
 import com.epages.restdocs.apispec.ConstrainedFields;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.restdocs.payload.FieldDescriptor;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ConstrainedFieldDocumentation {
     private final Class<?> clazz;
 

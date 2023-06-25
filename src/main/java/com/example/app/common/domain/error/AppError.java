@@ -9,13 +9,12 @@ import java.time.Instant;
 @Setter
 @ToString
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AppError {
-    private String code;
-    private ErrorLevel level;
-    private String phrase;
-    private String requestMethod;
-    private String requestUrl;
-    private Instant timestamp;
+    private final String code;
+    private final ErrorLevel level;
+    private final String phrase;
+    private final String requestMethod;
+    private final String requestUrl;
+    private final Instant timestamp;
 }

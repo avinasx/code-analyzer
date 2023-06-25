@@ -5,29 +5,30 @@ import com.example.app.app.catalog.domain.dto.FilmDetailsDto;
 import com.example.app.app.catalog.domain.dto.FilmDto;
 import org.springframework.data.domain.Pageable;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
 public interface FilmService {
     List<FilmDto.Film> getFilmList();
 
-    List<FilmDto.Film> getFilmList(String releaseYear, String rating, Pageable pageable);
+    List<FilmDto.Film> getFilmList(FilmDto.Film condition, Pageable pageable);
 
-    Optional<FilmDto.Film> getFilm(String filmId);
+    Optional<FilmDto.Film> getFilm(Integer filmId);
 
-    List<ActorDto.Actor> getFilmActorList(String filmId);
+    List<ActorDto.Actor> getFilmActorList(Integer filmId, Pageable pageable);
 
-    Optional<ActorDto.Actor> getFilmActor(String filmId, String actorId);
+    Optional<ActorDto.Actor> getFilmActor(Integer filmId, Integer actorId);
 
     List<FilmDetailsDto.FilmDetails> getFilmDetailsList();
 
-    Optional<FilmDetailsDto.FilmDetails> getFilmDetails(String filmId);
+    Optional<FilmDetailsDto.FilmDetails> getFilmDetails(Integer filmId);
 
-    Optional<FilmDto.Film> getFilmStock(String filmId);
+    BigDecimal getFilmRentalPrice(Integer filmId);
 
     FilmDto.Film addFilm(FilmDto.FilmRequest model);
 
-    FilmDto.Film updateFilm(String filmId, FilmDto.FilmRequest model);
+    FilmDto.Film updateFilm(Integer filmId, FilmDto.FilmRequest model);
 
-    void deleteFilm(String filmId);
+    void deleteFilm(Integer filmId);
 }

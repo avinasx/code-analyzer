@@ -1,13 +1,13 @@
 package com.example.app.common.constant;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Objects;
 import java.util.stream.Stream;
 
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public enum FilmRating {
     G("G"),
     PG("PG"),

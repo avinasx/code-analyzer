@@ -1,10 +1,10 @@
 package com.example.app.common.constant;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public enum ErrorCode {
     GENERIC_ERROR("CODE-0001", ErrorLevel.ERROR, "Generic error"),
     GENERIC_WARN("CODE-0002", ErrorLevel.WARN, "Generic warning"),

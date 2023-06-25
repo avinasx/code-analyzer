@@ -13,7 +13,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Collection;
 
 @Entity(name = "country")
 @Table(name = "country", schema = "sakila")
@@ -44,10 +43,6 @@ public class CountryEntity implements Serializable {
     @UpdateTimestamp
     @NotNull
     private LocalDateTime lastUpdate;
-
-    @OneToMany(mappedBy = "countryByCountryId", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    private Collection<CityEntity> citiesByCountryId;
 
     public void update(CountryEntity entity) {
         this.country = entity.country;

@@ -10,16 +10,15 @@ import java.time.LocalDateTime;
 
 @Mapper(componentModel = "spring", imports = {LocalDateTime.class})
 public interface ActorMapper extends GenericMapper<ActorEntity, ActorDto.Actor> {
+    @Override
+    @Mapping(target = "actorId", source = "actorId")
+    @Mapping(target = "fullName.firstName", source = "fullName.firstName")
+    @Mapping(target = "fullName.lastName", source = "fullName.lastName")
+    ActorDto.Actor mapToDto(ActorEntity entity);
+
     @Mapping(target = "actorId", ignore = true)
     @Mapping(target = "fullName.firstName", source = "firstName")
     @Mapping(target = "fullName.lastName", source = "lastName")
     @Mapping(target = "lastUpdate", expression = "java(LocalDateTime.now())")
-    @Mapping(target = "filmActorsByActorId", ignore = true)
     ActorEntity mapToEntity(ActorDto.ActorRequest dto);
-
-    @Mapping(target = "actorId", source = "actorId")
-    @Mapping(target = "fullName.firstName", source = "fullName.firstName")
-    @Mapping(target = "fullName.lastName", source = "fullName.lastName")
-    @Mapping(target = "filmActorsByActorId", ignore = true)
-    ActorDto.Actor mapToDto(ActorEntity entity);
 }

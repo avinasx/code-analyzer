@@ -2,8 +2,6 @@ package com.example.app.app.customer.domain.dto;
 
 import com.example.app.app.admin.domain.entity.UserEntity;
 import com.example.app.app.location.domain.dto.AddressDto;
-import com.example.app.app.payment.domain.dto.PaymentDto;
-import com.example.app.app.rental.domain.dto.RentalDto;
 import com.example.app.app.store.domain.dto.StoreDto;
 import com.example.app.common.constant.HalRelation;
 import com.example.app.common.domain.dto.FullName;
@@ -20,7 +18,6 @@ import org.springframework.hateoas.server.core.Relation;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Collection;
 
 public class CustomerDto {
     @Getter
@@ -65,16 +62,6 @@ public class CustomerDto {
         @JsonProperty(Fields.addressByAddressId)
         @ToString.Exclude
         private AddressDto.Address addressByAddressId;
-
-        @JsonIgnore
-        @JsonProperty(Fields.paymentsByCustomerId)
-        @ToString.Exclude
-        private Collection<PaymentDto.Payment> paymentsByCustomerId;
-
-        @JsonIgnore
-        @JsonProperty(Fields.rentalsByCustomerId)
-        @ToString.Exclude
-        private Collection<RentalDto.Rental> rentalsByCustomerId;
 
         @JsonIgnore
         @JsonProperty(Fields.userByCustomerId)

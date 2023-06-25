@@ -1,10 +1,10 @@
 package com.example.app.common.constant;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public enum ErrorLevel {
     INFO(0, "Info"),
     WARN(1, "Warn"),

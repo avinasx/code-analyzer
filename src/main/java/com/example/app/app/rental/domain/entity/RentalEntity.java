@@ -1,7 +1,6 @@
 package com.example.app.app.rental.domain.entity;
 
 import com.example.app.app.customer.domain.entity.CustomerEntity;
-import com.example.app.app.payment.domain.entity.PaymentEntity;
 import com.example.app.app.staff.domain.entity.StaffEntity;
 import com.example.app.app.store.domain.entity.InventoryEntity;
 import com.google.common.base.Objects;
@@ -14,7 +13,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Collection;
 
 @Entity(name = "rental")
 @Table(name = "rental", schema = "sakila", indexes = {
@@ -71,10 +69,6 @@ public class RentalEntity implements Serializable {
     @UpdateTimestamp
     @NotNull
     private LocalDateTime lastUpdate;
-
-    @OneToMany(mappedBy = "rentalByRentalId", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    private Collection<PaymentEntity> paymentsByRentalId;
 
     @ManyToOne
     @JoinColumn(name = "inventory_id", referencedColumnName = "inventory_id", nullable = false)

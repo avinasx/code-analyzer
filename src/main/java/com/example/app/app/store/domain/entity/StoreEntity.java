@@ -1,6 +1,5 @@
 package com.example.app.app.store.domain.entity;
 
-import com.example.app.app.customer.domain.entity.CustomerEntity;
 import com.example.app.app.location.domain.entity.AddressEntity;
 import com.example.app.app.staff.domain.entity.StaffEntity;
 import com.google.common.base.Objects;
@@ -13,7 +12,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Collection;
 
 @Entity(name = "store")
 @Table(name = "store", schema = "sakila", indexes = {
@@ -52,18 +50,6 @@ public class StoreEntity implements Serializable {
     @UpdateTimestamp
     @NotNull
     private LocalDateTime lastUpdate;
-
-    @OneToMany(mappedBy = "storeByStoreId", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    private Collection<CustomerEntity> customersByStoreId;
-
-    @OneToMany(mappedBy = "storeByStoreId", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    private Collection<InventoryEntity> inventoriesByStoreId;
-
-    @OneToMany(mappedBy = "storeByStoreId", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    private Collection<StaffEntity> staffByStoreId;
 
     @ManyToOne
     @JoinColumn(name = "manager_staff_id", referencedColumnName = "staff_id", nullable = false)

@@ -14,8 +14,7 @@ public class MdcLoggingFilter implements Filter {
             var xRequestId = ((HttpServletRequest) request).getHeader("X-Request-ID");
             MDC.put("request_id", xRequestId == null ? UUID.randomUUID().toString() : xRequestId);
             chain.doFilter(request, response);
-        }
-        finally {
+        } finally {
             MDC.clear();
         }
     }

@@ -1,15 +1,15 @@
 package com.example.app.common.constant;
 
 import com.fasterxml.jackson.annotation.JsonValue;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public enum Country {
     NONE(0, "-"),
     AFGHANISTAN(1, "Afghanistan"),

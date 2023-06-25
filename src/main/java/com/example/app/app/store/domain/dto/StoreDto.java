@@ -1,6 +1,5 @@
 package com.example.app.app.store.domain.dto;
 
-import com.example.app.app.customer.domain.dto.CustomerDto;
 import com.example.app.app.location.domain.dto.AddressDto;
 import com.example.app.app.staff.domain.dto.StaffDto;
 import com.example.app.common.constant.HalRelation;
@@ -16,7 +15,6 @@ import org.springframework.hateoas.server.core.Relation;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Collection;
 
 public class StoreDto {
     @Getter
@@ -38,21 +36,6 @@ public class StoreDto {
 
         @JsonProperty(Fields.lastUpdate)
         private LocalDateTime lastUpdate;
-
-        @JsonIgnore
-        @JsonProperty(Fields.customersByStoreId)
-        @ToString.Exclude
-        private Collection<CustomerDto.Customer> customersByStoreId;
-
-        @JsonIgnore
-        @JsonProperty(Fields.inventoriesByStoreId)
-        @ToString.Exclude
-        private Collection<InventoryDto.Inventory> inventoriesByStoreId;
-
-        @JsonIgnore
-        @JsonProperty(Fields.staffByStoreId)
-        @ToString.Exclude
-        private Collection<StaffDto.Staff> staffByStoreId;
 
         @JsonIgnore
         @JsonProperty(Fields.staffByManagerStaffId)

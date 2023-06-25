@@ -8,6 +8,7 @@ import com.example.app.app.catalog.domain.dto.ActorDto;
 import com.example.app.app.catalog.domain.dto.FilmDetailsDto;
 import com.example.app.app.catalog.domain.dto.FilmDto;
 import com.example.app.app.catalog.service.FilmService;
+import com.example.app.common.constant.FilmRating;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -15,6 +16,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -34,19 +37,23 @@ public class FilmController {
             @RequestParam(required = false) String releaseYear,
             @RequestParam(required = false) String rating,
             @PageableDefault(size = 10, page = 0, direction = Sort.Direction.ASC) Pageable pageable) {
+        var condition = FilmDto.Film.builder()
+                .releaseYear(releaseYear == null ? null : LocalDate.parse(releaseYear))
+                .rating(rating == null ? null : FilmRating.valueOf(rating))
+                .build();
         return ResponseEntity.ok(filmAssembler.toCollectionModel(
-                filmService.getFilmList(releaseYear, rating, pageable)));
+                filmService.getFilmList(condition, pageable)));
     }
 
     @PostMapping(path = "")
     public ResponseEntity<Void> addFilm(@RequestBody FilmDto.FilmRequest model) {
         var result = filmService.addFilm(model);
         return ResponseEntity.created(linkTo(methodOn(FilmController.class)
-                .getFilm(String.valueOf(result.getFilmId()))).toUri()).build();
+                .getFilm(result.getFilmId())).toUri()).build();
     }
 
     @GetMapping(path = "/{filmId}")
-    public ResponseEntity<FilmDto.FilmResponse> getFilm(@PathVariable String filmId) {
+    public ResponseEntity<FilmDto.FilmResponse> getFilm(@PathVariable Integer filmId) {
         return filmService.getFilm(filmId)
                 .map(filmAssembler::toModel)
                 .map(ResponseEntity::ok)
@@ -54,25 +61,29 @@ public class FilmController {
     }
 
     @PutMapping(path = "/{filmId}")
-    public ResponseEntity<Void> updateFilm(@PathVariable String filmId, @RequestBody FilmDto.FilmRequest model) {
+    public ResponseEntity<Void> updateFilm(@PathVariable Integer filmId,
+                                           @RequestBody FilmDto.FilmRequest model) {
         var result = filmService.updateFilm(filmId, model);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(path = "/{filmId}")
-    public ResponseEntity<Void> deleteFilm(@PathVariable String filmId) {
+    public ResponseEntity<Void> deleteFilm(@PathVariable Integer filmId) {
         filmService.deleteFilm(filmId);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping(path = "/{filmId}/actors")
-    public ResponseEntity<CollectionModel<ActorDto.ActorResponse>> getFilmActorList(@PathVariable String filmId) {
+    public ResponseEntity<CollectionModel<ActorDto.ActorResponse>> getFilmActorList(
+            @PathVariable Integer filmId,
+            @PageableDefault(size = 10, page = 0, direction = Sort.Direction.ASC) Pageable pageable) {
         return ResponseEntity.ok(actorAssembler.toCollectionModel(
-                filmService.getFilmActorList(filmId)));
+                filmService.getFilmActorList(filmId, pageable)));
     }
 
     @GetMapping(path = "/{filmId}/actors/{actorId}")
-    public ResponseEntity<ActorDto.ActorResponse> getFilmActor(@PathVariable String filmId, @PathVariable String actorId) {
+    public ResponseEntity<ActorDto.ActorResponse> getFilmActor(@PathVariable Integer filmId,
+                                                               @PathVariable Integer actorId) {
         return filmService.getFilmActor(filmId, actorId)
                 .map(actorAssembler::toModel)
                 .map(ResponseEntity::ok)
@@ -80,16 +91,9 @@ public class FilmController {
     }
 
     @GetMapping(path = "/{filmId}/details")
-    public ResponseEntity<FilmDetailsDto.FilmDetailsResponse> getFilmDetails(@PathVariable String filmId) {
+    public ResponseEntity<FilmDetailsDto.FilmDetailsResponse> getFilmDetails(@PathVariable Integer filmId) {
         return filmService.getFilmDetails(filmId)
                 .map(filmDetailsAssembler::toModel)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    @GetMapping(path = "/{filmId}/stock")
-    public ResponseEntity<FilmDto.Film> getFilmStock(@PathVariable String filmId) {
-        return filmService.getFilmStock(filmId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 public interface CityMapper extends GenericMapper<CityEntity, CityDto.City> {
     @Mapping(target = "cityId", ignore = true)
     @Mapping(target = "lastUpdate", expression = "java(LocalDateTime.now())")
-    @Mapping(target = "addressesByCityId", ignore = true)
     @Mapping(target = "countryByCountryId", ignore = true)
     CityEntity mapToEntity(CityDto.CityRequest dto);
 }

@@ -20,8 +20,8 @@ public class FilmDetailsRepresentationModelAssembler extends RepresentationModel
     public FilmDetailsDto.FilmDetailsResponse toModel(@lombok.NonNull FilmDetailsDto.FilmDetails entity) {
         var model = instantiateModel(entity);
         model.setFilmDetails(entity);
-        model.add(linkTo(methodOn(FilmController.class).getFilmDetails(String.valueOf(entity.getFilmId()))).withSelfRel());
-        model.add(linkTo(methodOn(FilmController.class).getFilm(String.valueOf(entity.getFilmId()))).withRel(HalRelation.Fields.film));
+        model.add(linkTo(methodOn(FilmController.class).getFilmDetails(entity.getFilmId())).withSelfRel());
+        model.add(linkTo(methodOn(FilmController.class).getFilm(entity.getFilmId())).withRel(HalRelation.Fields.film));
         model.add(linkTo(methodOn(FilmController.class).getFilmList(null, null, null)).withRel(HalRelation.Fields.filmList));
         return model;
     }

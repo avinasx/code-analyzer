@@ -3,9 +3,8 @@ package com.example.app.app.catalog.repository.custom;
 import com.example.app.app.catalog.domain.dto.ActorDetailsDto;
 import com.example.app.app.catalog.domain.dto.FilmDetailsDto;
 import com.example.app.app.catalog.domain.dto.FilmDto;
-import com.example.app.common.constant.FilmRating;
+import org.springframework.data.domain.Pageable;
 
-import java.time.Year;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,9 +13,7 @@ public interface CustomActorRepository {
 
     Optional<ActorDetailsDto.ActorDetails> findActorDetailsById(Integer actorId);
 
-    List<FilmDto.Film> findAllActorFilmListById(Integer actorId);
-
-    List<FilmDto.Film> findAllActorFilmListByIdWithFilter(Integer actorId, Year releaseYear, FilmRating rating);
+    List<FilmDto.Film> findAllActorFilmListByIdWithCondition(Integer actorId, FilmDto.Film condition, Pageable pageable);
 
     Optional<FilmDto.Film> findActorFilmById(Integer actorId, Integer filmId);
 

@@ -2,36 +2,33 @@ package com.example.app.app.location.service;
 
 import com.example.app.app.location.domain.dto.AddressDto;
 import com.example.app.app.location.domain.dto.CityDto;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface LocationService {
-    List<AddressDto.Address> getAddressList();
+    List<AddressDto.Address> getAddressList(Pageable pageable);
 
-    Optional<AddressDto.Address> getAddress(String addressId);
+    Optional<AddressDto.Address> getAddress(Integer addressId);
 
     List<AddressDto.Address> getAddressDetailsList();
 
-    Optional<AddressDto.Address> getAddressDetails(String addressId);
+    Optional<AddressDto.Address> getAddressDetails(Integer addressId);
 
     AddressDto.Address addAddress(AddressDto.AddressRequest model);
 
-    AddressDto.Address updateAddress(String addressId, AddressDto.AddressRequest model);
+    AddressDto.Address updateAddress(Integer addressId, AddressDto.AddressRequest model);
 
-    void deleteAddress(String addressId);
+    void deleteAddress(Integer addressId);
 
-    List<CityDto.City> getCityList();
+    List<CityDto.City> getCityList(Pageable pageable);
 
-    Optional<CityDto.City> getCity(String cityId);
-
-    List<CityDto.City> getCityDetailsList();
-
-    Optional<CityDto.City> getCityDetails(String cityId);
+    Optional<CityDto.City> getCity(Integer cityId);
 
     CityDto.City addCity(CityDto.CityRequest model);
 
-    CityDto.City updateCity(String cityId, CityDto.CityRequest model);
+    CityDto.City updateCity(Integer cityId, CityDto.CityRequest model);
 
-    void deleteCity(String cityId);
+    void deleteCity(Integer cityId);
 }

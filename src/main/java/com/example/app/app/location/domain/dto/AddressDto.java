@@ -1,8 +1,5 @@
 package com.example.app.app.location.domain.dto;
 
-import com.example.app.app.customer.domain.dto.CustomerDto;
-import com.example.app.app.staff.domain.dto.StaffDto;
-import com.example.app.app.store.domain.dto.StoreDto;
 import com.example.app.common.constant.HalRelation;
 import com.example.app.common.domain.serializer.NullToEmptyStringSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -19,7 +16,6 @@ import org.springframework.hateoas.server.core.Relation;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Collection;
 
 public class AddressDto {
     @Getter
@@ -68,21 +64,6 @@ public class AddressDto {
         @ToString.Exclude
         private CityDto.City cityByCityId;
 
-        @JsonIgnore
-        @JsonProperty(Fields.customersByAddressId)
-        @ToString.Exclude
-        private Collection<CustomerDto.Customer> customersByAddressId;
-
-        @JsonIgnore
-        @JsonProperty(Fields.staffByAddressId)
-        @ToString.Exclude
-        private Collection<StaffDto.Staff> staffByAddressId;
-
-        @JsonIgnore
-        @JsonProperty(Fields.storesByAddressId)
-        @ToString.Exclude
-        private Collection<StoreDto.Store> storesByAddressId;
-
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -122,7 +103,6 @@ public class AddressDto {
         private String address;
 
         @JsonProperty(Fields.address2)
-        @JsonSerialize(nullsUsing = NullToEmptyStringSerializer.class)
         @Size(min = 1, max = 50)
         private String address2;
 

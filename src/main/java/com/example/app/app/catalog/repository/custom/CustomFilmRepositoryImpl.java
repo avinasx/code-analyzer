@@ -11,7 +11,6 @@ import com.example.app.app.catalog.domain.entity.QFilmActorEntity;
 import com.example.app.app.catalog.domain.entity.QFilmCategoryEntity;
 import com.example.app.app.catalog.domain.entity.QFilmEntity;
 import com.example.app.app.catalog.domain.mapper.FilmMapper;
-import com.example.app.common.constant.FilmRating;
 import com.example.app.common.domain.dto.FullName;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -20,10 +19,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import java.time.Year;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static com.example.app.common.repository.ExpressionUtils.filterEquals;
 
@@ -41,34 +38,34 @@ public class CustomFilmRepositoryImpl implements CustomFilmRepository {
                 .selectFrom(film)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
-        return query.fetch().stream().map(filmMapper::mapToDto).collect(Collectors.toList());
+        return query.fetch().stream().map(filmMapper::mapToDto).toList();
     }
 
     @Override
-    public List<FilmDto.Film> findAllFilmListWithFilter(Year releaseYear, FilmRating rating, Pageable pageable) {
+    public List<FilmDto.Film> findAllFilmListWithFilter(FilmDto.Film condition, Pageable pageable) {
         var film = QFilmEntity.filmEntity;
         var query = jpaQueryFactory
                 .selectFrom(film)
-                .where(filterEquals(film.releaseYear.year(), releaseYear.getValue()))
-                .where(filterEquals(film.rating, rating))
+                .where(filterEquals(film.releaseYear.year(), condition.getReleaseYear().getYear()))
+                .where(filterEquals(film.rating, condition.getRating()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
-        return query.fetch().stream().map(filmMapper::mapToDto).collect(Collectors.toList());
+        return query.fetch().stream().map(filmMapper::mapToDto).toList();
     }
 
     @Override
-    public List<ActorDto.Actor> findAllFilmActorListById(Integer filmId) {
-        var query = findFilmActor(filmId, null);
+    public List<ActorDto.Actor> findAllFilmActorListById(Integer filmId, Pageable pageable) {
+        var query = findFilmActor(filmId, null, pageable);
         return query.fetch();
     }
 
     @Override
     public Optional<ActorDto.Actor> findFilmActorById(Integer filmId, Integer actorId) {
-        var query = findFilmActor(filmId, actorId);
+        var query = findFilmActor(filmId, actorId, Pageable.unpaged());
         return Optional.of(query.fetchFirst());
     }
 
-    private JPAQuery<ActorDto.Actor> findFilmActor(Integer filmId, Integer actorId) {
+    private JPAQuery<ActorDto.Actor> findFilmActor(Integer filmId, Integer actorId, Pageable pageable) {
         var actor = QActorEntity.actorEntity;
         var filmActor = QFilmActorEntity.filmActorEntity;
         var film = QFilmEntity.filmEntity;
@@ -82,7 +79,9 @@ public class CustomFilmRepositoryImpl implements CustomFilmRepository {
                 .leftJoin(filmActor).on(filmActor.filmId.eq(film.filmId))
                 .leftJoin(actor).on(actor.actorId.eq(filmActor.actorId))
                 .where(film.filmId.eq(filmId))
-                .where(filterEquals(actor.actorId, actorId));
+                .where(filterEquals(actor.actorId, actorId))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize());
     }
 
     @Override
@@ -120,10 +119,5 @@ public class CustomFilmRepositoryImpl implements CustomFilmRepository {
                 .leftJoin(actor).on(actor.actorId.eq(filmActor.actorId))
                 .where(filterEquals(film.filmId, id))
                 .groupBy(film.filmId, filmCategory.categoryId);
-    }
-
-    @Override
-    public Optional<FilmDto.Film> findFilmStockById(Integer filmId) {
-        return Optional.empty();
     }
 }

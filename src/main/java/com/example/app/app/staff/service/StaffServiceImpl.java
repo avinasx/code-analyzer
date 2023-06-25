@@ -6,6 +6,7 @@ import com.example.app.app.staff.domain.mapper.StaffMapper;
 import com.example.app.app.staff.repository.StaffRepository;
 import com.example.app.common.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,15 +21,15 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<StaffDto.Staff> getStaffList() {
-        var list = staffRepository.findAll();
+    public List<StaffDto.Staff> getStaffList(Pageable pageable) {
+        var list = staffRepository.findAll(pageable);
         return staffMapper.mapToDtoList(list);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<StaffDto.Staff> getStaff(String staffId) {
-        var entity = staffRepository.findById(Integer.valueOf(staffId)).orElseThrow(() ->
+    public Optional<StaffDto.Staff> getStaff(Integer staffId) {
+        var entity = staffRepository.findById(staffId).orElseThrow(() ->
                 new ResourceNotFoundException("Staff not found with id '" + staffId + "'"));
         return Optional.of(staffMapper.mapToDto(entity));
     }
@@ -41,8 +42,8 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<StaffDetailsDto.StaffDetails> getStaffDetails(String staffId) {
-        var model = staffRepository.findStaffDetailsById(Integer.valueOf(staffId));
+    public Optional<StaffDetailsDto.StaffDetails> getStaffDetails(Integer staffId) {
+        var model = staffRepository.findStaffDetailsById(staffId);
         if (model.isEmpty()) {
             throw new ResourceNotFoundException("Staff not found with id '" + staffId + "'");
         }
@@ -52,15 +53,14 @@ public class StaffServiceImpl implements StaffService {
     @Override
     @Transactional
     public StaffDto.Staff addStaff(StaffDto.StaffRequest model) {
-        var entity = staffMapper.mapToEntity(model);
-        var savedEntity = staffRepository.save(entity);
+        var savedEntity = staffRepository.save(staffMapper.mapToEntity(model));
         return staffMapper.mapToDto(savedEntity);
     }
 
     @Override
     @Transactional
-    public StaffDto.Staff updateStaff(String staffId, StaffDto.StaffRequest model) {
-        var entity = staffRepository.findById(Integer.valueOf(staffId)).orElseThrow(() ->
+    public StaffDto.Staff updateStaff(Integer staffId, StaffDto.StaffRequest model) {
+        var entity = staffRepository.findById(staffId).orElseThrow(() ->
                 new ResourceNotFoundException("Staff not found with id '" + staffId + "'"));
         entity.update(staffMapper.mapToEntity(model));
         return staffMapper.mapToDto(entity);
@@ -68,7 +68,7 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     @Transactional
-    public void removeStaff(String staffId) {
-        staffRepository.deleteById(Integer.valueOf(staffId));
+    public void removeStaff(Integer staffId) {
+        staffRepository.deleteById(staffId);
     }
 }

@@ -1,8 +1,6 @@
 package com.example.app.app.staff.domain.entity;
 
 import com.example.app.app.location.domain.entity.AddressEntity;
-import com.example.app.app.payment.domain.entity.PaymentEntity;
-import com.example.app.app.rental.domain.entity.RentalEntity;
 import com.example.app.app.store.domain.entity.StoreEntity;
 import com.example.app.common.domain.entity.FullName;
 import com.google.common.base.Objects;
@@ -16,7 +14,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Collection;
 
 @Entity(name = "staff")
 @Table(name = "staff", schema = "sakila", indexes = {
@@ -89,14 +86,6 @@ public class StaffEntity implements Serializable {
     @NotNull
     private LocalDateTime lastUpdate;
 
-    @OneToMany(mappedBy = "staffByStaffId", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    private Collection<PaymentEntity> paymentsByStaffId;
-
-    @OneToMany(mappedBy = "staffByStaffId", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    private Collection<RentalEntity> rentalsByStaffId;
-
     @ManyToOne
     @JoinColumn(name = "address_id", referencedColumnName = "address_id", nullable = false)
     @NotNull
@@ -108,10 +97,6 @@ public class StaffEntity implements Serializable {
     @NotNull
     @ToString.Exclude
     private StoreEntity storeByStoreId;
-
-    @OneToMany(mappedBy = "staffByManagerStaffId", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    private Collection<StoreEntity> storesByStaffId;
 
     public void update(StaffEntity entity) {
         this.fullName = entity.fullName;

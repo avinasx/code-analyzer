@@ -2,7 +2,6 @@ package com.example.app.app.catalog.domain.dto;
 
 import com.example.app.common.constant.HalRelation;
 import com.example.app.common.domain.dto.FullName;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.google.common.base.Objects;
@@ -14,7 +13,6 @@ import org.springframework.hateoas.server.core.Relation;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Collection;
 
 public class ActorDto {
     @Getter
@@ -33,11 +31,6 @@ public class ActorDto {
 
         @JsonProperty(Fields.lastUpdate)
         private LocalDateTime lastUpdate;
-
-        @JsonIgnore
-        @JsonProperty(Fields.filmActorsByActorId)
-        @ToString.Exclude
-        private Collection<FilmDto.FilmActor> filmActorsByActorId;
 
         @Override
         public boolean equals(Object o) {

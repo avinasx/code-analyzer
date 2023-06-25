@@ -1,8 +1,5 @@
 package com.example.app.app.location.domain.entity;
 
-import com.example.app.app.customer.domain.entity.CustomerEntity;
-import com.example.app.app.staff.domain.entity.StaffEntity;
-import com.example.app.app.store.domain.entity.StoreEntity;
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -14,7 +11,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Collection;
 
 @Entity(name = "address")
 @Table(name = "address", schema = "sakila", indexes = {
@@ -87,18 +83,6 @@ public class AddressEntity implements Serializable {
     @NotNull
     @ToString.Exclude
     private CityEntity cityByCityId;
-
-    @OneToMany(mappedBy = "addressByAddressId", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    private Collection<CustomerEntity> customersByAddressId;
-
-    @OneToMany(mappedBy = "addressByAddressId", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    private Collection<StaffEntity> staffByAddressId;
-
-    @OneToMany(mappedBy = "addressByAddressId", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    private Collection<StoreEntity> storesByAddressId;
 
     public void update(AddressEntity entity) {
         this.address = entity.address;

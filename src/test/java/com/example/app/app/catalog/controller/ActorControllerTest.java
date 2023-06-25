@@ -8,7 +8,10 @@ import com.example.app.app.catalog.assembler.ActorDetailsRepresentationModelAsse
 import com.example.app.app.catalog.assembler.ActorRepresentationModelAssembler;
 import com.example.app.app.catalog.assembler.FilmDetailsRepresentationModelAssembler;
 import com.example.app.app.catalog.assembler.FilmRepresentationModelAssembler;
-import com.example.app.app.catalog.domain.dto.*;
+import com.example.app.app.catalog.domain.dto.ActorDetailsDto;
+import com.example.app.app.catalog.domain.dto.ActorDto;
+import com.example.app.app.catalog.domain.dto.FilmDetailsDto;
+import com.example.app.app.catalog.domain.dto.FilmDto;
 import com.example.app.app.catalog.service.ActorService;
 import com.example.app.common.constant.*;
 import com.example.app.common.domain.dto.FullName;
@@ -16,12 +19,14 @@ import com.example.app.config.RestDocsControllerSupport;
 import com.example.app.util.ConstrainedFieldDocumentation;
 import com.example.app.util.OpenApiDescriptorTransformer;
 import com.google.common.base.CaseFormat;
+import com.google.common.collect.Maps;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -83,7 +88,8 @@ class ActorControllerTest extends RestDocsControllerSupport {
         @Test
         void getActorList_success() throws Exception {
             // arrange
-            when(actorService.getActorList()).thenReturn(List.of(guiness, walhberg));
+            var pageable = Pageable.ofSize(10).withPage(0);
+            when(actorService.getActorList(pageable)).thenReturn(List.of(guiness, walhberg));
 
             // act
             var execute = mockMvc.perform(get("/actors")
@@ -93,7 +99,7 @@ class ActorControllerTest extends RestDocsControllerSupport {
             execute.andDo(print())
                     .andExpect(status().isOk())
                     .andExpect(jsonPath(HalRelation.Fields._links + "." + HalRelation.Fields.self + ".href").value(serverUrl + "/actors"));
-            verify(actorService, times(1)).getActorList();
+            verify(actorService, times(1)).getActorList(pageable);
 
             // descriptors
             var actorBase = HalRelation.Fields.actor + "." + HalRelation.Fields.read + ".";
@@ -132,7 +138,8 @@ class ActorControllerTest extends RestDocsControllerSupport {
         @Test
         void getActorList_trailingSlash() throws Exception {
             // arrange
-            when(actorService.getActorList()).thenReturn(List.of(guiness, walhberg));
+            var pageable = Pageable.ofSize(10).withPage(0);
+            when(actorService.getActorList(pageable)).thenReturn(List.of(guiness, walhberg));
 
             // act
             var execute = mockMvc.perform(get("/actors/")
@@ -141,13 +148,13 @@ class ActorControllerTest extends RestDocsControllerSupport {
             // assert
             execute.andDo(print())
                     .andExpect(status().isNotFound());
-            verify(actorService, times(0)).getActorList();
+            verify(actorService, times(0)).getActorList(pageable);
         }
 
         @Test
         void getActor_success() throws Exception {
             // arrange
-            var actorId = "1";
+            var actorId = 1;
             when(actorService.getActor(actorId)).thenReturn(Optional.of(guiness));
 
             // act
@@ -212,14 +219,14 @@ class ActorControllerTest extends RestDocsControllerSupport {
 
     @Nested
     class ActorUpdateTests {
-        private String actorId;
+        private int actorId;
         private HashMap<String, String> payload;
         private ActorDto.ActorRequest requestModel;
         private ActorDto.Actor newActor;
 
         @BeforeEach
         void setUp() {
-            actorId = "1";
+            actorId = 1;
             payload = new HashMap<>();
             payload.put("firstName", "HELLO");
             payload.put("lastName", "WORLD");
@@ -228,7 +235,7 @@ class ActorControllerTest extends RestDocsControllerSupport {
                     payload.get(ActorDto.ActorRequest.Fields.lastName)
             );
             newActor = ActorDto.Actor.builder()
-                    .actorId(Integer.valueOf(actorId))
+                    .actorId(actorId)
                     .fullName(FullName.builder()
                             .firstName(payload.get(FullName.Fields.firstName))
                             .lastName(payload.get(FullName.Fields.lastName))
@@ -300,7 +307,7 @@ class ActorControllerTest extends RestDocsControllerSupport {
             execute.andDo(print())
                     .andExpect(status().isOk());
             verify(actorService, times(1)).updateActor(actorId, requestModel);
-            verify(actorService, times(1)).updateActor(anyString(), any(ActorDto.ActorRequest.class));
+            verify(actorService, times(1)).updateActor(anyInt(), any(ActorDto.ActorRequest.class));
 
             // descriptors
             var actorBase = HalRelation.Fields.actor + "." + HalRelation.Fields.update + ".";
@@ -376,9 +383,9 @@ class ActorControllerTest extends RestDocsControllerSupport {
         @Test
         void getActorDetails_success() throws Exception {
             // arrange
-            var actorId = "1";
+            var actorId = 1;
             var model = ActorDetailsDto.ActorDetails.builder()
-                    .actorId(Integer.valueOf(actorId))
+                    .actorId(actorId)
                     .firstName("PENELOPE")
                     .lastName("GUINESS")
                     .filmInfo("ACADEMY DINOSAUR, ANACONDA CONFESSIONS, ANGELS LIFE, BULWORTH COMMANDMENTS, " +
@@ -488,8 +495,9 @@ class ActorControllerTest extends RestDocsControllerSupport {
         @Test
         void getActorFilmList_success() throws Exception {
             // arrange
-            var actorId = "1";
-            when(actorService.getActorFilmList(actorId)).thenReturn(List.of(academyDinosaur, aceGoldfinger));
+            var actorId = 1;
+            var pageable = Pageable.ofSize(10).withPage(0);
+            when(actorService.getActorFilmList(actorId, FilmDto.Film.builder().build(), pageable)).thenReturn(List.of(academyDinosaur, aceGoldfinger));
 
             // act
             var execute = mockMvc.perform(get("/actors/{actorId}/films", actorId)
@@ -498,9 +506,9 @@ class ActorControllerTest extends RestDocsControllerSupport {
             // assert
             execute.andDo(print())
                     .andExpect(status().isOk())
-                    .andExpect(jsonPath(HalRelation.Fields._links + "." + HalRelation.Fields.self + ".href").value(serverUrl + "/actors/" + actorId + "/films"))
+                    .andExpect(jsonPath(HalRelation.Fields._links + "." + HalRelation.Fields.self + ".href").value(serverUrl + "/actors/" + actorId + "/films{?releaseYear,rating}"))
                     .andExpect(jsonPath(HalRelation.Fields._links + "." + HalRelation.Fields.actor + ".href").value(serverUrl + "/actors/" + actorId));
-            verify(actorService, times(1)).getActorFilmList(actorId);
+            verify(actorService, times(1)).getActorFilmList(actorId, FilmDto.Film.builder().build(), pageable);
 
             // descriptors
             var actorFilmBase = HalRelation.Fields.actor + "." + HalRelation.Fields.film + "." + HalRelation.Fields.read + ".";
@@ -553,8 +561,8 @@ class ActorControllerTest extends RestDocsControllerSupport {
         @Test
         void getActorFilm_success() throws Exception {
             // arrange
-            var actorId = "1";
-            var filmId = "1";
+            var actorId = 1;
+            var filmId = 1;
             when(actorService.getActorFilm(actorId, filmId)).thenReturn(Optional.ofNullable(academyDinosaur));
 
             // act
@@ -566,7 +574,7 @@ class ActorControllerTest extends RestDocsControllerSupport {
                     .andExpect(status().isOk())
                     .andExpect(jsonPath(HalRelation.Fields._links + "." + HalRelation.Fields.self + ".href").value(serverUrl + "/actors/" + actorId + "/films/" + filmId))
                     .andExpect(jsonPath(HalRelation.Fields._links + "." + HalRelation.Fields.actor + ".href").value(serverUrl + "/actors/" + actorId))
-                    .andExpect(jsonPath(HalRelation.Fields._links + "." + HalRelation.Fields.filmList + ".href").value(serverUrl + "/actors/" + actorId + "/films"));
+                    .andExpect(jsonPath(HalRelation.Fields._links + "." + HalRelation.Fields.filmList + ".href").value(serverUrl + "/actors/" + actorId + "/films{?releaseYear,rating}"));
             verify(actorService, times(1)).getActorFilm(actorId, filmId);
 
             // descriptors
@@ -620,10 +628,10 @@ class ActorControllerTest extends RestDocsControllerSupport {
         @Test
         void addActorFilm_success() throws Exception {
             // arrange
-            var actorId = "1";
-            var filmId = "1";
-            var payload = new HashMap<String, String>();
-            payload.put(FilmDto.Film.Fields.filmId, filmId);
+            var actorId = 1;
+            var filmId = 1;
+            var payload = Maps.<String, String>newHashMap();
+            payload.put(FilmDto.Film.Fields.filmId, String.valueOf(filmId));
             when(actorService.addActorFilm(actorId, filmId)).thenReturn(academyDinosaur);
 
             // act
@@ -675,8 +683,8 @@ class ActorControllerTest extends RestDocsControllerSupport {
         @Test
         void deleteActorFilm_success() throws Exception {
             // arrange
-            var actorId = "1";
-            var filmId = "1";
+            var actorId = 1;
+            var filmId = 1;
 
             // act
             var execute = mockMvc.perform(delete("/actors/{actorId}/films/{filmId}", actorId, filmId)
@@ -716,8 +724,8 @@ class ActorControllerTest extends RestDocsControllerSupport {
         @Test
         void getActorFilmDetails_success() throws Exception {
             // arrange
-            var actorId = "1";
-            var filmId = "1";
+            var actorId = 1;
+            var filmId = 1;
             var model = Optional.of(FilmDetailsDto.FilmDetails.builder()
                     .filmId(1)
                     .title("ACADEMY DINOSAUR")
@@ -739,7 +747,7 @@ class ActorControllerTest extends RestDocsControllerSupport {
                     .andExpect(status().isOk())
                     .andExpect(jsonPath(HalRelation.Fields._links + "." + HalRelation.Fields.self + ".href").value(serverUrl + "/actors/" + actorId + "/films/" + filmId + "/details"))
                     .andExpect(jsonPath(HalRelation.Fields._links + "." + HalRelation.Fields.film + ".href").value(serverUrl + "/actors/" + actorId + "/films/" + filmId))
-                    .andExpect(jsonPath(HalRelation.Fields._links + "." + HalRelation.Fields.filmList + ".href").value(serverUrl + "/actors/" + actorId + "/films"))
+                    .andExpect(jsonPath(HalRelation.Fields._links + "." + HalRelation.Fields.filmList + ".href").value(serverUrl + "/actors/" + actorId + "/films{?releaseYear,rating}"))
                     .andExpect(jsonPath(HalRelation.Fields._links + "." + HalRelation.Fields.actor + ".href").value(serverUrl + "/actors/" + actorId));
             verify(actorService, times(1)).getActorFilmDetails(actorId, filmId);
 

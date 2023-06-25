@@ -1,8 +1,6 @@
 package com.example.app.app.staff.domain.dto;
 
 import com.example.app.app.location.domain.dto.AddressDto;
-import com.example.app.app.payment.domain.dto.PaymentDto;
-import com.example.app.app.rental.domain.dto.RentalDto;
 import com.example.app.app.store.domain.dto.StoreDto;
 import com.example.app.common.constant.HalRelation;
 import com.example.app.common.domain.dto.FullName;
@@ -19,7 +17,6 @@ import org.springframework.hateoas.server.core.Relation;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Collection;
 
 public class StaffDto {
     @Getter
@@ -64,16 +61,6 @@ public class StaffDto {
         private LocalDateTime lastUpdate;
 
         @JsonIgnore
-        @JsonProperty(Fields.paymentsByStaffId)
-        @ToString.Exclude
-        private Collection<PaymentDto.Payment> paymentsByStaffId;
-
-        @JsonIgnore
-        @JsonProperty(Fields.rentalsByStaffId)
-        @ToString.Exclude
-        private Collection<RentalDto.Rental> rentalsByStaffId;
-
-        @JsonIgnore
         @JsonProperty(Fields.addressByAddressId)
         @ToString.Exclude
         private AddressDto.Address addressByAddressId;
@@ -82,11 +69,6 @@ public class StaffDto {
         @JsonProperty(Fields.storeByStoreId)
         @ToString.Exclude
         private StoreDto.Store storeByStoreId;
-
-        @JsonIgnore
-        @JsonProperty(Fields.storesByStaffId)
-        @ToString.Exclude
-        private Collection<StoreDto.Store> storesByStaffId;
 
         @Override
         public boolean equals(Object o) {

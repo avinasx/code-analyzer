@@ -10,14 +10,13 @@ import com.example.app.app.catalog.domain.entity.QActorEntity;
 import com.example.app.app.catalog.domain.entity.QFilmActorEntity;
 import com.example.app.app.catalog.domain.entity.QFilmCategoryEntity;
 import com.example.app.app.catalog.domain.entity.QFilmEntity;
-import com.example.app.common.constant.FilmRating;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import java.time.Year;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,14 +58,8 @@ public class CustomActorRepositoryImpl implements CustomActorRepository {
     }
 
     @Override
-    public List<FilmDto.Film> findAllActorFilmListById(Integer actorId) {
-        var query = findActorFilm(actorId, null, null, null);
-        return query.fetch();
-    }
-
-    @Override
-    public List<FilmDto.Film> findAllActorFilmListByIdWithFilter(Integer actorId, Year releaseYear, FilmRating rating) {
-        var query = findActorFilm(actorId, null, releaseYear, rating);
+    public List<FilmDto.Film> findAllActorFilmListByIdWithCondition(Integer actorId, FilmDto.Film condition, Pageable pageable) {
+        var query = findActorFilm(actorId, null, condition, pageable);
         return query.fetch();
     }
 
@@ -76,7 +69,7 @@ public class CustomActorRepositoryImpl implements CustomActorRepository {
         return Optional.of(query.fetchFirst());
     }
 
-    private JPAQuery<FilmDto.Film> findActorFilm(Integer actorId, Integer filmId, Year releaseYear, FilmRating rating) {
+    private JPAQuery<FilmDto.Film> findActorFilm(Integer actorId, Integer filmId, FilmDto.Film condition, Pageable pageable) {
         var actor = QActorEntity.actorEntity;
         var film = QFilmEntity.filmEntity;
         var filmActor = QFilmActorEntity.filmActorEntity;
@@ -88,9 +81,10 @@ public class CustomActorRepositoryImpl implements CustomActorRepository {
                 .leftJoin(film).on(filmActor.filmId.eq(film.filmId))
                 .where(actor.actorId.eq(actorId))
                 .where(filterEquals(film.filmId, filmId))
-                .where(filterEquals(film.releaseYear.year(),
-                        Optional.ofNullable(releaseYear).map(Year::getValue).orElse(null)))
-                .where(filterEquals(film.rating, rating));
+                .where(filterEquals(film.releaseYear.year(), condition.getReleaseYear().getYear()))
+                .where(filterEquals(film.rating, condition.getRating()))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize());
     }
 
     @Override
@@ -122,7 +116,6 @@ public class CustomActorRepositoryImpl implements CustomActorRepository {
     }
 
     @Override
-
     public Optional<FilmDto.Film> addActorFilm(Integer actorId, Integer filmId) {
         var filmActor = QFilmActorEntity.filmActorEntity;
         var query = jpaQueryFactory

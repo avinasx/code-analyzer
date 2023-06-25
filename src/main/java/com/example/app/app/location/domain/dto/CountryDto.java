@@ -1,7 +1,6 @@
 package com.example.app.app.location.domain.dto;
 
 import com.example.app.app.location.domain.converter.CountryConverter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 import jakarta.persistence.Convert;
@@ -10,7 +9,6 @@ import lombok.*;
 import lombok.experimental.FieldNameConstants;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
 
 public class CountryDto {
     @Getter
@@ -22,20 +20,15 @@ public class CountryDto {
     @AllArgsConstructor
     public static class Country {
         @JsonProperty(Fields.countryId)
+        @Convert(converter = CountryConverter.class)
         private com.example.app.common.constant.Country countryId;
 
         @JsonProperty(Fields.country)
-        @Convert(converter = CountryConverter.class)
         @Size(min = 1, max = 50)
-        private com.example.app.common.constant.Country country;
+        private String country;
 
         @JsonProperty(Fields.lastUpdate)
         private LocalDateTime lastUpdate;
-
-        @JsonIgnore
-        @JsonProperty(Fields.citiesByCountryId)
-        @ToString.Exclude
-        private Collection<CityDto.City> citiesByCountryId;
 
         @Override
         public boolean equals(Object o) {

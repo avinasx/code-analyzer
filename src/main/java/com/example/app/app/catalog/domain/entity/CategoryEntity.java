@@ -13,7 +13,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Collection;
 
 @Entity(name = "category")
 @Table(name = "category", schema = "sakila")
@@ -44,10 +43,6 @@ public class CategoryEntity implements Serializable {
     @UpdateTimestamp
     @NotNull
     private LocalDateTime lastUpdate;
-
-    @OneToMany(mappedBy = "categoryByCategoryId", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    private Collection<FilmCategoryEntity> filmCategoriesByCategoryId;
 
     public void update(CategoryEntity entity) {
         this.name = entity.name;

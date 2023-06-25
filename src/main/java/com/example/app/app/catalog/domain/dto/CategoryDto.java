@@ -1,7 +1,6 @@
 package com.example.app.app.catalog.domain.dto;
 
 import com.example.app.app.catalog.domain.converter.CategoryConverter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 import jakarta.persistence.Convert;
@@ -10,7 +9,6 @@ import lombok.*;
 import lombok.experimental.FieldNameConstants;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
 
 public class CategoryDto {
     @Getter
@@ -31,11 +29,6 @@ public class CategoryDto {
 
         @JsonProperty(Fields.lastUpdate)
         private LocalDateTime lastUpdate;
-
-        @JsonIgnore
-        @JsonProperty(Fields.filmCategoriesByCategoryId)
-        @ToString.Exclude
-        private Collection<FilmDto.FilmCategory> filmCategoriesByCategoryId;
 
         @Override
         public boolean equals(Object o) {

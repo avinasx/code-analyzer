@@ -4,7 +4,6 @@ import com.example.app.app.catalog.domain.converter.FilmRatingConverter;
 import com.example.app.app.catalog.domain.converter.SpecialFeatureConverter;
 import com.example.app.app.location.domain.converter.LanguageConverter;
 import com.example.app.app.location.domain.entity.LanguageEntity;
-import com.example.app.app.store.domain.entity.InventoryEntity;
 import com.example.app.common.constant.FilmRating;
 import com.example.app.common.constant.Language;
 import com.example.app.common.constant.SpecialFeature;
@@ -21,7 +20,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.EnumSet;
 
 @Entity(name = "film")
@@ -127,18 +125,6 @@ public class FilmEntity implements Serializable {
     @JoinColumn(name = "original_language_id", referencedColumnName = "language_id")
     @ToString.Exclude
     private LanguageEntity languageByOriginalLanguageId;
-
-    @OneToMany(mappedBy = "filmByFilmId", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    private Collection<FilmActorEntity> filmActorsByFilmId;
-
-    @OneToMany(mappedBy = "filmByFilmId", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    private Collection<FilmCategoryEntity> filmCategoriesByFilmId;
-
-    @OneToMany(mappedBy = "filmByFilmId", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    private Collection<InventoryEntity> inventoriesByFilmId;
 
     public void update(FilmEntity entity) {
         this.title = entity.title;

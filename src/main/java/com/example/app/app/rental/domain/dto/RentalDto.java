@@ -1,7 +1,6 @@
 package com.example.app.app.rental.domain.dto;
 
 import com.example.app.app.customer.domain.dto.CustomerDto;
-import com.example.app.app.payment.domain.dto.PaymentDto;
 import com.example.app.app.staff.domain.dto.StaffDto;
 import com.example.app.app.store.domain.dto.InventoryDto;
 import com.example.app.common.constant.HalRelation;
@@ -17,7 +16,6 @@ import org.springframework.hateoas.server.core.Relation;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Collection;
 
 public class RentalDto {
     @Getter
@@ -48,11 +46,6 @@ public class RentalDto {
 
         @JsonProperty(Fields.lastUpdate)
         private LocalDateTime lastUpdate;
-
-        @JsonIgnore
-        @JsonProperty(Fields.paymentsByRentalId)
-        @ToString.Exclude
-        private Collection<PaymentDto.Payment> paymentsByRentalId;
 
         @JsonIgnore
         @JsonProperty(Fields.inventoryByInventoryId)
@@ -97,7 +90,51 @@ public class RentalDto {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class RentalRequest implements Serializable {
+    public static class RentalCreateRequest implements Serializable {
+        @Serial
+        private static final long serialVersionUID = 1L;
+
+        @JsonProperty(Fields.rentalDate)
+        private LocalDateTime rentalDate;
+
+        @JsonProperty(Fields.storeId)
+        private Integer storeId;
+
+        @JsonProperty(Fields.filmId)
+        private Integer filmId;
+
+        @JsonProperty(Fields.customerId)
+        private Integer customerId;
+
+        @JsonProperty(Fields.staffId)
+        private Integer staffId;
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            RentalCreateRequest that = (RentalCreateRequest) o;
+            return Objects.equal(rentalDate, that.rentalDate)
+                    && Objects.equal(storeId, that.storeId)
+                    && Objects.equal(filmId, that.filmId)
+                    && Objects.equal(customerId, that.customerId)
+                    && Objects.equal(staffId, that.staffId);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hashCode(rentalDate, storeId, filmId, customerId, staffId);
+        }
+    }
+
+    @Getter
+    @Setter
+    @ToString
+    @FieldNameConstants
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class RentalUpdateRequest implements Serializable {
         @Serial
         private static final long serialVersionUID = 1L;
 
@@ -120,7 +157,7 @@ public class RentalDto {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            RentalRequest that = (RentalRequest) o;
+            RentalUpdateRequest that = (RentalUpdateRequest) o;
             return Objects.equal(rentalDate, that.rentalDate)
                     && Objects.equal(inventoryId, that.inventoryId)
                     && Objects.equal(customerId, that.customerId)
@@ -132,6 +169,27 @@ public class RentalDto {
         public int hashCode() {
             return Objects.hashCode(rentalDate, inventoryId, customerId, returnDate, staffId);
         }
+    }
+
+    @Getter
+    @Setter
+    @ToString
+    @FieldNameConstants
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ReturnCreateRequest implements Serializable {
+        @Serial
+        private static final long serialVersionUID = 1L;
+
+        @JsonProperty(Fields.inventoryId)
+        private Integer inventoryId;
+
+        @JsonProperty(Fields.customerId)
+        private Integer customerId;
+
+        @JsonProperty(Fields.returnDate)
+        private LocalDateTime returnDate;
     }
 
     @Relation(collectionRelation = HalRelation.Fields.rentalList,

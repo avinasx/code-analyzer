@@ -2,8 +2,6 @@ package com.example.app.app.customer.domain.entity;
 
 import com.example.app.app.admin.domain.entity.UserEntity;
 import com.example.app.app.location.domain.entity.AddressEntity;
-import com.example.app.app.payment.domain.entity.PaymentEntity;
-import com.example.app.app.rental.domain.entity.RentalEntity;
 import com.example.app.app.store.domain.entity.StoreEntity;
 import com.example.app.common.domain.entity.FullName;
 import com.google.common.base.Objects;
@@ -17,7 +15,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Collection;
 
 @Entity(name = "customer")
 @Table(name = "customer", schema = "sakila", indexes = {
@@ -87,14 +84,6 @@ public class CustomerEntity implements Serializable {
     @NotNull
     @ToString.Exclude
     private AddressEntity addressByAddressId;
-
-    @OneToMany(mappedBy = "customerByCustomerId", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    private Collection<PaymentEntity> paymentsByCustomerId;
-
-    @OneToMany(mappedBy = "customerByCustomerId", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    private Collection<RentalEntity> rentalsByCustomerId;
 
     @OneToOne(mappedBy = "customerByCustomerId")
     @ToString.Exclude

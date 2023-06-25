@@ -1,13 +1,13 @@
 package com.example.app.util;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.restdocs.constraints.ConstraintDescriptions;
 import org.springframework.restdocs.snippet.Attributes;
 import org.springframework.util.StringUtils;
 
 import static org.springframework.restdocs.snippet.Attributes.key;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ConstrainedFieldAttribute {
     private final ConstraintDescriptions constraintDescriptions;
 

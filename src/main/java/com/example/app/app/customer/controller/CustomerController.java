@@ -9,7 +9,11 @@ import com.example.app.app.payment.assembler.PaymentRepresentationModelAssembler
 import com.example.app.app.payment.domain.dto.PaymentDto;
 import com.example.app.app.rental.assembler.RentalRepresentationModelAssembler;
 import com.example.app.app.rental.domain.dto.RentalDto;
+import com.example.app.app.rental.domain.vo.RentalStatus;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,20 +32,21 @@ public class CustomerController {
     private final RentalRepresentationModelAssembler rentalAssembler;
 
     @GetMapping(path = "")
-    public ResponseEntity<CollectionModel<CustomerDto.CustomerResponse>> getCustomerList() {
+    public ResponseEntity<CollectionModel<CustomerDto.CustomerResponse>> getCustomerList(
+            @PageableDefault(size = 10, page = 0, direction = Sort.Direction.ASC) Pageable pageable) {
         return ResponseEntity.ok(customerAssembler.toCollectionModel(
-                customerService.getCustomerList()));
+                customerService.getCustomerList(pageable)));
     }
 
     @PostMapping(path = "")
     public ResponseEntity<Void> addCustomer(@RequestBody CustomerDto.CustomerRequest model) {
         var result = customerService.addCustomer(model);
         return ResponseEntity.created(linkTo(methodOn(CustomerController.class)
-                .getCustomer(String.valueOf(result.getCustomerId()))).toUri()).build();
+                .getCustomer(result.getCustomerId())).toUri()).build();
     }
 
     @GetMapping(path = "/{customerId}")
-    public ResponseEntity<CustomerDto.CustomerResponse> getCustomer(@PathVariable String customerId) {
+    public ResponseEntity<CustomerDto.CustomerResponse> getCustomer(@PathVariable Integer customerId) {
         return customerService.getCustomer(customerId)
                 .map(customerAssembler::toModel)
                 .map(ResponseEntity::ok)
@@ -49,19 +54,21 @@ public class CustomerController {
     }
 
     @PutMapping(path = "/{customerId}")
-    public ResponseEntity<Void> updateCustomer(@PathVariable String customerId, @RequestBody CustomerDto.CustomerRequest model) {
+    public ResponseEntity<Void> updateCustomer(@PathVariable Integer customerId,
+                                               @RequestBody CustomerDto.CustomerRequest model) {
         var result = customerService.updateCustomer(customerId, model);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(path = "/{customerId}")
-    public ResponseEntity<Void> deleteCustomer(@PathVariable String customerId) {
+    public ResponseEntity<Void> deleteCustomer(@PathVariable Integer customerId) {
         customerService.deleteCustomer(customerId);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping(path = "/{customerId}/details")
-    public ResponseEntity<CustomerDetailsDto.CustomerDetailsResponse> getCustomerDetails(@PathVariable String customerId) {
+    public ResponseEntity<CustomerDetailsDto.CustomerDetailsResponse> getCustomerDetails(
+            @PathVariable Integer customerId) {
         return customerService.getCustomerDetails(customerId)
                 .map(customerDetailsAssembler::toModel)
                 .map(ResponseEntity::ok)
@@ -69,33 +76,22 @@ public class CustomerController {
     }
 
     @GetMapping(path = "/{customerId}/payments")
-    public ResponseEntity<CollectionModel<PaymentDto.PaymentResponse>> getCustomerPaymentList(@PathVariable String customerId) {
+    public ResponseEntity<CollectionModel<PaymentDto.PaymentResponse>> getCustomerPaymentList(
+            @PathVariable Integer customerId,
+            @RequestParam(required = false) String startDate,
+            @RequestParam(required = false) String endDate) {
         return ResponseEntity.ok(paymentAssembler.toCollectionModel(
-                customerService.getCustomerPaymentList(customerId)));
+                customerService.getCustomerPaymentList(customerId, startDate, endDate)));
     }
-
-    // @GetMapping(path = "/{customerId}/payments")
-    // public ResponseEntity<CollectionModel<PaymentResponseModel>> getCustomerPayments(
-    //         @PathVariable String customerId,
-    //         @RequestParam(required = false) String start_date,
-    //         @RequestParam(required = false) String end_date) {
-    //     return ResponseEntity.ok(paymentAssembler.toCollectionModel(
-    //             customerService.getCustomerPayments(customerId, start_date, end_date)));
-    // }
 
     @GetMapping(path = "/{customerId}/rentals")
-    public ResponseEntity<CollectionModel<RentalDto.RentalResponse>> getCustomerRentalList(@PathVariable String customerId) {
+    public ResponseEntity<CollectionModel<RentalDto.RentalResponse>> getCustomerRentalList(
+            @PathVariable Integer customerId,
+            @RequestParam(required = false) String status,
+            @RequestParam(required = false) String startDate,
+            @RequestParam(required = false) String endDate) {
+        var rentalStatus = status == null ? null : RentalStatus.valueOf(status.toUpperCase());
         return ResponseEntity.ok(rentalAssembler.toCollectionModel(
-                customerService.getCustomerRentalList(customerId)));
+                customerService.getCustomerRentalList(customerId, rentalStatus, startDate, endDate)));
     }
-
-    // @GetMapping(path = "/{customerId}/rentals")
-    // public ResponseEntity<CollectionModel<RentalResponseModel>> getCustomerRentals(
-    //         @PathVariable String customerId,
-    //         @RequestParam(required = false) String status,
-    //         @RequestParam(required = false) String start_date,
-    //         @RequestParam(required = false) String end_date) {
-    //     return ResponseEntity.ok(rentalAssembler.toCollectionModel(
-    //             customerService.getCustomerRentals(customerId, status, start_date, end_date)));
-    // }
 }

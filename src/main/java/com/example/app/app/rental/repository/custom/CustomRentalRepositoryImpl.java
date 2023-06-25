@@ -1,22 +1,25 @@
 package com.example.app.app.rental.repository.custom;
 
-import com.example.app.app.rental.domain.dto.RentalDto;
+import com.example.app.app.rental.domain.entity.QRentalEntity;
+import com.example.app.app.rental.domain.entity.RentalEntity;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
-import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
 public class CustomRentalRepositoryImpl implements CustomRentalRepository {
-    @Override
-    public List<RentalDto.Rental> findAllRentalDetailsList() {
-        return null;
-    }
+    private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Optional<RentalDto.Rental> findRentalDetailsById(Integer rentalId) {
-        return Optional.empty();
+    public RentalEntity findRentedDvdRentalId(Integer customerId, Integer inventoryId) {
+        var rental = QRentalEntity.rentalEntity;
+        var query = jpaQueryFactory
+                .select(rental)
+                .from(rental)
+                .where(rental.customerId.eq(customerId))
+                .where(rental.inventoryId.eq(inventoryId))
+                .where(rental.returnDate.isNull());
+        return query.fetchFirst();
     }
 }

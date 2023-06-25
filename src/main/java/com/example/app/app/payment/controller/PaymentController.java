@@ -4,12 +4,12 @@ import com.example.app.app.payment.assembler.PaymentRepresentationModelAssembler
 import com.example.app.app.payment.domain.dto.PaymentDto;
 import com.example.app.app.payment.service.PaymentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping(value = "/payments")
@@ -19,20 +19,14 @@ public class PaymentController {
     private final PaymentRepresentationModelAssembler paymentAssembler;
 
     @GetMapping(path = "")
-    public ResponseEntity<CollectionModel<PaymentDto.PaymentResponse>> getPaymentList() {
+    public ResponseEntity<CollectionModel<PaymentDto.PaymentResponse>> getPaymentList(
+            @PageableDefault(size = 10, page = 0, direction = Sort.Direction.ASC) Pageable pageable) {
         return ResponseEntity.ok(paymentAssembler.toCollectionModel(
-                paymentService.getPaymentList()));
-    }
-
-    @PostMapping(path = "")
-    public ResponseEntity<Void> addPayment(@RequestBody PaymentDto.PaymentRequest model) {
-        var result = paymentService.addPayment(model);
-        return ResponseEntity.created(linkTo(methodOn(PaymentController.class)
-                .getPayment(String.valueOf(result.getPaymentId()))).toUri()).build();
+                paymentService.getPaymentList(pageable)));
     }
 
     @GetMapping(path = "/{paymentId}")
-    public ResponseEntity<PaymentDto.PaymentResponse> getPayment(@PathVariable String paymentId) {
+    public ResponseEntity<PaymentDto.PaymentResponse> getPayment(@PathVariable Integer paymentId) {
         return paymentService.getPayment(paymentId)
                 .map(paymentAssembler::toModel)
                 .map(ResponseEntity::ok)
@@ -40,19 +34,20 @@ public class PaymentController {
     }
 
     @PutMapping(path = "/{paymentId}")
-    public ResponseEntity<Void> updatePayment(@PathVariable String paymentId, @RequestBody PaymentDto.PaymentRequest model) {
+    public ResponseEntity<Void> updatePayment(@PathVariable Integer paymentId,
+                                              @RequestBody PaymentDto.PaymentRequest model) {
         var result = paymentService.updatePayment(paymentId, model);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(path = "/{paymentId}")
-    public ResponseEntity<Void> deletePayment(@PathVariable String paymentId) {
+    public ResponseEntity<Void> deletePayment(@PathVariable Integer paymentId) {
         paymentService.deletePayment(paymentId);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping(path = "/{paymentId}/details")
-    public ResponseEntity<PaymentDto.PaymentResponse> getPaymentDetails(@PathVariable String paymentId) {
+    public ResponseEntity<PaymentDto.PaymentResponse> getPaymentDetails(@PathVariable Integer paymentId) {
         return paymentService.getPaymentDetails(paymentId)
                 .map(paymentAssembler::toModel)
                 .map(ResponseEntity::ok)

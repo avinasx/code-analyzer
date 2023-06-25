@@ -1,7 +1,6 @@
 package com.example.app.app.store.domain.dto;
 
 import com.example.app.app.catalog.domain.dto.FilmDto;
-import com.example.app.app.rental.domain.dto.RentalDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
@@ -9,7 +8,6 @@ import lombok.*;
 import lombok.experimental.FieldNameConstants;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
 
 public class InventoryDto {
     @Getter
@@ -41,11 +39,6 @@ public class InventoryDto {
         @JsonProperty(Fields.storeByStoreId)
         @ToString.Exclude
         private StoreDto.Store storeByStoreId;
-
-        @JsonIgnore
-        @JsonProperty(Fields.rentalsByInventoryId)
-        @ToString.Exclude
-        private Collection<RentalDto.Rental> rentalsByInventoryId;
 
         @Override
         public boolean equals(Object o) {
