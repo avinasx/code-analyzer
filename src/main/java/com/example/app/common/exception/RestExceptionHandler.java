@@ -21,6 +21,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(appError, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(ResourceNotAvailableException.class)
+    public ResponseEntity<AppError> handleResourceNotAvailableException(HttpServletRequest request, ResourceNotAvailableException ex) {
+        log.error(ErrorCode.RESOURCE_NOT_AVAILABLE.getPhrase() + ": {}", ex.getMessage());
+        ex.printStackTrace();
+        var appError = ErrorUtils.createError(ErrorCode.RESOURCE_NOT_AVAILABLE, request);
+        return new ResponseEntity<>(appError, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<AppError> handleException(HttpServletRequest request, Exception ex) {
         log.error(ErrorCode.GENERIC_ERROR.getPhrase() + ": {}", ex.getMessage());
