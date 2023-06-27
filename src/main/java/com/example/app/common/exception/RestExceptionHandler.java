@@ -1,10 +1,8 @@
 package com.example.app.common.exception;
 
 import com.example.app.common.constant.ErrorCode;
-import com.example.app.common.domain.error.AppError;
-import jakarta.servlet.http.HttpServletRequest;
+import com.example.app.common.domain.dto.ResponseDto;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,26 +12,23 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @Slf4j
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<AppError> handleResourceNotFoundException(HttpServletRequest request, ResourceNotFoundException ex) {
-        log.error(ErrorCode.RESOURCE_NOT_FOUND.getPhrase() + ": {}", ex.getMessage());
-        ex.printStackTrace();
-        var appError = ErrorUtils.createError(ErrorCode.RESOURCE_NOT_FOUND, request);
-        return new ResponseEntity<>(appError, HttpStatus.NOT_FOUND);
+    public ResponseEntity.HeadersBuilder<?> handleResourceNotFoundException(ResourceNotFoundException ex) {
+        var code = ErrorCode.RESOURCE_NOT_AVAILABLE;
+        log.error(code.getPhrase() + ex);
+        return ResponseEntity.of(ResponseDto.of(code));
     }
 
     @ExceptionHandler(ResourceNotAvailableException.class)
-    public ResponseEntity<AppError> handleResourceNotAvailableException(HttpServletRequest request, ResourceNotAvailableException ex) {
-        log.error(ErrorCode.RESOURCE_NOT_AVAILABLE.getPhrase() + ": {}", ex.getMessage());
-        ex.printStackTrace();
-        var appError = ErrorUtils.createError(ErrorCode.RESOURCE_NOT_AVAILABLE, request);
-        return new ResponseEntity<>(appError, HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity.HeadersBuilder<?> handleResourceNotAvailableException(ResourceNotAvailableException ex) {
+        var code = ErrorCode.RESOURCE_NOT_AVAILABLE;
+        log.error(code.getPhrase() + ex);
+        return ResponseEntity.of(ResponseDto.of(code));
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<AppError> handleException(HttpServletRequest request, Exception ex) {
-        log.error(ErrorCode.GENERIC_ERROR.getPhrase() + ": {}", ex.getMessage());
-        ex.printStackTrace();
-        var appError = ErrorUtils.createError(ErrorCode.GENERIC_ERROR, request);
-        return new ResponseEntity<>(appError, HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity.HeadersBuilder<?> handleException(Exception ex) {
+        var code = ErrorCode.GENERIC_ERROR;
+        log.error(code.getPhrase() + ex);
+        return ResponseEntity.of(ResponseDto.of(code));
     }
 }
