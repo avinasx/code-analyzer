@@ -1,6 +1,6 @@
 package com.example.app.common.provider;
 
-import com.example.app.app.auth.domain.vo.UserRole;
+import com.example.app.services.auth.domain.vo.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
