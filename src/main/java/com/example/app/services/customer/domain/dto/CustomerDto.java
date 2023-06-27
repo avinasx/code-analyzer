@@ -42,9 +42,6 @@ public class CustomerDto {
         @JsonProperty(Fields.active)
         private Boolean active;
 
-        @JsonProperty(Fields.password)
-        private String password;
-
         @JsonProperty(Fields.authorityId)
         private Integer authorityId;
 
@@ -114,9 +111,6 @@ public class CustomerDto {
 
         @JsonProperty(Fields.active)
         private Boolean active;
-
-        @JsonProperty(Fields.password)
-        private String password;
 
         @JsonProperty(Fields.authorityId)
         private Integer authorityId;
