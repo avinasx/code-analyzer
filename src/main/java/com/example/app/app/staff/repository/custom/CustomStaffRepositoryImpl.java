@@ -23,20 +23,20 @@ public class CustomStaffRepositoryImpl implements CustomStaffRepository {
 
     @Override
     public List<StaffDetailsDto.StaffDetails> findAllStaffDetailsList() {
-        var query = findStaffDetail(null);
+        final var query = findStaffDetail(null);
         return query.fetch();
     }
 
     @Override
     public Optional<StaffDetailsDto.StaffDetails> findStaffDetailsById(Integer staffId) {
-        var query = findStaffDetail(staffId);
+        final var query = findStaffDetail(staffId);
         return Optional.of(query.fetchFirst());
     }
 
     private JPAQuery<StaffDetailsDto.StaffDetails> findStaffDetail(Integer id) {
-        var staff = QStaffEntity.staffEntity;
-        var address = QAddressEntity.addressEntity;
-        var city = QCityEntity.cityEntity;
+        final var staff = QStaffEntity.staffEntity;
+        final var address = QAddressEntity.addressEntity;
+        final var city = QCityEntity.cityEntity;
 
         return jpaQueryFactory
                 .select(Projections.constructor(StaffDetailsDto.StaffDetails.class,

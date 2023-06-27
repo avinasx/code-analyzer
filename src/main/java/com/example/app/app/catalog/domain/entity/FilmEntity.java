@@ -145,7 +145,7 @@ public class FilmEntity implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        FilmEntity that = (FilmEntity) o;
+        final FilmEntity that = (FilmEntity) o;
         return Objects.equal(filmId, that.filmId)
                 && Objects.equal(title, that.title)
                 && Objects.equal(description, that.description)

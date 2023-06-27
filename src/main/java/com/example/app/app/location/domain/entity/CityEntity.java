@@ -68,7 +68,7 @@ public class CityEntity implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CityEntity that = (CityEntity) o;
+        final CityEntity that = (CityEntity) o;
         return Objects.equal(cityId, that.cityId)
                 && Objects.equal(city, that.city)
                 && countryId == that.countryId

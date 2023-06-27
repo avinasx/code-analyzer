@@ -53,7 +53,7 @@ public class CountryEntity implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CountryEntity that = (CountryEntity) o;
+        final CountryEntity that = (CountryEntity) o;
         return countryId == that.countryId
                 && Objects.equal(country, that.country)
                 && Objects.equal(lastUpdate, that.lastUpdate);

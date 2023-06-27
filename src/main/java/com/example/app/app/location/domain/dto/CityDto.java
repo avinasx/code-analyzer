@@ -47,7 +47,7 @@ public class CityDto {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            City that = (City) o;
+            final City that = (City) o;
             return Objects.equal(cityId, that.cityId)
                     && Objects.equal(city, that.city)
                     && countryId == that.countryId
@@ -82,7 +82,7 @@ public class CityDto {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            CityRequest that = (CityRequest) o;
+            final CityRequest that = (CityRequest) o;
             return Objects.equal(city, that.city)
                     && countryId == that.countryId;
         }
@@ -113,7 +113,7 @@ public class CityDto {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             if (!super.equals(o)) return false;
-            CityResponse that = (CityResponse) o;
+            final CityResponse that = (CityResponse) o;
             return Objects.equal(city, that.city);
         }
 

@@ -19,7 +19,7 @@ public class StoreDetailsRepresentationModelAssembler extends RepresentationMode
     @Override
     @lombok.NonNull
     public StoreDetailsDto.StoreDetailsResponse toModel(@lombok.NonNull StoreDetailsDto.StoreDetails entity) {
-        var model = instantiateModel(entity);
+        final var model = instantiateModel(entity);
         model.setStoreDetails(entity);
         model.add(linkTo(methodOn(StoreController.class).getStoreDetails(entity.getId())).withSelfRel());
         model.add(linkTo(methodOn(StoreController.class).getStore(entity.getId())).withRel(HalRelation.Fields.store));

@@ -19,7 +19,7 @@ public class CustomerDetailsRepresentationModelAssembler extends RepresentationM
     @Override
     @lombok.NonNull
     public CustomerDetailsDto.CustomerDetailsResponse toModel(@lombok.NonNull CustomerDetailsDto.CustomerDetails entity) {
-        var model = instantiateModel(entity);
+        final var model = instantiateModel(entity);
         model.setCustomerDetailsModel(entity);
         model.add(linkTo(methodOn(CustomerController.class).getCustomerDetails(entity.getId())).withSelfRel());
         model.add(linkTo(methodOn(CustomerController.class).getCustomer(entity.getId())).withRel(HalRelation.Fields.customer));

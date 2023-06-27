@@ -51,7 +51,7 @@ public class AuthorityEntity implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AuthorityEntity that = (AuthorityEntity) o;
+        final AuthorityEntity that = (AuthorityEntity) o;
         return Objects.equal(authorityId, that.authorityId)
                 && Objects.equal(email, that.email)
                 && Objects.equal(authority, that.authority);

@@ -37,7 +37,7 @@ public class StaffController {
     @PostMapping(path = "")
     @Secured(UserRole.Constants.ROLE_ADMIN)
     public ResponseEntity<Void> addStaff(@RequestBody StaffDto.StaffRequest model) {
-        var result = staffService.addStaff(model);
+        final var result = staffService.addStaff(model);
         return ResponseEntity.created(linkTo(methodOn(StaffController.class)
                 .getStaff(result.getStaffId())).toUri()).build();
     }
@@ -55,7 +55,7 @@ public class StaffController {
     @Secured(UserRole.Constants.ROLE_ADMIN)
     public ResponseEntity<Void> updateStaff(@PathVariable Integer staffId,
                                             @RequestBody StaffDto.StaffRequest model) {
-        var result = staffService.updateStaff(staffId, model);
+        final var result = staffService.updateStaff(staffId, model);
         return ResponseEntity.ok().build();
     }
 

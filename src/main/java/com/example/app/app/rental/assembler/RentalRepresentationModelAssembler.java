@@ -19,7 +19,7 @@ public class RentalRepresentationModelAssembler extends RepresentationModelAssem
     @Override
     @lombok.NonNull
     public RentalDto.RentalResponse toModel(@lombok.NonNull RentalDto.Rental entity) {
-        var model = instantiateModel(entity);
+        final var model = instantiateModel(entity);
         model.setRental(entity);
         model.add(linkTo(methodOn(RentalController.class).getRental(entity.getRentalId())).withSelfRel());
         model.add(linkTo(methodOn(RentalController.class).getRentalList(Pageable.unpaged())).withRel(HalRelation.Fields.rentalList));

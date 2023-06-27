@@ -101,7 +101,7 @@ public class RentalEntity implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        RentalEntity that = (RentalEntity) o;
+        final RentalEntity that = (RentalEntity) o;
         return Objects.equal(rentalId, that.rentalId)
                 && Objects.equal(rentalDate, that.rentalDate)
                 && Objects.equal(inventoryId, that.inventoryId)

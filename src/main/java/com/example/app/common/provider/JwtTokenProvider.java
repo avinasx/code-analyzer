@@ -29,7 +29,7 @@ public class JwtTokenProvider {
     }
 
     public String createToken(UserDetails user) {
-        var claims = Jwts.claims();
+        final var claims = Jwts.claims();
         claims.put("email", user.getUsername());
         claims.put("authorities", user.getAuthorities().stream().toList());
         claims.setIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.of("Asia/Seoul")).toInstant()));
@@ -40,7 +40,7 @@ public class JwtTokenProvider {
     }
 
     public Claims decodeToken(String token) {
-        var parser = Jwts.parserBuilder()
+        final var parser = Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build();
         return parser.parseClaimsJws(token).getBody();

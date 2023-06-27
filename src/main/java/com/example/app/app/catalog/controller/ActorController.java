@@ -48,7 +48,7 @@ public class ActorController {
     @PostMapping(path = "")
     @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<Void> addActor(@RequestBody ActorDto.ActorRequest model) {
-        var result = actorService.addActor(model);
+        final var result = actorService.addActor(model);
         return ResponseEntity.created(linkTo(methodOn(ActorController.class)
                 .getActor(result.getActorId())).toUri()).build();
     }
@@ -66,7 +66,7 @@ public class ActorController {
     @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<Void> updateActor(@PathVariable Integer actorId,
                                             @RequestBody ActorDto.ActorRequest model) {
-        var result = actorService.updateActor(actorId, model);
+        final var result = actorService.updateActor(actorId, model);
         return ResponseEntity.ok().build();
     }
 
@@ -93,13 +93,13 @@ public class ActorController {
             @RequestParam(required = false) String releaseYear,
             @RequestParam(required = false) String rating,
             @PageableDefault(size = 10, page = 0, direction = Sort.Direction.ASC) Pageable pageable) {
-        var condition = FilmDto.Film.builder()
+        final var condition = FilmDto.Film.builder()
                 .releaseYear(releaseYear == null ? null : LocalDate.parse(releaseYear))
                 .rating(rating == null ? null : FilmRating.valueOf(rating))
                 .build();
-        var representation = filmAssembler.toCollectionModel(
+        final var representation = filmAssembler.toCollectionModel(
                 actorService.getActorFilmList(actorId, condition, pageable));
-        var updatedRepresentation = representation.removeLinks()
+        final var updatedRepresentation = representation.removeLinks()
                 .add(linkTo(methodOn(ActorController.class).getActorFilmList(actorId, releaseYear, rating, pageable)).withSelfRel())
                 .add(linkTo(methodOn(ActorController.class).getActor(actorId)).withRel(HalRelation.Fields.actor));
         return ResponseEntity.ok(updatedRepresentation);
@@ -109,7 +109,7 @@ public class ActorController {
     @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<Void> addActorFilm(@PathVariable Integer actorId,
                                              @RequestBody Map<String, String> input) {
-        var result = actorService.addActorFilm(actorId, Integer.valueOf(input.get(FilmDto.Film.Fields.filmId)));
+        final var result = actorService.addActorFilm(actorId, Integer.valueOf(input.get(FilmDto.Film.Fields.filmId)));
         return ResponseEntity.created(linkTo(methodOn(ActorController.class)
                 .getActorFilm(actorId, result.getFilmId())).toUri()).build();
     }
@@ -118,9 +118,9 @@ public class ActorController {
     @Secured(UserRole.Constants.ROLE_READ)
     public ResponseEntity<FilmDto.FilmResponse> getActorFilm(@PathVariable Integer actorId,
                                                              @PathVariable Integer filmId) {
-        var representation = actorService.getActorFilm(actorId, filmId)
+        final var representation = actorService.getActorFilm(actorId, filmId)
                 .map(filmAssembler::toModel);
-        var updatedRepresentation = representation.map(r -> r.removeLinks()
+        final var updatedRepresentation = representation.map(r -> r.removeLinks()
                 .add(linkTo(methodOn(ActorController.class).getActorFilm(actorId, filmId)).withSelfRel())
                 .add(linkTo(methodOn(ActorController.class).getActorFilmList(actorId, null, null, Pageable.unpaged()))
                         .withRel(HalRelation.Fields.filmList))
@@ -141,9 +141,9 @@ public class ActorController {
     @Secured(UserRole.Constants.ROLE_READ)
     public ResponseEntity<FilmDetailsDto.FilmDetailsResponse> getActorFilmDetails(@PathVariable Integer actorId,
                                                                                   @PathVariable Integer filmId) {
-        var representation = actorService.getActorFilmDetails(actorId, filmId)
+        final var representation = actorService.getActorFilmDetails(actorId, filmId)
                 .map(filmDetailsAssembler::toModel);
-        var updatedRepresentation = representation.map(r -> r.removeLinks()
+        final var updatedRepresentation = representation.map(r -> r.removeLinks()
                 .add(linkTo(methodOn(ActorController.class).getActorFilmDetails(actorId, filmId)).withSelfRel())
                 .add(linkTo(methodOn(ActorController.class).getActorFilm(actorId, filmId)).withRel(HalRelation.Fields.film))
                 .add(linkTo(methodOn(ActorController.class).getActorFilmList(actorId, null, null, Pageable.unpaged()))

@@ -12,25 +12,25 @@ public class ConstrainedFieldDocumentation {
     private final Class<?> clazz;
 
     public List<FieldDescriptor> restdocsFields(List<FieldDescriptor> requestFieldList) {
-        var constrainedFieldAttribute = new ConstrainedFieldAttribute(clazz);
+        final var constrainedFieldAttribute = new ConstrainedFieldAttribute(clazz);
         return requestFieldList.stream()
                 .map(fieldDescriptor -> {
-                    var validationConstraints = constrainedFieldAttribute.constrainedAttribute(fieldDescriptor.getPath());
+                    final var validationConstraints = constrainedFieldAttribute.constrainedAttribute(fieldDescriptor.getPath());
                     return fieldDescriptor.attributes(validationConstraints);
                 })
                 .collect(Collectors.toList());
     }
 
     public List<FieldDescriptor> openapiFields(List<FieldDescriptor> requestFieldList) {
-        var constrainedFieldDescriptor = new ConstrainedFields(clazz);
+        final var constrainedFieldDescriptor = new ConstrainedFields(clazz);
         return requestFieldList.stream()
                 .map(fieldDescriptor -> {
-                    var type = fieldDescriptor.getType();
-                    var optional = fieldDescriptor.isOptional();
-                    var ignored = fieldDescriptor.isIgnored();
-                    var description = fieldDescriptor.getDescription();
+                    final var type = fieldDescriptor.getType();
+                    final var optional = fieldDescriptor.isOptional();
+                    final var ignored = fieldDescriptor.isIgnored();
+                    final var description = fieldDescriptor.getDescription();
 
-                    var field = constrainedFieldDescriptor.withPath(fieldDescriptor.getPath());
+                    final var field = constrainedFieldDescriptor.withPath(fieldDescriptor.getPath());
                     field.type(type).description(description);
                     if (optional) {
                         field.optional();

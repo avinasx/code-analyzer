@@ -49,7 +49,7 @@ public class ActorEntity implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ActorEntity that = (ActorEntity) o;
+        final ActorEntity that = (ActorEntity) o;
         return Objects.equal(actorId, that.actorId)
                 && Objects.equal(fullName, that.fullName)
                 && Objects.equal(lastUpdate, that.lastUpdate);

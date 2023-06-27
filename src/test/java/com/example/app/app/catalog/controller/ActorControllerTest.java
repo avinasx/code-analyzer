@@ -92,11 +92,11 @@ class ActorControllerTest extends RestDocsControllerSupport {
         @Test
         void getActorList_success() throws Exception {
             // arrange
-            var pageable = Pageable.ofSize(10).withPage(0);
+            final var pageable = Pageable.ofSize(10).withPage(0);
             when(actorService.getActorList(pageable)).thenReturn(List.of(guiness, walhberg));
 
             // act
-            var execute = mockMvc.perform(get("/actors")
+            final var execute = mockMvc.perform(get("/actors")
                     .accept(MediaTypes.HAL_JSON));
 
             // assert
@@ -106,19 +106,19 @@ class ActorControllerTest extends RestDocsControllerSupport {
             verify(actorService, times(1)).getActorList(pageable);
 
             // descriptors
-            var actorBase = HalRelation.Fields.actor + "." + HalRelation.Fields.read + ".";
-            var actorLinkBase = HalRelation.Fields.actor + ".hal." + HalRelation.Fields.item + ".";
-            var actorListLinkBase = HalRelation.Fields.actor + ".hal." + HalRelation.Fields.collection + ".";
-            var embeddedBase = HalRelation.Fields._embedded + "." + HalRelation.Fields.actorList + "[].";
+            final var actorBase = HalRelation.Fields.actor + "." + HalRelation.Fields.read + ".";
+            final var actorLinkBase = HalRelation.Fields.actor + ".hal." + HalRelation.Fields.item + ".";
+            final var actorListLinkBase = HalRelation.Fields.actor + ".hal." + HalRelation.Fields.collection + ".";
+            final var embeddedBase = HalRelation.Fields._embedded + "." + HalRelation.Fields.actorList + "[].";
 
-            var responseFieldList = List.of(
+            final var responseFieldList = List.of(
                     fieldWithPath(embeddedBase + ActorDto.Actor.Fields.actorId).description(getMessageSourceMessage(actorBase + "responseField." + ActorDto.Actor.Fields.actorId)),
                     fieldWithPath(embeddedBase + FullName.Fields.firstName).description(getMessageSourceMessage(actorBase + "responseField." + FullName.Fields.firstName)),
                     fieldWithPath(embeddedBase + FullName.Fields.lastName).description(getMessageSourceMessage(actorBase + "responseField." + FullName.Fields.lastName)),
                     fieldWithPath(embeddedBase + ActorDto.Actor.Fields.lastUpdate).description(getMessageSourceMessage(actorBase + "responseField." + ActorDto.Actor.Fields.lastUpdate)),
                     subsectionWithPath(embeddedBase + HalRelation.Fields._links).description(getMessageSourceMessage(actorListLinkBase + HalRelation.Fields._links)),
                     subsectionWithPath(HalRelation.Fields._links).description(getMessageSourceMessage(actorLinkBase + HalRelation.Fields._links)));
-            var linkList = List.of(
+            final var linkList = List.of(
                     linkWithRel(HalRelation.Fields.self).description(getMessageSourceMessage(actorLinkBase + HalRelation.Fields.self)));
 
             // restdocs
@@ -127,7 +127,7 @@ class ActorControllerTest extends RestDocsControllerSupport {
                     responseFields(responseFieldList), links(linkList)));
 
             // openapi
-            var codeBase = HalRelation.Fields.actor + ".controller." + HalRelation.Fields.getActorList;
+            final var codeBase = HalRelation.Fields.actor + ".controller." + HalRelation.Fields.getActorList;
             execute.andDo(MockMvcRestDocumentationWrapper.document(OPENAPI_DOCUMENT_IDENTIFIER,
                     ResourceDocumentation.resource(ResourceSnippetParameters.builder()
                             .tag(getMessageSourceMessage(codeBase + ".tag"))
@@ -142,11 +142,11 @@ class ActorControllerTest extends RestDocsControllerSupport {
         @Test
         void getActorList_trailingSlash() throws Exception {
             // arrange
-            var pageable = Pageable.ofSize(10).withPage(0);
+            final var pageable = Pageable.ofSize(10).withPage(0);
             when(actorService.getActorList(pageable)).thenReturn(List.of(guiness, walhberg));
 
             // act
-            var execute = mockMvc.perform(get("/actors/")
+            final var execute = mockMvc.perform(get("/actors/")
                     .accept(MediaTypes.HAL_JSON));
 
             // assert
@@ -158,11 +158,11 @@ class ActorControllerTest extends RestDocsControllerSupport {
         @Test
         void getActor_success() throws Exception {
             // arrange
-            var actorId = 1;
+            final var actorId = 1;
             when(actorService.getActor(actorId)).thenReturn(Optional.of(guiness));
 
             // act
-            var execute = mockMvc.perform(get("/actors/{actorId}", actorId)
+            final var execute = mockMvc.perform(get("/actors/{actorId}", actorId)
                     .accept(MediaTypes.HAL_JSON));
 
             // assert
@@ -181,26 +181,26 @@ class ActorControllerTest extends RestDocsControllerSupport {
             verify(actorService, times(1)).getActor(actorId);
 
             // descriptors
-            var actorBase = HalRelation.Fields.actor + "." + HalRelation.Fields.read + ".";
-            var actorLinkBase = HalRelation.Fields.actor + ".hal." + HalRelation.Fields.item + ".";
-            var actorListLinkBase = HalRelation.Fields.actor + ".hal." + HalRelation.Fields.collection + ".";
+            final var actorBase = HalRelation.Fields.actor + "." + HalRelation.Fields.read + ".";
+            final var actorLinkBase = HalRelation.Fields.actor + ".hal." + HalRelation.Fields.item + ".";
+            final var actorListLinkBase = HalRelation.Fields.actor + ".hal." + HalRelation.Fields.collection + ".";
 
-            var pathParameterList = List.of(
+            final var pathParameterList = List.of(
                     parameterWithName(ActorDto.Actor.Fields.actorId).description(getMessageSourceMessage(actorBase + "pathParameter." + ActorDto.Actor.Fields.actorId)));
-            var responseFieldList = List.of(
+            final var responseFieldList = List.of(
                     fieldWithPath(ActorDto.Actor.Fields.actorId).description(getMessageSourceMessage(actorBase + "responseField." + ActorDto.Actor.Fields.actorId)),
                     fieldWithPath(FullName.Fields.firstName).description(getMessageSourceMessage(actorBase + "responseField." + FullName.Fields.firstName)),
                     fieldWithPath(FullName.Fields.lastName).description(getMessageSourceMessage(actorBase + "responseField." + FullName.Fields.lastName)),
                     fieldWithPath(ActorDto.Actor.Fields.lastUpdate).description(getMessageSourceMessage(actorBase + "responseField." + ActorDto.Actor.Fields.lastUpdate)),
                     subsectionWithPath(HalRelation.Fields._links).description(getMessageSourceMessage(actorLinkBase + HalRelation.Fields._links)));
-            var linkList = List.of(
+            final var linkList = List.of(
                     linkWithRel(HalRelation.Fields.self).description(getMessageSourceMessage(actorLinkBase + HalRelation.Fields.self)),
                     linkWithRel(HalRelation.Fields.update).description(getMessageSourceMessage(actorLinkBase + HalRelation.Fields.update)),
                     linkWithRel(HalRelation.Fields.delete).description(getMessageSourceMessage(actorLinkBase + HalRelation.Fields.delete)),
                     linkWithRel(HalRelation.Fields.details).description(getMessageSourceMessage(actorLinkBase + HalRelation.Fields.details)),
                     linkWithRel(HalRelation.Fields.create).description(getMessageSourceMessage(actorLinkBase + HalRelation.Fields.create)),
                     linkWithRel(HalRelation.Fields.actorList).description(getMessageSourceMessage(actorListLinkBase + HalRelation.Fields.self)));
-            var openapiPathParameterList = OpenApiDescriptorTransformer.transformParameter(pathParameterList);
+            final var openapiPathParameterList = OpenApiDescriptorTransformer.transformParameter(pathParameterList);
 
             // restdocs
             execute.andDo(MockMvcRestDocumentation.document(RESTDOCS_DOCUMENT_IDENTIFIER,
@@ -208,7 +208,7 @@ class ActorControllerTest extends RestDocsControllerSupport {
                     pathParameters(pathParameterList), responseFields(responseFieldList), links(linkList)));
 
             // openapi
-            var codeBase = HalRelation.Fields.actor + ".controller." + HalRelation.Fields.getActor;
+            final var codeBase = HalRelation.Fields.actor + ".controller." + HalRelation.Fields.getActor;
             execute.andDo(MockMvcRestDocumentationWrapper.document(OPENAPI_DOCUMENT_IDENTIFIER,
                     ResourceDocumentation.resource(ResourceSnippetParameters.builder()
                             .tag(getMessageSourceMessage(codeBase + ".tag"))
@@ -254,7 +254,7 @@ class ActorControllerTest extends RestDocsControllerSupport {
             when(actorService.addActor(requestModel)).thenReturn(newActor);
 
             // act
-            var execute = mockMvc.perform(post("/actors")
+            final var execute = mockMvc.perform(post("/actors")
                     .accept(MediaTypes.HAL_JSON)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(payload)));
@@ -267,17 +267,17 @@ class ActorControllerTest extends RestDocsControllerSupport {
             verify(actorService, times(1)).addActor(any(ActorDto.ActorRequest.class));
 
             // descriptors
-            var actorBase = HalRelation.Fields.actor + "." + HalRelation.Fields.create + ".";
+            final var actorBase = HalRelation.Fields.actor + "." + HalRelation.Fields.create + ".";
 
-            var requestFieldList = List.of(
+            final var requestFieldList = List.of(
                     fieldWithPath(ActorDto.ActorRequest.Fields.firstName).description(getMessageSourceMessage(actorBase + "requestField." + ActorDto.ActorRequest.Fields.firstName)),
                     fieldWithPath(ActorDto.ActorRequest.Fields.lastName).description(getMessageSourceMessage(actorBase + "requestField." + ActorDto.ActorRequest.Fields.lastName)));
-            var responseHeaderList = List.of(
+            final var responseHeaderList = List.of(
                     headerWithName(HttpHeaders.LOCATION).description(getMessageSourceMessage(actorBase + "responseHeader." + HttpHeaders.LOCATION)));
-            var openapiResponseHeaderList = OpenApiDescriptorTransformer.transformHeader(responseHeaderList);
-            var fieldDescriptors = new ConstrainedFieldDocumentation(ActorDto.ActorRequest.class);
-            var restdocsRequestFieldList = fieldDescriptors.restdocsFields(requestFieldList);
-            var openapiRequestFieldList = fieldDescriptors.openapiFields(requestFieldList);
+            final var openapiResponseHeaderList = OpenApiDescriptorTransformer.transformHeader(responseHeaderList);
+            final var fieldDescriptors = new ConstrainedFieldDocumentation(ActorDto.ActorRequest.class);
+            final var restdocsRequestFieldList = fieldDescriptors.restdocsFields(requestFieldList);
+            final var openapiRequestFieldList = fieldDescriptors.openapiFields(requestFieldList);
 
             // restdocs
             execute.andDo(MockMvcRestDocumentation.document(RESTDOCS_DOCUMENT_IDENTIFIER,
@@ -285,7 +285,7 @@ class ActorControllerTest extends RestDocsControllerSupport {
                     responseHeaders(responseHeaderList), requestFields(restdocsRequestFieldList)));
 
             // openapi
-            var base = HalRelation.Fields.actor + ".controller." + HalRelation.Fields.addActor;
+            final var base = HalRelation.Fields.actor + ".controller." + HalRelation.Fields.addActor;
             execute.andDo(MockMvcRestDocumentationWrapper.document(OPENAPI_DOCUMENT_IDENTIFIER,
                     ResourceDocumentation.resource(ResourceSnippetParameters.builder()
                             .tag(getMessageSourceMessage(base + ".tag"))
@@ -302,7 +302,7 @@ class ActorControllerTest extends RestDocsControllerSupport {
             when(actorService.updateActor(actorId, requestModel)).thenReturn(newActor);
 
             // act
-            var execute = mockMvc.perform(put("/actors/{actorId}", actorId)
+            final var execute = mockMvc.perform(put("/actors/{actorId}", actorId)
                     .accept(MediaTypes.HAL_JSON)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(payload)));
@@ -314,17 +314,17 @@ class ActorControllerTest extends RestDocsControllerSupport {
             verify(actorService, times(1)).updateActor(anyInt(), any(ActorDto.ActorRequest.class));
 
             // descriptors
-            var actorBase = HalRelation.Fields.actor + "." + HalRelation.Fields.update + ".";
+            final var actorBase = HalRelation.Fields.actor + "." + HalRelation.Fields.update + ".";
 
-            var pathParameterList = List.of(
+            final var pathParameterList = List.of(
                     parameterWithName(ActorDto.Actor.Fields.actorId).description(getMessageSourceMessage(actorBase + "pathParameter." + ActorDto.Actor.Fields.actorId)));
-            var requestFieldList = List.of(
+            final var requestFieldList = List.of(
                     fieldWithPath(ActorDto.ActorRequest.Fields.firstName).description(getMessageSourceMessage(actorBase + "requestField." + ActorDto.ActorRequest.Fields.firstName)),
                     fieldWithPath(ActorDto.ActorRequest.Fields.lastName).description(getMessageSourceMessage(actorBase + "requestField." + ActorDto.ActorRequest.Fields.lastName)));
-            var openapiPathParameterList = OpenApiDescriptorTransformer.transformParameter(pathParameterList);
-            var fieldDescriptors = new ConstrainedFieldDocumentation(ActorDto.ActorRequest.class);
-            var restdocsRequestFieldList = fieldDescriptors.restdocsFields(requestFieldList);
-            var openapiRequestFieldList = fieldDescriptors.openapiFields(requestFieldList);
+            final var openapiPathParameterList = OpenApiDescriptorTransformer.transformParameter(pathParameterList);
+            final var fieldDescriptors = new ConstrainedFieldDocumentation(ActorDto.ActorRequest.class);
+            final var restdocsRequestFieldList = fieldDescriptors.restdocsFields(requestFieldList);
+            final var openapiRequestFieldList = fieldDescriptors.openapiFields(requestFieldList);
 
             // restdocs
             execute.andDo(MockMvcRestDocumentation.document(RESTDOCS_DOCUMENT_IDENTIFIER,
@@ -332,7 +332,7 @@ class ActorControllerTest extends RestDocsControllerSupport {
                     pathParameters(pathParameterList), requestFields(restdocsRequestFieldList)));
 
             // openapi
-            var codeBase = HalRelation.Fields.actor + ".controller." + HalRelation.Fields.updateActor;
+            final var codeBase = HalRelation.Fields.actor + ".controller." + HalRelation.Fields.updateActor;
             execute.andDo(MockMvcRestDocumentationWrapper.document(OPENAPI_DOCUMENT_IDENTIFIER,
                     ResourceDocumentation.resource(ResourceSnippetParameters.builder()
                             .tag(getMessageSourceMessage(codeBase + ".tag"))
@@ -349,7 +349,7 @@ class ActorControllerTest extends RestDocsControllerSupport {
             doNothing().when(actorService).deleteActor(actorId);
 
             // act
-            var execute = mockMvc.perform(delete("/actors/{actorId}", actorId)
+            final var execute = mockMvc.perform(delete("/actors/{actorId}", actorId)
                     .accept(MediaTypes.HAL_JSON));
 
             // assert
@@ -358,12 +358,12 @@ class ActorControllerTest extends RestDocsControllerSupport {
             verify(actorService, times(1)).deleteActor(actorId);
 
             // descriptors
-            var actorBase = HalRelation.Fields.actor + "." + HalRelation.Fields.delete + ".";
+            final var actorBase = HalRelation.Fields.actor + "." + HalRelation.Fields.delete + ".";
 
-            var pathParameterList = List.of(
+            final var pathParameterList = List.of(
                     parameterWithName(ActorDto.Actor.Fields.actorId).description(
                             getMessageSourceMessage(actorBase + "pathParameter." + ActorDto.Actor.Fields.actorId)));
-            var openapiPathParameterList = OpenApiDescriptorTransformer.transformParameter(pathParameterList);
+            final var openapiPathParameterList = OpenApiDescriptorTransformer.transformParameter(pathParameterList);
 
             // restdocs
             execute.andDo(MockMvcRestDocumentation.document(RESTDOCS_DOCUMENT_IDENTIFIER,
@@ -371,7 +371,7 @@ class ActorControllerTest extends RestDocsControllerSupport {
                     pathParameters(pathParameterList)));
 
             // openapi
-            var base = HalRelation.Fields.actor + ".controller." + HalRelation.Fields.deleteActor;
+            final var base = HalRelation.Fields.actor + ".controller." + HalRelation.Fields.deleteActor;
             execute.andDo(MockMvcRestDocumentationWrapper.document(OPENAPI_DOCUMENT_IDENTIFIER,
                     ResourceDocumentation.resource(ResourceSnippetParameters.builder()
                             .tag(getMessageSourceMessage(base + ".tag"))
@@ -387,8 +387,8 @@ class ActorControllerTest extends RestDocsControllerSupport {
         @Test
         void getActorDetails_success() throws Exception {
             // arrange
-            var actorId = 1;
-            var model = ActorDetailsDto.ActorDetails.builder()
+            final var actorId = 1;
+            final var model = ActorDetailsDto.ActorDetails.builder()
                     .actorId(actorId)
                     .firstName("PENELOPE")
                     .lastName("GUINESS")
@@ -400,7 +400,7 @@ class ActorControllerTest extends RestDocsControllerSupport {
             when(actorService.getActorDetails(actorId)).thenReturn(Optional.of(model));
 
             // act
-            var execute = mockMvc.perform(get("/actors/{actorId}/details", actorId)
+            final var execute = mockMvc.perform(get("/actors/{actorId}/details", actorId)
                     .accept(MediaTypes.HAL_JSON));
 
             // assert
@@ -420,23 +420,23 @@ class ActorControllerTest extends RestDocsControllerSupport {
             verify(actorService, times(1)).getActorDetails(actorId);
 
             // descriptors
-            var actorBase = HalRelation.Fields.actor + "." + HalRelation.Fields.details + ".";
-            var actorLinkBase = HalRelation.Fields.actor + ".hal." + HalRelation.Fields.item + ".";
-            var actorListLinkBase = HalRelation.Fields.actor + ".hal." + HalRelation.Fields.collection + ".";
+            final var actorBase = HalRelation.Fields.actor + "." + HalRelation.Fields.details + ".";
+            final var actorLinkBase = HalRelation.Fields.actor + ".hal." + HalRelation.Fields.item + ".";
+            final var actorListLinkBase = HalRelation.Fields.actor + ".hal." + HalRelation.Fields.collection + ".";
 
-            var pathParameterList = List.of(
+            final var pathParameterList = List.of(
                     parameterWithName(ActorDto.Actor.Fields.actorId).description(getMessageSourceMessage(actorBase + "pathParameter." + ActorDto.Actor.Fields.actorId)));
-            var responseFieldList = List.of(
+            final var responseFieldList = List.of(
                     fieldWithPath(ActorDetailsDto.ActorDetails.Fields.actorId).description(getMessageSourceMessage(actorBase + "responseField." + ActorDetailsDto.ActorDetails.Fields.actorId)),
                     fieldWithPath(ActorDetailsDto.ActorDetails.Fields.firstName).description(getMessageSourceMessage(actorBase + "responseField." + ActorDetailsDto.ActorDetails.Fields.firstName)),
                     fieldWithPath(ActorDetailsDto.ActorDetails.Fields.lastName).description(getMessageSourceMessage(actorBase + "responseField." + ActorDetailsDto.ActorDetails.Fields.lastName)),
                     fieldWithPath(ActorDetailsDto.ActorDetails.Fields.filmInfo).description(getMessageSourceMessage(actorBase + "responseField." + ActorDetailsDto.ActorDetails.Fields.filmInfo)),
                     subsectionWithPath(HalRelation.Fields._links).description(getMessageSourceMessage(actorLinkBase + HalRelation.Fields._links)));
-            var linkList = List.of(
+            final var linkList = List.of(
                     linkWithRel(HalRelation.Fields.self).description(getMessageSourceMessage(actorLinkBase + HalRelation.Fields.self)),
                     linkWithRel(HalRelation.Fields.actor).description(getMessageSourceMessage(actorLinkBase + HalRelation.Fields.self)),
                     linkWithRel(HalRelation.Fields.actorList).description(getMessageSourceMessage(actorListLinkBase + HalRelation.Fields.self)));
-            var openapiPathParameterList = OpenApiDescriptorTransformer.transformParameter(pathParameterList);
+            final var openapiPathParameterList = OpenApiDescriptorTransformer.transformParameter(pathParameterList);
 
             // restdocs
             execute.andDo(MockMvcRestDocumentation.document(RESTDOCS_DOCUMENT_IDENTIFIER,
@@ -444,7 +444,7 @@ class ActorControllerTest extends RestDocsControllerSupport {
                     pathParameters(pathParameterList), responseFields(responseFieldList), links(linkList)));
 
             // openapi
-            var base = HalRelation.Fields.actor + ".controller." + HalRelation.Fields.getActorDetails;
+            final var base = HalRelation.Fields.actor + ".controller." + HalRelation.Fields.getActorDetails;
             execute.andDo(MockMvcRestDocumentationWrapper.document(OPENAPI_DOCUMENT_IDENTIFIER,
                     ResourceDocumentation.resource(ResourceSnippetParameters.builder()
                             .tag(getMessageSourceMessage(base + ".tag"))
@@ -499,12 +499,12 @@ class ActorControllerTest extends RestDocsControllerSupport {
         @Test
         void getActorFilmList_success() throws Exception {
             // arrange
-            var actorId = 1;
-            var pageable = Pageable.ofSize(10).withPage(0);
+            final var actorId = 1;
+            final var pageable = Pageable.ofSize(10).withPage(0);
             when(actorService.getActorFilmList(actorId, FilmDto.Film.builder().build(), pageable)).thenReturn(List.of(academyDinosaur, aceGoldfinger));
 
             // act
-            var execute = mockMvc.perform(get("/actors/{actorId}/films", actorId)
+            final var execute = mockMvc.perform(get("/actors/{actorId}/films", actorId)
                     .accept(MediaTypes.HAL_JSON));
 
             // assert
@@ -515,15 +515,15 @@ class ActorControllerTest extends RestDocsControllerSupport {
             verify(actorService, times(1)).getActorFilmList(actorId, FilmDto.Film.builder().build(), pageable);
 
             // descriptors
-            var actorFilmBase = HalRelation.Fields.actor + "." + HalRelation.Fields.film + "." + HalRelation.Fields.read + ".";
-            var actorLinkBase = HalRelation.Fields.actor + ".hal." + HalRelation.Fields.item + ".";
-            var filmLinkBase = HalRelation.Fields.film + ".hal." + HalRelation.Fields.item + ".";
-            var filmListLinkBase = HalRelation.Fields.film + ".hal." + HalRelation.Fields.collection + ".";
-            var embeddedBase = HalRelation.Fields._embedded + "." + HalRelation.Fields.filmList + "[].";
+            final var actorFilmBase = HalRelation.Fields.actor + "." + HalRelation.Fields.film + "." + HalRelation.Fields.read + ".";
+            final var actorLinkBase = HalRelation.Fields.actor + ".hal." + HalRelation.Fields.item + ".";
+            final var filmLinkBase = HalRelation.Fields.film + ".hal." + HalRelation.Fields.item + ".";
+            final var filmListLinkBase = HalRelation.Fields.film + ".hal." + HalRelation.Fields.collection + ".";
+            final var embeddedBase = HalRelation.Fields._embedded + "." + HalRelation.Fields.filmList + "[].";
 
-            var pathParameterList = List.of(
+            final var pathParameterList = List.of(
                     parameterWithName(ActorDto.Actor.Fields.actorId).description(getMessageSourceMessage(actorFilmBase + "pathParameter." + ActorDto.Actor.Fields.actorId)));
-            var responseFieldList = List.of(
+            final var responseFieldList = List.of(
                     fieldWithPath(embeddedBase + FilmDto.Film.Fields.filmId).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDto.Film.Fields.filmId)),
                     fieldWithPath(embeddedBase + FilmDto.Film.Fields.title).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDto.Film.Fields.title)),
                     fieldWithPath(embeddedBase + FilmDto.Film.Fields.description).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDto.Film.Fields.description)),
@@ -539,10 +539,10 @@ class ActorControllerTest extends RestDocsControllerSupport {
                     fieldWithPath(embeddedBase + FilmDto.Film.Fields.lastUpdate).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDto.Film.Fields.lastUpdate)),
                     subsectionWithPath(embeddedBase + HalRelation.Fields._links).description(getMessageSourceMessage(filmListLinkBase + HalRelation.Fields._links)),
                     subsectionWithPath(HalRelation.Fields._links).description(getMessageSourceMessage(filmLinkBase + HalRelation.Fields._links)));
-            var linkList = List.of(
+            final var linkList = List.of(
                     linkWithRel(HalRelation.Fields.self).description(getMessageSourceMessage(filmLinkBase + HalRelation.Fields.self)),
                     linkWithRel(HalRelation.Fields.actor).description(getMessageSourceMessage(actorLinkBase + HalRelation.Fields._links)));
-            var openapiPathParameterList = OpenApiDescriptorTransformer.transformParameter(pathParameterList);
+            final var openapiPathParameterList = OpenApiDescriptorTransformer.transformParameter(pathParameterList);
 
             // restdocs
             execute.andDo(MockMvcRestDocumentation.document(RESTDOCS_DOCUMENT_IDENTIFIER,
@@ -550,7 +550,7 @@ class ActorControllerTest extends RestDocsControllerSupport {
                     pathParameters(pathParameterList), responseFields(responseFieldList), links(linkList)));
 
             // openapi
-            var base = HalRelation.Fields.actor + ".controller." + HalRelation.Fields.getActorFilmList;
+            final var base = HalRelation.Fields.actor + ".controller." + HalRelation.Fields.getActorFilmList;
             execute.andDo(MockMvcRestDocumentationWrapper.document(OPENAPI_DOCUMENT_IDENTIFIER,
                     ResourceDocumentation.resource(ResourceSnippetParameters.builder()
                             .tag(getMessageSourceMessage(base + ".tag"))
@@ -565,12 +565,12 @@ class ActorControllerTest extends RestDocsControllerSupport {
         @Test
         void getActorFilm_success() throws Exception {
             // arrange
-            var actorId = 1;
-            var filmId = 1;
+            final var actorId = 1;
+            final var filmId = 1;
             when(actorService.getActorFilm(actorId, filmId)).thenReturn(Optional.ofNullable(academyDinosaur));
 
             // act
-            var execute = mockMvc.perform(get("/actors/{actorId}/films/{filmId}", actorId, filmId)
+            final var execute = mockMvc.perform(get("/actors/{actorId}/films/{filmId}", actorId, filmId)
                     .accept(MediaTypes.HAL_JSON));
 
             // assert
@@ -582,15 +582,15 @@ class ActorControllerTest extends RestDocsControllerSupport {
             verify(actorService, times(1)).getActorFilm(actorId, filmId);
 
             // descriptors
-            var actorFilmBase = HalRelation.Fields.actor + "." + HalRelation.Fields.film + "." + HalRelation.Fields.read + ".";
-            var actorLinkBase = HalRelation.Fields.actor + ".hal." + HalRelation.Fields.item + ".";
-            var filmLinkBase = HalRelation.Fields.film + ".hal." + HalRelation.Fields.item + ".";
-            var filmListLinkBase = HalRelation.Fields.film + ".hal." + HalRelation.Fields.collection + ".";
+            final var actorFilmBase = HalRelation.Fields.actor + "." + HalRelation.Fields.film + "." + HalRelation.Fields.read + ".";
+            final var actorLinkBase = HalRelation.Fields.actor + ".hal." + HalRelation.Fields.item + ".";
+            final var filmLinkBase = HalRelation.Fields.film + ".hal." + HalRelation.Fields.item + ".";
+            final var filmListLinkBase = HalRelation.Fields.film + ".hal." + HalRelation.Fields.collection + ".";
 
-            var pathParameterList = List.of(
+            final var pathParameterList = List.of(
                     parameterWithName(ActorDto.Actor.Fields.actorId).description(getMessageSourceMessage(actorFilmBase + "pathParameter." + ActorDto.Actor.Fields.actorId)),
                     parameterWithName(FilmDto.Film.Fields.filmId).description(getMessageSourceMessage(actorFilmBase + "pathParameter." + FilmDto.Film.Fields.filmId)));
-            var responseFieldList = List.of(
+            final var responseFieldList = List.of(
                     fieldWithPath(FilmDto.Film.Fields.filmId).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDto.Film.Fields.filmId)),
                     fieldWithPath(FilmDto.Film.Fields.title).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDto.Film.Fields.title)),
                     fieldWithPath(FilmDto.Film.Fields.description).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDto.Film.Fields.description)),
@@ -605,11 +605,11 @@ class ActorControllerTest extends RestDocsControllerSupport {
                     fieldWithPath(FilmDto.Film.Fields.specialFeatures).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDto.Film.Fields.specialFeatures)),
                     fieldWithPath(FilmDto.Film.Fields.lastUpdate).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDto.Film.Fields.lastUpdate)),
                     subsectionWithPath(HalRelation.Fields._links).description(getMessageSourceMessage(filmLinkBase + HalRelation.Fields._links)));
-            var linkList = List.of(
+            final var linkList = List.of(
                     linkWithRel(HalRelation.Fields.self).description(getMessageSourceMessage(filmLinkBase + HalRelation.Fields.self)),
                     linkWithRel(HalRelation.Fields.filmList).description(getMessageSourceMessage(filmListLinkBase + HalRelation.Fields.self)),
                     linkWithRel(HalRelation.Fields.actor).description(getMessageSourceMessage(actorLinkBase + HalRelation.Fields.self)));
-            var openapiPathParameterList = OpenApiDescriptorTransformer.transformParameter(pathParameterList);
+            final var openapiPathParameterList = OpenApiDescriptorTransformer.transformParameter(pathParameterList);
 
             // restdocs
             execute.andDo(MockMvcRestDocumentation.document(RESTDOCS_DOCUMENT_IDENTIFIER,
@@ -617,7 +617,7 @@ class ActorControllerTest extends RestDocsControllerSupport {
                     pathParameters(pathParameterList), responseFields(responseFieldList), links(linkList)));
 
             // openapi
-            var base = HalRelation.Fields.actor + ".controller." + HalRelation.Fields.getActorFilm;
+            final var base = HalRelation.Fields.actor + ".controller." + HalRelation.Fields.getActorFilm;
             execute.andDo(MockMvcRestDocumentationWrapper.document(OPENAPI_DOCUMENT_IDENTIFIER,
                     ResourceDocumentation.resource(ResourceSnippetParameters.builder()
                             .tag(getMessageSourceMessage(base + ".tag"))
@@ -632,14 +632,14 @@ class ActorControllerTest extends RestDocsControllerSupport {
         @Test
         void addActorFilm_success() throws Exception {
             // arrange
-            var actorId = 1;
-            var filmId = 1;
-            var payload = Maps.<String, String>newHashMap();
+            final var actorId = 1;
+            final var filmId = 1;
+            final var payload = Maps.<String, String>newHashMap();
             payload.put(FilmDto.Film.Fields.filmId, String.valueOf(filmId));
             when(actorService.addActorFilm(actorId, filmId)).thenReturn(academyDinosaur);
 
             // act
-            var execute = mockMvc.perform(post("/actors/{actorId}/films", actorId)
+            final var execute = mockMvc.perform(post("/actors/{actorId}/films", actorId)
                     .accept(MediaTypes.HAL_JSON)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(payload)));
@@ -651,19 +651,19 @@ class ActorControllerTest extends RestDocsControllerSupport {
             verify(actorService, times(1)).addActorFilm(actorId, filmId);
 
             // descriptors
-            var actorFilmBase = HalRelation.Fields.actor + "." + HalRelation.Fields.film + "." + HalRelation.Fields.create + ".";
+            final var actorFilmBase = HalRelation.Fields.actor + "." + HalRelation.Fields.film + "." + HalRelation.Fields.create + ".";
 
-            var pathParameterList = List.of(
+            final var pathParameterList = List.of(
                     parameterWithName(ActorDto.Actor.Fields.actorId).description(getMessageSourceMessage(actorFilmBase + "pathParameter." + ActorDto.Actor.Fields.actorId)));
-            var requestFieldList = List.of(
+            final var requestFieldList = List.of(
                     fieldWithPath(FilmDto.Film.Fields.filmId).description(getMessageSourceMessage(actorFilmBase + "requestField." + FilmDto.Film.Fields.filmId)));
-            var responseHeaderList = List.of(
+            final var responseHeaderList = List.of(
                     headerWithName(HttpHeaders.LOCATION).description(getMessageSourceMessage(actorFilmBase + "responseHeader." + HttpHeaders.LOCATION)));
-            var openapiResponseHeaderList = OpenApiDescriptorTransformer.transformHeader(responseHeaderList);
-            var openapiPathParameterList = OpenApiDescriptorTransformer.transformParameter(pathParameterList);
-            var fieldDescriptors = new ConstrainedFieldDocumentation(ActorDto.ActorRequest.class);
-            var restdocsRequestFieldList = fieldDescriptors.restdocsFields(requestFieldList);
-            var openapiRequestFieldList = fieldDescriptors.openapiFields(requestFieldList);
+            final var openapiResponseHeaderList = OpenApiDescriptorTransformer.transformHeader(responseHeaderList);
+            final var openapiPathParameterList = OpenApiDescriptorTransformer.transformParameter(pathParameterList);
+            final var fieldDescriptors = new ConstrainedFieldDocumentation(ActorDto.ActorRequest.class);
+            final var restdocsRequestFieldList = fieldDescriptors.restdocsFields(requestFieldList);
+            final var openapiRequestFieldList = fieldDescriptors.openapiFields(requestFieldList);
 
             // restdocs
             execute.andDo(MockMvcRestDocumentation.document(RESTDOCS_DOCUMENT_IDENTIFIER,
@@ -671,7 +671,7 @@ class ActorControllerTest extends RestDocsControllerSupport {
                     responseHeaders(responseHeaderList), pathParameters(pathParameterList), requestFields(restdocsRequestFieldList)));
 
             // openapi
-            var base = HalRelation.Fields.actor + ".controller." + HalRelation.Fields.addActorFilm;
+            final var base = HalRelation.Fields.actor + ".controller." + HalRelation.Fields.addActorFilm;
             execute.andDo(MockMvcRestDocumentationWrapper.document(OPENAPI_DOCUMENT_IDENTIFIER,
                     ResourceDocumentation.resource(ResourceSnippetParameters.builder()
                             .tag(getMessageSourceMessage(base + ".tag"))
@@ -687,11 +687,11 @@ class ActorControllerTest extends RestDocsControllerSupport {
         @Test
         void deleteActorFilm_success() throws Exception {
             // arrange
-            var actorId = 1;
-            var filmId = 1;
+            final var actorId = 1;
+            final var filmId = 1;
 
             // act
-            var execute = mockMvc.perform(delete("/actors/{actorId}/films/{filmId}", actorId, filmId)
+            final var execute = mockMvc.perform(delete("/actors/{actorId}/films/{filmId}", actorId, filmId)
                     .accept(MediaTypes.HAL_JSON));
 
             // assert
@@ -700,19 +700,19 @@ class ActorControllerTest extends RestDocsControllerSupport {
             verify(actorService, times(1)).removeActorFilm(actorId, filmId);
 
             // descriptors
-            var actorFilmBase = HalRelation.Fields.actor + "." + HalRelation.Fields.film + "." + HalRelation.Fields.delete + ".";
+            final var actorFilmBase = HalRelation.Fields.actor + "." + HalRelation.Fields.film + "." + HalRelation.Fields.delete + ".";
 
-            var pathParameterList = List.of(
+            final var pathParameterList = List.of(
                     parameterWithName(ActorDto.Actor.Fields.actorId).description(getMessageSourceMessage(actorFilmBase + "pathParameter." + ActorDto.Actor.Fields.actorId)),
                     parameterWithName(FilmDto.Film.Fields.filmId).description(getMessageSourceMessage(actorFilmBase + "pathParameter." + FilmDto.Film.Fields.filmId)));
-            var openapiPathParameterList = OpenApiDescriptorTransformer.transformParameter(pathParameterList);
+            final var openapiPathParameterList = OpenApiDescriptorTransformer.transformParameter(pathParameterList);
 
             // restdocs
             execute.andDo(MockMvcRestDocumentation.document(RESTDOCS_DOCUMENT_IDENTIFIER,
                     preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint()), pathParameters(pathParameterList)));
 
             // openapi
-            var base = HalRelation.Fields.actor + ".controller." + HalRelation.Fields.deleteActorFilm;
+            final var base = HalRelation.Fields.actor + ".controller." + HalRelation.Fields.deleteActorFilm;
             execute.andDo(MockMvcRestDocumentationWrapper.document(OPENAPI_DOCUMENT_IDENTIFIER,
                     ResourceDocumentation.resource(ResourceSnippetParameters.builder()
                             .tag(getMessageSourceMessage(base + ".tag"))
@@ -728,9 +728,9 @@ class ActorControllerTest extends RestDocsControllerSupport {
         @Test
         void getActorFilmDetails_success() throws Exception {
             // arrange
-            var actorId = 1;
-            var filmId = 1;
-            var model = Optional.of(FilmDetailsDto.FilmDetails.builder()
+            final var actorId = 1;
+            final var filmId = 1;
+            final var model = Optional.of(FilmDetailsDto.FilmDetails.builder()
                     .filmId(1)
                     .title("ACADEMY DINOSAUR")
                     .description("A Epic Drama of a Feminist And a Mad Scientist who must Battle a Teacher in The Canadian Rockies")
@@ -743,7 +743,7 @@ class ActorControllerTest extends RestDocsControllerSupport {
             when(actorService.getActorFilmDetails(actorId, filmId)).thenReturn(model);
 
             // act
-            var execute = mockMvc.perform(get("/actors/{actorId}/films/{filmId}/details", actorId, filmId)
+            final var execute = mockMvc.perform(get("/actors/{actorId}/films/{filmId}/details", actorId, filmId)
                     .accept(MediaTypes.HAL_JSON));
 
             // assert
@@ -756,15 +756,15 @@ class ActorControllerTest extends RestDocsControllerSupport {
             verify(actorService, times(1)).getActorFilmDetails(actorId, filmId);
 
             // descriptors
-            var actorFilmBase = HalRelation.Fields.actor + "." + HalRelation.Fields.film + "." + HalRelation.Fields.details + ".";
-            var actorLinkBase = HalRelation.Fields.actor + ".hal." + HalRelation.Fields.item + ".";
-            var filmLinkBase = HalRelation.Fields.film + ".hal." + HalRelation.Fields.item + ".";
-            var filmListLinkBase = HalRelation.Fields.film + ".hal." + HalRelation.Fields.collection + ".";
+            final var actorFilmBase = HalRelation.Fields.actor + "." + HalRelation.Fields.film + "." + HalRelation.Fields.details + ".";
+            final var actorLinkBase = HalRelation.Fields.actor + ".hal." + HalRelation.Fields.item + ".";
+            final var filmLinkBase = HalRelation.Fields.film + ".hal." + HalRelation.Fields.item + ".";
+            final var filmListLinkBase = HalRelation.Fields.film + ".hal." + HalRelation.Fields.collection + ".";
 
-            var pathParameterList = List.of(
+            final var pathParameterList = List.of(
                     parameterWithName(ActorDto.Actor.Fields.actorId).description(getMessageSourceMessage(actorFilmBase + "pathParameter." + ActorDto.Actor.Fields.actorId)),
                     parameterWithName(FilmDto.Film.Fields.filmId).description(getMessageSourceMessage(actorFilmBase + "pathParameter." + FilmDto.Film.Fields.filmId)));
-            var responseFieldList = List.of(
+            final var responseFieldList = List.of(
                     fieldWithPath(FilmDetailsDto.FilmDetails.Fields.filmId).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDetailsDto.FilmDetails.Fields.filmId)),
                     fieldWithPath(FilmDetailsDto.FilmDetails.Fields.title).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDetailsDto.FilmDetails.Fields.title)),
                     fieldWithPath(FilmDetailsDto.FilmDetails.Fields.description).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDetailsDto.FilmDetails.Fields.description)),
@@ -774,12 +774,12 @@ class ActorControllerTest extends RestDocsControllerSupport {
                     fieldWithPath(FilmDetailsDto.FilmDetails.Fields.rating).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDetailsDto.FilmDetails.Fields.rating)),
                     fieldWithPath(FilmDetailsDto.FilmDetails.Fields.actors).description(getMessageSourceMessage(actorFilmBase + "responseField." + FilmDetailsDto.FilmDetails.Fields.actors)),
                     subsectionWithPath(HalRelation.Fields._links).description(getMessageSourceMessage(filmLinkBase + HalRelation.Fields._links)));
-            var linkList = List.of(
+            final var linkList = List.of(
                     linkWithRel(HalRelation.Fields.self).description(getMessageSourceMessage(filmLinkBase + HalRelation.Fields.self)),
                     linkWithRel(HalRelation.Fields.film).description(getMessageSourceMessage(filmLinkBase + HalRelation.Fields.self)),
                     linkWithRel(HalRelation.Fields.filmList).description(getMessageSourceMessage(filmListLinkBase + HalRelation.Fields.self)),
                     linkWithRel(HalRelation.Fields.actor).description(getMessageSourceMessage(actorLinkBase + HalRelation.Fields.self)));
-            var openapiPathParameterList = OpenApiDescriptorTransformer.transformParameter(pathParameterList);
+            final var openapiPathParameterList = OpenApiDescriptorTransformer.transformParameter(pathParameterList);
 
             // restdocs
             execute.andDo(MockMvcRestDocumentation.document(RESTDOCS_DOCUMENT_IDENTIFIER,
@@ -787,7 +787,7 @@ class ActorControllerTest extends RestDocsControllerSupport {
                     pathParameters(pathParameterList), responseFields(responseFieldList), links(linkList)));
 
             // openapi
-            var base = HalRelation.Fields.actor + ".controller." + HalRelation.Fields.getActorFilmDetails;
+            final var base = HalRelation.Fields.actor + ".controller." + HalRelation.Fields.getActorFilmDetails;
             execute.andDo(MockMvcRestDocumentationWrapper.document(OPENAPI_DOCUMENT_IDENTIFIER,
                     ResourceDocumentation.resource(ResourceSnippetParameters.builder()
                             .tag(getMessageSourceMessage(base + ".tag"))

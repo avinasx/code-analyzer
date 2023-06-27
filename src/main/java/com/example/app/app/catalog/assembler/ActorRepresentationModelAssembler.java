@@ -21,7 +21,7 @@ public class ActorRepresentationModelAssembler extends RepresentationModelAssemb
     @Override
     @lombok.NonNull
     public ActorDto.ActorResponse toModel(@lombok.NonNull ActorDto.Actor entity) {
-        var model = instantiateModel(entity);
+        final var model = instantiateModel(entity);
         model.setActor(entity);
         model.add(linkTo(methodOn(ActorController.class).getActor(entity.getActorId()))
                 .withSelfRel().withType(HttpMethod.GET.name()).withTitle("Get actor"));
@@ -41,7 +41,7 @@ public class ActorRepresentationModelAssembler extends RepresentationModelAssemb
     @Override
     @lombok.NonNull
     public CollectionModel<ActorDto.ActorResponse> toCollectionModel(@lombok.NonNull Iterable<? extends ActorDto.Actor> entities) {
-        var collectionModel = super.toCollectionModel(entities);
+        final var collectionModel = super.toCollectionModel(entities);
         collectionModel.add(linkTo(methodOn(ActorController.class).getActorList(Pageable.unpaged()))
                 .withSelfRel().withType(HttpMethod.GET.name()).withTitle("Get actors"));
         return collectionModel;

@@ -45,7 +45,7 @@ public class CategorySalesDto {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            CategorySales that = (CategorySales) o;
+            final CategorySales that = (CategorySales) o;
             return category == that.category
                     && Objects.equal(totalSales, that.totalSales);
         }
@@ -76,7 +76,7 @@ public class CategorySalesDto {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             if (!super.equals(o)) return false;
-            CategorySalesResponse that = (CategorySalesResponse) o;
+            final CategorySalesResponse that = (CategorySalesResponse) o;
             return Objects.equal(categorySales, that.categorySales);
         }
 

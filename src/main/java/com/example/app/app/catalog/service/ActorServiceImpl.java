@@ -27,7 +27,7 @@ public class ActorServiceImpl implements ActorService {
     @Override
     @Transactional(readOnly = true)
     public List<ActorDto.Actor> getActorList(Pageable pageable) {
-        var list = actorRepository.findAll(pageable);
+        final var list = actorRepository.findAll(pageable);
         return actorMapper.mapToDtoList(list);
     }
 
@@ -35,7 +35,7 @@ public class ActorServiceImpl implements ActorService {
     @Transactional(readOnly = true)
     @Cacheable(value = "actorResponseCache", key = "#actorId")
     public Optional<ActorDto.Actor> getActor(Integer actorId) {
-        var entity = actorRepository.findById(actorId).orElseThrow(() ->
+        final var entity = actorRepository.findById(actorId).orElseThrow(() ->
                 new ResourceNotFoundException("Actor not found with id '" + actorId + "'"));
         return Optional.of(actorMapper.mapToDto(entity));
     }
@@ -49,7 +49,7 @@ public class ActorServiceImpl implements ActorService {
     @Override
     @Transactional(readOnly = true)
     public Optional<ActorDetailsDto.ActorDetails> getActorDetails(Integer actorId) {
-        var model = actorRepository.findActorDetailsById(actorId);
+        final var model = actorRepository.findActorDetailsById(actorId);
         if (model.isEmpty()) {
             throw new ResourceNotFoundException("Actor not found with id '" + actorId + "'");
         }
@@ -65,7 +65,7 @@ public class ActorServiceImpl implements ActorService {
     @Override
     @Transactional(readOnly = true)
     public Optional<FilmDto.Film> getActorFilm(Integer actorId, Integer filmId) {
-        var model = actorRepository.findActorFilmById(actorId, filmId);
+        final var model = actorRepository.findActorFilmById(actorId, filmId);
         if (model.isEmpty()) {
             throw new ResourceNotFoundException("Actor not found with id '" + actorId + "'");
         }
@@ -75,7 +75,7 @@ public class ActorServiceImpl implements ActorService {
     @Override
     @Transactional(readOnly = true)
     public Optional<FilmDetailsDto.FilmDetails> getActorFilmDetails(Integer actorId, Integer filmId) {
-        var model = actorRepository.findActorFilmDetailsById(actorId, filmId);
+        final var model = actorRepository.findActorFilmDetailsById(actorId, filmId);
         if (model.isEmpty()) {
             throw new ResourceNotFoundException("Actor not found with id '" + actorId + "'");
         }
@@ -85,7 +85,7 @@ public class ActorServiceImpl implements ActorService {
     @Override
     @Transactional(readOnly = true)
     public List<ActorDto.Actor> searchActorList(String name) {
-        var list = actorRepository.findActorEntitiesByFullNameFirstNameContainsOrFullNameLastNameContains(name, name);
+        final var list = actorRepository.findActorEntitiesByFullNameFirstNameContainsOrFullNameLastNameContains(name, name);
         if (list.isEmpty()) {
             throw new ResourceNotFoundException("Actor not found with name '" + name + "'");
         }
@@ -95,7 +95,7 @@ public class ActorServiceImpl implements ActorService {
     @Override
     @Transactional
     public ActorDto.Actor addActor(ActorDto.ActorRequest model) {
-        var savedEntity = actorRepository.save(actorMapper.mapToEntity(model));
+        final var savedEntity = actorRepository.save(actorMapper.mapToEntity(model));
         return actorMapper.mapToDto(savedEntity);
     }
 
@@ -110,7 +110,7 @@ public class ActorServiceImpl implements ActorService {
     @Transactional
     @CachePut(value = "actorResponseCache", key = "#actorId")
     public ActorDto.Actor updateActor(Integer actorId, ActorDto.ActorRequest model) {
-        var entity = actorRepository.findById(actorId).orElseThrow(() ->
+        final var entity = actorRepository.findById(actorId).orElseThrow(() ->
                 new ResourceNotFoundException("Actor not found with id '" + actorId + "'"));
         entity.update(actorMapper.mapToEntity(model));
         return actorMapper.mapToDto(entity);

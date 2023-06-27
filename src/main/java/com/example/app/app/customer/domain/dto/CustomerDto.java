@@ -73,7 +73,7 @@ public class CustomerDto {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            Customer that = (Customer) o;
+            final Customer that = (Customer) o;
             return Objects.equal(customerId, that.customerId)
                     && Objects.equal(storeId, that.storeId)
                     && Objects.equal(fullName, that.fullName)
@@ -125,7 +125,7 @@ public class CustomerDto {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            CustomerRequest that = (CustomerRequest) o;
+            final CustomerRequest that = (CustomerRequest) o;
             return Objects.equal(storeId, that.storeId)
                     && Objects.equal(firstName, that.firstName)
                     && Objects.equal(lastName, that.lastName)
@@ -160,7 +160,7 @@ public class CustomerDto {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             if (!super.equals(o)) return false;
-            CustomerResponse that = (CustomerResponse) o;
+            final CustomerResponse that = (CustomerResponse) o;
             return Objects.equal(customer, that.customer);
         }
 

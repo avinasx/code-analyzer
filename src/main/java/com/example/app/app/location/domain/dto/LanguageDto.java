@@ -31,7 +31,7 @@ public class LanguageDto {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            Language that = (Language) o;
+            final Language that = (Language) o;
             return languageId == that.languageId
                     && Objects.equal(name, that.name)
                     && Objects.equal(lastUpdate, that.lastUpdate);

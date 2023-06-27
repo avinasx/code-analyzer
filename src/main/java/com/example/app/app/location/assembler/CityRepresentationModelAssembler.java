@@ -19,7 +19,7 @@ public class CityRepresentationModelAssembler extends RepresentationModelAssembl
     @Override
     @lombok.NonNull
     public CityDto.CityResponse toModel(@lombok.NonNull CityDto.City entity) {
-        var model = instantiateModel(entity);
+        final var model = instantiateModel(entity);
         model.setCity(entity);
         model.add(linkTo(methodOn(LocationController.class).getCity(entity.getCityId())).withSelfRel());
         model.add(linkTo(methodOn(LocationController.class).getAddressList(Pageable.unpaged())).withRel(HalRelation.Fields.addressList));

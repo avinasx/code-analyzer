@@ -52,7 +52,7 @@ public class ActorDetailsDto {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            ActorDetails that = (ActorDetails) o;
+            final ActorDetails that = (ActorDetails) o;
             return Objects.equal(actorId, that.actorId)
                     && Objects.equal(firstName, that.firstName)
                     && Objects.equal(lastName, that.lastName)
@@ -85,7 +85,7 @@ public class ActorDetailsDto {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             if (!super.equals(o)) return false;
-            ActorDetailsResponse that = (ActorDetailsResponse) o;
+            final ActorDetailsResponse that = (ActorDetailsResponse) o;
             return Objects.equal(actorDetailsModel, that.actorDetailsModel);
         }
 

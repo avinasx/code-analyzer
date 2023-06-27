@@ -53,7 +53,7 @@ public class LanguageEntity implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        LanguageEntity that = (LanguageEntity) o;
+        final LanguageEntity that = (LanguageEntity) o;
         return languageId == that.languageId
                 && Objects.equal(name, that.name)
                 && Objects.equal(lastUpdate, that.lastUpdate);

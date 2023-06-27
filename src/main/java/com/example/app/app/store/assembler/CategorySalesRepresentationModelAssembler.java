@@ -19,7 +19,7 @@ public class CategorySalesRepresentationModelAssembler extends RepresentationMod
     @Override
     @lombok.NonNull
     public CategorySalesDto.CategorySalesResponse toModel(@lombok.NonNull CategorySalesDto.CategorySales entity) {
-        var model = instantiateModel(entity);
+        final var model = instantiateModel(entity);
         model.setCategorySales(entity);
         return model;
     }
@@ -27,7 +27,7 @@ public class CategorySalesRepresentationModelAssembler extends RepresentationMod
     @Override
     @lombok.NonNull
     public CollectionModel<CategorySalesDto.CategorySalesResponse> toCollectionModel(@lombok.NonNull Iterable<? extends CategorySalesDto.CategorySales> entities) {
-        var collectionModel = super.toCollectionModel(entities);
+        final var collectionModel = super.toCollectionModel(entities);
         collectionModel.add(linkTo(methodOn(ReportController.class).reportSalesByCategory()).withSelfRel());
         collectionModel.add(linkTo(methodOn(ReportController.class).reportSalesByStore()).withRel(HalRelation.Fields.storeSales));
         return collectionModel;

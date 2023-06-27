@@ -67,7 +67,7 @@ public class PaymentDto {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            Payment that = (Payment) o;
+            final Payment that = (Payment) o;
             return Objects.equal(paymentId, that.paymentId)
                     && Objects.equal(customerId, that.customerId)
                     && Objects.equal(staffId, that.staffId)
@@ -114,7 +114,7 @@ public class PaymentDto {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            PaymentRequest that = (PaymentRequest) o;
+            final PaymentRequest that = (PaymentRequest) o;
             return Objects.equal(customerId, that.customerId)
                     && Objects.equal(staffId, that.staffId)
                     && Objects.equal(rentalId, that.rentalId)
@@ -148,7 +148,7 @@ public class PaymentDto {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             if (!super.equals(o)) return false;
-            PaymentResponse that = (PaymentResponse) o;
+            final PaymentResponse that = (PaymentResponse) o;
             return Objects.equal(payment, that.payment);
         }
 

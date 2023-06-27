@@ -51,7 +51,7 @@ public class StoreDto {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            Store that = (Store) o;
+            final Store that = (Store) o;
             return Objects.equal(storeId, that.storeId)
                     && Objects.equal(managerStaffId, that.managerStaffId)
                     && Objects.equal(addressId, that.addressId)
@@ -85,7 +85,7 @@ public class StoreDto {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            StoreRequest that = (StoreRequest) o;
+            final StoreRequest that = (StoreRequest) o;
             return Objects.equal(managerStaffId, that.managerStaffId)
                     && Objects.equal(addressId, that.addressId);
         }
@@ -116,7 +116,7 @@ public class StoreDto {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             if (!super.equals(o)) return false;
-            StoreResponse that = (StoreResponse) o;
+            final StoreResponse that = (StoreResponse) o;
             return Objects.equal(store, that.store);
         }
 

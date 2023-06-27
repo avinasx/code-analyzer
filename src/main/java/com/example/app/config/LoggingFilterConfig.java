@@ -8,7 +8,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
 
 @Configuration
-public class FilterConfig {
+public class LoggingFilterConfig {
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public MdcLoggingFilter mdcLoggingFilter() {
@@ -17,7 +17,7 @@ public class FilterConfig {
 
     @Bean
     public CommonsRequestLoggingFilter commonsRequestLoggingFilter() {
-        var filter = new CommonsRequestLoggingFilter();
+        final var filter = new CommonsRequestLoggingFilter();
         filter.setIncludeQueryString(true);
         filter.setIncludeClientInfo(true);
         filter.setIncludeHeaders(true);

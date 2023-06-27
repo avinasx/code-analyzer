@@ -30,11 +30,11 @@ class CountryConverterTest {
     @Test
     void convertToDatabaseColumn() {
         // arrange
-        var country = Country.SOUTH_KOREA;
-        var expected = 86;
+        final var country = Country.SOUTH_KOREA;
+        final var expected = 86;
 
         // act
-        var result = countryConverter.convertToDatabaseColumn(country);
+        final var result = countryConverter.convertToDatabaseColumn(country);
 
         // assert
         verify(countryConverter, times(1)).convertToDatabaseColumn(country);
@@ -44,11 +44,11 @@ class CountryConverterTest {
     @Test
     void convertToEntityAttribute() {
         // arrange
-        var country = 103;
-        var expected = Country.UNITED_STATES;
+        final var country = 103;
+        final var expected = Country.UNITED_STATES;
 
         // act
-        var result = countryConverter.convertToEntityAttribute(country);
+        final var result = countryConverter.convertToEntityAttribute(country);
 
         // assert
         verify(countryConverter, times(1)).convertToEntityAttribute(country);

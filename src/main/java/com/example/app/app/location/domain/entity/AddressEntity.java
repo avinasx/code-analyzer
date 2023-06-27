@@ -99,7 +99,7 @@ public class AddressEntity implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AddressEntity that = (AddressEntity) o;
+        final AddressEntity that = (AddressEntity) o;
         return Objects.equal(addressId, that.addressId)
                 && Objects.equal(address, that.address)
                 && Objects.equal(address2, that.address2)

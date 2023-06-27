@@ -23,35 +23,35 @@ public class CustomStoreRepositoryImpl implements CustomStoreRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     private static void replaceCountryIdToCountry(StoreDetailsDto.StoreDetails result) {
-        var replacedStore = Country.replaceCountryIdToCountryInString(result.getStore());
-        var replacedAddress = Country.replaceCountryIdToCountryInString(result.getAddress());
+        final var replacedStore = Country.replaceCountryIdToCountryInString(result.getStore());
+        final var replacedAddress = Country.replaceCountryIdToCountryInString(result.getAddress());
         result.setStore(replacedStore);
         result.setAddress(replacedAddress);
     }
 
     @Override
     public List<StoreDetailsDto.StoreDetails> findAllStoreDetailsList() {
-        var query = findStoreDetail(null);
-        var result = query.fetch();
+        final var query = findStoreDetail(null);
+        final var result = query.fetch();
         result.forEach(CustomStoreRepositoryImpl::replaceCountryIdToCountry);
         return result;
     }
 
     @Override
     public Optional<StoreDetailsDto.StoreDetails> findStoreDetailsById(Integer storeId) {
-        var query = findStoreDetail(storeId);
-        var result = query.fetchFirst();
+        final var query = findStoreDetail(storeId);
+        final var result = query.fetchFirst();
         replaceCountryIdToCountry(result);
         return Optional.of(result);
     }
 
     private JPAQuery<StoreDetailsDto.StoreDetails> findStoreDetail(Integer id) {
-        var address = QAddressEntity.addressEntity;
-        var city = QCityEntity.cityEntity;
-        var staff = QStaffEntity.staffEntity;
-        var store = QStoreEntity.storeEntity;
+        final var address = QAddressEntity.addressEntity;
+        final var city = QCityEntity.cityEntity;
+        final var staff = QStaffEntity.staffEntity;
+        final var store = QStoreEntity.storeEntity;
 
-        var query = jpaQueryFactory
+        final var query = jpaQueryFactory
                 .select(Projections.constructor(StoreDetailsDto.StoreDetails.class,
                         store.storeId.as("id"),
                         Expressions.asString(city.city).concat(",")
@@ -74,21 +74,21 @@ public class CustomStoreRepositoryImpl implements CustomStoreRepository {
 
     @Override
     public List<StaffDto.Staff> findAllStoreStaffList(Integer storeId) {
-        var query = findStoreStaff(storeId, null);
+        final var query = findStoreStaff(storeId, null);
         return query.fetch();
     }
 
     @Override
     public Optional<StaffDto.Staff> findStoreStaffById(Integer storeId, Integer staffId) {
-        var query = findStoreStaff(storeId, staffId);
+        final var query = findStoreStaff(storeId, staffId);
         return Optional.of(query.fetchFirst());
     }
 
     private JPAQuery<StaffDto.Staff> findStoreStaff(Integer storeId, Integer staffId) {
-        var staff = QStaffEntity.staffEntity;
-        var store = QStoreEntity.storeEntity;
+        final var staff = QStaffEntity.staffEntity;
+        final var store = QStoreEntity.storeEntity;
 
-        var query = jpaQueryFactory
+        final var query = jpaQueryFactory
                 .select(Projections.constructor(StaffDto.Staff.class))
                 .from(staff)
                 .innerJoin(store).on(store.storeId.eq(staff.storeId))

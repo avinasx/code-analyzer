@@ -22,14 +22,14 @@ public class StaffServiceImpl implements StaffService {
     @Override
     @Transactional(readOnly = true)
     public List<StaffDto.Staff> getStaffList(Pageable pageable) {
-        var list = staffRepository.findAll(pageable);
+        final var list = staffRepository.findAll(pageable);
         return staffMapper.mapToDtoList(list);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Optional<StaffDto.Staff> getStaff(Integer staffId) {
-        var entity = staffRepository.findById(staffId).orElseThrow(() ->
+        final var entity = staffRepository.findById(staffId).orElseThrow(() ->
                 new ResourceNotFoundException("Staff not found with id '" + staffId + "'"));
         return Optional.of(staffMapper.mapToDto(entity));
     }
@@ -43,7 +43,7 @@ public class StaffServiceImpl implements StaffService {
     @Override
     @Transactional(readOnly = true)
     public Optional<StaffDetailsDto.StaffDetails> getStaffDetails(Integer staffId) {
-        var model = staffRepository.findStaffDetailsById(staffId);
+        final var model = staffRepository.findStaffDetailsById(staffId);
         if (model.isEmpty()) {
             throw new ResourceNotFoundException("Staff not found with id '" + staffId + "'");
         }
@@ -53,14 +53,14 @@ public class StaffServiceImpl implements StaffService {
     @Override
     @Transactional
     public StaffDto.Staff addStaff(StaffDto.StaffRequest model) {
-        var savedEntity = staffRepository.save(staffMapper.mapToEntity(model));
+        final var savedEntity = staffRepository.save(staffMapper.mapToEntity(model));
         return staffMapper.mapToDto(savedEntity);
     }
 
     @Override
     @Transactional
     public StaffDto.Staff updateStaff(Integer staffId, StaffDto.StaffRequest model) {
-        var entity = staffRepository.findById(staffId).orElseThrow(() ->
+        final var entity = staffRepository.findById(staffId).orElseThrow(() ->
                 new ResourceNotFoundException("Staff not found with id '" + staffId + "'"));
         entity.update(staffMapper.mapToEntity(model));
         return staffMapper.mapToDto(entity);

@@ -12,7 +12,7 @@ public class SecurityService {
     private final AuthenticationManager authenticationManager;
 
     public void authenticateToken(UserDetails user, String jwt) {
-        var token = new JwtAuthenticationToken(jwt, user.getUsername(), user.getAuthorities());
+        final var token = new JwtAuthenticationToken(jwt, user.getUsername(), user.getAuthorities());
         authenticationManager.authenticate(token);
     }
 }

@@ -44,7 +44,7 @@ public class CustomerController {
     @PostMapping(path = "")
     @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<Void> addCustomer(@RequestBody CustomerDto.CustomerRequest model) {
-        var result = customerService.addCustomer(model);
+        final var result = customerService.addCustomer(model);
         return ResponseEntity.created(linkTo(methodOn(CustomerController.class)
                 .getCustomer(result.getCustomerId())).toUri()).build();
     }
@@ -62,7 +62,7 @@ public class CustomerController {
     @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<Void> updateCustomer(@PathVariable Integer customerId,
                                                @RequestBody CustomerDto.CustomerRequest model) {
-        var result = customerService.updateCustomer(customerId, model);
+        final var result = customerService.updateCustomer(customerId, model);
         return ResponseEntity.ok().build();
     }
 
@@ -100,7 +100,7 @@ public class CustomerController {
             @RequestParam(required = false) String status,
             @RequestParam(required = false) String startDate,
             @RequestParam(required = false) String endDate) {
-        var rentalStatus = status == null ? null : RentalStatus.valueOf(status.toUpperCase());
+        final var rentalStatus = status == null ? null : RentalStatus.valueOf(status.toUpperCase());
         return ResponseEntity.ok(rentalAssembler.toCollectionModel(
                 customerService.getCustomerRentalList(customerId, rentalStatus, startDate, endDate)));
     }

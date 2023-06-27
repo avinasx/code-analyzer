@@ -28,7 +28,7 @@ public class CustomPaymentRepositoryImpl implements CustomPaymentRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     private static void replaceCountryIdToCountry(StoreSalesDto.StoreSales result) {
-        var replacedStore = Country.replaceCountryIdToCountryInString(result.getStore());
+        final var replacedStore = Country.replaceCountryIdToCountryInString(result.getStore());
         result.setStore(replacedStore);
     }
 
@@ -44,14 +44,14 @@ public class CustomPaymentRepositoryImpl implements CustomPaymentRepository {
 
     @Override
     public List<CategorySalesDto.CategorySales> calculateSalesByCategory() {
-        var payment = QPaymentEntity.paymentEntity;
-        var rental = QRentalEntity.rentalEntity;
-        var inventory = QInventoryEntity.inventoryEntity;
-        var film = QFilmEntity.filmEntity;
-        var filmCategory = QFilmCategoryEntity.filmCategoryEntity;
+        final var payment = QPaymentEntity.paymentEntity;
+        final var rental = QRentalEntity.rentalEntity;
+        final var inventory = QInventoryEntity.inventoryEntity;
+        final var film = QFilmEntity.filmEntity;
+        final var filmCategory = QFilmCategoryEntity.filmCategoryEntity;
 
-        var totalSales = payment.amount.sum();
-        var query = jpaQueryFactory
+        final var totalSales = payment.amount.sum();
+        final var query = jpaQueryFactory
                 .select(Projections.constructor(CategorySalesDto.CategorySales.class,
                         filmCategory.categoryId.as("category"),
                         totalSales.as("totalSales")))
@@ -67,15 +67,15 @@ public class CustomPaymentRepositoryImpl implements CustomPaymentRepository {
 
     @Override
     public List<StoreSalesDto.StoreSales> calculateSalesByStore() {
-        var payment = QPaymentEntity.paymentEntity;
-        var rental = QRentalEntity.rentalEntity;
-        var inventory = QInventoryEntity.inventoryEntity;
-        var store = QStoreEntity.storeEntity;
-        var address = QAddressEntity.addressEntity;
-        var city = QCityEntity.cityEntity;
-        var staff = QStaffEntity.staffEntity;
+        final var payment = QPaymentEntity.paymentEntity;
+        final var rental = QRentalEntity.rentalEntity;
+        final var inventory = QInventoryEntity.inventoryEntity;
+        final var store = QStoreEntity.storeEntity;
+        final var address = QAddressEntity.addressEntity;
+        final var city = QCityEntity.cityEntity;
+        final var staff = QStaffEntity.staffEntity;
 
-        var query = jpaQueryFactory
+        final var query = jpaQueryFactory
                 .select(Projections.constructor(StoreSalesDto.StoreSales.class,
                         Expressions.asString(city.city).concat(",")
                                 .concat(city.countryId.stringValue()).as("store"),
@@ -91,7 +91,7 @@ public class CustomPaymentRepositoryImpl implements CustomPaymentRepository {
                 .innerJoin(staff).on(staff.staffId.eq(store.managerStaffId))
                 .groupBy(store.storeId)
                 .orderBy(store.storeId.asc());
-        var result = query.fetch();
+        final var result = query.fetch();
         result.forEach(CustomPaymentRepositoryImpl::replaceCountryIdToCountry);
         return result;
     }

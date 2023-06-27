@@ -40,7 +40,7 @@ public class RentalController {
         if (model.getRentalDate() == null) {
             model.setRentalDate(LocalDateTime.now());
         }
-        var result = rentalService.rentDvd(model);
+        final var result = rentalService.rentDvd(model);
         return ResponseEntity.created(linkTo(methodOn(RentalController.class)
                 .getRental(result.getRentalId())).toUri()).build();
     }
@@ -58,7 +58,7 @@ public class RentalController {
     @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<Void> updateRental(@PathVariable Integer rentalId,
                                              @ModelAttribute RentalDto.RentalUpdateRequest model) {
-        var result = rentalService.updateRental(rentalId, model);
+        final var result = rentalService.updateRental(rentalId, model);
         return ResponseEntity.ok().build();
     }
 
@@ -75,7 +75,7 @@ public class RentalController {
         if (input.get("returnDate") == null) {
             input.put("returnDate", LocalDateTime.now().toString());
         }
-        var result = rentalService.returnDvd(input);
+        final var result = rentalService.returnDvd(input);
         return ResponseEntity.ok().build();
     }
 }

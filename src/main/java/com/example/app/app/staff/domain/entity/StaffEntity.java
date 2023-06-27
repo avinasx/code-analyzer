@@ -113,7 +113,7 @@ public class StaffEntity implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        StaffEntity that = (StaffEntity) o;
+        final StaffEntity that = (StaffEntity) o;
         return Objects.equal(staffId, that.staffId)
                 && Objects.equal(fullName, that.fullName)
                 && Objects.equal(addressId, that.addressId)

@@ -24,14 +24,14 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     @Transactional(readOnly = true)
     public List<PaymentDto.Payment> getPaymentList(Pageable pageable) {
-        var list = paymentRepository.findAll(pageable);
+        final var list = paymentRepository.findAll(pageable);
         return paymentMapper.mapToDtoList(list);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Optional<PaymentDto.Payment> getPayment(Integer paymentId) {
-        var entity = paymentRepository.findById(paymentId).orElseThrow(() ->
+        final var entity = paymentRepository.findById(paymentId).orElseThrow(() ->
                 new ResourceNotFoundException("Payment not found with id '" + paymentId + "'"));
         return Optional.of(paymentMapper.mapToDto(entity));
     }
@@ -45,7 +45,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     @Transactional(readOnly = true)
     public Optional<PaymentDto.Payment> getPaymentDetails(Integer paymentId) {
-        var model = paymentRepository.findPaymentDetailsById(paymentId);
+        final var model = paymentRepository.findPaymentDetailsById(paymentId);
         if (model.isEmpty()) {
             throw new ResourceNotFoundException("Payment not found with id '" + paymentId + "'");
         }
@@ -56,7 +56,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Transactional
     public PaymentDto.Payment createPayment(PaymentDto.PaymentRequest model, CustomerDto.Customer customer,
                                             StaffDto.Staff staff, RentalDto.Rental rental) {
-        var payment = PaymentDto.Payment.builder()
+        final var payment = PaymentDto.Payment.builder()
                 .customerId(customer.getCustomerId())
                 .staffId(staff.getStaffId())
                 .rentalId(model.getRentalId())
@@ -66,14 +66,14 @@ public class PaymentServiceImpl implements PaymentService {
                 .staffByStaffId(staff)
                 .rentalByRentalId(rental)
                 .build();
-        var savedEntity = paymentRepository.save(paymentMapper.mapToEntity(payment));
+        final var savedEntity = paymentRepository.save(paymentMapper.mapToEntity(payment));
         return paymentMapper.mapToDto(savedEntity);
     }
 
     @Override
     @Transactional
     public PaymentDto.Payment updatePayment(Integer paymentId, PaymentDto.PaymentRequest model) {
-        var entity = paymentRepository.findById(paymentId).orElseThrow(() ->
+        final var entity = paymentRepository.findById(paymentId).orElseThrow(() ->
                 new ResourceNotFoundException("Payment not found with id '" + paymentId + "'"));
         entity.update(paymentMapper.mapToEntity(model));
         return paymentMapper.mapToDto(entity);

@@ -30,11 +30,11 @@ class FilmRatingConverterTest {
     @Test
     void convertToDatabaseColumn() {
         // arrange
-        var filmRating = FilmRating.PG;
-        var expected = "PG";
+        final var filmRating = FilmRating.PG;
+        final var expected = "PG";
 
         // act
-        var result = filmRatingConverter.convertToDatabaseColumn(filmRating);
+        final var result = filmRatingConverter.convertToDatabaseColumn(filmRating);
 
         // assert
         verify(filmRatingConverter, times(1)).convertToDatabaseColumn(filmRating);
@@ -45,11 +45,11 @@ class FilmRatingConverterTest {
     @Test
     void convertToEntityAttribute() {
         // arrange
-        var filmRating = "NC-17";
-        var expected = FilmRating.NC_17;
+        final var filmRating = "NC-17";
+        final var expected = FilmRating.NC_17;
 
         // act
-        var result = filmRatingConverter.convertToEntityAttribute(filmRating);
+        final var result = filmRatingConverter.convertToEntityAttribute(filmRating);
 
         // assert
         verify(filmRatingConverter, times(1)).convertToEntityAttribute(filmRating);

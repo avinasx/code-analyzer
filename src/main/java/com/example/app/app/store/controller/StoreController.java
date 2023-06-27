@@ -40,7 +40,7 @@ public class StoreController {
     @PostMapping(path = "")
     @Secured(UserRole.Constants.ROLE_ADMIN)
     public ResponseEntity<Void> addStore(@RequestBody StoreDto.StoreRequest model) {
-        var result = storeService.addStore(model);
+        final var result = storeService.addStore(model);
         return ResponseEntity.created(linkTo(methodOn(StoreController.class)
                 .getStore(result.getStoreId())).toUri()).build();
     }
@@ -58,7 +58,7 @@ public class StoreController {
     @Secured(UserRole.Constants.ROLE_ADMIN)
     public ResponseEntity<Void> updateStore(@PathVariable Integer storeId,
                                             @ModelAttribute StoreDto.StoreRequest model) {
-        var result = storeService.updateStore(storeId, model);
+        final var result = storeService.updateStore(storeId, model);
         return ResponseEntity.ok().build();
     }
 
@@ -90,7 +90,7 @@ public class StoreController {
     @Secured(UserRole.Constants.ROLE_ADMIN)
     public ResponseEntity<Void> addStoreStaff(@PathVariable Integer storeId,
                                               @PathVariable Integer staffId) {
-        var result = storeService.addStoreStaff(storeId, staffId);
+        final var result = storeService.addStoreStaff(storeId, staffId);
         return ResponseEntity.ok().build();
     }
 
@@ -98,7 +98,7 @@ public class StoreController {
     @Secured(UserRole.Constants.ROLE_ADMIN)
     public ResponseEntity<Void> updateStoreStaff(@PathVariable Integer storeId,
                                                  @PathVariable Integer staffId) {
-        var result = storeService.updateStoreStaff(storeId, staffId);
+        final var result = storeService.updateStoreStaff(storeId, staffId);
         return ResponseEntity.ok().build();
     }
 

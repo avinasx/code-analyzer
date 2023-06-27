@@ -85,7 +85,7 @@ public class FilmDto {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            Film that = (Film) o;
+            final Film that = (Film) o;
             return Objects.equal(filmId, that.filmId)
                     && Objects.equal(title, that.title)
                     && Objects.equal(description, that.description)
@@ -159,7 +159,7 @@ public class FilmDto {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            FilmRequest that = (FilmRequest) o;
+            final FilmRequest that = (FilmRequest) o;
             return Objects.equal(title, that.title)
                     && Objects.equal(description, that.description)
                     && Objects.equal(releaseYear, that.releaseYear)
@@ -200,7 +200,7 @@ public class FilmDto {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             if (!super.equals(o)) return false;
-            FilmResponse that = (FilmResponse) o;
+            final FilmResponse that = (FilmResponse) o;
             return Objects.equal(film, that.film);
         }
 
@@ -242,7 +242,7 @@ public class FilmDto {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            FilmCategory that = (FilmCategory) o;
+            final FilmCategory that = (FilmCategory) o;
             return Objects.equal(filmId, that.filmId)
                     && categoryId == that.categoryId
                     && Objects.equal(lastUpdate, that.lastUpdate);
@@ -285,7 +285,7 @@ public class FilmDto {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            FilmActor that = (FilmActor) o;
+            final FilmActor that = (FilmActor) o;
             return Objects.equal(actorId, that.actorId)
                     && Objects.equal(filmId, that.filmId)
                     && Objects.equal(lastUpdate, that.lastUpdate);
@@ -320,7 +320,7 @@ public class FilmDto {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            FilmText that = (FilmText) o;
+            final FilmText that = (FilmText) o;
             return Objects.equal(filmId, that.filmId)
                     && Objects.equal(title, that.title)
                     && Objects.equal(description, that.description);

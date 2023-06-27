@@ -13,8 +13,8 @@ public class CustomRentalRepositoryImpl implements CustomRentalRepository {
 
     @Override
     public RentalEntity findRentedDvdRentalId(Integer customerId, Integer inventoryId) {
-        var rental = QRentalEntity.rentalEntity;
-        var query = jpaQueryFactory
+        final var rental = QRentalEntity.rentalEntity;
+        final var query = jpaQueryFactory
                 .select(rental)
                 .from(rental)
                 .where(rental.customerId.eq(customerId))

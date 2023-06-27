@@ -36,7 +36,7 @@ public class ActorDto {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            Actor that = (Actor) o;
+            final Actor that = (Actor) o;
             return Objects.equal(actorId, that.actorId)
                     && Objects.equal(fullName, that.fullName)
                     && Objects.equal(lastUpdate, that.lastUpdate);
@@ -69,7 +69,7 @@ public class ActorDto {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            ActorRequest that = (ActorRequest) o;
+            final ActorRequest that = (ActorRequest) o;
             return Objects.equal(firstName, that.firstName)
                     && Objects.equal(lastName, that.lastName);
         }
@@ -100,7 +100,7 @@ public class ActorDto {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             if (!super.equals(o)) return false;
-            ActorResponse that = (ActorResponse) o;
+            final ActorResponse that = (ActorResponse) o;
             return Objects.equal(actor, that.actor);
         }
 

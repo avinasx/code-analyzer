@@ -11,7 +11,7 @@ public class MdcLoggingFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         try {
-            var xRequestId = ((HttpServletRequest) request).getHeader("X-Request-ID");
+            final var xRequestId = ((HttpServletRequest) request).getHeader("X-Request-ID");
             MDC.put("request_id", xRequestId == null ? UUID.randomUUID().toString() : xRequestId);
             chain.doFilter(request, response);
         } finally {

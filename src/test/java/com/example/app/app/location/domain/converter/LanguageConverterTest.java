@@ -30,11 +30,11 @@ class LanguageConverterTest {
     @Test
     void convertToDatabaseColumn() {
         // arrange
-        var language = Language.ENGLISH;
-        var expected = 1;
+        final var language = Language.ENGLISH;
+        final var expected = 1;
 
         // act
-        var result = languageConverter.convertToDatabaseColumn(language);
+        final var result = languageConverter.convertToDatabaseColumn(language);
 
         // assert
         verify(languageConverter, times(1)).convertToDatabaseColumn(language);
@@ -44,11 +44,11 @@ class LanguageConverterTest {
     @Test
     void convertToEntityAttribute() {
         // arrange
-        var language = 2;
-        var expected = Language.ITALIAN;
+        final var language = 2;
+        final var expected = Language.ITALIAN;
 
         // act
-        var result = languageConverter.convertToEntityAttribute(language);
+        final var result = languageConverter.convertToEntityAttribute(language);
 
         // assert
         verify(languageConverter, times(1)).convertToEntityAttribute(language);

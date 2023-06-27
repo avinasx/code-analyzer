@@ -34,7 +34,7 @@ public class CountryDto {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            Country that = (Country) o;
+            final Country that = (Country) o;
             return countryId == that.countryId
                     && country == that.country
                     && Objects.equal(lastUpdate, that.lastUpdate);

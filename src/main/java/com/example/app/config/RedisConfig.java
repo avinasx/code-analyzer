@@ -29,14 +29,14 @@ public class RedisConfig {
 
     @Bean
     public RedisTemplate<?, ?> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
-        RedisTemplate<byte[], byte[]> redisTemplate = new RedisTemplate<>();
+        final RedisTemplate<byte[], byte[]> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory);
         return redisTemplate;
     }
 
     @Bean
     public RedisCacheConfiguration cacheConfiguration() {
-        var objectMapper = new ObjectMapper()
+        final var objectMapper = new ObjectMapper()
                 .registerModules(new JavaTimeModule())
                 .enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY)
                 .disable(SerializationFeature.FAIL_ON_UNWRAPPED_TYPE_IDENTIFIERS);

@@ -104,7 +104,7 @@ public class CustomerEntity implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CustomerEntity that = (CustomerEntity) o;
+        final CustomerEntity that = (CustomerEntity) o;
         return Objects.equal(customerId, that.customerId)
                 && Objects.equal(storeId, that.storeId)
                 && Objects.equal(fullName, that.fullName)

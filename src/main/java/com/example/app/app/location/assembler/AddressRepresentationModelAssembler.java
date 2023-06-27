@@ -20,7 +20,7 @@ public class AddressRepresentationModelAssembler extends RepresentationModelAsse
     @Override
     @lombok.NonNull
     public AddressDto.AddressResponse toModel(@lombok.NonNull AddressDto.Address entity) {
-        var model = instantiateModel(entity);
+        final var model = instantiateModel(entity);
         model.setAddress(entity);
         model.add(linkTo(methodOn(LocationController.class).getAddress(entity.getAddressId())).withSelfRel());
         model.add(linkTo(methodOn(LocationController.class).getAddressList(Pageable.unpaged())).withRel(HalRelation.Fields.addressList));
@@ -30,7 +30,7 @@ public class AddressRepresentationModelAssembler extends RepresentationModelAsse
     @Override
     @lombok.NonNull
     public CollectionModel<AddressDto.AddressResponse> toCollectionModel(@lombok.NonNull Iterable<? extends AddressDto.Address> entities) {
-        var collectionModel = super.toCollectionModel(entities);
+        final var collectionModel = super.toCollectionModel(entities);
         collectionModel.add(linkTo(methodOn(LocationController.class).getAddressList(Pageable.unpaged())).withSelfRel());
         return collectionModel;
     }

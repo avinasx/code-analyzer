@@ -19,7 +19,7 @@ public class JpaUserDetailsService implements UserDetailsService {
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        var user = authorityRepository.findAuthorityEntityByEmail(username);
+        final var user = authorityRepository.findAuthorityEntityByEmail(username);
         return User.builder()
                 .username(user.getEmail())
                 .password(user.getPassword())
@@ -29,7 +29,7 @@ public class JpaUserDetailsService implements UserDetailsService {
 
     @Transactional(readOnly = true)
     public UserDetails findUser(String email, String password) {
-        var user = loadUserByUsername(email);
+        final var user = loadUserByUsername(email);
         if (passwordEncoder.matches(password, user.getPassword())) {
             return user;
         }

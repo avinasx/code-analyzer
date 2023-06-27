@@ -53,7 +53,7 @@ public class CategoryEntity implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CategoryEntity that = (CategoryEntity) o;
+        final CategoryEntity that = (CategoryEntity) o;
         return categoryId == that.categoryId
                 && Objects.equal(name, that.name)
                 && Objects.equal(lastUpdate, that.lastUpdate);

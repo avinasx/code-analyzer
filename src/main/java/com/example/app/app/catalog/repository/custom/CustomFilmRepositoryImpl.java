@@ -33,8 +33,8 @@ public class CustomFilmRepositoryImpl implements CustomFilmRepository {
 
     @Override
     public List<FilmDto.Film> findAllFilmList(Pageable pageable) {
-        var film = QFilmEntity.filmEntity;
-        var query = jpaQueryFactory
+        final var film = QFilmEntity.filmEntity;
+        final var query = jpaQueryFactory
                 .selectFrom(film)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
@@ -43,8 +43,8 @@ public class CustomFilmRepositoryImpl implements CustomFilmRepository {
 
     @Override
     public List<FilmDto.Film> findAllFilmListWithFilter(FilmDto.Film condition, Pageable pageable) {
-        var film = QFilmEntity.filmEntity;
-        var query = jpaQueryFactory
+        final var film = QFilmEntity.filmEntity;
+        final var query = jpaQueryFactory
                 .selectFrom(film)
                 .where(filterEquals(film.releaseYear.year(), condition.getReleaseYear().getYear()))
                 .where(filterEquals(film.rating, condition.getRating()))
@@ -55,20 +55,20 @@ public class CustomFilmRepositoryImpl implements CustomFilmRepository {
 
     @Override
     public List<ActorDto.Actor> findAllFilmActorListById(Integer filmId, Pageable pageable) {
-        var query = findFilmActor(filmId, null, pageable);
+        final var query = findFilmActor(filmId, null, pageable);
         return query.fetch();
     }
 
     @Override
     public Optional<ActorDto.Actor> findFilmActorById(Integer filmId, Integer actorId) {
-        var query = findFilmActor(filmId, actorId, Pageable.unpaged());
+        final var query = findFilmActor(filmId, actorId, Pageable.unpaged());
         return Optional.of(query.fetchFirst());
     }
 
     private JPAQuery<ActorDto.Actor> findFilmActor(Integer filmId, Integer actorId, Pageable pageable) {
-        var actor = QActorEntity.actorEntity;
-        var filmActor = QFilmActorEntity.filmActorEntity;
-        var film = QFilmEntity.filmEntity;
+        final var actor = QActorEntity.actorEntity;
+        final var filmActor = QFilmActorEntity.filmActorEntity;
+        final var film = QFilmEntity.filmEntity;
 
         return jpaQueryFactory
                 .select(Projections.constructor(ActorDto.Actor.class,
@@ -86,21 +86,21 @@ public class CustomFilmRepositoryImpl implements CustomFilmRepository {
 
     @Override
     public List<FilmDetailsDto.FilmDetails> findAllFilmListDetail() {
-        var query = findFilmDetail(null);
+        final var query = findFilmDetail(null);
         return query.fetch();
     }
 
     @Override
     public Optional<FilmDetailsDto.FilmDetails> findFilmDetailsById(Integer filmId) {
-        var query = findFilmDetail(filmId);
+        final var query = findFilmDetail(filmId);
         return Optional.of(query.fetchFirst());
     }
 
     private BlazeJPAQuery<FilmDetailsDto.FilmDetails> findFilmDetail(Integer id) {
-        var actor = QActorEntity.actorEntity;
-        var film = QFilmEntity.filmEntity;
-        var filmActor = QFilmActorEntity.filmActorEntity;
-        var filmCategory = QFilmCategoryEntity.filmCategoryEntity;
+        final var actor = QActorEntity.actorEntity;
+        final var film = QFilmEntity.filmEntity;
+        final var filmActor = QFilmActorEntity.filmActorEntity;
+        final var filmCategory = QFilmCategoryEntity.filmCategoryEntity;
 
         return blazeJPAQueryFactory
                 .select(Projections.constructor(FilmDetailsDto.FilmDetails.class,

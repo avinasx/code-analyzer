@@ -22,11 +22,11 @@ public class LoginController {
 
     @PostMapping(path = "")
     public ResponseEntity<Void> userLogin(@RequestBody AuthorityDto.Login login) {
-        var user = userDetailsService.findUser(login.getEmail(), login.getPassword());
-        var jwt = jwtTokenProvider.createToken(user);
+        final var user = userDetailsService.findUser(login.getEmail(), login.getPassword());
+        final var jwt = jwtTokenProvider.createToken(user);
         securityService.authenticateToken(user, jwt);
 
-        var headers = new HttpHeaders();
+        final var headers = new HttpHeaders();
         headers.setBearerAuth(jwt);
         return ResponseEntity.ok().headers(headers).build();
     }

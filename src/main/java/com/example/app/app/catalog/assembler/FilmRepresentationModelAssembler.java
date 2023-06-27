@@ -20,7 +20,7 @@ public class FilmRepresentationModelAssembler extends RepresentationModelAssembl
     @Override
     @lombok.NonNull
     public FilmDto.FilmResponse toModel(@lombok.NonNull FilmDto.Film entity) {
-        var model = instantiateModel(entity);
+        final var model = instantiateModel(entity);
         model.setFilm(entity);
         model.add(linkTo(methodOn(FilmController.class).getFilm(entity.getFilmId())).withSelfRel());
         model.add(linkTo(methodOn(FilmController.class).getFilmList(null, null, Pageable.unpaged())).withRel(HalRelation.Fields.filmList));
@@ -30,7 +30,7 @@ public class FilmRepresentationModelAssembler extends RepresentationModelAssembl
     @Override
     @lombok.NonNull
     public CollectionModel<FilmDto.FilmResponse> toCollectionModel(@lombok.NonNull Iterable<? extends FilmDto.Film> entities) {
-        var collectionModel = super.toCollectionModel(entities);
+        final var collectionModel = super.toCollectionModel(entities);
         collectionModel.add(linkTo(methodOn(FilmController.class).getFilmList(null, null, Pageable.unpaged())).withSelfRel());
         return collectionModel;
     }

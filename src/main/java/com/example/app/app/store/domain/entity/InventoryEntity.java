@@ -72,7 +72,7 @@ public class InventoryEntity implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        InventoryEntity that = (InventoryEntity) o;
+        final InventoryEntity that = (InventoryEntity) o;
         return Objects.equal(inventoryId, that.inventoryId)
                 && Objects.equal(filmId, that.filmId)
                 && Objects.equal(storeId, that.storeId)

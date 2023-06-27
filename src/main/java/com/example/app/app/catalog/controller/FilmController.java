@@ -40,7 +40,7 @@ public class FilmController {
             @RequestParam(required = false) String releaseYear,
             @RequestParam(required = false) String rating,
             @PageableDefault(size = 10, page = 0, direction = Sort.Direction.ASC) Pageable pageable) {
-        var condition = FilmDto.Film.builder()
+        final var condition = FilmDto.Film.builder()
                 .releaseYear(releaseYear == null ? null : LocalDate.parse(releaseYear))
                 .rating(rating == null ? null : FilmRating.valueOf(rating))
                 .build();
@@ -51,7 +51,7 @@ public class FilmController {
     @PostMapping(path = "")
     @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<Void> addFilm(@RequestBody FilmDto.FilmRequest model) {
-        var result = filmService.addFilm(model);
+        final var result = filmService.addFilm(model);
         return ResponseEntity.created(linkTo(methodOn(FilmController.class)
                 .getFilm(result.getFilmId())).toUri()).build();
     }
@@ -69,7 +69,7 @@ public class FilmController {
     @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<Void> updateFilm(@PathVariable Integer filmId,
                                            @RequestBody FilmDto.FilmRequest model) {
-        var result = filmService.updateFilm(filmId, model);
+        final var result = filmService.updateFilm(filmId, model);
         return ResponseEntity.ok().build();
     }
 

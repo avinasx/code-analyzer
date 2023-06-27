@@ -68,7 +68,7 @@ public class AddressDto {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            Address that = (Address) o;
+            final Address that = (Address) o;
             return Objects.equal(addressId, that.addressId)
                     && Objects.equal(address, that.address)
                     && Objects.equal(address2, that.address2)
@@ -128,7 +128,7 @@ public class AddressDto {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            AddressRequest that = (AddressRequest) o;
+            final AddressRequest that = (AddressRequest) o;
             return Objects.equal(address, that.address)
                     && Objects.equal(address2, that.address2)
                     && Objects.equal(district, that.district)
@@ -165,7 +165,7 @@ public class AddressDto {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             if (!super.equals(o)) return false;
-            AddressResponse that = (AddressResponse) o;
+            final AddressResponse that = (AddressResponse) o;
             return Objects.equal(address, that.address);
         }
 

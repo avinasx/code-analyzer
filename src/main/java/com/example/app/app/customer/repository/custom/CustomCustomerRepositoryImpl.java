@@ -35,20 +35,20 @@ public class CustomCustomerRepositoryImpl implements CustomCustomerRepository {
 
     @Override
     public List<CustomerDetailsDto.CustomerDetails> findAllCustomerDetailsList() {
-        var query = findCustomerDetail(null);
+        final var query = findCustomerDetail(null);
         return query.fetch();
     }
 
     @Override
     public Optional<CustomerDetailsDto.CustomerDetails> findCustomerDetailsById(Integer customerId) {
-        var query = findCustomerDetail(customerId);
+        final var query = findCustomerDetail(customerId);
         return Optional.of(query.fetchFirst());
     }
 
     private JPAQuery<CustomerDetailsDto.CustomerDetails> findCustomerDetail(Integer id) {
-        var customer = QCustomerEntity.customerEntity;
-        var address = QAddressEntity.addressEntity;
-        var city = QCityEntity.cityEntity;
+        final var customer = QCustomerEntity.customerEntity;
+        final var address = QAddressEntity.addressEntity;
+        final var city = QCityEntity.cityEntity;
         return jpaQueryFactory
                 .select(Projections.constructor(CustomerDetailsDto.CustomerDetails.class,
                         customer.customerId.as(CustomerDetailsDto.CustomerDetails.Fields.id),
@@ -71,9 +71,9 @@ public class CustomCustomerRepositoryImpl implements CustomCustomerRepository {
     @Override
     public List<PaymentDto.Payment> findAllCustomerPaymentListByIdWithCondition(
             Integer customerId, LocalDate startDate, LocalDate endDate) {
-        var customer = QCustomerEntity.customerEntity;
-        var payment = QPaymentEntity.paymentEntity;
-        var query = jpaQueryFactory
+        final var customer = QCustomerEntity.customerEntity;
+        final var payment = QPaymentEntity.paymentEntity;
+        final var query = jpaQueryFactory
                 .selectFrom(payment)
                 .join(customer).on(payment.customerId.eq(customer.customerId))
                 .where(customer.customerId.eq(customerId))
@@ -86,9 +86,9 @@ public class CustomCustomerRepositoryImpl implements CustomCustomerRepository {
     @Override
     public List<RentalDto.Rental> findAllCustomerRentalListByIdWithCondition(
             Integer customerId, RentalStatus status, LocalDate startDate, LocalDate endDate) {
-        var customer = QCustomerEntity.customerEntity;
-        var rental = QRentalEntity.rentalEntity;
-        var query = jpaQueryFactory
+        final var customer = QCustomerEntity.customerEntity;
+        final var rental = QRentalEntity.rentalEntity;
+        final var query = jpaQueryFactory
                 .selectFrom(rental)
                 .join(customer).on(rental.customerId.eq(customer.customerId))
                 .where(customer.customerId.eq(customerId))

@@ -26,14 +26,14 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     @Transactional(readOnly = true)
     public List<CustomerDto.Customer> getCustomerList(Pageable pageable) {
-        var list = customerRepository.findAll(pageable);
+        final var list = customerRepository.findAll(pageable);
         return customerMapper.mapToDtoList(list);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Optional<CustomerDto.Customer> getCustomer(Integer customerId) {
-        var entity = customerRepository.findById(customerId).orElseThrow(() ->
+        final var entity = customerRepository.findById(customerId).orElseThrow(() ->
                 new ResourceNotFoundException("Customer not found with id '" + customerId + "'"));
         return Optional.of(customerMapper.mapToDto(entity));
     }
@@ -47,7 +47,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     @Transactional(readOnly = true)
     public Optional<CustomerDetailsDto.CustomerDetails> getCustomerDetails(Integer customerId) {
-        var model = customerRepository.findCustomerDetailsById(customerId);
+        final var model = customerRepository.findCustomerDetailsById(customerId);
         if (model.isEmpty()) {
             throw new ResourceNotFoundException("Customer not found with id '" + customerId + "'");
         }
@@ -71,14 +71,14 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     @Transactional
     public CustomerDto.Customer addCustomer(CustomerDto.CustomerRequest model) {
-        var savedEntity = customerRepository.save(customerMapper.mapToEntity(model));
+        final var savedEntity = customerRepository.save(customerMapper.mapToEntity(model));
         return customerMapper.mapToDto(savedEntity);
     }
 
     @Override
     @Transactional
     public CustomerDto.Customer updateCustomer(Integer customerId, CustomerDto.CustomerRequest model) {
-        var entity = customerRepository.findById(customerId).orElseThrow(() ->
+        final var entity = customerRepository.findById(customerId).orElseThrow(() ->
                 new ResourceNotFoundException("Customer not found with id '" + customerId + "'"));
         entity.update(customerMapper.mapToEntity(model));
         return customerMapper.mapToDto(entity);

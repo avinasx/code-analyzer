@@ -19,7 +19,7 @@ public class CustomerRepresentationModelAssembler extends RepresentationModelAss
     @Override
     @lombok.NonNull
     public CustomerDto.CustomerResponse toModel(@lombok.NonNull CustomerDto.Customer entity) {
-        var model = instantiateModel(entity);
+        final var model = instantiateModel(entity);
         model.setCustomer(entity);
         model.add(linkTo(methodOn(CustomerController.class).getCustomer(entity.getCustomerId())).withSelfRel());
         model.add(linkTo(methodOn(CustomerController.class).getCustomerList(Pageable.unpaged())).withRel(HalRelation.Fields.customerList));

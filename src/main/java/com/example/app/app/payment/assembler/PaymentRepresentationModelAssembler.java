@@ -19,7 +19,7 @@ public class PaymentRepresentationModelAssembler extends RepresentationModelAsse
     @Override
     @lombok.NonNull
     public PaymentDto.PaymentResponse toModel(@lombok.NonNull PaymentDto.Payment entity) {
-        var model = instantiateModel(entity);
+        final var model = instantiateModel(entity);
         model.setPayment(entity);
         model.add(linkTo(methodOn(PaymentController.class).getPayment(entity.getPaymentId())).withSelfRel());
         model.add(linkTo(methodOn(PaymentController.class).getPaymentList(Pageable.unpaged())).withRel(HalRelation.Fields.paymentList));

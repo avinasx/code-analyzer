@@ -73,7 +73,7 @@ public class StoreEntity implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        StoreEntity that = (StoreEntity) o;
+        final StoreEntity that = (StoreEntity) o;
         return Objects.equal(storeId, that.storeId)
                 && Objects.equal(managerStaffId, that.managerStaffId)
                 && Objects.equal(addressId, that.addressId)

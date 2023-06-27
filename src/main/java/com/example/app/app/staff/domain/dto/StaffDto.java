@@ -76,7 +76,7 @@ public class StaffDto {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            Staff that = (Staff) o;
+            final Staff that = (Staff) o;
             return Objects.equal(staffId, that.staffId)
                     && Objects.equal(fullName, that.fullName)
                     && Objects.equal(addressId, that.addressId)
@@ -137,7 +137,7 @@ public class StaffDto {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            StaffRequest that = (StaffRequest) o;
+            final StaffRequest that = (StaffRequest) o;
             return Objects.equal(firstName, that.firstName)
                     && Objects.equal(lastName, that.lastName)
                     && Objects.equal(addressId, that.addressId)
@@ -175,7 +175,7 @@ public class StaffDto {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             if (!super.equals(o)) return false;
-            StaffResponse that = (StaffResponse) o;
+            final StaffResponse that = (StaffResponse) o;
             return Objects.equal(staff, that.staff);
         }
 

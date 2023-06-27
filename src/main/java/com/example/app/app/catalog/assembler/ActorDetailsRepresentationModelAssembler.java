@@ -20,7 +20,7 @@ public class ActorDetailsRepresentationModelAssembler extends RepresentationMode
     @Override
     @lombok.NonNull
     public ActorDetailsDto.ActorDetailsResponse toModel(@lombok.NonNull ActorDetailsDto.ActorDetails entity) {
-        var model = instantiateModel(entity);
+        final var model = instantiateModel(entity);
         model.setActorDetailsModel(entity);
         model.add(linkTo(methodOn(ActorController.class).getActorDetails(entity.getActorId())).withSelfRel());
         model.add(linkTo(methodOn(ActorController.class).getActor(entity.getActorId())).withRel(HalRelation.Fields.actor));

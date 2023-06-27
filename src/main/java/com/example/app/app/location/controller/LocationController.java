@@ -37,7 +37,7 @@ public class LocationController {
     @PostMapping(path = "/addresses")
     @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<Void> addAddress(@RequestBody AddressDto.AddressRequest model) {
-        var result = locationService.addAddress(model);
+        final var result = locationService.addAddress(model);
         return ResponseEntity.created(linkTo(methodOn(LocationController.class)
                 .getAddress(result.getAddressId())).toUri()).build();
     }
@@ -55,7 +55,7 @@ public class LocationController {
     @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<Void> updateAddress(@PathVariable Integer addressId,
                                               @RequestBody AddressDto.AddressRequest model) {
-        var result = locationService.updateAddress(addressId, model);
+        final var result = locationService.updateAddress(addressId, model);
         return ResponseEntity.ok().build();
     }
 
@@ -86,7 +86,7 @@ public class LocationController {
     @PostMapping(path = "/cities")
     @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<Void> addCity(@RequestBody CityDto.CityRequest model) {
-        var result = locationService.addCity(model);
+        final var result = locationService.addCity(model);
         return ResponseEntity.created(linkTo(methodOn(LocationController.class)
                 .getCity(result.getCityId())).toUri()).build();
     }
@@ -104,7 +104,7 @@ public class LocationController {
     @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<Void> updateCity(@PathVariable Integer cityId,
                                            @RequestBody CityDto.CityRequest model) {
-        var result = locationService.updateCity(cityId, model);
+        final var result = locationService.updateCity(cityId, model);
         return ResponseEntity.ok().build();
     }
 

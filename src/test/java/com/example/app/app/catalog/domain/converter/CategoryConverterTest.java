@@ -30,11 +30,11 @@ class CategoryConverterTest {
     @Test
     void convertToDatabaseColumn() {
         // arrange
-        var category = Category.ACTION;
-        var expected = 1;
+        final var category = Category.ACTION;
+        final var expected = 1;
 
         // act
-        var result = categoryConverter.convertToDatabaseColumn(category);
+        final var result = categoryConverter.convertToDatabaseColumn(category);
 
         // assert
         verify(categoryConverter, times(1)).convertToDatabaseColumn(category);
@@ -44,11 +44,11 @@ class CategoryConverterTest {
     @Test
     void convertToEntityAttribute() {
         // arrange
-        var category = 2;
-        var expected = Category.ANIMATION;
+        final var category = 2;
+        final var expected = Category.ANIMATION;
 
         // act
-        var result = categoryConverter.convertToEntityAttribute(category);
+        final var result = categoryConverter.convertToEntityAttribute(category);
 
         // assert
         verify(categoryConverter, times(1)).convertToEntityAttribute(category);

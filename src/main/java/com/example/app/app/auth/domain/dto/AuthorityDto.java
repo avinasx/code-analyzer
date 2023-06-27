@@ -40,7 +40,7 @@ public class AuthorityDto {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            Authority authority = (Authority) o;
+            final Authority authority = (Authority) o;
             return Objects.equal(authorityId, authority.authorityId);
         }
 
@@ -74,7 +74,7 @@ public class AuthorityDto {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            User user = (User) o;
+            final User user = (User) o;
             return Objects.equal(email, user.email);
         }
 

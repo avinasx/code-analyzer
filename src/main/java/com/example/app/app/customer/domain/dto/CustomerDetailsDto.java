@@ -86,7 +86,7 @@ public class CustomerDetailsDto {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            CustomerDetails that = (CustomerDetails) o;
+            final CustomerDetails that = (CustomerDetails) o;
             return Objects.equal(id, that.id)
                     && Objects.equal(name, that.name)
                     && Objects.equal(address, that.address)
@@ -124,7 +124,7 @@ public class CustomerDetailsDto {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             if (!super.equals(o)) return false;
-            CustomerDetailsResponse that = (CustomerDetailsResponse) o;
+            final CustomerDetailsResponse that = (CustomerDetailsResponse) o;
             return Objects.equal(customerDetailsModel, that.customerDetailsModel);
         }
 

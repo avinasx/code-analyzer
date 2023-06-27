@@ -32,11 +32,11 @@ class SpecialFeatureConverterTest {
     @Test
     void convertToDatabaseColumn() {
         // arrange
-        var specialFeatures = EnumSet.of(SpecialFeature.TRAILERS, SpecialFeature.COMMENTARIES);
-        var expected = "Trailers,Commentaries";
+        final var specialFeatures = EnumSet.of(SpecialFeature.TRAILERS, SpecialFeature.COMMENTARIES);
+        final var expected = "Trailers,Commentaries";
 
         // act
-        var result = specialFeatureConverter.convertToDatabaseColumn(specialFeatures);
+        final var result = specialFeatureConverter.convertToDatabaseColumn(specialFeatures);
 
         // assert
         verify(specialFeatureConverter, times(1)).convertToDatabaseColumn(specialFeatures);
@@ -46,11 +46,11 @@ class SpecialFeatureConverterTest {
     @Test
     void convertToEntityAttribute() {
         // arrange
-        var specialFeatures = "Deleted Scenes,Behind the Scenes";
-        var expected = EnumSet.of(SpecialFeature.DELETED_SCENES, SpecialFeature.BEHIND_THE_SCENES);
+        final var specialFeatures = "Deleted Scenes,Behind the Scenes";
+        final var expected = EnumSet.of(SpecialFeature.DELETED_SCENES, SpecialFeature.BEHIND_THE_SCENES);
 
         // act
-        var result = specialFeatureConverter.convertToEntityAttribute(specialFeatures);
+        final var result = specialFeatureConverter.convertToEntityAttribute(specialFeatures);
 
         // assert
         verify(specialFeatureConverter, times(1)).convertToEntityAttribute(specialFeatures);

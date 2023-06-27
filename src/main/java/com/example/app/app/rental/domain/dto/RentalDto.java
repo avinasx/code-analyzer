@@ -66,7 +66,7 @@ public class RentalDto {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            Rental that = (Rental) o;
+            final Rental that = (Rental) o;
             return Objects.equal(rentalId, that.rentalId)
                     && Objects.equal(rentalDate, that.rentalDate)
                     && Objects.equal(inventoryId, that.inventoryId)
@@ -113,7 +113,7 @@ public class RentalDto {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            RentalCreateRequest that = (RentalCreateRequest) o;
+            final RentalCreateRequest that = (RentalCreateRequest) o;
             return Objects.equal(rentalDate, that.rentalDate)
                     && Objects.equal(storeId, that.storeId)
                     && Objects.equal(filmId, that.filmId)
@@ -157,7 +157,7 @@ public class RentalDto {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            RentalUpdateRequest that = (RentalUpdateRequest) o;
+            final RentalUpdateRequest that = (RentalUpdateRequest) o;
             return Objects.equal(rentalDate, that.rentalDate)
                     && Objects.equal(inventoryId, that.inventoryId)
                     && Objects.equal(customerId, that.customerId)
@@ -212,7 +212,7 @@ public class RentalDto {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             if (!super.equals(o)) return false;
-            RentalResponse that = (RentalResponse) o;
+            final RentalResponse that = (RentalResponse) o;
             return Objects.equal(rental, that.rental);
         }
 

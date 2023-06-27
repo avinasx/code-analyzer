@@ -84,7 +84,7 @@ public class FilmDetailsDto {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            FilmDetails that = (FilmDetails) o;
+            final FilmDetails that = (FilmDetails) o;
             return Objects.equal(filmId, that.filmId)
                     && Objects.equal(title, that.title)
                     && Objects.equal(description, that.description)
@@ -121,7 +121,7 @@ public class FilmDetailsDto {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             if (!super.equals(o)) return false;
-            FilmDetailsResponse that = (FilmDetailsResponse) o;
+            final FilmDetailsResponse that = (FilmDetailsResponse) o;
             return Objects.equal(filmDetails, that.filmDetails);
         }
 

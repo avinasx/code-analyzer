@@ -33,20 +33,20 @@ public class PersistenceConfig {
 
     @Bean
     public SQLQueryFactory sqlQueryFactory(DataSource dataSource) {
-        var provider = new SpringConnectionProvider(dataSource);
+        final var provider = new SpringConnectionProvider(dataSource);
         return new SQLQueryFactory(querydslMySQLConfiguration(), provider);
     }
 
     @Bean
     public MySQLQueryFactory mysqlQueryFactory(DataSource dataSource) {
-        var provider = new SpringConnectionProvider(dataSource);
+        final var provider = new SpringConnectionProvider(dataSource);
         return new MySQLQueryFactory(querydslMySQLConfiguration(), provider);
     }
 
     @Bean
     public com.querydsl.sql.Configuration querydslMySQLConfiguration() {
-        var templates = MySQLTemplates.builder().printSchema().build();
-        var configuration = new com.querydsl.sql.Configuration(templates);
+        final var templates = MySQLTemplates.builder().printSchema().build();
+        final var configuration = new com.querydsl.sql.Configuration(templates);
         configuration.setExceptionTranslator(new SpringExceptionTranslator());
         return configuration;
     }
@@ -58,7 +58,7 @@ public class PersistenceConfig {
 
     @Bean
     public CriteriaBuilderFactory criteriaBuilderFactory() {
-        var config = Criteria.getDefault();
+        final var config = Criteria.getDefault();
         return config.createCriteriaBuilderFactory(entityManagerFactory);
     }
 }

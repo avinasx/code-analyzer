@@ -47,7 +47,7 @@ public class StoreSalesDto {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            StoreSales that = (StoreSales) o;
+            final StoreSales that = (StoreSales) o;
             return Objects.equal(store, that.store)
                     && Objects.equal(manager, that.manager)
                     && Objects.equal(totalSales, that.totalSales);
@@ -79,7 +79,7 @@ public class StoreSalesDto {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             if (!super.equals(o)) return false;
-            StoreSalesResponse that = (StoreSalesResponse) o;
+            final StoreSalesResponse that = (StoreSalesResponse) o;
             return Objects.equal(storeSales, that.storeSales);
         }
 

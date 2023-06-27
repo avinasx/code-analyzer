@@ -12,23 +12,23 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @Slf4j
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity.HeadersBuilder<?> handleResourceNotFoundException(ResourceNotFoundException ex) {
-        var code = ErrorCode.RESOURCE_NOT_AVAILABLE;
-        log.error(code.getPhrase() + ex);
+    public ResponseEntity.HeadersBuilder<?> handleResourceNotFoundException(ResourceNotFoundException e) {
+        final var code = ErrorCode.RESOURCE_NOT_FOUND;
+        log.error(code.getPhrase() + e);
         return ResponseEntity.of(ResponseDto.of(code));
     }
 
     @ExceptionHandler(ResourceNotAvailableException.class)
-    public ResponseEntity.HeadersBuilder<?> handleResourceNotAvailableException(ResourceNotAvailableException ex) {
-        var code = ErrorCode.RESOURCE_NOT_AVAILABLE;
-        log.error(code.getPhrase() + ex);
+    public ResponseEntity.HeadersBuilder<?> handleResourceNotAvailableException(ResourceNotAvailableException e) {
+        final var code = ErrorCode.RESOURCE_NOT_AVAILABLE;
+        log.error(code.getPhrase() + e);
         return ResponseEntity.of(ResponseDto.of(code));
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity.HeadersBuilder<?> handleException(Exception ex) {
-        var code = ErrorCode.GENERIC_ERROR;
-        log.error(code.getPhrase() + ex);
+    public ResponseEntity.HeadersBuilder<?> handleException(Exception e) {
+        final var code = ErrorCode.GENERIC_ERROR;
+        log.error(code.getPhrase() + e);
         return ResponseEntity.of(ResponseDto.of(code));
     }
 }

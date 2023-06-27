@@ -20,7 +20,7 @@ public class StaffRepresentationModelAssembler extends RepresentationModelAssemb
     @Override
     @lombok.NonNull
     public StaffDto.StaffResponse toModel(@lombok.NonNull StaffDto.Staff entity) {
-        var model = instantiateModel(entity);
+        final var model = instantiateModel(entity);
         model.setStaff(entity);
         model.add(linkTo(methodOn(StaffController.class).getStaff(entity.getStaffId())).withSelfRel());
         model.add(linkTo(methodOn(StaffController.class).getStaffList(Pageable.unpaged())).withRel(HalRelation.Fields.staffList));

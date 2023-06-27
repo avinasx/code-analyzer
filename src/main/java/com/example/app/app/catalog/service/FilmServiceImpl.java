@@ -27,7 +27,7 @@ public class FilmServiceImpl implements FilmService {
     @Override
     @Transactional(readOnly = true)
     public List<FilmDto.Film> getFilmList() {
-        var list = filmRepository.findAll();
+        final var list = filmRepository.findAll();
         return filmMapper.mapToDtoList(list);
     }
 
@@ -43,7 +43,7 @@ public class FilmServiceImpl implements FilmService {
     @Transactional(readOnly = true)
     @Cacheable(value = "filmResponseCache", key = "#filmId")
     public Optional<FilmDto.Film> getFilm(Integer filmId) {
-        var entity = filmRepository.findById(filmId).orElseThrow(() ->
+        final var entity = filmRepository.findById(filmId).orElseThrow(() ->
                 new ResourceNotFoundException("Film not found with id '" + filmId + "'"));
         return Optional.of(filmMapper.mapToDto(entity));
     }
@@ -57,7 +57,7 @@ public class FilmServiceImpl implements FilmService {
     @Override
     @Transactional(readOnly = true)
     public Optional<ActorDto.Actor> getFilmActor(Integer filmId, Integer actorId) {
-        var model = filmRepository.findFilmActorById(filmId, actorId);
+        final var model = filmRepository.findFilmActorById(filmId, actorId);
         if (model.isEmpty()) {
             throw new ResourceNotFoundException("Actor not found with id '" + actorId + "'");
         }
@@ -73,7 +73,7 @@ public class FilmServiceImpl implements FilmService {
     @Override
     @Transactional(readOnly = true)
     public Optional<FilmDetailsDto.FilmDetails> getFilmDetails(Integer filmId) {
-        var model = filmRepository.findFilmDetailsById(filmId);
+        final var model = filmRepository.findFilmDetailsById(filmId);
         if (model.isEmpty()) {
             throw new ResourceNotFoundException("Film not found with id '" + filmId + "'");
         }
@@ -83,7 +83,7 @@ public class FilmServiceImpl implements FilmService {
     @Override
     @Transactional(readOnly = true)
     public BigDecimal getFilmRentalPrice(Integer filmId) {
-        var model = filmRepository.findRentalRateByFilmId(filmId);
+        final var model = filmRepository.findRentalRateByFilmId(filmId);
         if (model.getRentalRate() == null) {
             throw new ResourceNotFoundException("Film not found with id '" + filmId + "'");
         }
@@ -93,7 +93,7 @@ public class FilmServiceImpl implements FilmService {
     @Override
     @Transactional
     public FilmDto.Film addFilm(FilmDto.FilmRequest model) {
-        var savedEntity = filmRepository.save(filmMapper.mapToEntity(model));
+        final var savedEntity = filmRepository.save(filmMapper.mapToEntity(model));
         return filmMapper.mapToDto(savedEntity);
     }
 
@@ -101,7 +101,7 @@ public class FilmServiceImpl implements FilmService {
     @Transactional
     @CachePut(value = "filmResponseCache", key = "#filmId")
     public FilmDto.Film updateFilm(Integer filmId, FilmDto.FilmRequest model) {
-        var entity = filmRepository.findById(filmId).orElseThrow(() ->
+        final var entity = filmRepository.findById(filmId).orElseThrow(() ->
                 new ResourceNotFoundException("Film not found with id '" + filmId + "'"));
         entity.update(filmMapper.mapToEntity(model));
         return filmMapper.mapToDto(entity);

@@ -44,7 +44,7 @@ public class InventoryDto {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            Inventory that = (Inventory) o;
+            final Inventory that = (Inventory) o;
             return Objects.equal(inventoryId, that.inventoryId)
                     && Objects.equal(filmId, that.filmId)
                     && Objects.equal(storeId, that.storeId)

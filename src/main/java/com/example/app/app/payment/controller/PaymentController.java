@@ -41,7 +41,7 @@ public class PaymentController {
     @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<Void> updatePayment(@PathVariable Integer paymentId,
                                               @RequestBody PaymentDto.PaymentRequest model) {
-        var result = paymentService.updatePayment(paymentId, model);
+        final var result = paymentService.updatePayment(paymentId, model);
         return ResponseEntity.ok().build();
     }
 

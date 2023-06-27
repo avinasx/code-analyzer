@@ -98,7 +98,7 @@ public class PaymentEntity implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PaymentEntity that = (PaymentEntity) o;
+        final PaymentEntity that = (PaymentEntity) o;
         return Objects.equal(paymentId, that.paymentId)
                 && Objects.equal(customerId, that.customerId)
                 && Objects.equal(staffId, that.staffId)

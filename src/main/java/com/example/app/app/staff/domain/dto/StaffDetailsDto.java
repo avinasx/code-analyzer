@@ -80,7 +80,7 @@ public class StaffDetailsDto {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            StaffDetails that = (StaffDetails) o;
+            final StaffDetails that = (StaffDetails) o;
             return Objects.equal(id, that.id)
                     && Objects.equal(name, that.name)
                     && Objects.equal(address, that.address)
@@ -117,7 +117,7 @@ public class StaffDetailsDto {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             if (!super.equals(o)) return false;
-            StaffDetailsResponse that = (StaffDetailsResponse) o;
+            final StaffDetailsResponse that = (StaffDetailsResponse) o;
             return Objects.equal(staffDetails, that.staffDetails);
         }
 

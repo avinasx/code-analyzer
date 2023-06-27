@@ -67,7 +67,7 @@ public class FilmCategoryEntity implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        FilmCategoryEntity that = (FilmCategoryEntity) o;
+        final FilmCategoryEntity that = (FilmCategoryEntity) o;
         return Objects.equal(filmId, that.filmId)
                 && categoryId == that.categoryId
                 && Objects.equal(lastUpdate, that.lastUpdate);

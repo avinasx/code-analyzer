@@ -139,11 +139,11 @@ public enum Country {
      * @return string with country name
      */
     public static String replaceCountryIdToCountryInString(String str) {
-        var pattern = Pattern.compile("\\d+$");
-        var matcher = pattern.matcher(str);
+        final var pattern = Pattern.compile("\\d+$");
+        final var matcher = pattern.matcher(str);
         if (matcher.find()) {
-            var lastElement = matcher.group();
-            var country = getCountryById(Integer.parseInt(lastElement));
+            final var lastElement = matcher.group();
+            final var country = getCountryById(Integer.parseInt(lastElement));
             str = str.replaceAll("\\d+$", country.getCountry());
         }
         return str;

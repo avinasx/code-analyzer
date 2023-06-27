@@ -28,14 +28,14 @@ public class StoreServiceImpl implements StoreService {
     @Override
     @Transactional(readOnly = true)
     public List<StoreDto.Store> getStoreList(Pageable pageable) {
-        var list = storeRepository.findAll(pageable);
+        final var list = storeRepository.findAll(pageable);
         return storeMapper.mapToDtoList(list);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Optional<StoreDto.Store> getStore(Integer storeId) {
-        var entity = storeRepository.findById(storeId).orElseThrow(() ->
+        final var entity = storeRepository.findById(storeId).orElseThrow(() ->
                 new ResourceNotFoundException("Store not found with id '" + storeId + "'"));
         return Optional.of(storeMapper.mapToDto(entity));
     }
@@ -49,7 +49,7 @@ public class StoreServiceImpl implements StoreService {
     @Override
     @Transactional(readOnly = true)
     public Optional<StoreDetailsDto.StoreDetails> getStoreDetails(Integer storeId) {
-        var model = storeRepository.findStoreDetailsById(storeId);
+        final var model = storeRepository.findStoreDetailsById(storeId);
         if (model.isEmpty()) {
             throw new ResourceNotFoundException("Store not found with id '" + storeId + "'");
         }
@@ -65,7 +65,7 @@ public class StoreServiceImpl implements StoreService {
     @Override
     @Transactional(readOnly = true)
     public Optional<StaffDto.Staff> getStoreStaff(Integer storeId, Integer staffId) {
-        var model = storeRepository.findStoreStaffById(storeId, staffId);
+        final var model = storeRepository.findStoreStaffById(storeId, staffId);
         if (model.isEmpty()) {
             throw new ResourceNotFoundException("Staff not found with id '" + staffId + "'");
         }
@@ -75,14 +75,14 @@ public class StoreServiceImpl implements StoreService {
     @Override
     @Transactional(readOnly = true)
     public List<InventoryDto.Inventory> checkInventoryStock(Integer storeId, Integer filmId) {
-        var list = inventoryRepository.findAllByStoreIdAndFilmId(storeId, filmId);
+        final var list = inventoryRepository.findAllByStoreIdAndFilmId(storeId, filmId);
         return inventoryMapper.mapToDtoList(list);
     }
 
     @Override
     @Transactional
     public StoreDto.Store addStore(StoreDto.StoreRequest model) {
-        var savedEntity = storeRepository.save(storeMapper.mapToEntity(model));
+        final var savedEntity = storeRepository.save(storeMapper.mapToEntity(model));
         return storeMapper.mapToDto(savedEntity);
     }
 
@@ -95,7 +95,7 @@ public class StoreServiceImpl implements StoreService {
     @Override
     @Transactional
     public StoreDto.Store updateStore(Integer storeId, StoreDto.StoreRequest model) {
-        var entity = storeRepository.findById(storeId).orElseThrow(() ->
+        final var entity = storeRepository.findById(storeId).orElseThrow(() ->
                 new ResourceNotFoundException("Store not found with id '" + storeId + "'"));
         entity.update(storeMapper.mapToEntity(model));
         return storeMapper.mapToDto(entity);

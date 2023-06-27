@@ -25,13 +25,13 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
             return null;
         }
 
-        var email = claims.get("email", String.class);
-        var authorities = claims.get("authorities", List.class);
-        var authoritiesList = new ArrayList<GrantedAuthority>();
+        final var email = claims.get("email", String.class);
+        final var authorities = claims.get("authorities", List.class);
+        final var authoritiesList = new ArrayList<GrantedAuthority>();
         for (Object authority : authorities) {
             authoritiesList.add(UserRole.valueOf((String) authority));
         }
-        var token = new JwtAuthenticationToken(accessToken, email, authoritiesList);
+        final var token = new JwtAuthenticationToken(accessToken, email, authoritiesList);
         token.setAuthenticated(true);
         return token;
     }

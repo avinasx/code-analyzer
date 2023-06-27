@@ -47,7 +47,7 @@ public class FilmTextEntity implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        FilmTextEntity that = (FilmTextEntity) o;
+        final FilmTextEntity that = (FilmTextEntity) o;
         return Objects.equal(filmId, that.filmId)
                 && Objects.equal(title, that.title)
                 && Objects.equal(description, that.description);

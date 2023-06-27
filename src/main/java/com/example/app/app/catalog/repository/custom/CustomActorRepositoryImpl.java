@@ -30,20 +30,20 @@ public class CustomActorRepositoryImpl implements CustomActorRepository {
 
     @Override
     public List<ActorDetailsDto.ActorDetails> findAllActorDetailsList() {
-        var query = findActorDetail(null);
+        final var query = findActorDetail(null);
         return query.fetch();
     }
 
     @Override
     public Optional<ActorDetailsDto.ActorDetails> findActorDetailsById(Integer actorId) {
-        var query = findActorDetail(actorId);
+        final var query = findActorDetail(actorId);
         return Optional.of(query.fetchFirst());
     }
 
     private BlazeJPAQuery<ActorDetailsDto.ActorDetails> findActorDetail(Integer id) {
-        var actor = QActorEntity.actorEntity;
-        var film = QFilmEntity.filmEntity;
-        var filmActor = QFilmActorEntity.filmActorEntity;
+        final var actor = QActorEntity.actorEntity;
+        final var film = QFilmEntity.filmEntity;
+        final var filmActor = QFilmActorEntity.filmActorEntity;
 
         return blazeJPAQueryFactory
                 .select(Projections.constructor(ActorDetailsDto.ActorDetails.class,
@@ -59,20 +59,20 @@ public class CustomActorRepositoryImpl implements CustomActorRepository {
 
     @Override
     public List<FilmDto.Film> findAllActorFilmListByIdWithCondition(Integer actorId, FilmDto.Film condition, Pageable pageable) {
-        var query = findActorFilm(actorId, null, condition, pageable);
+        final var query = findActorFilm(actorId, null, condition, pageable);
         return query.fetch();
     }
 
     @Override
     public Optional<FilmDto.Film> findActorFilmById(Integer actorId, Integer filmId) {
-        var query = findActorFilm(actorId, filmId, null, null);
+        final var query = findActorFilm(actorId, filmId, null, null);
         return Optional.of(query.fetchFirst());
     }
 
     private JPAQuery<FilmDto.Film> findActorFilm(Integer actorId, Integer filmId, FilmDto.Film condition, Pageable pageable) {
-        var actor = QActorEntity.actorEntity;
-        var film = QFilmEntity.filmEntity;
-        var filmActor = QFilmActorEntity.filmActorEntity;
+        final var actor = QActorEntity.actorEntity;
+        final var film = QFilmEntity.filmEntity;
+        final var filmActor = QFilmActorEntity.filmActorEntity;
 
         return jpaQueryFactory
                 .select(Projections.constructor(FilmDto.Film.class))
@@ -89,12 +89,12 @@ public class CustomActorRepositoryImpl implements CustomActorRepository {
 
     @Override
     public Optional<FilmDetailsDto.FilmDetails> findActorFilmDetailsById(Integer actorId, Integer filmId) {
-        var actor = QActorEntity.actorEntity;
-        var film = QFilmEntity.filmEntity;
-        var filmActor = QFilmActorEntity.filmActorEntity;
-        var filmCategory = QFilmCategoryEntity.filmCategoryEntity;
+        final var actor = QActorEntity.actorEntity;
+        final var film = QFilmEntity.filmEntity;
+        final var filmActor = QFilmActorEntity.filmActorEntity;
+        final var filmCategory = QFilmCategoryEntity.filmCategoryEntity;
 
-        var query = jpaQueryFactory
+        final var query = jpaQueryFactory
                 .select(Projections.constructor(FilmDetailsDto.FilmDetails.class,
                         film.filmId.as(FilmDetailsDto.FilmDetails.Fields.filmId),
                         film.title.as(FilmDetailsDto.FilmDetails.Fields.title),
@@ -117,8 +117,8 @@ public class CustomActorRepositoryImpl implements CustomActorRepository {
 
     @Override
     public Optional<FilmDto.Film> addActorFilm(Integer actorId, Integer filmId) {
-        var filmActor = QFilmActorEntity.filmActorEntity;
-        var query = jpaQueryFactory
+        final var filmActor = QFilmActorEntity.filmActorEntity;
+        final var query = jpaQueryFactory
                 .insert(filmActor)
                 .columns(filmActor.actorId, filmActor.filmId)
                 .values(actorId, filmId);
@@ -128,8 +128,8 @@ public class CustomActorRepositoryImpl implements CustomActorRepository {
 
     @Override
     public void removeActorFilm(Integer actorId, Integer filmId) {
-        var filmActor = QFilmActorEntity.filmActorEntity;
-        var query = jpaQueryFactory
+        final var filmActor = QFilmActorEntity.filmActorEntity;
+        final var query = jpaQueryFactory
                 .delete(filmActor)
                 .where(filmActor.actorId.eq(actorId))
                 .where(filmActor.filmId.eq(filmId));

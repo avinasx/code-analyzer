@@ -14,20 +14,20 @@ import org.locationtech.jts.io.WKBWriter;
 public class GeometryConverter implements AttributeConverter<Point, byte[]> {
     @Override
     public byte[] convertToDatabaseColumn(Point point) {
-        WKBWriter wkbWriter = new WKBWriter();
+        final WKBWriter wkbWriter = new WKBWriter();
         return wkbWriter.write(point);
     }
 
     @Override
     public Point convertToEntityAttribute(byte[] bytes) {
-        WKBReader wkbReader = new WKBReader(new GeometryFactory(new PrecisionModel(), 0));
+        final WKBReader wkbReader = new WKBReader(new GeometryFactory(new PrecisionModel(), 0));
         try {
-            Geometry geometry = wkbReader.read(bytes);
+            final Geometry geometry = wkbReader.read(bytes);
             if (geometry instanceof Point) {
                 return (Point) geometry;
             }
         } catch (ParseException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return null;
     }
