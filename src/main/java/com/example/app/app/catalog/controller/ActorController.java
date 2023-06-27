@@ -1,5 +1,6 @@
 package com.example.app.app.catalog.controller;
 
+import com.example.app.app.auth.domain.vo.UserRole;
 import com.example.app.app.catalog.assembler.ActorDetailsRepresentationModelAssembler;
 import com.example.app.app.catalog.assembler.ActorRepresentationModelAssembler;
 import com.example.app.app.catalog.assembler.FilmDetailsRepresentationModelAssembler;
@@ -17,6 +18,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -36,6 +38,7 @@ public class ActorController {
     private final FilmDetailsRepresentationModelAssembler filmDetailsAssembler;
 
     @GetMapping(path = "")
+    @Secured(UserRole.Constants.ROLE_READ)
     public ResponseEntity<CollectionModel<ActorDto.ActorResponse>> getActorList(
             @PageableDefault(size = 10, page = 0, direction = Sort.Direction.ASC) Pageable pageable) {
         return ResponseEntity.ok(actorAssembler.toCollectionModel(
@@ -43,6 +46,7 @@ public class ActorController {
     }
 
     @PostMapping(path = "")
+    @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<Void> addActor(@RequestBody ActorDto.ActorRequest model) {
         var result = actorService.addActor(model);
         return ResponseEntity.created(linkTo(methodOn(ActorController.class)
@@ -50,6 +54,7 @@ public class ActorController {
     }
 
     @GetMapping(path = "/{actorId}")
+    @Secured(UserRole.Constants.ROLE_READ)
     public ResponseEntity<ActorDto.ActorResponse> getActor(@PathVariable Integer actorId) {
         return actorService.getActor(actorId)
                 .map(actorAssembler::toModel)
@@ -58,6 +63,7 @@ public class ActorController {
     }
 
     @PutMapping(path = "/{actorId}")
+    @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<Void> updateActor(@PathVariable Integer actorId,
                                             @RequestBody ActorDto.ActorRequest model) {
         var result = actorService.updateActor(actorId, model);
@@ -65,12 +71,14 @@ public class ActorController {
     }
 
     @DeleteMapping(path = "/{actorId}")
+    @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<Void> deleteActor(@PathVariable Integer actorId) {
         actorService.deleteActor(actorId);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping(path = "/{actorId}/details")
+    @Secured(UserRole.Constants.ROLE_READ)
     public ResponseEntity<ActorDetailsDto.ActorDetailsResponse> getActorDetails(@PathVariable Integer actorId) {
         return actorService.getActorDetails(actorId)
                 .map(actorDetailsAssembler::toModel)
@@ -79,6 +87,7 @@ public class ActorController {
     }
 
     @GetMapping(path = "/{actorId}/films")
+    @Secured(UserRole.Constants.ROLE_READ)
     public ResponseEntity<CollectionModel<FilmDto.FilmResponse>> getActorFilmList(
             @PathVariable Integer actorId,
             @RequestParam(required = false) String releaseYear,
@@ -97,6 +106,7 @@ public class ActorController {
     }
 
     @PostMapping(path = "/{actorId}/films")
+    @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<Void> addActorFilm(@PathVariable Integer actorId,
                                              @RequestBody Map<String, String> input) {
         var result = actorService.addActorFilm(actorId, Integer.valueOf(input.get(FilmDto.Film.Fields.filmId)));
@@ -105,6 +115,7 @@ public class ActorController {
     }
 
     @GetMapping(path = "/{actorId}/films/{filmId}")
+    @Secured(UserRole.Constants.ROLE_READ)
     public ResponseEntity<FilmDto.FilmResponse> getActorFilm(@PathVariable Integer actorId,
                                                              @PathVariable Integer filmId) {
         var representation = actorService.getActorFilm(actorId, filmId)
@@ -119,6 +130,7 @@ public class ActorController {
     }
 
     @DeleteMapping(path = "/{actorId}/films/{filmId}")
+    @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<Void> deleteActorFilm(@PathVariable Integer actorId,
                                                 @PathVariable Integer filmId) {
         actorService.removeActorFilm(actorId, filmId);
@@ -126,6 +138,7 @@ public class ActorController {
     }
 
     @GetMapping(path = "/{actorId}/films/{filmId}/details")
+    @Secured(UserRole.Constants.ROLE_READ)
     public ResponseEntity<FilmDetailsDto.FilmDetailsResponse> getActorFilmDetails(@PathVariable Integer actorId,
                                                                                   @PathVariable Integer filmId) {
         var representation = actorService.getActorFilmDetails(actorId, filmId)
@@ -141,6 +154,7 @@ public class ActorController {
     }
 
     @PostMapping(path = "/search")
+    @Secured(UserRole.Constants.ROLE_READ)
     public ResponseEntity<CollectionModel<ActorDto.ActorResponse>> searchActorByName
             (@RequestBody Map<String, String> input) {
         return ResponseEntity.ok(actorAssembler.toCollectionModel(

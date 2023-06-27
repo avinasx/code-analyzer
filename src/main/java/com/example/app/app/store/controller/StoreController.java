@@ -1,5 +1,6 @@
 package com.example.app.app.store.controller;
 
+import com.example.app.app.auth.domain.vo.UserRole;
 import com.example.app.app.staff.assembler.StaffRepresentationModelAssembler;
 import com.example.app.app.staff.domain.dto.StaffDto;
 import com.example.app.app.store.assembler.StoreDetailsRepresentationModelAssembler;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -28,6 +30,7 @@ public class StoreController {
     private final StaffRepresentationModelAssembler staffAssembler;
 
     @GetMapping(path = "")
+    @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<CollectionModel<StoreDto.StoreResponse>> getStoreList(
             @PageableDefault(size = 10, page = 0, direction = Sort.Direction.ASC) Pageable pageable) {
         return ResponseEntity.ok(storeAssembler.toCollectionModel(
@@ -35,6 +38,7 @@ public class StoreController {
     }
 
     @PostMapping(path = "")
+    @Secured(UserRole.Constants.ROLE_ADMIN)
     public ResponseEntity<Void> addStore(@RequestBody StoreDto.StoreRequest model) {
         var result = storeService.addStore(model);
         return ResponseEntity.created(linkTo(methodOn(StoreController.class)
@@ -42,6 +46,7 @@ public class StoreController {
     }
 
     @GetMapping(path = "/{storeId}")
+    @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<StoreDto.StoreResponse> getStore(@PathVariable Integer storeId) {
         return storeService.getStore(storeId)
                 .map(storeAssembler::toModel)
@@ -50,6 +55,7 @@ public class StoreController {
     }
 
     @PutMapping(path = "/{storeId}")
+    @Secured(UserRole.Constants.ROLE_ADMIN)
     public ResponseEntity<Void> updateStore(@PathVariable Integer storeId,
                                             @ModelAttribute StoreDto.StoreRequest model) {
         var result = storeService.updateStore(storeId, model);
@@ -57,18 +63,21 @@ public class StoreController {
     }
 
     @DeleteMapping(path = "/{storeId}")
+    @Secured(UserRole.Constants.ROLE_ADMIN)
     public ResponseEntity<Void> deleteStore(@PathVariable Integer storeId) {
         storeService.deleteStore(storeId);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping(path = "/{storeId}/staffs")
+    @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<CollectionModel<StaffDto.StaffResponse>> getStoreStaffList(@PathVariable Integer storeId) {
         return ResponseEntity.ok(staffAssembler.toCollectionModel(
                 storeService.getStoreStaffList(storeId)));
     }
 
     @GetMapping(path = "/{storeId}/staffs/{staffId}")
+    @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<StaffDto.StaffResponse> getStoreStaff(@PathVariable Integer storeId,
                                                                 @PathVariable Integer staffId) {
         return storeService.getStoreStaff(storeId, staffId)
@@ -78,6 +87,7 @@ public class StoreController {
     }
 
     @PostMapping(path = "/{storeId}/staffs/{staffId}")
+    @Secured(UserRole.Constants.ROLE_ADMIN)
     public ResponseEntity<Void> addStoreStaff(@PathVariable Integer storeId,
                                               @PathVariable Integer staffId) {
         var result = storeService.addStoreStaff(storeId, staffId);
@@ -85,6 +95,7 @@ public class StoreController {
     }
 
     @PutMapping(path = "/{storeId}/staffs/{staffId}")
+    @Secured(UserRole.Constants.ROLE_ADMIN)
     public ResponseEntity<Void> updateStoreStaff(@PathVariable Integer storeId,
                                                  @PathVariable Integer staffId) {
         var result = storeService.updateStoreStaff(storeId, staffId);
@@ -92,6 +103,7 @@ public class StoreController {
     }
 
     @DeleteMapping(path = "/{storeId}/staffs/{staffId}")
+    @Secured(UserRole.Constants.ROLE_ADMIN)
     public ResponseEntity<Void> deleteStoreStaff(@PathVariable Integer storeId,
                                                  @PathVariable Integer staffId) {
         storeService.removeStoreStaff(storeId, staffId);
@@ -99,6 +111,7 @@ public class StoreController {
     }
 
     @GetMapping(path = "/{storeId}/details")
+    @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<StoreDetailsDto.StoreDetailsResponse> getStoreDetails(@PathVariable Integer storeId) {
         return storeService.getStoreDetails(storeId)
                 .map(storeDetailsAssembler::toModel)

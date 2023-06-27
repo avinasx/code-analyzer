@@ -1,5 +1,6 @@
 package com.example.app.app.location.controller;
 
+import com.example.app.app.auth.domain.vo.UserRole;
 import com.example.app.app.location.assembler.AddressRepresentationModelAssembler;
 import com.example.app.app.location.assembler.CityRepresentationModelAssembler;
 import com.example.app.app.location.domain.dto.AddressDto;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -25,6 +27,7 @@ public class LocationController {
     private final CityRepresentationModelAssembler cityAssembler;
 
     @GetMapping(path = "/addresses")
+    @Secured(UserRole.Constants.ROLE_READ)
     public ResponseEntity<CollectionModel<AddressDto.AddressResponse>> getAddressList(
             @PageableDefault(size = 10, page = 0, direction = Sort.Direction.ASC) Pageable pageable) {
         return ResponseEntity.ok(addressAssembler.toCollectionModel(
@@ -32,6 +35,7 @@ public class LocationController {
     }
 
     @PostMapping(path = "/addresses")
+    @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<Void> addAddress(@RequestBody AddressDto.AddressRequest model) {
         var result = locationService.addAddress(model);
         return ResponseEntity.created(linkTo(methodOn(LocationController.class)
@@ -39,6 +43,7 @@ public class LocationController {
     }
 
     @GetMapping(path = "/addresses/{addressId}")
+    @Secured(UserRole.Constants.ROLE_READ)
     public ResponseEntity<AddressDto.AddressResponse> getAddress(@PathVariable Integer addressId) {
         return locationService.getAddress(addressId)
                 .map(addressAssembler::toModel)
@@ -47,6 +52,7 @@ public class LocationController {
     }
 
     @PutMapping(path = "/addresses/{addressId}")
+    @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<Void> updateAddress(@PathVariable Integer addressId,
                                               @RequestBody AddressDto.AddressRequest model) {
         var result = locationService.updateAddress(addressId, model);
@@ -54,12 +60,14 @@ public class LocationController {
     }
 
     @DeleteMapping(path = "/addresses/{addressId}")
+    @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<Void> deleteAddress(@PathVariable Integer addressId) {
         locationService.deleteAddress(addressId);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping(path = "/addresses/{addressId}/details")
+    @Secured(UserRole.Constants.ROLE_READ)
     public ResponseEntity<AddressDto.AddressResponse> getAddressDetails(@PathVariable Integer addressId) {
         return locationService.getAddressDetails(addressId)
                 .map(addressAssembler::toModel)
@@ -68,6 +76,7 @@ public class LocationController {
     }
 
     @GetMapping(path = "/cities")
+    @Secured(UserRole.Constants.ROLE_READ)
     public ResponseEntity<CollectionModel<CityDto.CityResponse>> getCityList(
             @PageableDefault(size = 10, page = 0, direction = Sort.Direction.ASC) Pageable pageable) {
         return ResponseEntity.ok(cityAssembler.toCollectionModel(
@@ -75,6 +84,7 @@ public class LocationController {
     }
 
     @PostMapping(path = "/cities")
+    @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<Void> addCity(@RequestBody CityDto.CityRequest model) {
         var result = locationService.addCity(model);
         return ResponseEntity.created(linkTo(methodOn(LocationController.class)
@@ -82,6 +92,7 @@ public class LocationController {
     }
 
     @GetMapping(path = "/cities/{cityId}")
+    @Secured(UserRole.Constants.ROLE_READ)
     public ResponseEntity<CityDto.CityResponse> getCity(@PathVariable Integer cityId) {
         return locationService.getCity(cityId)
                 .map(cityAssembler::toModel)
@@ -90,6 +101,7 @@ public class LocationController {
     }
 
     @PutMapping(path = "/cities/{cityId}")
+    @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<Void> updateCity(@PathVariable Integer cityId,
                                            @RequestBody CityDto.CityRequest model) {
         var result = locationService.updateCity(cityId, model);
@@ -97,6 +109,7 @@ public class LocationController {
     }
 
     @DeleteMapping(path = "/cities/{cityId}")
+    @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<Void> deleteCity(@PathVariable Integer cityId) {
         locationService.deleteCity(cityId);
         return ResponseEntity.noContent().build();

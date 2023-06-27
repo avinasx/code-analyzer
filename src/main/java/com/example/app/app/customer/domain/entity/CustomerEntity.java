@@ -1,13 +1,12 @@
 package com.example.app.app.customer.domain.entity;
 
-import com.example.app.app.admin.domain.entity.UserEntity;
+import com.example.app.app.auth.domain.entity.AuthorityEntity;
 import com.example.app.app.location.domain.entity.AddressEntity;
 import com.example.app.app.store.domain.entity.StoreEntity;
 import com.example.app.common.domain.entity.FullName;
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -46,11 +45,6 @@ public class CustomerEntity implements Serializable {
     private FullName fullName;
 
     @Basic
-    @Column(name = "email", length = 50, nullable = true)
-    @Size(min = 1, max = 50)
-    private String email;
-
-    @Basic
     @Column(name = "address_id", columnDefinition = "SMALLINT UNSIGNED", nullable = false,
             insertable = false, updatable = false)
     @NotNull
@@ -61,6 +55,12 @@ public class CustomerEntity implements Serializable {
     @ColumnDefault("TRUE")
     @NotNull
     private Boolean active;
+
+    @Basic
+    @Column(name = "authority_id", columnDefinition = "SMALLINT UNSIGNED", nullable = false,
+            insertable = false, updatable = false)
+    @NotNull
+    private Integer authorityId;
 
     @Basic
     @Column(name = "create_date", columnDefinition = "DATETIME", nullable = false)
@@ -85,16 +85,17 @@ public class CustomerEntity implements Serializable {
     @ToString.Exclude
     private AddressEntity addressByAddressId;
 
-    @OneToOne(mappedBy = "customerByCustomerId")
+    @ManyToOne
+    @JoinColumn(name = "authority_id", referencedColumnName = "authority_id", nullable = false)
     @ToString.Exclude
-    private UserEntity userByCustomerId;
+    private AuthorityEntity authorityByAuthorityId;
 
     public void update(CustomerEntity entity) {
         this.storeId = entity.getStoreId();
         this.fullName = entity.getFullName();
-        this.email = entity.getEmail();
         this.addressId = entity.getAddressId();
         this.active = entity.getActive();
+        this.authorityId = entity.getAuthorityId();
         this.createDate = entity.getCreateDate();
         this.lastUpdate = entity.getLastUpdate();
     }
@@ -107,16 +108,16 @@ public class CustomerEntity implements Serializable {
         return Objects.equal(customerId, that.customerId)
                 && Objects.equal(storeId, that.storeId)
                 && Objects.equal(fullName, that.fullName)
-                && Objects.equal(email, that.email)
                 && Objects.equal(addressId, that.addressId)
                 && Objects.equal(active, that.active)
+                && Objects.equal(authorityId, that.authorityId)
                 && Objects.equal(createDate, that.createDate)
                 && Objects.equal(lastUpdate, that.lastUpdate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(customerId, storeId, fullName, email, addressId, active,
+        return Objects.hashCode(customerId, storeId, fullName, addressId, active, authorityId,
                 createDate, lastUpdate);
     }
 }

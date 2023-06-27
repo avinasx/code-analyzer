@@ -1,5 +1,7 @@
 package com.example.app.app.staff.domain.dto;
 
+import com.example.app.app.auth.domain.dto.AuthorityDto;
+import com.example.app.app.customer.domain.dto.CustomerDto;
 import com.example.app.app.location.domain.dto.AddressDto;
 import com.example.app.app.store.domain.dto.StoreDto;
 import com.example.app.common.constant.HalRelation;
@@ -39,10 +41,6 @@ public class StaffDto {
         // @JsonProperty(Fields.picture)
         // private byte[] picture;
 
-        @JsonProperty(Fields.email)
-        @Size(min = 1, max = 50)
-        private String email;
-
         @JsonProperty(Fields.storeId)
         private Integer storeId;
 
@@ -53,9 +51,8 @@ public class StaffDto {
         @Size(min = 1, max = 16)
         private String username;
 
-        @JsonProperty(Fields.password)
-        @Size(min = 1, max = 40)
-        private String password;
+        @JsonProperty(CustomerDto.Customer.Fields.authorityId)
+        private Integer authorityId;
 
         @JsonProperty(Fields.lastUpdate)
         private LocalDateTime lastUpdate;
@@ -70,6 +67,11 @@ public class StaffDto {
         @ToString.Exclude
         private StoreDto.Store storeByStoreId;
 
+        @JsonIgnore
+        @JsonProperty(Fields.authorityByAuthorityId)
+        @ToString.Exclude
+        private AuthorityDto.Authority authorityByAuthorityId;
+
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -79,20 +81,19 @@ public class StaffDto {
                     && Objects.equal(fullName, that.fullName)
                     && Objects.equal(addressId, that.addressId)
                     // && Objects.equal(picture, that.picture)
-                    && Objects.equal(email, that.email)
                     && Objects.equal(storeId, that.storeId)
                     && Objects.equal(active, that.active)
                     && Objects.equal(username, that.username)
-                    && Objects.equal(password, that.password)
+                    && Objects.equal(authorityId, that.authorityId)
                     && Objects.equal(lastUpdate, that.lastUpdate);
         }
 
         @Override
         public int hashCode() {
-            // return Objects.hashCode(staffId, fullName, addressId, picture, email,
-            //         storeId, active, username, password, lastUpdate);
-            return Objects.hashCode(staffId, fullName, addressId, email,
-                    storeId, active, username, password, lastUpdate);
+            // return Objects.hashCode(staffId, fullName, addressId, picture,
+            //         storeId, active, username, authorityId, lastUpdate);
+            return Objects.hashCode(staffId, fullName, addressId,
+                    storeId, active, username, authorityId, lastUpdate);
         }
     }
 
@@ -119,10 +120,6 @@ public class StaffDto {
         // @JsonProperty(Fields.picture)
         // private byte[] picture;
 
-        @JsonProperty(Fields.email)
-        @Size(min = 1, max = 50)
-        private String email;
-
         @JsonProperty(Fields.storeId)
         private Integer storeId;
 
@@ -133,9 +130,8 @@ public class StaffDto {
         @Size(min = 1, max = 16)
         private String username;
 
-        @JsonProperty(Fields.password)
-        @Size(min = 1, max = 40)
-        private String password;
+        @JsonProperty(CustomerDto.Customer.Fields.authorityId)
+        private Integer authorityId;
 
         @Override
         public boolean equals(Object o) {
@@ -146,17 +142,16 @@ public class StaffDto {
                     && Objects.equal(lastName, that.lastName)
                     && Objects.equal(addressId, that.addressId)
                     // && Objects.equal(picture, that.picture)
-                    && Objects.equal(email, that.email)
                     && Objects.equal(storeId, that.storeId)
                     && Objects.equal(active, that.active)
                     && Objects.equal(username, that.username)
-                    && Objects.equal(password, that.password);
+                    && Objects.equal(authorityId, that.authorityId);
         }
 
         @Override
         public int hashCode() {
-            // return Objects.hashCode(firstName, lastName, addressId, picture, email, storeId, active, username, password);
-            return Objects.hashCode(firstName, lastName, addressId, email, storeId, active, username, password);
+            // return Objects.hashCode(firstName, lastName, addressId, picture, storeId, active, username, authorityId);
+            return Objects.hashCode(firstName, lastName, addressId, storeId, active, username, authorityId);
         }
     }
 

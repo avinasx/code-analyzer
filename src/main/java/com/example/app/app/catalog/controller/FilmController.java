@@ -1,5 +1,6 @@
 package com.example.app.app.catalog.controller;
 
+import com.example.app.app.auth.domain.vo.UserRole;
 import com.example.app.app.catalog.assembler.ActorDetailsRepresentationModelAssembler;
 import com.example.app.app.catalog.assembler.ActorRepresentationModelAssembler;
 import com.example.app.app.catalog.assembler.FilmDetailsRepresentationModelAssembler;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -33,6 +35,7 @@ public class FilmController {
     private final ActorDetailsRepresentationModelAssembler actorDetailsAssembler;
 
     @GetMapping(path = "")
+    @Secured(UserRole.Constants.ROLE_READ)
     public ResponseEntity<CollectionModel<FilmDto.FilmResponse>> getFilmList(
             @RequestParam(required = false) String releaseYear,
             @RequestParam(required = false) String rating,
@@ -46,6 +49,7 @@ public class FilmController {
     }
 
     @PostMapping(path = "")
+    @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<Void> addFilm(@RequestBody FilmDto.FilmRequest model) {
         var result = filmService.addFilm(model);
         return ResponseEntity.created(linkTo(methodOn(FilmController.class)
@@ -53,6 +57,7 @@ public class FilmController {
     }
 
     @GetMapping(path = "/{filmId}")
+    @Secured(UserRole.Constants.ROLE_READ)
     public ResponseEntity<FilmDto.FilmResponse> getFilm(@PathVariable Integer filmId) {
         return filmService.getFilm(filmId)
                 .map(filmAssembler::toModel)
@@ -61,6 +66,7 @@ public class FilmController {
     }
 
     @PutMapping(path = "/{filmId}")
+    @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<Void> updateFilm(@PathVariable Integer filmId,
                                            @RequestBody FilmDto.FilmRequest model) {
         var result = filmService.updateFilm(filmId, model);
@@ -68,12 +74,14 @@ public class FilmController {
     }
 
     @DeleteMapping(path = "/{filmId}")
+    @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<Void> deleteFilm(@PathVariable Integer filmId) {
         filmService.deleteFilm(filmId);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping(path = "/{filmId}/actors")
+    @Secured(UserRole.Constants.ROLE_READ)
     public ResponseEntity<CollectionModel<ActorDto.ActorResponse>> getFilmActorList(
             @PathVariable Integer filmId,
             @PageableDefault(size = 10, page = 0, direction = Sort.Direction.ASC) Pageable pageable) {
@@ -82,6 +90,7 @@ public class FilmController {
     }
 
     @GetMapping(path = "/{filmId}/actors/{actorId}")
+    @Secured(UserRole.Constants.ROLE_READ)
     public ResponseEntity<ActorDto.ActorResponse> getFilmActor(@PathVariable Integer filmId,
                                                                @PathVariable Integer actorId) {
         return filmService.getFilmActor(filmId, actorId)
@@ -91,6 +100,7 @@ public class FilmController {
     }
 
     @GetMapping(path = "/{filmId}/details")
+    @Secured(UserRole.Constants.ROLE_READ)
     public ResponseEntity<FilmDetailsDto.FilmDetailsResponse> getFilmDetails(@PathVariable Integer filmId) {
         return filmService.getFilmDetails(filmId)
                 .map(filmDetailsAssembler::toModel)

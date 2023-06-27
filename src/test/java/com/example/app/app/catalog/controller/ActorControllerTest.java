@@ -15,6 +15,7 @@ import com.example.app.app.catalog.domain.dto.FilmDto;
 import com.example.app.app.catalog.service.ActorService;
 import com.example.app.common.constant.*;
 import com.example.app.common.domain.dto.FullName;
+import com.example.app.common.filter.JwtAuthenticationFilter;
 import com.example.app.config.RestDocsControllerSupport;
 import com.example.app.util.ConstrainedFieldDocumentation;
 import com.example.app.util.OpenApiDescriptorTransformer;
@@ -26,6 +27,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
@@ -53,7 +56,8 @@ import static org.springframework.restdocs.request.RequestDocumentation.pathPara
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(controllers = ActorController.class)
+@WebMvcTest(controllers = ActorController.class,
+        excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = JwtAuthenticationFilter.class))
 class ActorControllerTest extends RestDocsControllerSupport {
     @MockBean
     private ActorService actorService;

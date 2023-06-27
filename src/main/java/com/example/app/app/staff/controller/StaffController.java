@@ -1,5 +1,6 @@
 package com.example.app.app.staff.controller;
 
+import com.example.app.app.auth.domain.vo.UserRole;
 import com.example.app.app.staff.assembler.StaffDetailsRepresentationModelAssembler;
 import com.example.app.app.staff.assembler.StaffRepresentationModelAssembler;
 import com.example.app.app.staff.domain.dto.StaffDetailsDto;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -25,6 +27,7 @@ public class StaffController {
     private final StaffDetailsRepresentationModelAssembler staffDetailsAssembler;
 
     @GetMapping(path = "")
+    @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<CollectionModel<StaffDto.StaffResponse>> getStaffList(
             @PageableDefault(size = 10, page = 0, direction = Sort.Direction.ASC) Pageable pageable) {
         return ResponseEntity.ok(staffAssembler.toCollectionModel(
@@ -32,6 +35,7 @@ public class StaffController {
     }
 
     @PostMapping(path = "")
+    @Secured(UserRole.Constants.ROLE_ADMIN)
     public ResponseEntity<Void> addStaff(@RequestBody StaffDto.StaffRequest model) {
         var result = staffService.addStaff(model);
         return ResponseEntity.created(linkTo(methodOn(StaffController.class)
@@ -39,6 +43,7 @@ public class StaffController {
     }
 
     @GetMapping(path = "/{staffId}")
+    @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<StaffDto.StaffResponse> getStaff(@PathVariable Integer staffId) {
         return staffService.getStaff(staffId)
                 .map(staffAssembler::toModel)
@@ -47,6 +52,7 @@ public class StaffController {
     }
 
     @PutMapping(path = "/{staffId}")
+    @Secured(UserRole.Constants.ROLE_ADMIN)
     public ResponseEntity<Void> updateStaff(@PathVariable Integer staffId,
                                             @RequestBody StaffDto.StaffRequest model) {
         var result = staffService.updateStaff(staffId, model);
@@ -54,12 +60,14 @@ public class StaffController {
     }
 
     @DeleteMapping(path = "/{staffId}")
+    @Secured(UserRole.Constants.ROLE_ADMIN)
     public ResponseEntity<Void> deleteStaff(@PathVariable Integer staffId) {
         staffService.removeStaff(staffId);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping(path = "/{staffId}/details")
+    @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<StaffDetailsDto.StaffDetailsResponse> getStaffDetails(@PathVariable Integer staffId) {
         return staffService.getStaffDetails(staffId)
                 .map(staffDetailsAssembler::toModel)

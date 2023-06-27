@@ -1,6 +1,6 @@
 package com.example.app.app.customer.domain.dto;
 
-import com.example.app.app.admin.domain.entity.UserEntity;
+import com.example.app.app.auth.domain.dto.AuthorityDto;
 import com.example.app.app.location.domain.dto.AddressDto;
 import com.example.app.app.store.domain.dto.StoreDto;
 import com.example.app.common.constant.HalRelation;
@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.google.common.base.Objects;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldNameConstants;
 import org.springframework.hateoas.RepresentationModel;
@@ -37,15 +36,17 @@ public class CustomerDto {
         @JsonUnwrapped
         private FullName fullName;
 
-        @JsonProperty(Fields.email)
-        @Size(min = 1, max = 50)
-        private String email;
-
         @JsonProperty(Fields.addressId)
         private Integer addressId;
 
         @JsonProperty(Fields.active)
         private Boolean active;
+
+        @JsonProperty(Fields.password)
+        private String password;
+
+        @JsonProperty(Fields.authorityId)
+        private Integer authorityId;
 
         @JsonProperty(Fields.createDate)
         private LocalDateTime createDate;
@@ -64,9 +65,9 @@ public class CustomerDto {
         private AddressDto.Address addressByAddressId;
 
         @JsonIgnore
-        @JsonProperty(Fields.userByCustomerId)
+        @JsonProperty(Fields.authorityByAuthorityId)
         @ToString.Exclude
-        private UserEntity userByCustomerId;
+        private AuthorityDto.Authority authorityByAuthorityId;
 
         @Override
         public boolean equals(Object o) {
@@ -76,7 +77,6 @@ public class CustomerDto {
             return Objects.equal(customerId, that.customerId)
                     && Objects.equal(storeId, that.storeId)
                     && Objects.equal(fullName, that.fullName)
-                    && Objects.equal(email, that.email)
                     && Objects.equal(addressId, that.addressId)
                     && Objects.equal(active, that.active)
                     && Objects.equal(createDate, that.createDate)
@@ -85,8 +85,7 @@ public class CustomerDto {
 
         @Override
         public int hashCode() {
-            return Objects.hashCode(customerId, storeId, fullName, email,
-                    addressId, active, createDate, lastUpdate);
+            return Objects.hashCode(customerId, storeId, fullName, addressId, active, createDate, lastUpdate);
         }
     }
 
@@ -110,18 +109,17 @@ public class CustomerDto {
         @JsonProperty(Fields.lastName)
         private String lastName;
 
-        @JsonProperty(Fields.email)
-        @Size(min = 1, max = 50)
-        private String email;
-
         @JsonProperty(Fields.addressId)
         private Integer addressId;
 
         @JsonProperty(Fields.active)
         private Boolean active;
 
-        @JsonProperty(Fields.createDate)
-        private LocalDateTime createDate;
+        @JsonProperty(Fields.password)
+        private String password;
+
+        @JsonProperty(Fields.authorityId)
+        private Integer authorityId;
 
         @Override
         public boolean equals(Object o) {
@@ -131,15 +129,14 @@ public class CustomerDto {
             return Objects.equal(storeId, that.storeId)
                     && Objects.equal(firstName, that.firstName)
                     && Objects.equal(lastName, that.lastName)
-                    && Objects.equal(email, that.email)
                     && Objects.equal(addressId, that.addressId)
                     && Objects.equal(active, that.active)
-                    && Objects.equal(createDate, that.createDate);
+                    && Objects.equal(authorityId, that.authorityId);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hashCode(storeId, firstName, lastName, email, addressId, active, createDate);
+            return Objects.hashCode(storeId, firstName, lastName, addressId, active, authorityId);
         }
     }
 

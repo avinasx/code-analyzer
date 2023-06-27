@@ -1,5 +1,6 @@
 package com.example.app.app.store.controller;
 
+import com.example.app.app.auth.domain.vo.UserRole;
 import com.example.app.app.store.assembler.CategorySalesRepresentationModelAssembler;
 import com.example.app.app.store.assembler.StoreSalesRepresentationModelAssembler;
 import com.example.app.app.store.domain.dto.CategorySalesDto;
@@ -8,6 +9,7 @@ import com.example.app.app.store.service.ReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,12 +23,14 @@ public class ReportController {
     private final StoreSalesRepresentationModelAssembler storeSalesAssembler;
 
     @GetMapping(path = "/sales/categories")
+    @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<CollectionModel<CategorySalesDto.CategorySalesResponse>> reportSalesByCategory() {
         return ResponseEntity.ok(categorySalesAssembler.toCollectionModel(
                 reportService.reportSalesByCategory()));
     }
 
     @GetMapping(path = "/sales/stores")
+    @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<CollectionModel<StoreSalesDto.StoreSalesResponse>> reportSalesByStore() {
         return ResponseEntity.ok(storeSalesAssembler.toCollectionModel(
                 reportService.reportSalesByStore()));

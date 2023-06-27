@@ -1,5 +1,6 @@
 package com.example.app.app.rental.controller;
 
+import com.example.app.app.auth.domain.vo.UserRole;
 import com.example.app.app.rental.assembler.RentalRepresentationModelAssembler;
 import com.example.app.app.rental.domain.dto.RentalDto;
 import com.example.app.app.rental.service.RentalService;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -25,6 +27,7 @@ public class RentalController {
     private final RentalRepresentationModelAssembler rentalAssembler;
 
     @GetMapping(path = "")
+    @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<CollectionModel<RentalDto.RentalResponse>> getRentalList(
             @PageableDefault(size = 10, page = 0, direction = Sort.Direction.ASC) Pageable pageable) {
         return ResponseEntity.ok(rentalAssembler.toCollectionModel(
@@ -32,6 +35,7 @@ public class RentalController {
     }
 
     @PostMapping(path = "")
+    @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<Void> rentDvd(@RequestBody RentalDto.RentalCreateRequest model) {
         if (model.getRentalDate() == null) {
             model.setRentalDate(LocalDateTime.now());
@@ -42,6 +46,7 @@ public class RentalController {
     }
 
     @GetMapping(path = "/{rentalId}")
+    @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<RentalDto.RentalResponse> getRental(@PathVariable Integer rentalId) {
         return rentalService.getRental(rentalId)
                 .map(rentalAssembler::toModel)
@@ -50,6 +55,7 @@ public class RentalController {
     }
 
     @PutMapping(path = "/{rentalId}")
+    @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<Void> updateRental(@PathVariable Integer rentalId,
                                              @ModelAttribute RentalDto.RentalUpdateRequest model) {
         var result = rentalService.updateRental(rentalId, model);
@@ -57,12 +63,14 @@ public class RentalController {
     }
 
     @DeleteMapping(path = "/{rentalId}")
+    @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<Void> deleteRental(@PathVariable Integer rentalId) {
         rentalService.deleteRental(rentalId);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping(path = "/return")
+    @Secured(UserRole.Constants.ROLE_MANAGE)
     public ResponseEntity<Void> returnDvd(@RequestBody Map<String, String> input) {
         if (input.get("returnDate") == null) {
             input.put("returnDate", LocalDateTime.now().toString());

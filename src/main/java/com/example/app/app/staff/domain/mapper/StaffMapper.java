@@ -13,6 +13,7 @@ public interface StaffMapper extends GenericMapper<StaffEntity, StaffDto.Staff> 
     @Override
     @Mapping(target = "addressByAddressId", ignore = true)
     @Mapping(target = "storeByStoreId", ignore = true)
+    @Mapping(target = "authorityByAuthorityId", ignore = true)
     StaffDto.Staff mapToDto(StaffEntity entity);
 
     @Mapping(target = "staffId", ignore = true)
@@ -21,5 +22,6 @@ public interface StaffMapper extends GenericMapper<StaffEntity, StaffDto.Staff> 
     @Mapping(target = "lastUpdate", expression = "java(LocalDateTime.now())")
     @Mapping(target = "addressByAddressId", ignore = true)
     @Mapping(target = "storeByStoreId", ignore = true)
+    @Mapping(target = "authorityByAuthorityId", ignore = true)
     StaffEntity mapToEntity(StaffDto.StaffRequest dto);
 }

@@ -1,5 +1,6 @@
 package com.example.app.app.staff.domain.entity;
 
+import com.example.app.app.auth.domain.entity.AuthorityEntity;
 import com.example.app.app.location.domain.entity.AddressEntity;
 import com.example.app.app.store.domain.entity.StoreEntity;
 import com.example.app.common.domain.entity.FullName;
@@ -50,12 +51,6 @@ public class StaffEntity implements Serializable {
     // private byte[] picture;
 
     @Basic
-    @Column(name = "email", length = 50, nullable = true)
-    @ColumnDefault("NULL")
-    @Size(min = 1, max = 50)
-    private String email;
-
-    @Basic
     @Column(name = "store_id", columnDefinition = "TINYINT UNSIGNED", nullable = false,
             insertable = false, updatable = false)
     @NotNull
@@ -74,10 +69,10 @@ public class StaffEntity implements Serializable {
     private String username;
 
     @Basic
-    @Column(name = "password", columnDefinition = "VARCHAR(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin", length = 40, nullable = true)
-    @ColumnDefault("NULL")
-    @Size(min = 1, max = 40)
-    private String password;
+    @Column(name = "authority_id", columnDefinition = "SMALLINT UNSIGNED", nullable = false,
+            insertable = false, updatable = false)
+    @NotNull
+    private Integer authorityId;
 
     @Basic
     @Column(name = "last_update", columnDefinition = "TIMESTAMP", nullable = false)
@@ -98,15 +93,19 @@ public class StaffEntity implements Serializable {
     @ToString.Exclude
     private StoreEntity storeByStoreId;
 
+    @ManyToOne
+    @JoinColumn(name = "authority_id", referencedColumnName = "authority_id", nullable = false)
+    @ToString.Exclude
+    private AuthorityEntity authorityByAuthorityId;
+
     public void update(StaffEntity entity) {
         this.fullName = entity.fullName;
         this.addressId = entity.addressId;
         // this.picture = entity.picture;
-        this.email = entity.email;
         this.storeId = entity.storeId;
         this.active = entity.active;
         this.username = entity.username;
-        this.password = entity.password;
+        this.authorityId = entity.getAuthorityId();
         this.lastUpdate = entity.lastUpdate;
     }
 
@@ -119,19 +118,18 @@ public class StaffEntity implements Serializable {
                 && Objects.equal(fullName, that.fullName)
                 && Objects.equal(addressId, that.addressId)
                 // && Objects.equal(picture, that.picture)
-                && Objects.equal(email, that.email)
                 && Objects.equal(storeId, that.storeId)
                 && Objects.equal(active, that.active)
                 && Objects.equal(username, that.username)
-                && Objects.equal(password, that.password)
+                && Objects.equal(authorityId, that.authorityId)
                 && Objects.equal(lastUpdate, that.lastUpdate);
     }
 
     @Override
     public int hashCode() {
-        // return Objects.hashCode(staffId, fullName, addressId, picture, email,
-        //         storeId, active, username, password, lastUpdate);
-        return Objects.hashCode(staffId, fullName, addressId, email,
-                storeId, active, username, password, lastUpdate);
+        // return Objects.hashCode(staffId, fullName, addressId, picture,
+        //         storeId, active, username, authorityId, lastUpdate);
+        return Objects.hashCode(staffId, fullName, addressId,
+                storeId, active, username, authorityId, lastUpdate);
     }
 }

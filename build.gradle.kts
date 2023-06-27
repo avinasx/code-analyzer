@@ -77,6 +77,11 @@ dependencies {
     testImplementation(libs.epages.restdocs.mockmvc)
     asciidoctorExt(libs.spring.restdocs.asciidoctor)
 
+    // jjwt
+    implementation(libs.jjwt.api)
+    implementation(libs.jjwt.impl)
+    implementation(libs.jjwt.jackson)
+
     // querydsl
     implementation(libs.querydsl.sql)
     implementation(libs.querydsl.sql.codegen)

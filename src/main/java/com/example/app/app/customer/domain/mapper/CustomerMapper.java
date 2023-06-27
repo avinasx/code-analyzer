@@ -13,15 +13,16 @@ public interface CustomerMapper extends GenericMapper<CustomerEntity, CustomerDt
     @Override
     @Mapping(target = "storeByStoreId", ignore = true)
     @Mapping(target = "addressByAddressId", ignore = true)
-    @Mapping(target = "userByCustomerId", ignore = true)
+    @Mapping(target = "authorityByAuthorityId", ignore = true)
     CustomerDto.Customer mapToDto(CustomerEntity entity);
 
     @Mapping(target = "customerId", ignore = true)
     @Mapping(target = "fullName.firstName", source = "firstName")
     @Mapping(target = "fullName.lastName", source = "lastName")
+    @Mapping(target = "createDate", ignore = true)
     @Mapping(target = "lastUpdate", expression = "java(LocalDateTime.now())")
     @Mapping(target = "storeByStoreId", ignore = true)
     @Mapping(target = "addressByAddressId", ignore = true)
-    @Mapping(target = "userByCustomerId", ignore = true)
+    @Mapping(target = "authorityByAuthorityId", ignore = true)
     CustomerEntity mapToEntity(CustomerDto.CustomerRequest dto);
 }

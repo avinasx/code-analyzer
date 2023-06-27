@@ -9,6 +9,7 @@ kotlin-plugin = "1.8.10"
 querydsl = "5.0.0"
 blaze = "1.6.8"
 mapstruct = "1.5.5.Final"
+jjwt = "0.11.5"
 
 [libraries]
 spring-web = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "spring-boot" }
@@ -25,6 +26,10 @@ spring-test = { module = "org.springframework.boot:spring-boot-starter-test", ve
 spring-security-test = { module = "org.springframework.security:spring-security-test", version.ref = "spring-security" }
 spring-restdocs-asciidoctor = { module = "org.springframework.restdocs:spring-restdocs-asciidoctor", version.ref = "spring-restdocs" }
 spring-restdocs-mockmvc = { module = "org.springframework.restdocs:spring-restdocs-mockmvc", version.ref = "spring-restdocs" }
+
+jjwt-api = { module = "io.jsonwebtoken:jjwt-api", version.ref = "jjwt" }
+jjwt-impl = { module = "io.jsonwebtoken:jjwt-impl", version.ref = "jjwt" }
+jjwt-jackson = { module = "io.jsonwebtoken:jjwt-jackson", version.ref = "jjwt" }
 
 querydsl-jpa = { module = "com.querydsl:querydsl-jpa", version.ref = "querydsl" }
 querydsl-apt = { module = "com.querydsl:querydsl-apt", version.ref = "querydsl" }

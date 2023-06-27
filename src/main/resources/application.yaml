@@ -51,3 +51,5 @@ app:
     scheme: http
     host: localhost
     port: ${server.port}
+  jwt:
+    signing-key: aW8uanNvbndlYnRva2VuLnNlY3VyaXR5
