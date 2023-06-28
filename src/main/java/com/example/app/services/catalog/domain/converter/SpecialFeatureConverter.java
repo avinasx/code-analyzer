@@ -26,7 +26,7 @@ public class SpecialFeatureConverter implements AttributeConverter<EnumSet<Speci
             return null;
         }
         return Arrays.stream(dbData.split(","))
-                .map(SpecialFeature::getSpecialFeatureById)
+                .map(SpecialFeature.FEATURE_MAP::get)
                 .collect(Collectors.toCollection(() -> EnumSet.noneOf(SpecialFeature.class)));
     }
 }

@@ -19,6 +19,6 @@ public class CountryConverter implements AttributeConverter<Country, Integer> {
         if (dbData == null) {
             throw new IllegalArgumentException();
         }
-        return Country.getCountryById(dbData);
+        return Country.ID_MAP.get(dbData);
     }
 }

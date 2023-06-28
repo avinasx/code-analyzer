@@ -19,7 +19,7 @@ public class LanguageConverter implements AttributeConverter<Language, Integer> 
         if (dbData == null) {
             return Language.NONE;
         } else {
-            return Language.getLanguageById(dbData);
+            return Language.ID_MAP.get(dbData);
         }
     }
 }

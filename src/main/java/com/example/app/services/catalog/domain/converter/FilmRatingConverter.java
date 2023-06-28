@@ -19,6 +19,6 @@ public class FilmRatingConverter implements AttributeConverter<FilmRating, Strin
         if (dbData == null) {
             throw new IllegalArgumentException();
         }
-        return FilmRating.getFilmRatingById(dbData);
+        return FilmRating.RATING_MAP.get(dbData);
     }
 }

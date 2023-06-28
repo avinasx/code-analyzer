@@ -19,6 +19,6 @@ public class CategoryConverter implements AttributeConverter<Category, Integer> 
         if (dbData == null) {
             throw new IllegalArgumentException();
         }
-        return Category.getCategoryById(dbData);
+        return Category.ID_MAP.get(dbData);
     }
 }
