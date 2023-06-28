@@ -28,7 +28,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         final var email = claims.get("email", String.class);
         final var authorities = claims.get("authorities", List.class);
         final var authoritiesList = new ArrayList<GrantedAuthority>();
-        for (Object authority : authorities) {
+        for (var authority : authorities) {
             authoritiesList.add(UserRole.valueOf((String) authority));
         }
         final var token = new JwtAuthenticationToken(accessToken, email, authoritiesList);

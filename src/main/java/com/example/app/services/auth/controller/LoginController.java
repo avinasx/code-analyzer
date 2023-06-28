@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/login")
 @RequiredArgsConstructor
 public class LoginController {
-    private final JwtTokenProvider jwtTokenProvider;
     private final JpaUserDetailsService userDetailsService;
     private final SecurityService securityService;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping(path = "")
     public ResponseEntity<Void> userLogin(@RequestBody AuthorityDto.Login login) {
