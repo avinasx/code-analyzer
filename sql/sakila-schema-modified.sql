@@ -152,10 +152,10 @@ CREATE TABLE customer
     PRIMARY KEY (customer_id),
     KEY idx_fk_store_id (store_id),
     KEY idx_fk_address_id (address_id),
-    KEY idx_last_name (last_name),
     KEY idx_fk_authority_id (authority_id),
-    CONSTRAINT fk_customer_address FOREIGN KEY (address_id) REFERENCES address (address_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    KEY idx_last_name (last_name),
     CONSTRAINT fk_customer_store FOREIGN KEY (store_id) REFERENCES store (store_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT fk_customer_address FOREIGN KEY (address_id) REFERENCES address (address_id) ON DELETE RESTRICT ON UPDATE CASCADE,
     CONSTRAINT fk_customer_authority FOREIGN KEY (authority_id) REFERENCES authority (authority_id) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
@@ -381,6 +381,7 @@ CREATE TABLE staff
     PRIMARY KEY (staff_id),
     KEY idx_fk_store_id (store_id),
     KEY idx_fk_address_id (address_id),
+    KEY idx_fk_authority_id (authority_id),
     CONSTRAINT fk_staff_store FOREIGN KEY (store_id) REFERENCES store (store_id) ON DELETE RESTRICT ON UPDATE CASCADE,
     CONSTRAINT fk_staff_address FOREIGN KEY (address_id) REFERENCES address (address_id) ON DELETE RESTRICT ON UPDATE CASCADE,
     CONSTRAINT fk_staff_authority FOREIGN KEY (authority_id) REFERENCES authority (authority_id) ON DELETE RESTRICT ON UPDATE CASCADE

@@ -19,7 +19,8 @@ import java.time.LocalDateTime;
 @Entity(name = "staff")
 @Table(name = "staff", schema = "sakila", indexes = {
         @Index(name = "idx_fk_store_id", columnList = "store_id"),
-        @Index(name = "idx_fk_address_id", columnList = "address_id")
+        @Index(name = "idx_fk_address_id", columnList = "address_id"),
+        @Index(name = "idx_fk_authority_id", columnList = "authority_id")
 })
 @Getter
 @ToString
