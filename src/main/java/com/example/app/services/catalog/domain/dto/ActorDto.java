@@ -3,6 +3,7 @@ package com.example.app.services.catalog.domain.dto;
 import com.example.app.common.constant.HalRelation;
 import com.example.app.common.domain.dto.FullName;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.google.common.base.Objects;
 import lombok.*;
@@ -27,6 +28,7 @@ public class ActorDto {
         private Integer actorId;
 
         @JsonUnwrapped
+        @JsonTypeInfo(use = JsonTypeInfo.Id.NONE, include = JsonTypeInfo.As.EXTERNAL_PROPERTY, property = "fullName")
         private FullName fullName;
 
         @JsonProperty(Fields.lastUpdate)

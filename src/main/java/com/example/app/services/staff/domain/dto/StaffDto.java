@@ -8,6 +8,7 @@ import com.example.app.services.location.domain.dto.AddressDto;
 import com.example.app.services.store.domain.dto.StoreDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.google.common.base.Objects;
 import jakarta.validation.constraints.Size;
@@ -33,6 +34,7 @@ public class StaffDto {
         private Integer staffId;
 
         @JsonUnwrapped
+        @JsonTypeInfo(use = JsonTypeInfo.Id.NONE, include = JsonTypeInfo.As.EXTERNAL_PROPERTY, property = "fullName")
         private FullName fullName;
 
         @JsonProperty(Fields.addressId)

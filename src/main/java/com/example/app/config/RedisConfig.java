@@ -10,21 +10,23 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.time.Duration;
 
 @Configuration
 @EnableCaching
-@EnableRedisRepositories
 public class RedisConfig {
     @Bean
     public RedisConnectionFactory redisConnectionFactory(RedisProperties redisProperties) {
-        return new LettuceConnectionFactory(redisProperties.getHost(), redisProperties.getPort());
+        var config = new RedisStandaloneConfiguration(redisProperties.getHost(), redisProperties.getPort());
+        config.setPassword(redisProperties.getPassword());
+        return new LettuceConnectionFactory(config);
     }
 
     @Bean
@@ -35,15 +37,21 @@ public class RedisConfig {
     }
 
     @Bean
-    public RedisCacheConfiguration cacheConfiguration() {
-        final var objectMapper = new ObjectMapper()
-                .registerModules(new JavaTimeModule())
-                .enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY)
-                .disable(SerializationFeature.FAIL_ON_UNWRAPPED_TYPE_IDENTIFIERS);
+    public RedisCacheConfiguration redisCacheConfiguration() {
+        final var objectMapper = new ObjectMapper();
+        objectMapper.activateDefaultTyping(
+                objectMapper.getPolymorphicTypeValidator(),
+                ObjectMapper.DefaultTyping.NON_FINAL,
+                JsonTypeInfo.As.PROPERTY);
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.FAIL_ON_UNWRAPPED_TYPE_IDENTIFIERS);
 
         return RedisCacheConfiguration.defaultCacheConfig()
                 .entryTtl(Duration.ofMinutes(1))
                 .disableCachingNullValues()
+                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(
+                        new StringRedisSerializer())
+                )
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(
                         new GenericJackson2JsonRedisSerializer(objectMapper)));
     }
