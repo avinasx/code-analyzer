@@ -15,10 +15,23 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.PersistenceUnit;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import javax.sql.DataSource;
 
 @Configuration
+@EnableJpaRepositories(
+        basePackages = {
+                "com.example.app.services.auth.repository",
+                "com.example.app.services.catalog.repository",
+                "com.example.app.services.customer.repository",
+                "com.example.app.services.location.repository",
+                "com.example.app.services.payment.repository",
+                "com.example.app.services.rental.repository",
+                "com.example.app.services.staff.repository",
+                "com.example.app.services.store.repository",
+        }
+)
 public class PersistenceConfig {
     @PersistenceUnit
     private EntityManagerFactory entityManagerFactory;
