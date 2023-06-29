@@ -14,21 +14,24 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity.HeadersBuilder<?> handleResourceNotFoundException(ResourceNotFoundException e) {
         final var code = ErrorCode.RESOURCE_NOT_FOUND;
-        log.error(code.getPhrase() + e);
+        log.error(code.getPhrase() + ": {}", e.getMessage());
+        e.printStackTrace();
         return ResponseEntity.of(ResponseDto.of(code));
     }
 
     @ExceptionHandler(ResourceNotAvailableException.class)
     public ResponseEntity.HeadersBuilder<?> handleResourceNotAvailableException(ResourceNotAvailableException e) {
         final var code = ErrorCode.RESOURCE_NOT_AVAILABLE;
-        log.error(code.getPhrase() + e);
+        log.error(code.getPhrase() + ": {}", e.getMessage());
+        e.printStackTrace();
         return ResponseEntity.of(ResponseDto.of(code));
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity.HeadersBuilder<?> handleException(Exception e) {
         final var code = ErrorCode.GENERIC_ERROR;
-        log.error(code.getPhrase() + e);
+        log.error(code.getPhrase() + ": {}", e.getMessage());
+        e.printStackTrace();
         return ResponseEntity.of(ResponseDto.of(code));
     }
 }
