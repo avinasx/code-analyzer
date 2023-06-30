@@ -1,6 +1,9 @@
 package com.example.app.services.catalog.domain.dto;
 
-import com.example.app.common.constant.*;
+import com.example.app.common.constant.Category;
+import com.example.app.common.constant.FilmRating;
+import com.example.app.common.constant.Language;
+import com.example.app.common.constant.SpecialFeature;
 import com.example.app.services.catalog.domain.converter.CategoryConverter;
 import com.example.app.services.location.domain.dto.LanguageDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -180,8 +183,7 @@ public class FilmDto {
         }
     }
 
-    @Relation(collectionRelation = HalRelation.Fields.filmList,
-            itemRelation = HalRelation.Fields.film)
+    @Relation(collectionRelation = "filmList", itemRelation = "film")
     @Getter
     @Setter
     @ToString

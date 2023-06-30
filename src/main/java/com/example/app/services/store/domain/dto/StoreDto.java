@@ -1,6 +1,5 @@
 package com.example.app.services.store.domain.dto;
 
-import com.example.app.common.constant.HalRelation;
 import com.example.app.services.location.domain.dto.AddressDto;
 import com.example.app.services.staff.domain.dto.StaffDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -96,8 +95,7 @@ public class StoreDto {
         }
     }
 
-    @Relation(collectionRelation = HalRelation.Fields.storeList,
-            itemRelation = HalRelation.Fields.store)
+    @Relation(collectionRelation = "storeList", itemRelation = "store")
     @Getter
     @Setter
     @ToString

@@ -1,6 +1,5 @@
 package com.example.app.services.rental.domain.dto;
 
-import com.example.app.common.constant.HalRelation;
 import com.example.app.services.customer.domain.dto.CustomerDto;
 import com.example.app.services.staff.domain.dto.StaffDto;
 import com.example.app.services.store.domain.dto.InventoryDto;
@@ -192,8 +191,7 @@ public class RentalDto {
         private LocalDateTime returnDate;
     }
 
-    @Relation(collectionRelation = HalRelation.Fields.rentalList,
-            itemRelation = HalRelation.Fields.rental)
+    @Relation(collectionRelation = "rentalList", itemRelation = "rental")
     @Getter
     @Setter
     @ToString

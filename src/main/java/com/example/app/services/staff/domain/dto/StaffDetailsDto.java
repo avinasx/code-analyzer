@@ -1,7 +1,6 @@
 package com.example.app.services.staff.domain.dto;
 
 import com.example.app.common.constant.Country;
-import com.example.app.common.constant.HalRelation;
 import com.example.app.services.location.domain.converter.CountryConverter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
@@ -97,8 +96,7 @@ public class StaffDetailsDto {
         }
     }
 
-    @Relation(collectionRelation = HalRelation.Fields.staffDetailsList,
-            itemRelation = HalRelation.Fields.staffDetails)
+    @Relation(collectionRelation = "staffDetailsList", itemRelation = "staffDetails")
     @Getter
     @Setter
     @ToString

@@ -1,7 +1,6 @@
 package com.example.app.services.store.domain.dto;
 
 import com.example.app.common.constant.Category;
-import com.example.app.common.constant.HalRelation;
 import com.example.app.services.catalog.domain.converter.CategoryConverter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
@@ -56,8 +55,7 @@ public class CategorySalesDto {
         }
     }
 
-    @Relation(collectionRelation = HalRelation.Fields.categorySalesList,
-            itemRelation = HalRelation.Fields.categorySales)
+    @Relation(collectionRelation = "categorySalesList", itemRelation = "categorySales")
     @Getter
     @Setter
     @ToString

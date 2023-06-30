@@ -1,6 +1,5 @@
 package com.example.app.services.location.domain.dto;
 
-import com.example.app.common.constant.HalRelation;
 import com.example.app.common.domain.serializer.NullToEmptyStringSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -145,8 +144,7 @@ public class AddressDto {
         }
     }
 
-    @Relation(collectionRelation = HalRelation.Fields.addressList,
-            itemRelation = HalRelation.Fields.address)
+    @Relation(collectionRelation = "addressList", itemRelation = "address")
     @Getter
     @Setter
     @ToString

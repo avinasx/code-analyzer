@@ -1,6 +1,5 @@
 package com.example.app.services.payment.domain.dto;
 
-import com.example.app.common.constant.HalRelation;
 import com.example.app.services.customer.domain.dto.CustomerDto;
 import com.example.app.services.rental.domain.dto.RentalDto;
 import com.example.app.services.staff.domain.dto.StaffDto;
@@ -128,8 +127,7 @@ public class PaymentDto {
         }
     }
 
-    @Relation(collectionRelation = HalRelation.Fields.paymentList,
-            itemRelation = HalRelation.Fields.payment)
+    @Relation(collectionRelation = "paymentList", itemRelation = "payment")
     @Getter
     @Setter
     @ToString
