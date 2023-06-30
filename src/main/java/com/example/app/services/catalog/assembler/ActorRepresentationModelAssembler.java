@@ -13,7 +13,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
-public class ActorRepresentationModelAssembler extends RepresentationModelAssemblerSupport<ActorDto.Actor, ActorDto.ActorResponse> {
+public class ActorRepresentationModelAssembler extends RepresentationModelAssemblerSupport<
+        ActorDto.Actor, ActorDto.ActorResponse> {
     public ActorRepresentationModelAssembler() {
         super(ActorController.class, ActorDto.ActorResponse.class);
     }
@@ -40,7 +41,8 @@ public class ActorRepresentationModelAssembler extends RepresentationModelAssemb
 
     @Override
     @lombok.NonNull
-    public CollectionModel<ActorDto.ActorResponse> toCollectionModel(@lombok.NonNull Iterable<? extends ActorDto.Actor> entities) {
+    public CollectionModel<ActorDto.ActorResponse> toCollectionModel(
+            @lombok.NonNull Iterable<? extends ActorDto.Actor> entities) {
         final var collectionModel = super.toCollectionModel(entities);
         collectionModel.add(linkTo(methodOn(ActorController.class).getActorList(Pageable.unpaged()))
                 .withSelfRel().withType(HttpMethod.GET.name()).withTitle("Get actors"));

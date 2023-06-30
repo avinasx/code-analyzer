@@ -94,7 +94,7 @@ public class ActorController {
             @RequestParam(required = false) String rating,
             @PageableDefault(size = 10, page = 0, direction = Sort.Direction.ASC) Pageable pageable) {
         final var condition = FilmDto.Film.builder()
-                .releaseYear(releaseYear == null ? null : LocalDate.parse(releaseYear))
+                .releaseYear(releaseYear == null ? null : LocalDate.ofYearDay(Integer.parseInt(releaseYear), 1))
                 .rating(rating == null ? null : FilmRating.valueOf(rating))
                 .build();
         final var representation = filmAssembler.toCollectionModel(

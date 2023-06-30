@@ -11,7 +11,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
-public class RentalRepresentationModelAssembler extends RepresentationModelAssemblerSupport<RentalDto.Rental, RentalDto.RentalResponse> {
+public class RentalRepresentationModelAssembler extends RepresentationModelAssemblerSupport<
+        RentalDto.Rental, RentalDto.RentalResponse> {
     public RentalRepresentationModelAssembler() {
         super(RentalController.class, RentalDto.RentalResponse.class);
     }
@@ -21,8 +22,10 @@ public class RentalRepresentationModelAssembler extends RepresentationModelAssem
     public RentalDto.RentalResponse toModel(@lombok.NonNull RentalDto.Rental entity) {
         final var model = instantiateModel(entity);
         model.setRental(entity);
-        model.add(linkTo(methodOn(RentalController.class).getRental(entity.getRentalId())).withSelfRel());
-        model.add(linkTo(methodOn(RentalController.class).getRentalList(Pageable.unpaged())).withRel(HalRelation.Fields.rentalList));
+        model.add(linkTo(methodOn(RentalController.class).getRental(entity.getRentalId()))
+                .withSelfRel());
+        model.add(linkTo(methodOn(RentalController.class).getRentalList(Pageable.unpaged()))
+                .withRel(HalRelation.Fields.rentalList));
         return model;
     }
 }

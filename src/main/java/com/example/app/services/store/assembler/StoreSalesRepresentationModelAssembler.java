@@ -11,7 +11,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
-public class StoreSalesRepresentationModelAssembler extends RepresentationModelAssemblerSupport<StoreSalesDto.StoreSales, StoreSalesDto.StoreSalesResponse> {
+public class StoreSalesRepresentationModelAssembler extends RepresentationModelAssemblerSupport<
+        StoreSalesDto.StoreSales, StoreSalesDto.StoreSalesResponse> {
     public StoreSalesRepresentationModelAssembler() {
         super(ReportController.class, StoreSalesDto.StoreSalesResponse.class);
     }
@@ -26,10 +27,13 @@ public class StoreSalesRepresentationModelAssembler extends RepresentationModelA
 
     @Override
     @lombok.NonNull
-    public CollectionModel<StoreSalesDto.StoreSalesResponse> toCollectionModel(@lombok.NonNull Iterable<? extends StoreSalesDto.StoreSales> entities) {
+    public CollectionModel<StoreSalesDto.StoreSalesResponse> toCollectionModel(
+            @lombok.NonNull Iterable<? extends StoreSalesDto.StoreSales> entities) {
         final var collectionModel = super.toCollectionModel(entities);
-        collectionModel.add(linkTo(methodOn(ReportController.class).reportSalesByStore()).withSelfRel());
-        collectionModel.add(linkTo(methodOn(ReportController.class).reportSalesByCategory()).withRel(HalRelation.Fields.categorySales));
+        collectionModel.add(linkTo(methodOn(ReportController.class).reportSalesByStore())
+                .withSelfRel());
+        collectionModel.add(linkTo(methodOn(ReportController.class).reportSalesByCategory())
+                .withRel(HalRelation.Fields.categorySales));
         return collectionModel;
     }
 }

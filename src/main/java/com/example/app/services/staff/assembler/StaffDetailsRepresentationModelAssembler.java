@@ -11,7 +11,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
-public class StaffDetailsRepresentationModelAssembler extends RepresentationModelAssemblerSupport<StaffDetailsDto.StaffDetails, StaffDetailsDto.StaffDetailsResponse> {
+public class StaffDetailsRepresentationModelAssembler extends RepresentationModelAssemblerSupport<
+        StaffDetailsDto.StaffDetails, StaffDetailsDto.StaffDetailsResponse> {
     public StaffDetailsRepresentationModelAssembler() {
         super(StaffController.class, StaffDetailsDto.StaffDetailsResponse.class);
     }
@@ -21,9 +22,12 @@ public class StaffDetailsRepresentationModelAssembler extends RepresentationMode
     public StaffDetailsDto.StaffDetailsResponse toModel(@lombok.NonNull StaffDetailsDto.StaffDetails entity) {
         final var model = instantiateModel(entity);
         model.setStaffDetails(entity);
-        model.add(linkTo(methodOn(StaffController.class).getStaffDetails(entity.getId())).withSelfRel());
-        model.add(linkTo(methodOn(StaffController.class).getStaff(entity.getId())).withRel(HalRelation.Fields.staff));
-        model.add(linkTo(methodOn(StaffController.class).getStaffList(Pageable.unpaged())).withRel(HalRelation.Fields.staffList));
+        model.add(linkTo(methodOn(StaffController.class).getStaffDetails(entity.getId()))
+                .withSelfRel());
+        model.add(linkTo(methodOn(StaffController.class).getStaff(entity.getId()))
+                .withRel(HalRelation.Fields.staff));
+        model.add(linkTo(methodOn(StaffController.class).getStaffList(Pageable.unpaged()))
+                .withRel(HalRelation.Fields.staffList));
         return model;
     }
 }

@@ -11,7 +11,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
-public class StoreDetailsRepresentationModelAssembler extends RepresentationModelAssemblerSupport<StoreDetailsDto.StoreDetails, StoreDetailsDto.StoreDetailsResponse> {
+public class StoreDetailsRepresentationModelAssembler extends RepresentationModelAssemblerSupport<
+        StoreDetailsDto.StoreDetails, StoreDetailsDto.StoreDetailsResponse> {
     public StoreDetailsRepresentationModelAssembler() {
         super(StoreController.class, StoreDetailsDto.StoreDetailsResponse.class);
     }
@@ -21,9 +22,12 @@ public class StoreDetailsRepresentationModelAssembler extends RepresentationMode
     public StoreDetailsDto.StoreDetailsResponse toModel(@lombok.NonNull StoreDetailsDto.StoreDetails entity) {
         final var model = instantiateModel(entity);
         model.setStoreDetails(entity);
-        model.add(linkTo(methodOn(StoreController.class).getStoreDetails(entity.getId())).withSelfRel());
-        model.add(linkTo(methodOn(StoreController.class).getStore(entity.getId())).withRel(HalRelation.Fields.store));
-        model.add(linkTo(methodOn(StoreController.class).getStoreList(Pageable.unpaged())).withRel(HalRelation.Fields.storeList));
+        model.add(linkTo(methodOn(StoreController.class).getStoreDetails(entity.getId()))
+                .withSelfRel());
+        model.add(linkTo(methodOn(StoreController.class).getStore(entity.getId()))
+                .withRel(HalRelation.Fields.store));
+        model.add(linkTo(methodOn(StoreController.class).getStoreList(Pageable.unpaged()))
+                .withRel(HalRelation.Fields.storeList));
         return model;
     }
 }

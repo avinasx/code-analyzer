@@ -11,7 +11,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
-public class PaymentRepresentationModelAssembler extends RepresentationModelAssemblerSupport<PaymentDto.Payment, PaymentDto.PaymentResponse> {
+public class PaymentRepresentationModelAssembler extends RepresentationModelAssemblerSupport<
+        PaymentDto.Payment, PaymentDto.PaymentResponse> {
     public PaymentRepresentationModelAssembler() {
         super(PaymentController.class, PaymentDto.PaymentResponse.class);
     }
@@ -21,8 +22,10 @@ public class PaymentRepresentationModelAssembler extends RepresentationModelAsse
     public PaymentDto.PaymentResponse toModel(@lombok.NonNull PaymentDto.Payment entity) {
         final var model = instantiateModel(entity);
         model.setPayment(entity);
-        model.add(linkTo(methodOn(PaymentController.class).getPayment(entity.getPaymentId())).withSelfRel());
-        model.add(linkTo(methodOn(PaymentController.class).getPaymentList(Pageable.unpaged())).withRel(HalRelation.Fields.paymentList));
+        model.add(linkTo(methodOn(PaymentController.class).getPayment(entity.getPaymentId()))
+                .withSelfRel());
+        model.add(linkTo(methodOn(PaymentController.class).getPaymentList(Pageable.unpaged()))
+                .withRel(HalRelation.Fields.paymentList));
         return model;
     }
 }

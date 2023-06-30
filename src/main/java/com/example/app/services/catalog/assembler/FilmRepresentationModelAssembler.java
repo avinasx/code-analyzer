@@ -12,7 +12,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
-public class FilmRepresentationModelAssembler extends RepresentationModelAssemblerSupport<FilmDto.Film, FilmDto.FilmResponse> {
+public class FilmRepresentationModelAssembler extends RepresentationModelAssemblerSupport<
+        FilmDto.Film, FilmDto.FilmResponse> {
     public FilmRepresentationModelAssembler() {
         super(FilmController.class, FilmDto.FilmResponse.class);
     }
@@ -22,16 +23,20 @@ public class FilmRepresentationModelAssembler extends RepresentationModelAssembl
     public FilmDto.FilmResponse toModel(@lombok.NonNull FilmDto.Film entity) {
         final var model = instantiateModel(entity);
         model.setFilm(entity);
-        model.add(linkTo(methodOn(FilmController.class).getFilm(entity.getFilmId())).withSelfRel());
-        model.add(linkTo(methodOn(FilmController.class).getFilmList(null, null, Pageable.unpaged())).withRel(HalRelation.Fields.filmList));
+        model.add(linkTo(methodOn(FilmController.class).getFilm(entity.getFilmId()))
+                .withSelfRel());
+        model.add(linkTo(methodOn(FilmController.class).getFilmList(null, null, Pageable.unpaged()))
+                .withRel(HalRelation.Fields.filmList));
         return model;
     }
 
     @Override
     @lombok.NonNull
-    public CollectionModel<FilmDto.FilmResponse> toCollectionModel(@lombok.NonNull Iterable<? extends FilmDto.Film> entities) {
+    public CollectionModel<FilmDto.FilmResponse> toCollectionModel(
+            @lombok.NonNull Iterable<? extends FilmDto.Film> entities) {
         final var collectionModel = super.toCollectionModel(entities);
-        collectionModel.add(linkTo(methodOn(FilmController.class).getFilmList(null, null, Pageable.unpaged())).withSelfRel());
+        collectionModel.add(linkTo(methodOn(FilmController.class).getFilmList(null, null, Pageable.unpaged()))
+                .withSelfRel());
         return collectionModel;
     }
 }

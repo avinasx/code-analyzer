@@ -11,7 +11,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
-public class CustomerRepresentationModelAssembler extends RepresentationModelAssemblerSupport<CustomerDto.Customer, CustomerDto.CustomerResponse> {
+public class CustomerRepresentationModelAssembler extends RepresentationModelAssemblerSupport<
+        CustomerDto.Customer, CustomerDto.CustomerResponse> {
     public CustomerRepresentationModelAssembler() {
         super(CustomerController.class, CustomerDto.CustomerResponse.class);
     }
@@ -21,8 +22,10 @@ public class CustomerRepresentationModelAssembler extends RepresentationModelAss
     public CustomerDto.CustomerResponse toModel(@lombok.NonNull CustomerDto.Customer entity) {
         final var model = instantiateModel(entity);
         model.setCustomer(entity);
-        model.add(linkTo(methodOn(CustomerController.class).getCustomer(entity.getCustomerId())).withSelfRel());
-        model.add(linkTo(methodOn(CustomerController.class).getCustomerList(Pageable.unpaged())).withRel(HalRelation.Fields.customerList));
+        model.add(linkTo(methodOn(CustomerController.class).getCustomer(entity.getCustomerId()))
+                .withSelfRel());
+        model.add(linkTo(methodOn(CustomerController.class).getCustomerList(Pageable.unpaged()))
+                .withRel(HalRelation.Fields.customerList));
         return model;
     }
 }

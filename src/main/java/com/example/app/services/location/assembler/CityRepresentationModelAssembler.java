@@ -11,7 +11,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
-public class CityRepresentationModelAssembler extends RepresentationModelAssemblerSupport<CityDto.City, CityDto.CityResponse> {
+public class CityRepresentationModelAssembler extends RepresentationModelAssemblerSupport<
+        CityDto.City, CityDto.CityResponse> {
     public CityRepresentationModelAssembler() {
         super(LocationController.class, CityDto.CityResponse.class);
     }
@@ -21,8 +22,10 @@ public class CityRepresentationModelAssembler extends RepresentationModelAssembl
     public CityDto.CityResponse toModel(@lombok.NonNull CityDto.City entity) {
         final var model = instantiateModel(entity);
         model.setCity(entity);
-        model.add(linkTo(methodOn(LocationController.class).getCity(entity.getCityId())).withSelfRel());
-        model.add(linkTo(methodOn(LocationController.class).getAddressList(Pageable.unpaged())).withRel(HalRelation.Fields.addressList));
+        model.add(linkTo(methodOn(LocationController.class).getCity(entity.getCityId()))
+                .withSelfRel());
+        model.add(linkTo(methodOn(LocationController.class).getAddressList(Pageable.unpaged()))
+                .withRel(HalRelation.Fields.addressList));
         return model;
     }
 }

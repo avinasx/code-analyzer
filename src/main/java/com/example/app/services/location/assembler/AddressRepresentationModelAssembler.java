@@ -12,7 +12,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
-public class AddressRepresentationModelAssembler extends RepresentationModelAssemblerSupport<AddressDto.Address, AddressDto.AddressResponse> {
+public class AddressRepresentationModelAssembler extends RepresentationModelAssemblerSupport<
+        AddressDto.Address, AddressDto.AddressResponse> {
     public AddressRepresentationModelAssembler() {
         super(LocationController.class, AddressDto.AddressResponse.class);
     }
@@ -22,16 +23,20 @@ public class AddressRepresentationModelAssembler extends RepresentationModelAsse
     public AddressDto.AddressResponse toModel(@lombok.NonNull AddressDto.Address entity) {
         final var model = instantiateModel(entity);
         model.setAddress(entity);
-        model.add(linkTo(methodOn(LocationController.class).getAddress(entity.getAddressId())).withSelfRel());
-        model.add(linkTo(methodOn(LocationController.class).getAddressList(Pageable.unpaged())).withRel(HalRelation.Fields.addressList));
+        model.add(linkTo(methodOn(LocationController.class).getAddress(entity.getAddressId()))
+                .withSelfRel());
+        model.add(linkTo(methodOn(LocationController.class).getAddressList(Pageable.unpaged()))
+                .withRel(HalRelation.Fields.addressList));
         return model;
     }
 
     @Override
     @lombok.NonNull
-    public CollectionModel<AddressDto.AddressResponse> toCollectionModel(@lombok.NonNull Iterable<? extends AddressDto.Address> entities) {
+    public CollectionModel<AddressDto.AddressResponse> toCollectionModel(
+            @lombok.NonNull Iterable<? extends AddressDto.Address> entities) {
         final var collectionModel = super.toCollectionModel(entities);
-        collectionModel.add(linkTo(methodOn(LocationController.class).getAddressList(Pageable.unpaged())).withSelfRel());
+        collectionModel.add(linkTo(methodOn(LocationController.class).getAddressList(Pageable.unpaged()))
+                .withSelfRel());
         return collectionModel;
     }
 }

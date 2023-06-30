@@ -12,7 +12,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
-public class StaffRepresentationModelAssembler extends RepresentationModelAssemblerSupport<StaffDto.Staff, StaffDto.StaffResponse> {
+public class StaffRepresentationModelAssembler extends RepresentationModelAssemblerSupport<
+        StaffDto.Staff, StaffDto.StaffResponse> {
     public StaffRepresentationModelAssembler() {
         super(StaffController.class, StaffDto.StaffResponse.class);
     }
@@ -22,14 +23,17 @@ public class StaffRepresentationModelAssembler extends RepresentationModelAssemb
     public StaffDto.StaffResponse toModel(@lombok.NonNull StaffDto.Staff entity) {
         final var model = instantiateModel(entity);
         model.setStaff(entity);
-        model.add(linkTo(methodOn(StaffController.class).getStaff(entity.getStaffId())).withSelfRel());
-        model.add(linkTo(methodOn(StaffController.class).getStaffList(Pageable.unpaged())).withRel(HalRelation.Fields.staffList));
+        model.add(linkTo(methodOn(StaffController.class).getStaff(entity.getStaffId()))
+                .withSelfRel());
+        model.add(linkTo(methodOn(StaffController.class).getStaffList(Pageable.unpaged()))
+                .withRel(HalRelation.Fields.staffList));
         return model;
     }
 
     @Override
     @lombok.NonNull
-    public CollectionModel<StaffDto.StaffResponse> toCollectionModel(@lombok.NonNull Iterable<? extends StaffDto.Staff> entities) {
+    public CollectionModel<StaffDto.StaffResponse> toCollectionModel(
+            @lombok.NonNull Iterable<? extends StaffDto.Staff> entities) {
         return super.toCollectionModel(entities);
     }
 }

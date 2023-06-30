@@ -11,7 +11,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
-public class StoreRepresentationModelAssembler extends RepresentationModelAssemblerSupport<StoreDto.Store, StoreDto.StoreResponse> {
+public class StoreRepresentationModelAssembler extends RepresentationModelAssemblerSupport<
+        StoreDto.Store, StoreDto.StoreResponse> {
     public StoreRepresentationModelAssembler() {
         super(StoreController.class, StoreDto.StoreResponse.class);
     }
@@ -21,8 +22,10 @@ public class StoreRepresentationModelAssembler extends RepresentationModelAssemb
     public StoreDto.StoreResponse toModel(@lombok.NonNull StoreDto.Store entity) {
         final var model = instantiateModel(entity);
         model.setStore(entity);
-        model.add(linkTo(methodOn(StoreController.class).getStore(entity.getStoreId())).withSelfRel());
-        model.add(linkTo(methodOn(StoreController.class).getStoreList(Pageable.unpaged())).withRel(HalRelation.Fields.storeList));
+        model.add(linkTo(methodOn(StoreController.class).getStore(entity.getStoreId()))
+                .withSelfRel());
+        model.add(linkTo(methodOn(StoreController.class).getStoreList(Pageable.unpaged()))
+                .withRel(HalRelation.Fields.storeList));
         return model;
     }
 }
