@@ -5,10 +5,12 @@ import com.example.app.common.constant.FilmRating;
 import com.example.app.common.constant.Language;
 import com.example.app.common.constant.SpecialFeature;
 import com.example.app.services.catalog.domain.converter.CategoryConverter;
+import com.example.app.services.catalog.domain.serializer.LocalDateYearSerializer;
 import com.example.app.services.location.domain.dto.LanguageDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.base.Objects;
 import jakarta.persistence.Convert;
 import jakarta.validation.constraints.Size;
@@ -45,6 +47,7 @@ public class FilmDto {
         private String description;
 
         @JsonProperty(Fields.releaseYear)
+        @JsonSerialize(using = LocalDateYearSerializer.class)
         private LocalDate releaseYear;
 
         @JsonProperty(Fields.languageId)

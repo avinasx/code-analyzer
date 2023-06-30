@@ -10,12 +10,16 @@ import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
 import java.io.IOException;
+import java.io.Serial;
 import java.lang.reflect.Type;
 
 /**
  * Custom null serializer that represents null values as empty strings in JSON.
  */
 public class NullToEmptyStringSerializer extends StdSerializer<Object> {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     public NullToEmptyStringSerializer() {
         this(null);
     }
