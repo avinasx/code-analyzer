@@ -62,7 +62,7 @@ public class LocalDateYearSerializer extends LocalDateSerializer {
     }
 
     protected void _serializeAsArrayContents(LocalDate value, JsonGenerator gen,
-                                          SerializerProvider provider) throws IOException {
+                                             SerializerProvider provider) throws IOException {
         gen.writeNumber(value.getYear());
     }
 }

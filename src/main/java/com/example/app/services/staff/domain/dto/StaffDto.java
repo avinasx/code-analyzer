@@ -2,7 +2,6 @@ package com.example.app.services.staff.domain.dto;
 
 import com.example.app.common.domain.dto.FullName;
 import com.example.app.services.auth.domain.dto.AuthorityDto;
-import com.example.app.services.customer.domain.dto.CustomerDto;
 import com.example.app.services.location.domain.dto.AddressDto;
 import com.example.app.services.store.domain.dto.StoreDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -52,7 +51,7 @@ public class StaffDto {
         @Size(min = 1, max = 16)
         private String username;
 
-        @JsonProperty(CustomerDto.Customer.Fields.authorityId)
+        @JsonProperty(Fields.authorityId)
         private Integer authorityId;
 
         @JsonProperty(Fields.lastUpdate)
@@ -131,7 +130,7 @@ public class StaffDto {
         @Size(min = 1, max = 16)
         private String username;
 
-        @JsonProperty(CustomerDto.Customer.Fields.authorityId)
+        @JsonProperty(Fields.authorityId)
         private Integer authorityId;
 
         @Override

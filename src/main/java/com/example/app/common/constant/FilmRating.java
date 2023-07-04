@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 @Getter
 @RequiredArgsConstructor
 public enum FilmRating {
+    NONE(Constants.NONE),
     G(Constants.G),
     PG(Constants.PG),
     PG_13(Constants.PG_13),
@@ -23,6 +24,7 @@ public enum FilmRating {
     private final String rating;
 
     public static class Constants {
+        public static final String NONE = "-";
         public static final String G = "G";
         public static final String PG = "PG";
         public static final String PG_13 = "PG-13";
