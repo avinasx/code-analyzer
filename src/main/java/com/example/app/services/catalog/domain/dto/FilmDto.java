@@ -4,6 +4,7 @@ import com.example.app.common.constant.Category;
 import com.example.app.common.constant.FilmRating;
 import com.example.app.common.constant.Language;
 import com.example.app.common.constant.SpecialFeature;
+import com.example.app.common.domain.dto.NullCheckable;
 import com.example.app.services.catalog.domain.converter.CategoryConverter;
 import com.example.app.services.catalog.domain.serializer.LocalDateYearSerializer;
 import com.example.app.services.location.domain.dto.LanguageDto;
@@ -24,6 +25,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Year;
 import java.util.EnumSet;
 
 public class FilmDto {
@@ -334,6 +336,44 @@ public class FilmDto {
         @Override
         public int hashCode() {
             return Objects.hashCode(filmId, title, description);
+        }
+    }
+
+    @Getter
+    @Setter
+    @ToString
+    @FieldNameConstants
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class FilterOption implements NullCheckable {
+        @JsonProperty(Fields.category)
+        private Category category;
+
+        @JsonProperty(Fields.releaseYear)
+        private Year releaseYear;
+
+        @JsonProperty(Fields.rating)
+        private FilmRating rating;
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            FilterOption that = (FilterOption) o;
+            return category == that.category
+                    && Objects.equal(releaseYear, that.releaseYear)
+                    && rating == that.rating;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hashCode(category, releaseYear, rating);
+        }
+
+        @Override
+        public boolean areAllFieldsNull() {
+            return category == null && releaseYear == null && rating == null;
         }
     }
 }

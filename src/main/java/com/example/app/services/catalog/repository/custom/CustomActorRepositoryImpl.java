@@ -58,30 +58,33 @@ public class CustomActorRepositoryImpl implements CustomActorRepository {
     }
 
     @Override
-    public List<FilmDto.Film> findAllActorFilmListByIdWithCondition(Integer actorId, FilmDto.Film condition, Pageable pageable) {
+    public List<FilmDto.Film> findAllActorFilmListByIdWithCondition(Integer actorId, FilmDto.FilterOption condition, Pageable pageable) {
         final var query = findActorFilm(actorId, null, condition, pageable);
         return query.fetch();
     }
 
     @Override
     public Optional<FilmDto.Film> findActorFilmById(Integer actorId, Integer filmId) {
-        final var query = findActorFilm(actorId, filmId, null, null);
+        final var query = findActorFilm(actorId, filmId, null, Pageable.unpaged());
         return Optional.of(query.fetchFirst());
     }
 
-    private JPAQuery<FilmDto.Film> findActorFilm(Integer actorId, Integer filmId, FilmDto.Film condition, Pageable pageable) {
+    private JPAQuery<FilmDto.Film> findActorFilm(Integer actorId, Integer filmId, FilmDto.FilterOption condition, Pageable pageable) {
         final var actor = QActorEntity.actorEntity;
         final var film = QFilmEntity.filmEntity;
         final var filmActor = QFilmActorEntity.filmActorEntity;
+        final var category = QFilmCategoryEntity.filmCategoryEntity;
 
         return jpaQueryFactory
                 .select(Projections.constructor(FilmDto.Film.class))
                 .from(actor)
                 .leftJoin(filmActor).on(filmActor.actorId.eq(actor.actorId))
-                .leftJoin(film).on(filmActor.filmId.eq(film.filmId))
+                .leftJoin(film).on(film.filmId.eq(filmActor.filmId))
+                .leftJoin(category).on(category.filmId.eq(film.filmId))
                 .where(actor.actorId.eq(actorId))
                 .where(filterEquals(film.filmId, filmId))
-                .where(filterEquals(film.releaseYear.year(), condition.getReleaseYear().getYear()))
+                .where(filterEquals(category.categoryId, condition.getCategory()))
+                .where(filterEquals(film.releaseYear.year(), condition.getReleaseYear().getValue()))
                 .where(filterEquals(film.rating, condition.getRating()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());

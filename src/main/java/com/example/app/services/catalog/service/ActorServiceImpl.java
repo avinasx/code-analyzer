@@ -58,7 +58,7 @@ public class ActorServiceImpl implements ActorService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<FilmDto.Film> getActorFilmList(Integer actorId, FilmDto.Film condition, Pageable pageable) {
+    public List<FilmDto.Film> getActorFilmList(Integer actorId, FilmDto.FilterOption condition, Pageable pageable) {
         return actorRepository.findAllActorFilmListByIdWithCondition(actorId, condition, pageable);
     }
 

@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface FilmService {
     List<FilmDto.Film> getFilmList();
 
-    List<FilmDto.Film> getFilmList(FilmDto.Film condition, Pageable pageable);
+    List<FilmDto.Film> getFilmList(FilmDto.FilterOption condition, Pageable pageable);
 
     Optional<FilmDto.Film> getFilm(Integer filmId);
 

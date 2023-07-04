@@ -33,6 +33,8 @@ public enum Category {
             .collect(Collectors.toUnmodifiableMap(Category::getId, Function.identity()));
     public static final Map<String, Category> CATEGORY_MAP = Stream.of(Category.values())
             .collect(Collectors.toUnmodifiableMap(Category::getCategory, Function.identity()));
+    public static final Map<String, Category> CATEGORY_LOWER_MAP = Stream.of(Category.values())
+            .collect(Collectors.toUnmodifiableMap(category -> category.getCategory().toLowerCase(), Function.identity()));
 
     private final Integer id;
     private final String category;

@@ -1,5 +1,6 @@
 package com.example.app.services.catalog.controller;
 
+import com.example.app.common.constant.Category;
 import com.example.app.common.constant.FilmRating;
 import com.example.app.common.constant.HalRelation;
 import com.example.app.services.auth.domain.vo.UserRole;
@@ -21,7 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
+import java.time.Year;
 import java.util.Map;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -90,17 +91,20 @@ public class ActorController {
     @Secured(UserRole.Constants.ROLE_READ)
     public ResponseEntity<CollectionModel<FilmDto.FilmResponse>> getActorFilmList(
             @PathVariable Integer actorId,
+            @RequestParam(required = false) String category,
             @RequestParam(required = false) String releaseYear,
             @RequestParam(required = false) String rating,
             @PageableDefault(size = 10, page = 0, direction = Sort.Direction.ASC) Pageable pageable) {
-        final var condition = FilmDto.Film.builder()
-                .releaseYear(releaseYear == null ? null : LocalDate.ofYearDay(Integer.parseInt(releaseYear), 1))
+        final var condition = FilmDto.FilterOption.builder()
+                .category(category == null ? null : Category.CATEGORY_LOWER_MAP.get(category.toLowerCase()))
+                .releaseYear(releaseYear == null ? null : Year.parse(releaseYear))
                 .rating(rating == null ? null : FilmRating.valueOf(rating))
                 .build();
         final var representation = filmAssembler.toCollectionModel(
                 actorService.getActorFilmList(actorId, condition, pageable));
         final var updatedRepresentation = representation.removeLinks()
-                .add(linkTo(methodOn(ActorController.class).getActorFilmList(actorId, releaseYear, rating, pageable)).withSelfRel())
+                .add(linkTo(methodOn(ActorController.class).getActorFilmList(actorId, category, releaseYear, rating, pageable))
+                        .withSelfRel())
                 .add(linkTo(methodOn(ActorController.class).getActor(actorId)).withRel(HalRelation.Fields.actor));
         return ResponseEntity.ok(updatedRepresentation);
     }
@@ -122,7 +126,7 @@ public class ActorController {
                 .map(filmAssembler::toModel);
         final var updatedRepresentation = representation.map(r -> r.removeLinks()
                 .add(linkTo(methodOn(ActorController.class).getActorFilm(actorId, filmId)).withSelfRel())
-                .add(linkTo(methodOn(ActorController.class).getActorFilmList(actorId, null, null, Pageable.unpaged()))
+                .add(linkTo(methodOn(ActorController.class).getActorFilmList(actorId, null, null, null, Pageable.unpaged()))
                         .withRel(HalRelation.Fields.filmList))
                 .add(linkTo(methodOn(ActorController.class).getActor(actorId)).withRel(HalRelation.Fields.actor)));
         return updatedRepresentation.map(ResponseEntity::ok)
@@ -146,7 +150,7 @@ public class ActorController {
         final var updatedRepresentation = representation.map(r -> r.removeLinks()
                 .add(linkTo(methodOn(ActorController.class).getActorFilmDetails(actorId, filmId)).withSelfRel())
                 .add(linkTo(methodOn(ActorController.class).getActorFilm(actorId, filmId)).withRel(HalRelation.Fields.film))
-                .add(linkTo(methodOn(ActorController.class).getActorFilmList(actorId, null, null, Pageable.unpaged()))
+                .add(linkTo(methodOn(ActorController.class).getActorFilmList(actorId, null, null, null, Pageable.unpaged()))
                         .withRel(HalRelation.Fields.filmList))
                 .add(linkTo(methodOn(ActorController.class).getActor(actorId)).withRel(HalRelation.Fields.actor)));
         return updatedRepresentation.map(ResponseEntity::ok)

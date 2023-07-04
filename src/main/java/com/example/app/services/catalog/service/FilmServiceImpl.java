@@ -33,8 +33,8 @@ public class FilmServiceImpl implements FilmService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<FilmDto.Film> getFilmList(FilmDto.Film condition, Pageable pageable) {
-        return (condition.getReleaseYear() == null && condition.getRating() == null)
+    public List<FilmDto.Film> getFilmList(FilmDto.FilterOption condition, Pageable pageable) {
+        return (condition.areAllFieldsNull())
                 ? filmRepository.findAllFilmList(pageable)
                 : filmRepository.findAllFilmListWithFilter(condition, pageable);
     }

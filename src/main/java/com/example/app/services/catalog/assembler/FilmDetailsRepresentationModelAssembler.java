@@ -3,6 +3,7 @@ package com.example.app.services.catalog.assembler;
 import com.example.app.common.constant.HalRelation;
 import com.example.app.services.catalog.controller.FilmController;
 import com.example.app.services.catalog.domain.dto.FilmDetailsDto;
+import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
@@ -25,7 +26,7 @@ public class FilmDetailsRepresentationModelAssembler extends RepresentationModel
                 .withSelfRel());
         model.add(linkTo(methodOn(FilmController.class).getFilm(entity.getFilmId()))
                 .withRel(HalRelation.Fields.film));
-        model.add(linkTo(methodOn(FilmController.class).getFilmList(null, null, null))
+        model.add(linkTo(methodOn(FilmController.class).getFilmList(null, null, null, Pageable.unpaged()))
                 .withRel(HalRelation.Fields.filmList));
         return model;
     }

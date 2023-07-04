@@ -476,7 +476,7 @@ class ActorControllerTest extends RestDocsControllerSupport {
             // arrange
             final var actorId = 1;
             final var pageable = Pageable.ofSize(10).withPage(0);
-            when(actorService.getActorFilmList(actorId, FilmDto.Film.builder().build(), pageable)).thenReturn(List.of(academyDinosaur, aceGoldfinger));
+            when(actorService.getActorFilmList(actorId, FilmDto.FilterOption.builder().build(), pageable)).thenReturn(List.of(academyDinosaur, aceGoldfinger));
 
             // act
             final var execute = mockMvc.perform(get("/actors/{actorId}/films", actorId)
@@ -485,9 +485,9 @@ class ActorControllerTest extends RestDocsControllerSupport {
             // assert
             execute.andDo(print())
                     .andExpect(status().isOk())
-                    .andExpect(jsonPath("_links.self.href").value(serverUrl + "/actors/" + actorId + "/films{?releaseYear,rating}"))
+                    .andExpect(jsonPath("_links.self.href").value(serverUrl + "/actors/" + actorId + "/films{?category,releaseYear,rating}"))
                     .andExpect(jsonPath("_links.actor.href").value(serverUrl + "/actors/" + actorId));
-            verify(actorService, times(1)).getActorFilmList(actorId, FilmDto.Film.builder().build(), pageable);
+            verify(actorService, times(1)).getActorFilmList(actorId, FilmDto.FilterOption.builder().build(), pageable);
 
             // descriptors
             final var pathParameterList = List.of(
@@ -546,7 +546,7 @@ class ActorControllerTest extends RestDocsControllerSupport {
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("_links.self.href").value(serverUrl + "/actors/" + actorId + "/films/" + filmId))
                     .andExpect(jsonPath("_links.actor.href").value(serverUrl + "/actors/" + actorId))
-                    .andExpect(jsonPath("_links.filmList.href").value(serverUrl + "/actors/" + actorId + "/films{?releaseYear,rating}"));
+                    .andExpect(jsonPath("_links.filmList.href").value(serverUrl + "/actors/" + actorId + "/films{?category,releaseYear,rating}"));
             verify(actorService, times(1)).getActorFilm(actorId, filmId);
 
             // descriptors
@@ -707,7 +707,7 @@ class ActorControllerTest extends RestDocsControllerSupport {
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("_links.self.href").value(serverUrl + "/actors/" + actorId + "/films/" + filmId + "/details"))
                     .andExpect(jsonPath("_links.film.href").value(serverUrl + "/actors/" + actorId + "/films/" + filmId))
-                    .andExpect(jsonPath("_links.filmList.href").value(serverUrl + "/actors/" + actorId + "/films{?releaseYear,rating}"))
+                    .andExpect(jsonPath("_links.filmList.href").value(serverUrl + "/actors/" + actorId + "/films{?category,releaseYear,rating}"))
                     .andExpect(jsonPath("_links.actor.href").value(serverUrl + "/actors/" + actorId));
             verify(actorService, times(1)).getActorFilmDetails(actorId, filmId);
 

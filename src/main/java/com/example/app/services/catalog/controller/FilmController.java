@@ -1,5 +1,6 @@
 package com.example.app.services.catalog.controller;
 
+import com.example.app.common.constant.Category;
 import com.example.app.common.constant.FilmRating;
 import com.example.app.services.auth.domain.vo.UserRole;
 import com.example.app.services.catalog.assembler.ActorDetailsRepresentationModelAssembler;
@@ -19,7 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
+import java.time.Year;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -37,11 +38,13 @@ public class FilmController {
     @GetMapping(path = "")
     @Secured(UserRole.Constants.ROLE_READ)
     public ResponseEntity<CollectionModel<FilmDto.FilmResponse>> getFilmList(
+            @RequestParam(required = false) String category,
             @RequestParam(required = false) String releaseYear,
             @RequestParam(required = false) String rating,
             @PageableDefault(size = 10, page = 0, direction = Sort.Direction.ASC) Pageable pageable) {
-        final var condition = FilmDto.Film.builder()
-                .releaseYear(releaseYear == null ? null : LocalDate.ofYearDay(Integer.parseInt(releaseYear), 1))
+        final var condition = FilmDto.FilterOption.builder()
+                .category(category == null ? null : Category.CATEGORY_LOWER_MAP.get(category.toLowerCase()))
+                .releaseYear(releaseYear == null ? null : Year.parse(releaseYear))
                 .rating(rating == null ? null : FilmRating.valueOf(rating))
                 .build();
         return ResponseEntity.ok(filmAssembler.toCollectionModel(

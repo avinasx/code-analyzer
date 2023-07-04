@@ -42,11 +42,14 @@ public class CustomFilmRepositoryImpl implements CustomFilmRepository {
     }
 
     @Override
-    public List<FilmDto.Film> findAllFilmListWithFilter(FilmDto.Film condition, Pageable pageable) {
+    public List<FilmDto.Film> findAllFilmListWithFilter(FilmDto.FilterOption condition, Pageable pageable) {
         final var film = QFilmEntity.filmEntity;
+        final var category = QFilmCategoryEntity.filmCategoryEntity;
         final var query = jpaQueryFactory
                 .selectFrom(film)
-                .where(filterEquals(film.releaseYear.year(), condition.getReleaseYear().getYear()))
+                .innerJoin(category).on(category.filmId.eq(film.filmId))
+                .where(filterEquals(category.categoryId, condition.getCategory()))
+                .where(filterEquals(film.releaseYear.year(), condition.getReleaseYear().getValue()))
                 .where(filterEquals(film.rating, condition.getRating()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());

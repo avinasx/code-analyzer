@@ -13,7 +13,7 @@ public interface CustomActorRepository {
 
     Optional<ActorDetailsDto.ActorDetails> findActorDetailsById(Integer actorId);
 
-    List<FilmDto.Film> findAllActorFilmListByIdWithCondition(Integer actorId, FilmDto.Film condition, Pageable pageable);
+    List<FilmDto.Film> findAllActorFilmListByIdWithCondition(Integer actorId, FilmDto.FilterOption condition, Pageable pageable);
 
     Optional<FilmDto.Film> findActorFilmById(Integer actorId, Integer filmId);
 

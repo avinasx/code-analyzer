@@ -18,7 +18,7 @@ public interface ActorService {
 
     Optional<ActorDetailsDto.ActorDetails> getActorDetails(Integer actorId);
 
-    List<FilmDto.Film> getActorFilmList(Integer actorId, FilmDto.Film condition, Pageable pageable);
+    List<FilmDto.Film> getActorFilmList(Integer actorId, FilmDto.FilterOption condition, Pageable pageable);
 
     Optional<FilmDto.Film> getActorFilm(Integer actorId, Integer filmId);
 

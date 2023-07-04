@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface CustomFilmRepository {
     List<FilmDto.Film> findAllFilmList(Pageable pageable);
 
-    List<FilmDto.Film> findAllFilmListWithFilter(FilmDto.Film condition, Pageable pageable);
+    List<FilmDto.Film> findAllFilmListWithFilter(FilmDto.FilterOption condition, Pageable pageable);
 
     List<ActorDto.Actor> findAllFilmActorListById(Integer filmId, Pageable pageable);
 
