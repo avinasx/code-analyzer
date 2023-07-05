@@ -3,6 +3,7 @@ package com.example.app.services.catalog.domain.entity;
 import com.example.app.common.constant.FilmRating;
 import com.example.app.common.constant.Language;
 import com.example.app.common.constant.SpecialFeature;
+import com.example.app.common.domain.dto.Updatable;
 import com.example.app.services.catalog.domain.converter.FilmRatingConverter;
 import com.example.app.services.catalog.domain.converter.SpecialFeatureConverter;
 import com.example.app.services.location.domain.converter.LanguageConverter;
@@ -33,7 +34,7 @@ import java.util.EnumSet;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class FilmEntity implements Serializable {
+public class FilmEntity implements Serializable, Updatable<FilmEntity> {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -126,6 +127,7 @@ public class FilmEntity implements Serializable {
     @ToString.Exclude
     private LanguageEntity languageByOriginalLanguageId;
 
+    @Override
     public void update(FilmEntity entity) {
         this.title = entity.title;
         this.description = entity.description;

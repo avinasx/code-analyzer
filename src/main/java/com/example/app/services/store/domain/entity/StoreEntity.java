@@ -1,5 +1,6 @@
 package com.example.app.services.store.domain.entity;
 
+import com.example.app.common.domain.dto.Updatable;
 import com.example.app.services.location.domain.entity.AddressEntity;
 import com.example.app.services.staff.domain.entity.StaffEntity;
 import com.google.common.base.Objects;
@@ -23,7 +24,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class StoreEntity implements Serializable {
+public class StoreEntity implements Serializable, Updatable<StoreEntity> {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -63,6 +64,7 @@ public class StoreEntity implements Serializable {
     @ToString.Exclude
     private AddressEntity addressByAddressId;
 
+    @Override
     public void update(StoreEntity entity) {
         this.managerStaffId = entity.managerStaffId;
         this.addressId = entity.addressId;

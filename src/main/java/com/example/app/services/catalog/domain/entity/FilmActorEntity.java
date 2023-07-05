@@ -1,5 +1,6 @@
 package com.example.app.services.catalog.domain.entity;
 
+import com.example.app.common.domain.dto.Updatable;
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -21,7 +22,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class FilmActorEntity implements Serializable {
+public class FilmActorEntity implements Serializable, Updatable<FilmActorEntity> {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -57,6 +58,7 @@ public class FilmActorEntity implements Serializable {
     @ToString.Exclude
     private FilmEntity filmByFilmId;
 
+    @Override
     public void update(FilmActorEntity entity) {
         this.actorId = entity.actorId;
         this.filmId = entity.filmId;

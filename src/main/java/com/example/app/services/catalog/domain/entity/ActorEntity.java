@@ -1,5 +1,6 @@
 package com.example.app.services.catalog.domain.entity;
 
+import com.example.app.common.domain.dto.Updatable;
 import com.example.app.common.domain.entity.FullName;
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
@@ -21,7 +22,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class ActorEntity implements Serializable {
+public class ActorEntity implements Serializable, Updatable<ActorEntity> {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -40,6 +41,7 @@ public class ActorEntity implements Serializable {
     @NotNull
     private LocalDateTime lastUpdate;
 
+    @Override
     public void update(ActorEntity entity) {
         this.fullName = entity.fullName;
         this.lastUpdate = entity.lastUpdate;

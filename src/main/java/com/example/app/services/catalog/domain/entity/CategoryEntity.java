@@ -1,6 +1,7 @@
 package com.example.app.services.catalog.domain.entity;
 
 import com.example.app.common.constant.Category;
+import com.example.app.common.domain.dto.Updatable;
 import com.example.app.services.catalog.domain.converter.CategoryConverter;
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
@@ -21,7 +22,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class CategoryEntity implements Serializable {
+public class CategoryEntity implements Serializable, Updatable<CategoryEntity> {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -44,6 +45,7 @@ public class CategoryEntity implements Serializable {
     @NotNull
     private LocalDateTime lastUpdate;
 
+    @Override
     public void update(CategoryEntity entity) {
         this.name = entity.name;
         this.lastUpdate = entity.lastUpdate;

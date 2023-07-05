@@ -1,5 +1,6 @@
 package com.example.app.services.store.domain.entity;
 
+import com.example.app.common.domain.dto.Updatable;
 import com.example.app.services.catalog.domain.entity.FilmEntity;
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
@@ -22,7 +23,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class InventoryEntity implements Serializable {
+public class InventoryEntity implements Serializable, Updatable<InventoryEntity> {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -62,6 +63,7 @@ public class InventoryEntity implements Serializable {
     @ToString.Exclude
     private StoreEntity storeByStoreId;
 
+    @Override
     public void update(InventoryEntity entity) {
         this.filmId = entity.getFilmId();
         this.storeId = entity.getStoreId();

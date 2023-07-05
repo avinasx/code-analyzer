@@ -1,6 +1,7 @@
 package com.example.app.services.location.domain.entity;
 
 import com.example.app.common.constant.Country;
+import com.example.app.common.domain.dto.Updatable;
 import com.example.app.services.location.domain.converter.CountryConverter;
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
@@ -23,7 +24,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class CityEntity implements Serializable {
+public class CityEntity implements Serializable, Updatable<CityEntity> {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -58,6 +59,7 @@ public class CityEntity implements Serializable {
     @ToString.Exclude
     private CountryEntity countryByCountryId;
 
+    @Override
     public void update(CityEntity entity) {
         this.city = entity.city;
         this.countryId = entity.countryId;

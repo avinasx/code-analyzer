@@ -1,6 +1,7 @@
 package com.example.app.services.location.domain.entity;
 
 import com.example.app.common.constant.Language;
+import com.example.app.common.domain.dto.Updatable;
 import com.example.app.services.location.domain.converter.LanguageConverter;
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
@@ -21,7 +22,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class LanguageEntity implements Serializable {
+public class LanguageEntity implements Serializable, Updatable<LanguageEntity> {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -44,6 +45,7 @@ public class LanguageEntity implements Serializable {
     @NotNull
     private LocalDateTime lastUpdate;
 
+    @Override
     public void update(LanguageEntity entity) {
         this.name = entity.name;
         this.lastUpdate = entity.lastUpdate;

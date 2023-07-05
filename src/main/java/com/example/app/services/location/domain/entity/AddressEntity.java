@@ -1,5 +1,6 @@
 package com.example.app.services.location.domain.entity;
 
+import com.example.app.common.domain.dto.Updatable;
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -22,7 +23,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class AddressEntity implements Serializable {
+public class AddressEntity implements Serializable, Updatable<AddressEntity> {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -84,6 +85,7 @@ public class AddressEntity implements Serializable {
     @ToString.Exclude
     private CityEntity cityByCityId;
 
+    @Override
     public void update(AddressEntity entity) {
         this.address = entity.address;
         this.address2 = entity.address2;

@@ -1,5 +1,6 @@
 package com.example.app.services.rental.domain.entity;
 
+import com.example.app.common.domain.dto.Updatable;
 import com.example.app.services.customer.domain.entity.CustomerEntity;
 import com.example.app.services.staff.domain.entity.StaffEntity;
 import com.example.app.services.store.domain.entity.InventoryEntity;
@@ -26,7 +27,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class RentalEntity implements Serializable {
+public class RentalEntity implements Serializable, Updatable<RentalEntity> {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -88,6 +89,7 @@ public class RentalEntity implements Serializable {
     @ToString.Exclude
     private StaffEntity staffByStaffId;
 
+    @Override
     public void update(RentalEntity entity) {
         this.rentalDate = entity.rentalDate;
         this.inventoryId = entity.inventoryId;

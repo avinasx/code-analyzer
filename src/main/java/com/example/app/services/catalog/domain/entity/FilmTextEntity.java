@@ -1,5 +1,6 @@
 package com.example.app.services.catalog.domain.entity;
 
+import com.example.app.common.domain.dto.Updatable;
 import com.google.common.base.Objects;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -18,7 +19,7 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class FilmTextEntity implements Serializable {
+public class FilmTextEntity implements Serializable, Updatable<FilmTextEntity> {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -38,6 +39,7 @@ public class FilmTextEntity implements Serializable {
     @Size(max = 65535)
     private String description;
 
+    @Override
     public void update(FilmTextEntity entity) {
         this.title = entity.title;
         this.description = entity.description;
