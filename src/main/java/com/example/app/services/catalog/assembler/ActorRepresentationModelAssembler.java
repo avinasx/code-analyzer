@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.http.HttpMethod;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -20,8 +21,8 @@ public class ActorRepresentationModelAssembler extends RepresentationModelAssemb
     }
 
     @Override
-    @lombok.NonNull
-    public ActorDto.ActorResponse toModel(@lombok.NonNull ActorDto.Actor entity) {
+    @NonNull
+    public ActorDto.ActorResponse toModel(@NonNull ActorDto.Actor entity) {
         final var model = instantiateModel(entity);
         model.setActor(entity);
         model.add(linkTo(methodOn(ActorController.class).getActor(entity.getActorId()))
@@ -40,9 +41,9 @@ public class ActorRepresentationModelAssembler extends RepresentationModelAssemb
     }
 
     @Override
-    @lombok.NonNull
+    @NonNull
     public CollectionModel<ActorDto.ActorResponse> toCollectionModel(
-            @lombok.NonNull Iterable<? extends ActorDto.Actor> entities) {
+            @NonNull Iterable<? extends ActorDto.Actor> entities) {
         final var collectionModel = super.toCollectionModel(entities);
         collectionModel.add(linkTo(methodOn(ActorController.class).getActorList(Pageable.unpaged()))
                 .withSelfRel().withType(HttpMethod.GET.name()).withTitle("Get actors"));

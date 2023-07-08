@@ -15,7 +15,7 @@ import com.example.app.services.catalog.domain.dto.FilmDto;
 import com.example.app.services.catalog.service.ActorService;
 import com.example.app.common.constant.*;
 import com.example.app.common.domain.dto.FullName;
-import com.example.app.common.filter.JwtAuthenticationFilter;
+import com.example.app.common.security.JwtAuthenticationFilter;
 import com.example.app.config.RestDocsControllerSupport;
 import com.example.app.util.ConstrainedFieldDocumentation;
 import com.example.app.util.OpenApiDescriptorTransformer;
@@ -34,6 +34,7 @@ import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
+import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -102,6 +103,8 @@ class ActorControllerTest extends RestDocsControllerSupport {
             // assert
             execute.andDo(print())
                     .andExpect(status().isOk())
+                    .andExpect(handler().handlerType(ActorController.class))
+                    .andExpect(handler().methodName("getActorList"))
                     .andExpect(jsonPath("_links.self.href").value(serverUrl + "/actors"));
             verify(actorService, times(1)).getActorList(pageable);
 
@@ -145,7 +148,8 @@ class ActorControllerTest extends RestDocsControllerSupport {
 
             // assert
             execute.andDo(print())
-                    .andExpect(status().isNotFound());
+                    .andExpect(status().isNotFound())
+                    .andExpect(handler().handlerType(ResourceHttpRequestHandler.class));
             verify(actorService, times(0)).getActorList(pageable);
         }
 
@@ -162,6 +166,8 @@ class ActorControllerTest extends RestDocsControllerSupport {
             // assert
             execute.andDo(print())
                     .andExpect(status().isOk())
+                    .andExpect(handler().handlerType(ActorController.class))
+                    .andExpect(handler().methodName("getActor"))
                     .andExpect(jsonPath(ActorDto.Actor.Fields.actorId).value(1))
                     .andExpect(jsonPath(FullName.Fields.firstName).value("PENELOPE"))
                     .andExpect(jsonPath(FullName.Fields.lastName).value("GUINESS"))
@@ -251,6 +257,8 @@ class ActorControllerTest extends RestDocsControllerSupport {
             // assert
             execute.andDo(print())
                     .andExpect(status().isCreated())
+                    .andExpect(handler().handlerType(ActorController.class))
+                    .andExpect(handler().methodName("addActor"))
                     .andExpect(header().string(HttpHeaders.LOCATION, serverUrl + "/actors/" + actorId));
             verify(actorService, times(1)).addActor(requestModel);
             verify(actorService, times(1)).addActor(any(ActorDto.ActorRequest.class));
@@ -295,7 +303,9 @@ class ActorControllerTest extends RestDocsControllerSupport {
 
             // assert
             execute.andDo(print())
-                    .andExpect(status().isOk());
+                    .andExpect(status().isOk())
+                    .andExpect(handler().handlerType(ActorController.class))
+                    .andExpect(handler().methodName("updateActor"));
             verify(actorService, times(1)).updateActor(actorId, requestModel);
             verify(actorService, times(1)).updateActor(anyInt(), any(ActorDto.ActorRequest.class));
 
@@ -337,7 +347,9 @@ class ActorControllerTest extends RestDocsControllerSupport {
 
             // assert
             execute.andDo(print())
-                    .andExpect(status().isNoContent());
+                    .andExpect(status().isNoContent())
+                    .andExpect(handler().handlerType(ActorController.class))
+                    .andExpect(handler().methodName("deleteActor"));
             verify(actorService, times(1)).deleteActor(actorId);
 
             // descriptors
@@ -386,6 +398,8 @@ class ActorControllerTest extends RestDocsControllerSupport {
             // assert
             execute.andDo(print())
                     .andExpect(status().isOk())
+                    .andExpect(handler().handlerType(ActorController.class))
+                    .andExpect(handler().methodName("getActorDetails"))
                     .andExpect(jsonPath(ActorDetailsDto.ActorDetails.Fields.actorId).value(1))
                     .andExpect(jsonPath(ActorDetailsDto.ActorDetails.Fields.firstName).value("PENELOPE"))
                     .andExpect(jsonPath(ActorDetailsDto.ActorDetails.Fields.lastName).value("GUINESS"))
@@ -485,6 +499,8 @@ class ActorControllerTest extends RestDocsControllerSupport {
             // assert
             execute.andDo(print())
                     .andExpect(status().isOk())
+                    .andExpect(handler().handlerType(ActorController.class))
+                    .andExpect(handler().methodName("getActorFilmList"))
                     .andExpect(jsonPath("_links.self.href").value(serverUrl + "/actors/" + actorId + "/films{?category,releaseYear,rating}"))
                     .andExpect(jsonPath("_links.actor.href").value(serverUrl + "/actors/" + actorId));
             verify(actorService, times(1)).getActorFilmList(actorId, FilmDto.FilterOption.builder().build(), pageable);
@@ -544,6 +560,8 @@ class ActorControllerTest extends RestDocsControllerSupport {
             // assert
             execute.andDo(print())
                     .andExpect(status().isOk())
+                    .andExpect(handler().handlerType(ActorController.class))
+                    .andExpect(handler().methodName("getActorFilm"))
                     .andExpect(jsonPath("_links.self.href").value(serverUrl + "/actors/" + actorId + "/films/" + filmId))
                     .andExpect(jsonPath("_links.actor.href").value(serverUrl + "/actors/" + actorId))
                     .andExpect(jsonPath("_links.filmList.href").value(serverUrl + "/actors/" + actorId + "/films{?category,releaseYear,rating}"));
@@ -608,6 +626,8 @@ class ActorControllerTest extends RestDocsControllerSupport {
             // assert
             execute.andDo(print())
                     .andExpect(status().isCreated())
+                    .andExpect(handler().handlerType(ActorController.class))
+                    .andExpect(handler().methodName("addActorFilm"))
                     .andExpect(header().string(HttpHeaders.LOCATION, serverUrl + "/actors/" + actorId + "/films/" + filmId));
 
             verify(actorService, times(1)).addActorFilm(actorId, filmId);
@@ -655,7 +675,9 @@ class ActorControllerTest extends RestDocsControllerSupport {
 
             // assert
             execute.andDo(print())
-                    .andExpect(status().isNoContent());
+                    .andExpect(status().isNoContent())
+                    .andExpect(handler().handlerType(ActorController.class))
+                    .andExpect(handler().methodName("deleteActorFilm"));
             verify(actorService, times(1)).removeActorFilm(actorId, filmId);
 
             // descriptors
@@ -705,6 +727,8 @@ class ActorControllerTest extends RestDocsControllerSupport {
             // assert
             execute.andDo(print())
                     .andExpect(status().isOk())
+                    .andExpect(handler().handlerType(ActorController.class))
+                    .andExpect(handler().methodName("getActorFilmDetails"))
                     .andExpect(jsonPath("_links.self.href").value(serverUrl + "/actors/" + actorId + "/films/" + filmId + "/details"))
                     .andExpect(jsonPath("_links.film.href").value(serverUrl + "/actors/" + actorId + "/films/" + filmId))
                     .andExpect(jsonPath("_links.filmList.href").value(serverUrl + "/actors/" + actorId + "/films{?category,releaseYear,rating}"))

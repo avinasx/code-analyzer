@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-import static com.example.app.common.repository.ExpressionUtils.filterEquals;
+import static com.example.app.common.util.ExpressionUtils.filterEquals;
 
 @Repository
 @RequiredArgsConstructor

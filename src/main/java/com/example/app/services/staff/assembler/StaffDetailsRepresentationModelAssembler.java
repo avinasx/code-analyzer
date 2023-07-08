@@ -5,6 +5,7 @@ import com.example.app.services.staff.controller.StaffController;
 import com.example.app.services.staff.domain.dto.StaffDetailsDto;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -18,8 +19,8 @@ public class StaffDetailsRepresentationModelAssembler extends RepresentationMode
     }
 
     @Override
-    @lombok.NonNull
-    public StaffDetailsDto.StaffDetailsResponse toModel(@lombok.NonNull StaffDetailsDto.StaffDetails entity) {
+    @NonNull
+    public StaffDetailsDto.StaffDetailsResponse toModel(@NonNull StaffDetailsDto.StaffDetails entity) {
         final var model = instantiateModel(entity);
         model.setStaffDetails(entity);
         model.add(linkTo(methodOn(StaffController.class).getStaffDetails(entity.getId()))

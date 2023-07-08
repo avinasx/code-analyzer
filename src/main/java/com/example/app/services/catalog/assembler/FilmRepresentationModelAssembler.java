@@ -6,6 +6,7 @@ import com.example.app.services.catalog.domain.dto.FilmDto;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -19,8 +20,8 @@ public class FilmRepresentationModelAssembler extends RepresentationModelAssembl
     }
 
     @Override
-    @lombok.NonNull
-    public FilmDto.FilmResponse toModel(@lombok.NonNull FilmDto.Film entity) {
+    @NonNull
+    public FilmDto.FilmResponse toModel(@NonNull FilmDto.Film entity) {
         final var model = instantiateModel(entity);
         model.setFilm(entity);
         model.add(linkTo(methodOn(FilmController.class).getFilm(entity.getFilmId()))
@@ -31,9 +32,9 @@ public class FilmRepresentationModelAssembler extends RepresentationModelAssembl
     }
 
     @Override
-    @lombok.NonNull
+    @NonNull
     public CollectionModel<FilmDto.FilmResponse> toCollectionModel(
-            @lombok.NonNull Iterable<? extends FilmDto.Film> entities) {
+            @NonNull Iterable<? extends FilmDto.Film> entities) {
         final var collectionModel = super.toCollectionModel(entities);
         collectionModel.add(linkTo(methodOn(FilmController.class).getFilmList(null, null, null, Pageable.unpaged()))
                 .withSelfRel());

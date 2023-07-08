@@ -1,4 +1,4 @@
-package com.example.app.common.provider;
+package com.example.app.common.security;
 
 import com.example.app.services.auth.domain.vo.UserRole;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +32,6 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
             authoritiesList.add(UserRole.valueOf((String) authority));
         }
         final var token = new JwtAuthenticationToken(accessToken, email, authoritiesList);
-        token.setAuthenticated(true);
         return token;
     }
 

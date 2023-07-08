@@ -1,4 +1,4 @@
-package com.example.app.common.provider;
+package com.example.app.common.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

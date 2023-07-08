@@ -1,6 +1,6 @@
 package com.example.app.services.customer.repository.custom;
 
-import com.example.app.common.repository.ExpressionUtils;
+import com.example.app.common.util.ExpressionUtils;
 import com.example.app.services.customer.domain.dto.CustomerDetailsDto;
 import com.example.app.services.customer.domain.entity.QCustomerEntity;
 import com.example.app.services.location.domain.entity.QAddressEntity;
@@ -23,8 +23,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static com.example.app.common.repository.ExpressionUtils.filterBetween;
-import static com.example.app.common.repository.ExpressionUtils.filterEquals;
+import static com.example.app.common.util.ExpressionUtils.filterBetween;
+import static com.example.app.common.util.ExpressionUtils.filterEquals;
 
 @Repository
 @RequiredArgsConstructor

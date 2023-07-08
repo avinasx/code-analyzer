@@ -6,6 +6,7 @@ import com.example.app.services.catalog.domain.dto.ActorDetailsDto;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -19,8 +20,8 @@ public class ActorDetailsRepresentationModelAssembler extends RepresentationMode
     }
 
     @Override
-    @lombok.NonNull
-    public ActorDetailsDto.ActorDetailsResponse toModel(@lombok.NonNull ActorDetailsDto.ActorDetails entity) {
+    @NonNull
+    public ActorDetailsDto.ActorDetailsResponse toModel(@NonNull ActorDetailsDto.ActorDetails entity) {
         final var model = instantiateModel(entity);
         model.setActorDetailsModel(entity);
         model.add(linkTo(methodOn(ActorController.class).getActorDetails(entity.getActorId()))
@@ -33,9 +34,9 @@ public class ActorDetailsRepresentationModelAssembler extends RepresentationMode
     }
 
     @Override
-    @lombok.NonNull
+    @NonNull
     public CollectionModel<ActorDetailsDto.ActorDetailsResponse> toCollectionModel(
-            @lombok.NonNull Iterable<? extends ActorDetailsDto.ActorDetails> entities) {
+            @NonNull Iterable<? extends ActorDetailsDto.ActorDetails> entities) {
         return super.toCollectionModel(entities);
     }
 }

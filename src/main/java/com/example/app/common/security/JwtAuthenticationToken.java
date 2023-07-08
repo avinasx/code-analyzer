@@ -1,4 +1,4 @@
-package com.example.app.common.provider;
+package com.example.app.common.security;
 
 import lombok.Getter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
@@ -13,6 +13,7 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 
     public JwtAuthenticationToken(String accessToken, String email, Collection<? extends GrantedAuthority> authorities) {
         super(authorities);
+        super.setAuthenticated(true);
         this.accessToken = accessToken;
         this.email = email;
     }

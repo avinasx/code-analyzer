@@ -5,6 +5,7 @@ import com.example.app.services.catalog.controller.FilmController;
 import com.example.app.services.catalog.domain.dto.FilmDetailsDto;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -18,8 +19,8 @@ public class FilmDetailsRepresentationModelAssembler extends RepresentationModel
     }
 
     @Override
-    @lombok.NonNull
-    public FilmDetailsDto.FilmDetailsResponse toModel(@lombok.NonNull FilmDetailsDto.FilmDetails entity) {
+    @NonNull
+    public FilmDetailsDto.FilmDetailsResponse toModel(@NonNull FilmDetailsDto.FilmDetails entity) {
         final var model = instantiateModel(entity);
         model.setFilmDetails(entity);
         model.add(linkTo(methodOn(FilmController.class).getFilmDetails(entity.getFilmId()))

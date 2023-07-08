@@ -5,6 +5,7 @@ import com.example.app.services.store.controller.ReportController;
 import com.example.app.services.store.domain.dto.StoreSalesDto;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -18,17 +19,17 @@ public class StoreSalesRepresentationModelAssembler extends RepresentationModelA
     }
 
     @Override
-    @lombok.NonNull
-    public StoreSalesDto.StoreSalesResponse toModel(@lombok.NonNull StoreSalesDto.StoreSales entity) {
+    @NonNull
+    public StoreSalesDto.StoreSalesResponse toModel(@NonNull StoreSalesDto.StoreSales entity) {
         final var model = instantiateModel(entity);
         model.setStoreSales(entity);
         return model;
     }
 
     @Override
-    @lombok.NonNull
+    @NonNull
     public CollectionModel<StoreSalesDto.StoreSalesResponse> toCollectionModel(
-            @lombok.NonNull Iterable<? extends StoreSalesDto.StoreSales> entities) {
+            @NonNull Iterable<? extends StoreSalesDto.StoreSales> entities) {
         final var collectionModel = super.toCollectionModel(entities);
         collectionModel.add(linkTo(methodOn(ReportController.class).reportSalesByStore())
                 .withSelfRel());

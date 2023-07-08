@@ -1,4 +1,4 @@
-package com.example.app.common.repository;
+package com.example.app.common.util;
 
 import com.querydsl.core.types.dsl.*;
 import lombok.AccessLevel;

@@ -1,6 +1,6 @@
 package com.example.app.services.auth.controller;
 
-import com.example.app.common.provider.JwtTokenProvider;
+import com.example.app.common.security.JwtTokenProvider;
 import com.example.app.services.auth.domain.dto.AuthorityDto;
 import com.example.app.services.auth.service.JpaUserDetailsService;
 import com.example.app.services.auth.service.SecurityService;

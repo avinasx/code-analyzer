@@ -1,6 +1,5 @@
-package com.example.app.common.filter;
+package com.example.app.common.security;
 
-import com.example.app.common.provider.JwtAuthenticationToken;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

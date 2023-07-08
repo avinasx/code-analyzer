@@ -5,6 +5,7 @@ import com.example.app.services.customer.controller.CustomerController;
 import com.example.app.services.customer.domain.dto.CustomerDto;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -18,8 +19,8 @@ public class CustomerRepresentationModelAssembler extends RepresentationModelAss
     }
 
     @Override
-    @lombok.NonNull
-    public CustomerDto.CustomerResponse toModel(@lombok.NonNull CustomerDto.Customer entity) {
+    @NonNull
+    public CustomerDto.CustomerResponse toModel(@NonNull CustomerDto.Customer entity) {
         final var model = instantiateModel(entity);
         model.setCustomer(entity);
         model.add(linkTo(methodOn(CustomerController.class).getCustomer(entity.getCustomerId()))

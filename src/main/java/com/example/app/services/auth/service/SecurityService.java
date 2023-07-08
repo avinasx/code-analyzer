@@ -1,6 +1,6 @@
 package com.example.app.services.auth.service;
 
-import com.example.app.common.provider.JwtAuthenticationToken;
+import com.example.app.common.security.JwtAuthenticationToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetails;

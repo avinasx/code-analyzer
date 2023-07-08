@@ -5,6 +5,7 @@ import com.example.app.services.store.controller.StoreController;
 import com.example.app.services.store.domain.dto.StoreDetailsDto;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -18,8 +19,8 @@ public class StoreDetailsRepresentationModelAssembler extends RepresentationMode
     }
 
     @Override
-    @lombok.NonNull
-    public StoreDetailsDto.StoreDetailsResponse toModel(@lombok.NonNull StoreDetailsDto.StoreDetails entity) {
+    @NonNull
+    public StoreDetailsDto.StoreDetailsResponse toModel(@NonNull StoreDetailsDto.StoreDetails entity) {
         final var model = instantiateModel(entity);
         model.setStoreDetails(entity);
         model.add(linkTo(methodOn(StoreController.class).getStoreDetails(entity.getId()))

@@ -28,8 +28,8 @@ import java.util.Locale;
 @ExtendWith({MockitoExtension.class, RestDocumentationExtension.class})
 @Slf4j
 public class RestDocsControllerSupport {
-    protected final String RESTDOCS_DOCUMENT_IDENTIFIER = "asciidoctor/{class-name}/{method-name}";
-    protected final String OPENAPI_DOCUMENT_IDENTIFIER = "openapi/{class-name}/{method-name}";
+    protected static final String RESTDOCS_DOCUMENT_IDENTIFIER = "asciidoctor/{class-name}/{method-name}";
+    protected static final String OPENAPI_DOCUMENT_IDENTIFIER = "openapi/{class-name}/{method-name}";
 
     @Autowired
     protected AppUriPropConfig uriPropConfig;
