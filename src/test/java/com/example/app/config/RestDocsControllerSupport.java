@@ -24,10 +24,9 @@ import java.util.Locale;
 
 @WebMvcTest
 @EnableConfigurationProperties(AppUriPropConfig.class)
-// @Import(RestDocsConfig.class)
 @ExtendWith({MockitoExtension.class, RestDocumentationExtension.class})
 @Slf4j
-public class RestDocsControllerSupport {
+public abstract class RestDocsControllerSupport {
     protected static final String RESTDOCS_DOCUMENT_IDENTIFIER = "asciidoctor/{class-name}/{method-name}";
     protected static final String OPENAPI_DOCUMENT_IDENTIFIER = "openapi/{class-name}/{method-name}";
 
@@ -37,8 +36,6 @@ public class RestDocsControllerSupport {
     protected MessageSource messageSource;
     @Autowired
     protected ObjectMapper objectMapper;
-    // @Autowired
-    // protected RestDocumentationResultHandler restDocsHandler;
 
     protected MockMvc mockMvc;
     protected String serverUrl;
