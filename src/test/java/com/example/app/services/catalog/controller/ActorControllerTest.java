@@ -4,6 +4,10 @@ import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper;
 import com.epages.restdocs.apispec.ResourceDocumentation;
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;
+import com.example.app.common.constant.*;
+import com.example.app.common.domain.dto.FullName;
+import com.example.app.common.security.JwtAuthenticationFilter;
+import com.example.app.config.RestDocsControllerSupport;
 import com.example.app.services.catalog.assembler.ActorDetailsRepresentationModelAssembler;
 import com.example.app.services.catalog.assembler.ActorRepresentationModelAssembler;
 import com.example.app.services.catalog.assembler.FilmDetailsRepresentationModelAssembler;
@@ -13,10 +17,6 @@ import com.example.app.services.catalog.domain.dto.ActorDto;
 import com.example.app.services.catalog.domain.dto.FilmDetailsDto;
 import com.example.app.services.catalog.domain.dto.FilmDto;
 import com.example.app.services.catalog.service.ActorService;
-import com.example.app.common.constant.*;
-import com.example.app.common.domain.dto.FullName;
-import com.example.app.common.security.JwtAuthenticationFilter;
-import com.example.app.config.RestDocsControllerSupport;
 import com.example.app.util.ConstrainedFieldDocumentation;
 import com.example.app.util.OpenApiDescriptorTransformer;
 import com.google.common.base.CaseFormat;
@@ -210,7 +210,8 @@ class ActorControllerTest extends RestDocsControllerSupport {
                             .summary(getMessageSourceMessage("actor.controller.getActor.summary"))
                             .description(getMessageSourceMessage("actor.controller.getActor.description"))
                             .responseSchema(Schema.schema(CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, "actor")))
-                            .pathParameters(openapiPathParameterList).responseFields(responseFieldList)
+                            .pathParameters(openapiPathParameterList)
+                            .responseFields(responseFieldList)
                             .links(linkList)
                             .build())));
         }
@@ -286,7 +287,8 @@ class ActorControllerTest extends RestDocsControllerSupport {
                             .summary(getMessageSourceMessage("actor.controller.addActor.summary"))
                             .description(getMessageSourceMessage("actor.controller.addActor.description"))
                             .requestSchema(Schema.schema(CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, "actorRequest")))
-                            .responseHeaders(openapiResponseHeaderList).requestFields(openapiRequestFieldList)
+                            .responseHeaders(openapiResponseHeaderList)
+                            .requestFields(openapiRequestFieldList)
                             .build())));
         }
 
@@ -332,7 +334,8 @@ class ActorControllerTest extends RestDocsControllerSupport {
                             .summary(getMessageSourceMessage("actor.controller.updateActor.summary"))
                             .description(getMessageSourceMessage("actor.controller.updateActor.description"))
                             .requestSchema(Schema.schema(CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, "actorRequest")))
-                            .pathParameters(openapiPathParameterList).requestFields(openapiRequestFieldList)
+                            .pathParameters(openapiPathParameterList)
+                            .requestFields(openapiRequestFieldList)
                             .build())));
         }
 
@@ -440,7 +443,8 @@ class ActorControllerTest extends RestDocsControllerSupport {
                             .summary(getMessageSourceMessage("actor.controller.getActorDetails.summary"))
                             .description(getMessageSourceMessage("actor.controller.getActorDetails.description"))
                             .responseSchema(Schema.schema(CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, "actorDetails")))
-                            .pathParameters(openapiPathParameterList).responseFields(responseFieldList)
+                            .pathParameters(openapiPathParameterList)
+                            .responseFields(responseFieldList)
                             .links(linkList)
                             .build())));
         }
@@ -541,7 +545,8 @@ class ActorControllerTest extends RestDocsControllerSupport {
                             .summary(getMessageSourceMessage("actor.controller.getActorFilmList.summary"))
                             .description(getMessageSourceMessage("actor.controller.getActorFilmList.description"))
                             .responseSchema(Schema.schema(CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, "filmList")))
-                            .pathParameters(openapiPathParameterList).responseFields(responseFieldList)
+                            .pathParameters(openapiPathParameterList)
+                            .responseFields(responseFieldList)
                             .links(linkList)
                             .build())));
         }
@@ -604,7 +609,8 @@ class ActorControllerTest extends RestDocsControllerSupport {
                             .summary(getMessageSourceMessage("actor.controller.getActorFilm.summary"))
                             .description(getMessageSourceMessage("actor.controller.getActorFilm.description"))
                             .responseSchema(Schema.schema(CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, "film")))
-                            .pathParameters(openapiPathParameterList).responseFields(responseFieldList)
+                            .pathParameters(openapiPathParameterList)
+                            .responseFields(responseFieldList)
                             .links(linkList)
                             .build())));
         }
@@ -768,7 +774,8 @@ class ActorControllerTest extends RestDocsControllerSupport {
                             .summary(getMessageSourceMessage("actor.controller.getActorFilmDetails.summary"))
                             .description(getMessageSourceMessage("actor.controller.getActorFilmDetails.description"))
                             .responseSchema(Schema.schema(CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, "filmDetails")))
-                            .pathParameters(openapiPathParameterList).responseFields(responseFieldList)
+                            .pathParameters(openapiPathParameterList)
+                            .responseFields(responseFieldList)
                             .links(linkList)
                             .build())));
         }

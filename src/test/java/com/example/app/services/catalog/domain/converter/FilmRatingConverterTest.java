@@ -39,7 +39,6 @@ class FilmRatingConverterTest {
         // assert
         verify(filmRatingConverter, times(1)).convertToDatabaseColumn(filmRating);
         assertEquals(expected, result);
-
     }
 
     @Test
