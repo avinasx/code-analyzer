@@ -10,6 +10,7 @@ querydsl = "5.0.0"
 blaze = "1.6.8"
 mapstruct = "1.5.5.Final"
 jjwt = "0.11.5"
+# spotless = "6.21.0"
 
 [libraries]
 spring-web = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "spring-boot" }
@@ -63,3 +64,4 @@ kotlin-lombok = { id = "org.jetbrains.kotlin.plugin.lombok", version.ref = "kotl
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin-plugin" }
 epages-restdocs = { id = "com.epages.restdocs-api-spec", version.ref = "epages-restdocs" }
 asciidoctor = { id = "org.asciidoctor.jvm.convert", version.ref = "asciidoctor" }
+# spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
