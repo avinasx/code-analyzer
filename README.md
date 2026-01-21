@@ -96,7 +96,7 @@ The tool calculates a hash of your codebase.
 -   **Dimension Safe**: Automatically handles 768-dim (Google) vs 1536-dim (OpenAI) indices.
 
 ### 2. Structural RAG Analysis
-We no longer send 100% of the code to the LLM. Instead, we use a 2-step process:
+We wint send 100% of the code to the LLM. Instead, we use a 2-step process:
 1.  **Structure**: The LLM sees the file tree to understand the "Map".
 2.  **Retrieval**: It queries Pinecone for specific details ("List controllers", "Analyze quality").
     -   *Optimization*: If using Groq, we reduce context size dynamically to fit strict rate limits.
