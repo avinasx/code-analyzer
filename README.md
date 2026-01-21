@@ -1,178 +1,106 @@
-# spring-rest-sakila
+# LLM Codebase Analyzer
 
-Sakila REST API Service (Sample Project)
+A Python tool that analyses a Codebase using fundamental LLM models(groq, gemini, anthropic, openai) via LangChain.
 
-![Gradle Build](https://github.com/codejsha/spring-rest-sakila/actions/workflows/gradle.yml/badge.svg)
+> [!NOTE]
+> **Status**: This application has been fully tested and verified with **Groq** as the LLM provider and **Google** as embedding providers.
+> While other providers (Anthropic, Gemini) are supported in the code, they have not been extensively battle-tested in this specific configuration.
 
-[English](README.md) | [Korean](README_ko-KR.md)
+## Prerequisites
 
-This REST API service provides access to the [Sakila database](https://dev.mysql.com/doc/sakila/en/), which is a sample database provided by MySQL for learning and testing purposes. The Sakila database models a DVD rental store company, includes data about films, actors, customers, rentals, and more.
+- Python 3.12+
+- Pipenv (for dependency management)
+- Google Gemini API Key
 
-This service provides a simple way to perform CRUD(Create, Read, Update, Delete) operations on the Sakila database. It also provides endpoints to perform more complex queries.
+## Configuration
 
-Microservices version is go to: https://github.com/codejsha/sakila-microservices
+1. **Install Dependencies**:
+   ```bash
+   pipenv install
+   ```
 
-## Table of Contents
+2. **Environment Setup**:
+   Copy the example environment file and configure it:
+   ```bash
+   cp .env.example .env
+   ```
+   
+   Edit `.env` with your details:
+   - `GOOGLE_API_KEY`: Your Google Gemini API Key.
+   - `REPO_PATH`: Path to the repository you want to analyze (default: `./spring_repo`).
+   - `GEMINI_MODEL`: The Gemini model to use (default: `gemini-1.5-pro`).
+   - `PINECONE_API_KEY`: Required for RAG-based analysis.
+   - `PINECONE_INDEX`: Name of the index (default: `codebase-index`).
 
-- [Table of Contents](#table-of-contents)
-- [Getting Started](#getting-started)
-  - [Requirements](#requirements)
-  - [Libraries and Plugins](#libraries-and-plugins)
-  - [External MySQL database](#external-mysql-database)
-- [Installation](#installation)
-  - [Clone Repository](#clone-repository)
-  - [Configure Database Connection Settings](#configure-database-connection-settings)
-  - [Configure Application Settings](#configure-application-settings)
-  - [Build Project](#build-project)
-  - [Run Application](#run-application)
-- [API Documentation](#api-documentation)
-  - [Endpoints](#endpoints)
-  - [References](#references)
-  - [OpenAPI/Swagger](#openapiswagger)
-  - [Postman](#postman)
-- [Observability](#observability)
-- [Sample Data](#sample-data)
+   **Multi-Provider Support**:
+   You can switch between LLM providers using the `LLM_PROVIDER` variable.
+   
+   - **Start Switch**:
+     ```bash
+     LLM_PROVIDER=google # Options: google, groq, anthropic
+     ```
+   
+   - **Groq Config**:
+     ```bash
+     GROQ_API_KEY=gsk_...
+     GROQ_MODEL=llama3-70b-8192
+     ```
+   
+   - **Anthropic Config**:
+     ```bash
+     ANTHROPIC_API_KEY=sk-ant...
+     ANTHROPIC_MODEL=claude-3-5-sonnet-20240620
+     ```
 
-## Getting Started
+   - **OpenAI Config**:
+     ```bash
+     OPENAI_API_KEY=sk-...
+     OPENAI_MODEL=gpt-4o
+     ```
 
-### Requirements
+   > **Note on Embeddings**: If you use Groq or Anthropic, you **MUST** provide either:
+   > 1. `GOOGLE_API_KEY` (Uses Google Embeddings - Cheapest)
+   > 2. `OPENAI_API_KEY` (Uses OpenAI Embeddings - Best fallback if no Google Key)
 
-- Java 17
-- Gradle 7
-- MySQL 8
+## Usage
 
-### Libraries and Plugins
-
-For a complete list, see the `gradle/libs.versions.toml` file.
-
-- Spring Boot Web
-- Spring Data JPA
-- Spring HATEOAS
-- Spring REST Docs
-- Lombok
-- Querydsl
-- MapStruct
-
-### External MySQL database
-
-An external MySQL database is required to run the application. The external database can be run as a [MySQL docker](https://hub.docker.com/_/mysql) container or as on-premises process ([MySQL Community Downloads](https://dev.mysql.com/downloads/)). After installation, follow the [Sakila database](https://dev.mysql.com/doc/sakila/en/) official guide to create the database structure and populate the data. See the link for examples of configuring your environment: https://github.com/codejsha/infrastructure-examples/tree/main/mysql
-
-## Installation
-
-### Clone Repository
-
-```bash
-# GitHub CLI
-gh repo clone codejsha/spring-rest-sakila
-# Git CLI
-git clone https://github.com/codejsha/spring-rest-sakila.git
-```
-
-### Configure Database Connection Settings
-
-Before you can use the Sakila REST API Service, you need to configure the database connection settings. The database connection settings are defined in the `application.yaml` file. The default settings are as follows:
-
-```yaml
-# application.yaml
-spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/sakila
-    username: sakila
-    password: sakila
-```
-
-### Configure Application Settings
-
-The default URL settings for the application API endpoint are as follows:
-
-```yaml
-# application.yaml
-server:
-  port: 8080
-  servlet:
-    context-path: /api/v1
-...
-
-app:
-  uri:
-    scheme: http
-    host: localhost
-    port: ${server.port}
-```
-
-```kotlin
-// build.gradle.kts
-openapi3 {
-    this.setServer("http://localhost:8080/api/v1")
-    // ...
-}
-
-postman {
-    baseUrl = "http://localhost:8080/api/v1"
-    // ...
-}
-```
-
-### Build Project
+Run the analyzer from the root directory.
 
 ```bash
-cd spring-rest-sakila
-bash ./gradlew build
+pipenv run python main.py
 ```
 
-### Run Application
-
+To force re-indexing (ignoring smart hash check):
 ```bash
-bash ./gradlew bootRun
+pipenv run python main.py --force-index
 ```
 
-## API Documentation
+## Structure
 
-### Endpoints
+- `main.py`: Entry point for the analyzer.
+- `analyzer/`: Python package containing the logic.
+    - `models.py`: Data structures.
+    - `reader.py`: File traversing logic.
+    - `llm_factory.py`: Handles provider selection (Google, Groq, OpenAI, etc).
+    - `llm.py`: Interaction with the chosen LLM.
+    - `rag.py`: Pinecone vector store management (The Brain).
+- `spring_repo/`: The example Java Spring Boot codebase being analyzed.
+- `output.json`: The generated analysis result.
 
-The Sakila REST API Service exposes the following some endpoints. Each endpoint supports CRUD operations.
+## Methodology (The "Smart RAG" System)
 
-- Actors: `/api/v1/actors`
-- Customers: `/api/v1/customers`
-- Films: `/api/v1/films`
-- Payments: `/api/v1/payments`
-- Rentals: `/api/v1/rentals`
-- Reports: `/api/v1/reports`
-- Staffs: `/api/v1/staffs`
-- Stores: `/api/v1/stores`
+### 1. Smart Indexing
+The tool calculates a hash of your codebase.
+-   **Changed?**: It chunks and embeds the code into **Pinecone**.
+-   **Unchanged?**: It skips indexing to save time and money.
+-   **Dimension Safe**: Automatically handles 768-dim (Google) vs 1536-dim (OpenAI) indices.
 
-### References
+### 2. Structural RAG Analysis
+We no longer send 100% of the code to the LLM. Instead, we use a 2-step process:
+1.  **Structure**: The LLM sees the file tree to understand the "Map".
+2.  **Retrieval**: It queries Pinecone for specific details ("List controllers", "Analyze quality").
+    -   *Optimization*: If using Groq, we reduce context size dynamically to fit strict rate limits.
 
-API references are generated by Asciidoctor in Spring REST Docs.
+### 3. Knowledge Extraction
+A structured prompt ensures the LLM returns a valid JSON object adhering to the `CodebaseAnalysis` schema.
 
-### OpenAPI/Swagger
-
-The OpenAPI specification file `openapi3.yaml` can be rendered using the Swagger UI. The specification is generated by Spring REST Docs.
-
-### Postman
-
-The Postman collection file `postman-collection.json` contains the endpoints and examples of requests and responses. The collection is generated by Spring REST Docs.
-
-## Observability
-
-The application provides observability features using Spring Boot Actuator and Micrometer.
-
-- Actuator: `/api/v1/actuator`
-- Prometheus: `/api/v1/actuator/prometheus`
-
-```yaml
-# application.yaml
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "health,prometheus"
-    jmx:
-      exposure:
-        exclude: "*"
-```
-
-## Sample Data
-
-The sample data is from [MySQL Sakila sample database](https://dev.mysql.com/doc/sakila/en/). It is a relational database model for a DVD rental store which contains data related to films, actors, customers, rentals, and more. The database also serves views, stored procedures, and triggers.

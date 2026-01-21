@@ -1,0 +1,24 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pydantic = "*"
+langchain-google-genai = "*"
+python-dotenv = "*"
+networkx = "*"
+langchain-pinecone = "*"
+pinecone-client = "*"
+langchain-text-splitters = "*"
+langchain-community = "*"
+langchain = ">=0.3.0"
+langchain-groq = "*"
+langchain-anthropic = "*"
+langchain-openai = "*"
+javalang = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.12"

@@ -1,0 +1,453 @@
+{
+  "project_overview": "The project is a Spring\u2011Boot based RESTful API that implements the classic Sakila sample database (film catalog, customers, rentals, staff, stores, payments, locations, etc.).  It follows a layered architecture: Controllers expose HATEOAS\u2011enabled endpoints, Services contain business logic, Repositories (JPA + custom implementations) handle persistence, and Assemblers map domain objects to RepresentationModel DTOs.  Security is provided by JWT authentication, and the application is configurable via Spring properties, Redis caching, and a global exception handling strategy.  The codebase is heavily annotated with Lombok, validation constraints, and Spring HATEOAS utilities, and it includes a comprehensive test suite with RestDocs support.",
+  "files": [
+    {
+      "filename": "src/main/java/com/example/app/SpringRestSakilaApplication.java",
+      "purpose": "Bootstraps the Spring Boot application and enables component scanning for all service packages.",
+      "methods": [
+        {
+          "signature": "public static void main(String[] args)",
+          "description": "Entry point that launches the SpringApplication."
+        }
+      ],
+      "complexity_score": 2,
+      "notes": "Very small class; only starts the application."
+    },
+    {
+      "filename": "src/main/java/com/example/app/services/customer/controller/CustomerController.java",
+      "purpose": "Exposes REST endpoints for CRUD operations on customers and for retrieving related payments and rentals.",
+      "methods": [
+        {
+          "signature": "public ResponseEntity<CollectionModel<CustomerDto.Customer>> getCustomers(@PageableDefault Pageable pageable)",
+          "description": "Returns a paginated list of customers wrapped in a HATEOAS CollectionModel."
+        },
+        {
+          "signature": "public ResponseEntity<CustomerDto.Customer> getCustomer(@PathVariable Integer customerId)",
+          "description": "Fetches a single customer by ID."
+        },
+        {
+          "signature": "public ResponseEntity<CollectionModel<CustomerDetailsDto.CustomerDetails>> getCustomerDetails()",
+          "description": "Returns detailed information for all customers (includes address, store, etc.)."
+        },
+        {
+          "signature": "public ResponseEntity<CustomerDetailsDto.CustomerDetails> getCustomerDetails(@PathVariable Integer customerId)",
+          "description": "Returns detailed information for a specific customer."
+        },
+        {
+          "signature": "public ResponseEntity<CollectionModel<PaymentDto.Payment>> getCustomerPayments(@PathVariable Integer customerId, @RequestParam String startDate, @RequestParam String endDate)",
+          "description": "Lists payments made by the customer within a date range."
+        },
+        {
+          "signature": "public ResponseEntity<CollectionModel<RentalDto.Rental>> getCustomerRentals(@PathVariable Integer customerId, @RequestParam(required = false) RentalStatus status, @RequestParam String startDate, @RequestParam String endDate)",
+          "description": "Lists rentals for the customer filtered by status and date range."
+        },
+        {
+          "signature": "public ResponseEntity<CustomerDto.Customer> addCustomer(@RequestBody CustomerDto.CustomerRequest model)",
+          "description": "Creates a new customer record."
+        },
+        {
+          "signature": "public ResponseEntity<CustomerDto.Customer> updateCustomer(@PathVariable Integer customerId, @RequestBody CustomerDto.CustomerRequest model)",
+          "description": "Updates an existing customer."
+        },
+        {
+          "signature": "public ResponseEntity<Void> deleteCustomer(@PathVariable Integer customerId)",
+          "description": "Deletes a customer."
+        }
+      ],
+      "complexity_score": 6,
+      "notes": "Controller delegates to CustomerService and uses multiple assemblers; HATEOAS links are added via static imports."
+    },
+    {
+      "filename": "src/main/java/com/example/app/services/customer/service/CustomerService.java",
+      "purpose": "Defines the contract for customer\u2011related business operations.",
+      "methods": [
+        {
+          "signature": "List<CustomerDto.Customer> getCustomerList(Pageable pageable)",
+          "description": "Retrieves a paginated list of customers."
+        },
+        {
+          "signature": "Optional<CustomerDto.Customer> getCustomer(Integer customerId)",
+          "description": "Finds a single customer by its primary key."
+        },
+        {
+          "signature": "List<CustomerDetailsDto.CustomerDetails> getCustomerDetailsList()",
+          "description": "Returns detailed DTOs for all customers (joins address, store, etc.)."
+        },
+        {
+          "signature": "Optional<CustomerDetailsDto.CustomerDetails> getCustomerDetails(Integer customerId)",
+          "description": "Returns detailed DTO for a specific customer."
+        },
+        {
+          "signature": "List<PaymentDto.Payment> getCustomerPaymentList(Integer customerId, String startDate, String endDate)",
+          "description": "Fetches payments belonging to a customer within a date interval."
+        },
+        {
+          "signature": "List<RentalDto.Rental> getCustomerRentalList(Integer customerId, RentalStatus status, String startDate, String endDate)",
+          "description": "Fetches rentals for a customer filtered by status and dates."
+        },
+        {
+          "signature": "CustomerDto.Customer addCustomer(CustomerDto.CustomerRequest model)",
+          "description": "Creates a new customer entity and returns its DTO."
+        },
+        {
+          "signature": "CustomerDto.Customer updateCustomer(Integer customerId, CustomerDto.CustomerRequest model)",
+          "description": "Updates an existing customer and returns the updated DTO."
+        },
+        {
+          "signature": "void deleteCustomer(Integer customerId)",
+          "description": "Removes a customer record."
+        }
+      ],
+      "complexity_score": 4,
+      "notes": "Pure interface \u2013 no logic; implementation (CustomerServiceImpl) contains transaction handling and mapping."
+    },
+    {
+      "filename": "src/main/java/com/example/app/services/catalog/controller/ActorController.java",
+      "purpose": "Provides CRUD endpoints for actor resources and supports HATEOAS representation.",
+      "methods": [
+        {
+          "signature": "public ResponseEntity<CollectionModel<ActorDto.Actor>> getActors(@PageableDefault Pageable pageable)",
+          "description": "Returns a paginated list of actors."
+        },
+        {
+          "signature": "public ResponseEntity<ActorDto.Actor> getActor(@PathVariable Integer actorId)",
+          "description": "Retrieves a single actor by ID."
+        },
+        {
+          "signature": "public ResponseEntity<ActorDto.Actor> addActor(@RequestBody ActorDto.ActorRequest model)",
+          "description": "Creates a new actor."
+        },
+        {
+          "signature": "public ResponseEntity<ActorDto.Actor> updateActor(@PathVariable Integer actorId, @RequestBody ActorDto.ActorRequest model)",
+          "description": "Updates an existing actor."
+        },
+        {
+          "signature": "public ResponseEntity<Void> deleteActor(@PathVariable Integer actorId)",
+          "description": "Deletes an actor."
+        }
+      ],
+      "complexity_score": 5,
+      "notes": "Standard REST controller; uses ActorService and ActorRepresentationModelAssembler."
+    },
+    {
+      "filename": "src/main/java/com/example/app/services/catalog/service/FilmService.java",
+      "purpose": "Defines business operations for film catalog management.",
+      "methods": [
+        {
+          "signature": "List<FilmDto.Film> getFilmList(Pageable pageable)",
+          "description": "Retrieves a paginated list of films."
+        },
+        {
+          "signature": "Optional<FilmDto.Film> getFilm(Integer filmId)",
+          "description": "Finds a film by its primary key."
+        },
+        {
+          "signature": "FilmDto.Film addFilm(FilmDto.FilmRequest model)",
+          "description": "Creates a new film record."
+        },
+        {
+          "signature": "FilmDto.Film updateFilm(Integer filmId, FilmDto.FilmRequest model)",
+          "description": "Updates an existing film."
+        },
+        {
+          "signature": "void deleteFilm(Integer filmId)",
+          "description": "Deletes a film."
+        }
+      ],
+      "complexity_score": 5,
+      "notes": "Implementation (FilmServiceImpl) uses custom repositories for complex queries (e.g., filtering by rating, special features)."
+    },
+    {
+      "filename": "src/main/java/com/example/app/services/catalog/repository/custom/CustomFilmRepository.java",
+      "purpose": "Declares custom query methods for the Film entity that cannot be expressed with Spring Data JPA method names.",
+      "methods": [
+        {
+          "signature": "List<FilmEntity> findFilmsByRatingAndFeature(FilmRating rating, Set<SpecialFeature> features)",
+          "description": "Returns films matching a specific rating and a set of special features."
+        },
+        {
+          "signature": "Page<FilmEntity> searchByTitle(String title, Pageable pageable)",
+          "description": "Performs a case\u2011insensitive search on film titles with pagination."
+        }
+      ],
+      "complexity_score": 6,
+      "notes": "Implemented in CustomFilmRepositoryImpl using JPQL/Criteria API; contains non\u2011trivial query construction."
+    },
+    {
+      "filename": "src/main/java/com/example/app/services/location/controller/LocationController.java",
+      "purpose": "Exposes endpoints for managing address, city, country, and language reference data.",
+      "methods": [
+        {
+          "signature": "public ResponseEntity<CollectionModel<AddressDto.Address>> getAddresses(@PageableDefault Pageable pageable)",
+          "description": "Lists addresses with pagination."
+        },
+        {
+          "signature": "public ResponseEntity<AddressDto.Address> getAddress(@PathVariable Integer addressId)",
+          "description": "Retrieves a single address."
+        },
+        {
+          "signature": "public ResponseEntity<AddressDto.Address> addAddress(@RequestBody AddressDto.AddressRequest model)",
+          "description": "Creates a new address."
+        },
+        {
+          "signature": "public ResponseEntity<AddressDto.Address> updateAddress(@PathVariable Integer addressId, @RequestBody AddressDto.AddressRequest model)",
+          "description": "Updates an existing address."
+        },
+        {
+          "signature": "public ResponseEntity<Void> deleteAddress(@PathVariable Integer addressId)",
+          "description": "Deletes an address."
+        }
+      ],
+      "complexity_score": 5,
+      "notes": "Relies on LocationService for business logic; uses multiple assemblers for different DTOs."
+    },
+    {
+      "filename": "src/main/java/com/example/app/services/payment/controller/PaymentController.java",
+      "purpose": "Handles CRUD operations for payment records and provides reporting endpoints.",
+      "methods": [
+        {
+          "signature": "public ResponseEntity<CollectionModel<PaymentDto.Payment>> getPayments(@PageableDefault Pageable pageable)",
+          "description": "Returns a paginated list of payments."
+        },
+        {
+          "signature": "public ResponseEntity<PaymentDto.Payment> getPayment(@PathVariable Integer paymentId)",
+          "description": "Retrieves a single payment."
+        },
+        {
+          "signature": "public ResponseEntity<PaymentDto.Payment> addPayment(@RequestBody PaymentDto.PaymentRequest model)",
+          "description": "Creates a new payment."
+        },
+        {
+          "signature": "public ResponseEntity<PaymentDto.Payment> updatePayment(@PathVariable Integer paymentId, @RequestBody PaymentDto.PaymentRequest model)",
+          "description": "Updates an existing payment."
+        },
+        {
+          "signature": "public ResponseEntity<Void> deletePayment(@PathVariable Integer paymentId)",
+          "description": "Deletes a payment."
+        }
+      ],
+      "complexity_score": 4,
+      "notes": "Straightforward controller; business logic lives in PaymentService."
+    },
+    {
+      "filename": "src/main/java/com/example/app/services/rental/controller/RentalController.java",
+      "purpose": "Provides endpoints for rental management, including status transitions (e.g., return, overdue).",
+      "methods": [
+        {
+          "signature": "public ResponseEntity<CollectionModel<RentalDto.Rental>> getRentals(@PageableDefault Pageable pageable)",
+          "description": "Lists rentals with pagination."
+        },
+        {
+          "signature": "public ResponseEntity<RentalDto.Rental> getRental(@PathVariable Integer rentalId)",
+          "description": "Retrieves a rental by ID."
+        },
+        {
+          "signature": "public ResponseEntity<RentalDto.Rental> addRental(@RequestBody RentalDto.RentalRequest model)",
+          "description": "Creates a new rental record."
+        },
+        {
+          "signature": "public ResponseEntity<RentalDto.Rental> updateRental(@PathVariable Integer rentalId, @RequestBody RentalDto.RentalRequest model)",
+          "description": "Updates rental information (e.g., return date, status)."
+        },
+        {
+          "signature": "public ResponseEntity<Void> deleteRental(@PathVariable Integer rentalId)",
+          "description": "Deletes a rental."
+        }
+      ],
+      "complexity_score": 5,
+      "notes": "Uses RentalService; status handling may involve business rules (e.g., inventory check)."
+    },
+    {
+      "filename": "src/main/java/com/example/app/services/store/controller/ReportController.java",
+      "purpose": "Generates aggregate reports such as sales per store, inventory levels, and category sales.",
+      "methods": [
+        {
+          "signature": "public ResponseEntity<CollectionModel<StoreSalesDto.StoreSales>> getStoreSalesReport()",
+          "description": "Returns total sales per store."
+        },
+        {
+          "signature": "public ResponseEntity<CollectionModel<CategorySalesDto.CategorySales>> getCategorySalesReport()",
+          "description": "Returns sales broken down by film category."
+        },
+        {
+          "signature": "public ResponseEntity<CollectionModel<InventoryDto.Inventory>> getInventoryReport()",
+          "description": "Provides current inventory counts per store."
+        }
+      ],
+      "complexity_score": 7,
+      "notes": "ReportService aggregates data from multiple repositories; queries involve GROUP BY and joins."
+    },
+    {
+      "filename": "src/main/java/com/example/app/common/security/JwtTokenProvider.java",
+      "purpose": "Creates, validates, and parses JWT tokens used for stateless authentication.",
+      "methods": [
+        {
+          "signature": "public String createToken(Authentication authentication)",
+          "description": "Generates a signed JWT containing user details and authorities."
+        },
+        {
+          "signature": "public boolean validateToken(String token)",
+          "description": "Checks token signature, expiration and returns true if valid."
+        },
+        {
+          "signature": "public Authentication getAuthentication(String token)",
+          "description": "Builds an Authentication object from token claims."
+        },
+        {
+          "signature": "public String getUsername(String token)",
+          "description": "Extracts the username (subject) from the token."
+        }
+      ],
+      "complexity_score": 6,
+      "notes": "Relies on secret key and expiration properties; used by JwtAuthenticationFilter."
+    },
+    {
+      "filename": "src/main/java/com/example/app/common/exception/GlobalExceptionHandler.java",
+      "purpose": "Centralizes handling of application\u2011wide exceptions and translates them into consistent error responses.",
+      "methods": [
+        {
+          "signature": "public ResponseEntity<ErrorResponseDto> handleResourceNotFound(ResourceNotFoundException ex, WebRequest request)",
+          "description": "Maps a 404\u2011type exception to a structured error payload."
+        },
+        {
+          "signature": "public ResponseEntity<ErrorResponseDto> handleResourceNotAvailable(ResourceNotAvailableException ex, WebRequest request)",
+          "description": "Maps a 409\u2011type exception to a structured error payload."
+        },
+        {
+          "signature": "public ResponseEntity<ErrorResponseDto> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, WebRequest request)",
+          "description": "Handles validation errors and returns field\u2011level messages."
+        },
+        {
+          "signature": "public ResponseEntity<ErrorResponseDto> handleGenericException(Exception ex, WebRequest request)",
+          "description": "Catches any uncaught exception and returns a 500 error response."
+        }
+      ],
+      "complexity_score": 5,
+      "notes": "Uses @ControllerAdvice; builds ErrorResponseDto with error code, level, timestamp, and message."
+    },
+    {
+      "filename": "src/main/java/com/example/app/services/catalog/repository/custom/RentalRateProjection.java",
+      "purpose": "Projection interface used to fetch only the rental_rate column from the Film table for reporting purposes.",
+      "methods": [
+        {
+          "signature": "BigDecimal getRentalRate()",
+          "description": "Getter for the projected rental rate value."
+        }
+      ],
+      "complexity_score": 1,
+      "notes": "Simple Spring Data projection; no business logic."
+    },
+    {
+      "filename": "src/main/java/com/example/app/services/location/domain/dto/AddressDto.java",
+      "purpose": "DTO container for address data; includes Lombok\u2011generated getters/setters and JSON serialization configuration.",
+      "methods": [
+        {
+          "signature": "Integer getAddressId()",
+          "description": "Getter for the primary key of the address."
+        },
+        {
+          "signature": "void setAddressId(Integer addressId)",
+          "description": "Setter for the primary key."
+        },
+        {
+          "signature": "String getAddress()",
+          "description": "Getter for the first address line."
+        },
+        {
+          "signature": "void setAddress(String address)",
+          "description": "Setter for the first address line."
+        },
+        {
+          "signature": "String getAddress2()",
+          "description": "Getter for the optional second address line (nulls serialized as empty string)."
+        },
+        {
+          "signature": "void setAddress2(String address2)",
+          "description": "Setter for the second address line."
+        },
+        {
+          "signature": "String getDistrict()",
+          "description": "Getter for the district name."
+        },
+        {
+          "signature": "void setDistrict(String district)",
+          "description": "Setter for the district name."
+        },
+        {
+          "signature": "Integer getCityId()",
+          "description": "Getter for the foreign key to City."
+        },
+        {
+          "signature": "void setCityId(Integer cityId)",
+          "description": "Setter for the city foreign key."
+        },
+        {
+          "signature": "String getPostalCode()",
+          "description": "Getter for postal code."
+        },
+        {
+          "signature": "void setPostalCode(String postalCode)",
+          "description": "Setter for postal code."
+        },
+        {
+          "signature": "String getPhone()",
+          "description": "Getter for phone number."
+        },
+        {
+          "signature": "void setPhone(String phone)",
+          "description": "Setter for phone number."
+        },
+        {
+          "signature": "LocalDateTime getLastUpdate()",
+          "description": "Getter for the last update timestamp."
+        },
+        {
+          "signature": "void setLastUpdate(LocalDateTime lastUpdate)",
+          "description": "Setter for the last update timestamp."
+        },
+        {
+          "signature": "CityDto.City getCityByCityId()",
+          "description": "Getter for the embedded City DTO (ignored in JSON output)."
+        },
+        {
+          "signature": "void setCityByCityId(CityDto.City cityByCityId)",
+          "description": "Setter for the embedded City DTO."
+        }
+      ],
+      "complexity_score": 3,
+      "notes": "All methods are generated by Lombok; the class is a static inner DTO used by the Location service."
+    },
+    {
+      "filename": "src/test/java/com/example/app/config/RestDocsControllerSupport.java",
+      "purpose": "Base class for controller integration tests that configures MockMvc with Spring RestDocs and loads application properties.",
+      "methods": [
+        {
+          "signature": "void setUp(@Autowired WebApplicationContext wac, RestDocumentationContextProvider provider)",
+          "description": "Initialises MockMvc with documentation support before each test."
+        },
+        {
+          "signature": "void tearDown()",
+          "description": "Placeholder for any cleanup after each test (currently empty)."
+        }
+      ],
+      "complexity_score": 2,
+      "notes": "Only used in test suite; provides reusable configuration for API documentation generation."
+    },
+    {
+      "filename": "src/test/java/com/example/app/services/catalog/domain/converter/FilmRatingConverterTest.java",
+      "purpose": "Unit tests for FilmRatingConverter ensuring correct mapping between enum and database string values.",
+      "methods": [
+        {
+          "signature": "void convertToDatabaseColumn()",
+          "description": "Verifies that converting FilmRating.PG yields the string \"PG\"."
+        },
+        {
+          "signature": "void convertToEntityAttribute()",
+          "description": "Verifies that converting the string \"NC-17\" yields FilmRating.NC_17."
+        }
+      ],
+      "complexity_score": 2,
+      "notes": "Uses Mockito @Spy to verify method invocation; demonstrates good test coverage for converters."
+    }
+  ]
+}
