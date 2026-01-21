@@ -1,0 +1,33 @@
+# Environment Variables
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Mac
+.DS_Store
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Project Artifacts
+output.json
+.codebase_hash
+
+# Java / Gradle (if applicable for spring_repo intermediate files)
+.gradle/
+build/
+target/
+out/
