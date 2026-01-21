@@ -103,3 +103,10 @@ We wint send 100% of the code to the LLM. Instead, we use a 2-step process:
 
 ### 3. Knowledge Extraction
 A structured prompt ensures the LLM returns a valid JSON object adhering to the `CodebaseAnalysis` schema.
+
+## Documentation
+
+For a deeper dive into the inner workings, check out:
+
+-   [**How It Works**](HOW.md): Detailed explanation of the RAG pipeline, Smart Indexing, and architecture choices.
+-   [**Approach & Evolution**](APPROACH.md): A chronicle of the problems faced (Rate Limits, Cyclic Dependencies) and the engineering solutions implemented during development.
